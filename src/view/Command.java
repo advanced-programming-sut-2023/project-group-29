@@ -10,7 +10,7 @@ public enum Command
     PICK_QUESTION(""),
     LOGIN(""),
     FORGET_PASSWORD(""),
-    LOGOUT(""),
+    LOGOUT("user logout"),
     CHANGE_PROFILE(""),
     CHANGE_PASSWORD(""),
     CHANGE_SLOGAN(""),
