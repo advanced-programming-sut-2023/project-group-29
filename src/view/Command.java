@@ -15,7 +15,7 @@ public enum Command
     CHANGE_PASSWORD(""),
     CHANGE_SLOGAN(""),
     REMOVE_SLOGAN(""),
-    DISPLAY_HIGHSCORE(""),
+    DISPLAY_HIGH_SCORE(""),
     DISPLAY_SLOGAN(""),
     DISPLAY_RANK(""),
     DISPLAY_PROFILE(""),
