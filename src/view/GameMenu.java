@@ -11,9 +11,5 @@ public class GameMenu
     {
         Matcher matcher;
 
-        while (true)
-        {
-
-        }
     }
 }
