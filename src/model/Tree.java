@@ -1,4 +1,4 @@
 package model;
 
-public class Tree extends Cell{
+public class Tree extends Cell {
 }
