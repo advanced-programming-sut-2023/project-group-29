@@ -1,6 +1,6 @@
 package model;
 
-import model.Buildings.Building;
+import model.buildings.Building;
 import model.people.Soldier;
 
 import java.util.ArrayList;

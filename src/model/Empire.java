@@ -1,11 +1,10 @@
 package model;
 
-import model.Buildings.Building;
+import model.buildings.Building;
 import model.people.Soldier;
 import model.people.Worker;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Empire
 {

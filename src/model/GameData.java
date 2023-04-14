@@ -8,6 +8,8 @@ public class GameData
     private Map map;
     private Shop shop;
 
+
+
     public GameData()
     {
     }

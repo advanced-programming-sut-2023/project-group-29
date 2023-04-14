@@ -1,6 +1,7 @@
 package model.buildings;
 
 public enum ProcessorType {
+    //TODO split this class
     PITCH_RIG(),
     OX_TETHER(),
     QUARRY(),
