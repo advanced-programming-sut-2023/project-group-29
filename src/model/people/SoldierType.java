@@ -3,21 +3,15 @@ package model.people;
 public enum SoldierType
 {
     //TODO complete below list
-    AMIN(10000,100000,true,10000);
-    private int hp;
+    ;
     private int damage;
-    private boolean ableToClimbLadder;
     private int aimRange;
-    private SoldierType(int hp,int damage,boolean canClimbLadder,int aimRange)
+    private HumanType humanType;
+    private SoldierType(HumanType humanType,int damage,int aimRange)
     {
-        this.hp=hp;
+        this.humanType=humanType;
         this.damage=damage;
-        this.ableToClimbLadder =canClimbLadder;
         this.aimRange=aimRange;
-    }
-    public int getHp()
-    {
-        return hp;
     }
 
     public int getDamage()
@@ -25,13 +19,13 @@ public enum SoldierType
         return damage;
     }
 
-    public boolean isAbleToClimbLadder()
-    {
-        return ableToClimbLadder;
-    }
-
     public int getAimRange()
     {
         return aimRange;
+    }
+
+    public HumanType getHumanType()
+    {
+        return humanType;
     }
 }

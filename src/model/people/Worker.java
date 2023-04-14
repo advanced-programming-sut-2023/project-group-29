@@ -1,28 +1,17 @@
 package model.people;
 
-public class Worker
+public class Worker extends Human
 {
-    enum WorkerType
-    {
-        ENGINEER,
-        LADDER_MAN
-    }
     private WorkerType workerType;
-    private int hp;
     public Worker(WorkerType workerType)
     {
-        this.workerType = workerType;
-        this.hp=workerType.equals(WorkerType.ENGINEER) ? 10 : 11;
-        //TODO set hp numbers up
+        super(workerType.getHumanType());
+
+        this.workerType=workerType;
     }
 
     public WorkerType getWorkerType()
     {
         return workerType;
-    }
-
-    public int getHp()
-    {
-        return hp;
     }
 }
