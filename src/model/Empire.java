@@ -1,6 +1,11 @@
 package model;
 
+import model.Buildings.Building;
+import model.people.Soldier;
+import model.people.Worker;
+
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Empire
 {
@@ -12,7 +17,9 @@ public class Empire
     private int fear;
     private ArrayList<Food> foods;
     private int foodRate;
-
+    private final ArrayList<Soldier> soldiers=new ArrayList<>();
+    private final ArrayList<Worker> workers=new ArrayList<>();
+    private final ArrayList<Building> buildings=new ArrayList<>();//TODO expand this to its children
     public int getPopulation()
     {
         return population;
@@ -82,4 +89,35 @@ public class Empire
     {
         this.foodRate = foodRate;
     }
+
+    public int getGrowthRate()
+    {
+        return growthRate;
+    }
+
+    public void setGrowthRate(int growthRate)
+    {
+        this.growthRate = growthRate;
+    }
+
+    public ArrayList<Soldier> getSoldiers()
+    {
+        return soldiers;
+    }
+
+    public ArrayList<Worker> getWorkers()
+    {
+        return workers;
+    }
+
+    public void addSoldier(Soldier soldier)
+    {
+        soldiers.add(soldier);
+    }
+    public void addWorker(Worker worker)
+    {
+        workers.add(worker);
+    }
+
+
 }

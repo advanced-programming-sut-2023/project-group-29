@@ -8,10 +8,10 @@ public class Soldier extends Human
 
     public Soldier(SoldierType soldierType)
     {
+        super(soldierType.getHumanType());
+
         this.soldierType = soldierType;
-        this.hp = soldierType.getHp();
         this.damage = soldierType.getDamage();
-        this.ableToClimbLadder = soldierType.isAbleToClimbLadder();
         this.aimRange = soldierType.getAimRange();
     }
 

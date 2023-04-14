@@ -1,6 +1,6 @@
 package model.people;
 
-public abstract class Human {
+public class Human {
     enum State
     {
         OFFENSIVE,
@@ -10,6 +10,14 @@ public abstract class Human {
     protected State state=State.STANDING;
     protected int hp;
     protected boolean ableToClimbLadder;
+    protected int speed;
+
+    protected Human(HumanType humanType)
+    {
+        this.hp=humanType.getHp();
+        this.ableToClimbLadder=humanType.isAbleToClimbLadder();
+        this.speed=humanType.getSpeed();
+    }
 
     public int getHp()
     {
@@ -36,5 +44,10 @@ public abstract class Human {
     public boolean isAlive()
     {
         return hp>0;
+    }
+
+    public int getSpeed()
+    {
+        return speed;
     }
 }
