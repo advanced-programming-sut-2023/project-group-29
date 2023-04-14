@@ -1,16 +1,14 @@
 package model.weapons;
 
-public enum EquipmentsType
-{
+public enum EquipmentsType {
     ;
-    private WeaponTypes weaponTypes;
-    private EquipmentsType(WeaponTypes weaponTypes)
-    {
-        this.weaponTypes=weaponTypes;
+    private final WeaponTypes weaponTypes;
+
+    EquipmentsType(WeaponTypes weaponTypes) {
+        this.weaponTypes = weaponTypes;
     }
 
-    public WeaponTypes getWeaponTypes()
-    {
+    public WeaponTypes getWeaponTypes() {
         return weaponTypes;
     }
 }

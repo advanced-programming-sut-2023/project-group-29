@@ -1,5 +1,10 @@
 package model.buildings;
 
 public class OtherBuildings extends Building {
-    private OtherBuildingsType otherBuildingsType;
+    private final OtherBuildingsType otherBuildingsType;
+
+    public OtherBuildings(OtherBuildingsType otherBuildingsType) {
+        super(otherBuildingsType.getBuildingType());
+        this.otherBuildingsType = otherBuildingsType;
+    }
 }

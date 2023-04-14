@@ -1,16 +1,14 @@
 package model.people;
 
-public enum WorkerType
-{
+public enum WorkerType {
     ;
-    private HumanType humanType;
-    private WorkerType(HumanType humanType)
-    {
-        this.humanType=humanType;
+    private final HumanType humanType;
+
+    WorkerType(HumanType humanType) {
+        this.humanType = humanType;
     }
 
-    public HumanType getHumanType()
-    {
+    public HumanType getHumanType() {
         return humanType;
     }
 }

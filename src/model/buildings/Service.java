@@ -1,13 +1,14 @@
 package model.buildings;
 
 public class Service extends Building {
-    private ServiceType accommodationType;
-    private int popularityRange;
-    private int wineUsage;
+    private final ServiceType serviceType;
+    private final int popularityRange;
+    private final int wineUsage;
 
-    public Service(ServiceType accommodationType, int popularityRange, int wineUsage) {
-        this.accommodationType = accommodationType;
-        this.popularityRange = popularityRange;
-        this.wineUsage = wineUsage;
+    public Service(ServiceType serviceType) {
+        super(serviceType.getBuildingType());
+        this.serviceType = serviceType;
+        this.popularityRange = serviceType.getWineUsage();
+        this.wineUsage = serviceType.getWineUsage();
     }
 }

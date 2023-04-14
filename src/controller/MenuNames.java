@@ -1,7 +1,6 @@
 package controller;
 
-public enum MenuNames
-{
+public enum MenuNames {
     //app menus
     LOGIN_MENU,
     PROFILE_MENU,

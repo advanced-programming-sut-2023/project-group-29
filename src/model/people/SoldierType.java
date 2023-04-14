@@ -1,31 +1,27 @@
 package model.people;
 
-public enum SoldierType
-{
+public enum SoldierType {
     //TODO complete below list
     ;
-    private int damage;
-    private int aimRange;
-    private HumanType humanType;
-    private SoldierType(HumanType humanType,int damage,int aimRange)
-    {
-        this.humanType=humanType;
-        this.damage=damage;
-        this.aimRange=aimRange;
+    private final int damage;
+    private final int aimRange;
+    private final HumanType humanType;
+
+    SoldierType(HumanType humanType, int damage, int aimRange) {
+        this.humanType = humanType;
+        this.damage = damage;
+        this.aimRange = aimRange;
     }
 
-    public int getDamage()
-    {
+    public int getDamage() {
         return damage;
     }
 
-    public int getAimRange()
-    {
+    public int getAimRange() {
         return aimRange;
     }
 
-    public HumanType getHumanType()
-    {
+    public HumanType getHumanType() {
         return humanType;
     }
 }

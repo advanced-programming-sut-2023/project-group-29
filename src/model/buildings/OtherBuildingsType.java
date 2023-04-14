@@ -1,12 +1,21 @@
 package model.buildings;
 
 public enum OtherBuildingsType {
-    DRAW_BRIDGE(),
-    MARKET(),
-    CHURCH(),
-    CATHEDRAL(),
-    PITCH_DITCH(),
-    SIEGE_TENT(),
-    CAGED_WAR_DOGS(),
+    DRAW_BRIDGE(null),
+    MARKET(null),
+    CHURCH(null),
+    CATHEDRAL(null),
+    PITCH_DITCH(null),
+    SIEGE_TENT(null),
+    CAGED_WAR_DOGS(null),
+    ;
+    private final BuildingType buildingType;
 
+    OtherBuildingsType(BuildingType buildingType) {
+        this.buildingType = buildingType;
+    }
+
+    public BuildingType getBuildingType() {
+        return buildingType;
+    }
 }

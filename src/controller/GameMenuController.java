@@ -43,4 +43,22 @@ public class GameMenuController {
         return null;
     }
 
+    public static void dropBuilding() {
+    }
+
+    public static void selectBuilding() {
+    }
+
+    public static void selectUnit() {}
+
+    public static void trade(){}
+
+    public static void showTradeList(){}
+
+    public static void tradeAccept(){}
+
+    public static void tradeHistory(){}
+
+
+
 }

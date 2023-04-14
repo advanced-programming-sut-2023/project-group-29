@@ -1,13 +1,11 @@
 package model.people;
 
-public class Soldier extends Human
-{
-    private SoldierType soldierType;
-    private int damage;
-    private int aimRange;
+public class Soldier extends Human {
+    private final SoldierType soldierType;
+    private final int damage;
+    private final int aimRange;
 
-    public Soldier(SoldierType soldierType)
-    {
+    public Soldier(SoldierType soldierType) {
         super(soldierType.getHumanType());
 
         this.soldierType = soldierType;
@@ -15,18 +13,15 @@ public class Soldier extends Human
         this.aimRange = soldierType.getAimRange();
     }
 
-    public int getDamage()
-    {
+    public int getDamage() {
         return damage;
     }
 
-    public int getAimRange()
-    {
+    public int getAimRange() {
         return aimRange;
     }
 
-    public SoldierType getSoldierType()
-    {
+    public SoldierType getSoldierType() {
         return soldierType;
     }
 }

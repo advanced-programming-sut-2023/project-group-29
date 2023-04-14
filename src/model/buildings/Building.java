@@ -5,11 +5,10 @@ public class Building {
     protected int numberOfWorkers;
     protected int cost;
 
-    protected Building(BuildingType buildingType)
-    {
-        this.cost=buildingType.getCost();
-        this.hp= buildingType.getHp();
-        this.numberOfWorkers= buildingType.getNumberOfWorkers();
+    protected Building(BuildingType buildingType) {
+        this.cost = buildingType.getCost();
+        this.hp = buildingType.getHp();
+        this.numberOfWorkers = buildingType.getNumberOfWorkers();
     }
 
 }

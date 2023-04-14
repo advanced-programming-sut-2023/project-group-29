@@ -3,10 +3,12 @@ package model;
 import java.util.ArrayList;
 
 public class User {
-    private static ArrayList<String> questions=new ArrayList<>();
+    private static ArrayList<String> questions = new ArrayList<>();
+
     static {    //question initialize
 
     }
+
     private String username;
     private String password;
     private String nickname;
@@ -15,59 +17,47 @@ public class User {
     private String Slogan;
 
 
-
-    public static ArrayList<String> getQuestions()
-    {
+    public static ArrayList<String> getQuestions() {
         return questions;
     }
 
-    public static void setQuestions(ArrayList<String> questions)
-    {
+    public static void setQuestions(ArrayList<String> questions) {
         User.questions = questions;
     }
 
-    public String getUsername()
-    {
+    public String getUsername() {
         return username;
     }
 
-    public String getPassword()
-    {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password)
-    {
+    public void setPassword(String password) {
         this.password = password;
     }
 
-    public String getNickname()
-    {
+    public String getNickname() {
         return nickname;
     }
 
-    public void setNickname(String nickname)
-    {
+    public void setNickname(String nickname) {
         this.nickname = nickname;
     }
 
-    public String getEmail()
-    {
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email)
-    {
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    public String getSlogan()
-    {
+    public String getSlogan() {
         return Slogan;
     }
 
-    public void setSlogan(String slogan)
-    {
+    public void setSlogan(String slogan) {
         Slogan = slogan;
     }
 }

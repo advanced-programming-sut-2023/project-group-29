@@ -1,7 +1,6 @@
 package model;
 
-public class Commodity
-{
+public class Commodity {
     private int buyingPrice;
     private int sellingPrice;
 

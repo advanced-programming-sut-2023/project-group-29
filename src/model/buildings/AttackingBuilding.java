@@ -1,13 +1,14 @@
 package model.buildings;
 
 public class AttackingBuilding extends Building {
-    private AttackingBuildingType attackingBuildingType;
-    private int fireRange;
-    private int defendRange;
+    private final AttackingBuildingType attackingBuildingType;
+    private final int fireRange;
+    private final int defendRange;
 
-    public AttackingBuilding(AttackingBuildingType attackingBuildingType, int fireRange, int defendRange) {
+    public AttackingBuilding(AttackingBuildingType attackingBuildingType) {
+        super(attackingBuildingType.getBuildingType());
         this.attackingBuildingType = attackingBuildingType;
-        this.fireRange = fireRange;
-        this.defendRange = defendRange;
+        this.defendRange = attackingBuildingType.getDefendRange();
+        this.fireRange = attackingBuildingType.getFireRange();
     }
 }
