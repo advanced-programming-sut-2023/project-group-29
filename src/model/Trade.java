@@ -4,15 +4,15 @@ public class Trade {
     private PlayerNumber senderPlayer;
     private PlayerNumber receiverPlayer;
     private int price;
-    private Commodity commodity;
+    private Resource resource;
     private int count;
 
-    public Trade(PlayerNumber senderPlayer, PlayerNumber receiverPlayer, int price, Commodity commodity, int count)
+    public Trade(PlayerNumber senderPlayer, PlayerNumber receiverPlayer, int price, Resource resource, int count)
     {
         this.senderPlayer = senderPlayer;
         this.receiverPlayer = receiverPlayer;
         this.price = price;
-        this.commodity = commodity;
+        this.resource = resource;
         this.count = count;
     }
 
@@ -31,9 +31,9 @@ public class Trade {
         return price;
     }
 
-    public Commodity getCommodity()
+    public Resource getCommodity()
     {
-        return commodity;
+        return resource;
     }
 
     public int getCount()

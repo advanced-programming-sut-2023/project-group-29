@@ -1,11 +1,15 @@
 package model.people;
 
-public class Human {
+import model.Asset;
+import model.PlayerNumber;
+
+public class Human extends Asset {
     protected State state = State.STANDING;
     protected int hp;
     protected boolean ableToClimbLadder;
     protected int speed;
-    protected Human(HumanType humanType) {
+    protected Human(HumanType humanType, PlayerNumber playerNumber) {
+        super(playerNumber);
         this.hp = humanType.getHp();
         this.ableToClimbLadder = humanType.isAbleToClimbLadder();
         this.speed = humanType.getSpeed();
