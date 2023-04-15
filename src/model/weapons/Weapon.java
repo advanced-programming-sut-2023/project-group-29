@@ -1,11 +1,15 @@
 package model.weapons;
 
-public class Weapon {
+import model.Asset;
+import model.PlayerNumber;
+
+public class Weapon extends Asset {
     protected BuilderType builderType;
     protected int speed;
     protected int hp;
     protected int builderNeededCount;
-    protected Weapon(WeaponTypes weaponTypes) {
+    protected Weapon(WeaponTypes weaponTypes, PlayerNumber playerNumber) {
+        super(playerNumber);
         this.hp = weaponTypes.getHp();
         this.speed = weaponTypes.getSpeed();
         this.builderType = weaponTypes.getBuilderType();
@@ -28,7 +32,7 @@ public class Weapon {
         return builderNeededCount;
     }
 
-    enum BuilderType {
+    public enum BuilderType {
         ENGINEER,
         LADDER_MAN,
         ALL

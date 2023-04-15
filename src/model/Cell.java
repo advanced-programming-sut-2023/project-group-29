@@ -1,7 +1,7 @@
 package model;
 
 import model.buildings.Building;
-import model.people.Soldier;
+import model.people.humanClasses.Soldier;
 
 import java.util.ArrayList;
 

@@ -1,8 +1,8 @@
 package model;
 
 import model.buildings.Building;
-import model.people.Soldier;
-import model.people.Worker;
+import model.people.humanClasses.Soldier;
+import model.people.humanClasses.Worker;
 
 import java.util.ArrayList;
 
@@ -16,7 +16,7 @@ public class Empire {
     private int wealth;
     private int tax;
     private int fear;
-    private ArrayList<Food> foods;
+    private int[] foods = new int[4];
     private int foodRate;
 
     public int getPopulation() {
@@ -59,12 +59,8 @@ public class Empire {
         this.fear = fear;
     }
 
-    public ArrayList<Food> getFoods() {
+    public int[] getFoods() {
         return foods;
-    }
-
-    public void setFoods(ArrayList<Food> foods) {
-        this.foods = foods;
     }
 
     public int getFoodRate() {
