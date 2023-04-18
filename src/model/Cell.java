@@ -2,12 +2,18 @@ package model;
 
 import model.buildings.Building;
 import model.people.humanClasses.Soldier;
+import model.people.humanClasses.Worker;
+import model.weapons.Weapon;
+import model.weapons.weaponClasses.Equipments;
+import model.weapons.weaponClasses.OffensiveWeapons;
+import model.weapons.weaponClasses.Trap;
 
 import java.lang.ref.PhantomReference;
 import java.util.ArrayList;
 
 public class Cell {
-    private ArrayList<Soldier> soldiers;
+    private final ArrayList<Asset> movingObjects=new ArrayList<>();
+    private Trap trap=null;
     private Building building = null;
     private int speed;
     private Color showingColor;
@@ -23,12 +29,19 @@ public class Cell {
         this.ableToMoveOn= cellType.isAbleToMoveOn();
     }
 
-    public ArrayList<Soldier> getSoldiers() {
-        return soldiers;
+    public ArrayList<Asset> getMovingObjects()
+    {
+        return movingObjects;
     }
 
-    public void setSoldiers(ArrayList<Soldier> soldiers) {
-        this.soldiers = soldiers;
+    public Trap getTrap()
+    {
+        return trap;
+    }
+
+    public void setTrap(Trap trap)
+    {
+        this.trap = trap;
     }
 
     public Building getBuilding() {
