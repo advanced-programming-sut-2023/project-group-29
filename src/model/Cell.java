@@ -3,6 +3,7 @@ package model;
 import model.buildings.Building;
 import model.people.humanClasses.Soldier;
 
+import java.lang.ref.PhantomReference;
 import java.util.ArrayList;
 
 public class Cell {
@@ -10,6 +11,17 @@ public class Cell {
     private Building building = null;
     private int speed;
     private Color showingColor;
+    private CellType cellType;
+    private boolean ableToBuildOn;
+    private boolean ableToMoveOn;
+    public Cell(CellType cellType)
+    {
+        this.cellType=cellType;
+        this.showingColor=cellType.getShowingColor();
+        this.speed=cellType.getSpeed();
+        this.ableToBuildOn=cellType.isAbleToBuildOn();
+        this.ableToMoveOn= cellType.isAbleToMoveOn();
+    }
 
     public ArrayList<Soldier> getSoldiers() {
         return soldiers;
@@ -41,6 +53,21 @@ public class Cell {
 
     public void setShowingColor(Color showingColor) {
         this.showingColor = showingColor;
+    }
+
+    public CellType getCellType()
+    {
+        return cellType;
+    }
+
+    public boolean isAbleToBuildOn()
+    {
+        return ableToBuildOn;
+    }
+
+    public boolean isAbleToMoveOn()
+    {
+        return ableToMoveOn;
     }
 
     enum Color {

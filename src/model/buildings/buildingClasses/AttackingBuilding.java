@@ -9,8 +9,8 @@ public class AttackingBuilding extends Building {
     private final int fireRange;
     private final int defendRange;
 
-    public AttackingBuilding(AttackingBuildingType attackingBuildingType, PlayerNumber playerNumber) {
-        super(attackingBuildingType.getBuildingType(), playerNumber);
+    public AttackingBuilding(AttackingBuildingType attackingBuildingType, PlayerNumber playerNumber,int positionX,int positionY) {
+        super(attackingBuildingType.getBuildingType(), playerNumber, positionX, positionY);
         this.attackingBuildingType = attackingBuildingType;
         this.defendRange = attackingBuildingType.getDefendRange();
         this.fireRange = attackingBuildingType.getFireRange();

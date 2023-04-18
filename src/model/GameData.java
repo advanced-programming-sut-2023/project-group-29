@@ -10,6 +10,8 @@ public class GameData
     private final ArrayList<Trade> trades=new ArrayList<>();
     private int turnNumber=1;
     private PlayerNumber PlayerOfTurn=PlayerNumber.FIRST;
+    private int selectedCellX;
+    private int selectedCellY;
     public GameData()
     {
     }
@@ -51,5 +53,25 @@ public class GameData
     public void setPlayerOfTurn(PlayerNumber playerOfTurn)
     {
         PlayerOfTurn = playerOfTurn;
+    }
+
+    public int getSelectedCellX()
+    {
+        return selectedCellX;
+    }
+
+    public void setSelectedCellX(int selectedCellX)
+    {
+        this.selectedCellX = selectedCellX;
+    }
+
+    public int getSelectedCellY()
+    {
+        return selectedCellY;
+    }
+
+    public void setSelectedCellY(int selectedCellY)
+    {
+        this.selectedCellY = selectedCellY;
     }
 }

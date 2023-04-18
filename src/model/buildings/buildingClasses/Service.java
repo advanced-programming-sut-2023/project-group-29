@@ -9,8 +9,8 @@ public class Service extends Building {
     private final int popularityRange;
     private final int wineUsage;
 
-    public Service(ServiceType serviceType, PlayerNumber playerNumber) {
-        super(serviceType.getBuildingType(), playerNumber);
+    public Service(ServiceType serviceType, PlayerNumber playerNumber,int positionX,int positionY) {
+        super(serviceType.getBuildingType(), playerNumber, positionX, positionY);
         this.serviceType = serviceType;
         this.popularityRange = serviceType.getWineUsage();
         this.wineUsage = serviceType.getWineUsage();

@@ -1,12 +1,14 @@
 package controller;
 
 import model.Cell;
+import model.GameData;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 public class GameMenuController {
 
+    private static GameData gameData;
     public static ArrayList<Cell> showMap(Matcher matcher) {
         return null;
     }
@@ -59,6 +61,8 @@ public class GameMenuController {
 
     public static void tradeHistory(){}
 
-
-
+    public static GameData getGameData()
+    {
+        return gameData;
+    }
 }
