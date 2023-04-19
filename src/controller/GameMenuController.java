@@ -1,14 +1,23 @@
 package controller;
 
 import model.Cell;
+import model.Empire;
 import model.GameData;
+import model.Map;
+import model.buildings.Building;
+import view.messages.GameMenuMessages;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 public class GameMenuController {
-
+    private static final Map map;
     private static GameData gameData;
+
+    static {
+        map = gameData.getMap();
+    }
+
     public static ArrayList<Cell> showMap(Matcher matcher) {
         return null;
     }
@@ -45,24 +54,58 @@ public class GameMenuController {
         return null;
     }
 
-    public static void dropBuilding() {
+    public static GameMenuMessages dropBuilding(int x, int y, String type) {
+        if (invalidPosition(x, y)) {
+            return GameMenuMessages.INVALID_POSITION;
+        }
+        Cell chosenCell = map.getCell(x, y);
+        if (!Building.isBuildingTypeValid(type)) {
+            return GameMenuMessages.INVALID_TYPE;
+        } else if (!chosenCell.isAbleToBuildOn(type)) {
+            return GameMenuMessages.IMPROPER_CELL_TYPE;
+        } else if (chosenCell.getBuilding() != null) {
+            return GameMenuMessages.FULL_CELL;
+        }
+        chosenCell.makeBuilding(type);
+        return GameMenuMessages.SUCCESS;
     }
 
-    public static void selectBuilding() {
+    public static GameMenuMessages selectBuilding(int x, int y, Empire currentPlayerEmpire) {
+        Building building;
+        if (invalidPosition(x, y)) {
+            return GameMenuMessages.INVALID_POSITION;
+        }
+        Cell chosenCell = map.getCell(x, y);
+        if ((building = chosenCell.getBuilding()) == null) {
+            return GameMenuMessages.EMPTY_CELL;
+        } else if (!building.getOwnerEmpire().equals(currentPlayerEmpire)) {
+            return GameMenuMessages.OTHERS_BUILDINGS;
+        }
+        return GameMenuMessages.SUCCESS;
     }
 
-    public static void selectUnit() {}
+    private static boolean invalidPosition(int x, int y) {
+        return x <= 0 || y <= 0
+                || x > map.getWidth()
+                || y > map.getWidth();
+    }
 
-    public static void trade(){}
+    public static void selectUnit() {
+    }
 
-    public static void showTradeList(){}
+    public static void trade() {
+    }
 
-    public static void tradeAccept(){}
+    public static void showTradeList() {
+    }
 
-    public static void tradeHistory(){}
+    public static void tradeAccept() {
+    }
 
-    public static GameData getGameData()
-    {
+    public static void tradeHistory() {
+    }
+
+    public static GameData getGameData() {
         return gameData;
     }
 }

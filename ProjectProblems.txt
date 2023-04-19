@@ -1,3 +1,4 @@
 1.learning how to work with Appache Maven
 2.How to save data in files
-6.test graphic
+3.functions shouldn't be long.
+4.test graphic

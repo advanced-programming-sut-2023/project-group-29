@@ -1,7 +1,6 @@
 package model;
 
-public enum PlayerNumber
-{
+public enum PlayerNumber {
     FIRST(0),
     SECOND(1),
     THIRD(2),
@@ -11,7 +10,7 @@ public enum PlayerNumber
     SEVENTH(6),
     EIGHTH(7);
 
-    private int number;
+    private final int number;
 
     PlayerNumber(int number) {
         this.number = number;

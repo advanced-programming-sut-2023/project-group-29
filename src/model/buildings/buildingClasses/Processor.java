@@ -11,7 +11,7 @@ public class Processor extends Building {
     private final Resource resource;
 
 
-    public Processor(ProcessorType processorType, PlayerNumber playerNumber,int positionX,int positionY) {
+    public Processor(ProcessorType processorType, PlayerNumber playerNumber, int positionX, int positionY) {
         super(processorType.getBuildingType(), playerNumber, positionX, positionY);
         this.processorType = processorType;
         this.productionRate = processorType.getProductionRate();

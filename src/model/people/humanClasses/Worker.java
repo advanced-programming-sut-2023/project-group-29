@@ -8,7 +8,8 @@ public class Worker extends Human {
     private final WorkerType workerType;
 
     public Worker(WorkerType workerType, PlayerNumber playerNumber) {
-        super(workerType.getHumanType(), playerNumber);
+        //TODO: enter proper position
+        super(workerType.getHumanType(), playerNumber,0,0);
 
         this.workerType = workerType;
     }

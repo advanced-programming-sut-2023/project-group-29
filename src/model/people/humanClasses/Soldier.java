@@ -9,7 +9,7 @@ public class Soldier extends Human {
     private final int damage;
     private final int aimRange;
 
-    public Soldier(SoldierType soldierType, PlayerNumber playerNumber,int positionX,int positionY) {
+    public Soldier(SoldierType soldierType, PlayerNumber playerNumber, int positionX, int positionY) {
         super(soldierType.getHumanType(), playerNumber, positionX, positionY);
 
         this.soldierType = soldierType;
