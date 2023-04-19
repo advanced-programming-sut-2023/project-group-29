@@ -1,13 +1,19 @@
 package model.people.humanClasses;
 
+import model.Map;
+import model.Offensive;
 import model.PlayerNumber;
 import model.people.Human;
 import model.people.humanTypes.SoldierType;
 
-public class Soldier extends Human {
+public class Soldier extends Human implements Offensive
+{
     private final SoldierType soldierType;
     private final int damage;
     private final int aimRange;
+
+    //TODO reasonable value below
+    private final int decreasingFactorOfShieldForArchers=4;
 
     public Soldier(SoldierType soldierType, PlayerNumber playerNumber,int positionX,int positionY) {
         super(soldierType.getHumanType(), playerNumber, positionX, positionY);
@@ -16,7 +22,24 @@ public class Soldier extends Human {
         this.damage = soldierType.getDamage();
         this.aimRange = soldierType.getAimRange();
     }
+    public AttackingResult attack(Map map, int targetX, int targetY)
+    {
+        return Offensive.attack(map,this,aimRange,targetX,targetY);
+    }
 
+    public boolean isArcherType()
+    {
+        //TODO if(soldierType.equals(archer)) and all other archer types
+
+        return true;
+    }
+
+    public int getFormulatedDamage(boolean enemyHasPortableShield)
+    {
+        if(this.isArcherType() && enemyHasPortableShield)
+            return damage/decreasingFactorOfShieldForArchers;
+        return damage;
+    }
     public int getDamage() {
         return damage;
     }

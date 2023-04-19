@@ -1,5 +1,6 @@
 package model;
 
+import controller.GameMenuController;
 import model.buildings.Building;
 import model.people.humanClasses.Soldier;
 import model.people.humanClasses.Worker;
@@ -10,6 +11,9 @@ import model.weapons.weaponClasses.Trap;
 
 import java.lang.ref.PhantomReference;
 import java.util.ArrayList;
+
+import static controller.GameMenuController.getGameData;
+
 
 public class Cell {
     private final ArrayList<Asset> movingObjects=new ArrayList<>();
@@ -27,6 +31,75 @@ public class Cell {
         this.speed=cellType.getSpeed();
         this.ableToBuildOn=cellType.isAbleToBuildOn();
         this.ableToMoveOn= cellType.isAbleToMoveOn();
+    }
+
+    public ArrayList<Movable> getMovingObjectsOfPlayer(PlayerNumber playerNumber)
+    {
+        ArrayList<Movable> movables=new ArrayList<>();
+        for(Asset movingObject:movingObjects)
+        {
+            if(movingObject.getOwnerNumber().equals(playerNumber))
+                movables.add((Movable) movingObject);
+        }
+
+        return movables;
+    }
+
+    public ArrayList<Asset> getEnemiesOfPlayerInCell(PlayerNumber playerNumber)
+    {
+        ArrayList<Asset> enemies=new ArrayList<>();
+        for(Asset movingObject:movingObjects)
+        {
+            if(!movingObject.getOwnerNumber().equals(playerNumber))
+                enemies.add(movingObject);
+        }
+
+        return enemies;
+    }
+    public ArrayList<Offensive> getAttackingListOfPlayerNumber(PlayerNumber playerNumber)
+    {
+        ArrayList<Offensive> attackingObjects=new ArrayList<>();
+        for(Asset movingObject:movingObjects)
+        {
+            if(movingObject.getOwnerNumber().equals(playerNumber) && movingObject instanceof Offensive)
+                attackingObjects.add((Offensive) movingObject);
+        }
+
+        return attackingObjects;
+    }
+    public boolean hasBuilding()
+    {
+        if(!building.equals(null))
+            return true;
+        return false;
+    }
+    public boolean hasTrap()
+    {
+        if(!trap.equals(null))
+            return true;
+        return false;
+    }
+    public boolean hasFiringTrap()
+    {
+        //TODO has firing trap
+        return true;
+    }
+    public boolean shieldExistsInCell()
+    {
+        //TODO this will not check that shield belong to who. it just defends all of people in it
+        for (Asset movingObject:movingObjects)
+        {
+            if(movingObject instanceof Equipments)
+            {
+                Equipments equipment=(Equipments) movingObject;
+
+                //TODO complete if below for type portable shield
+                //if(equipment.getEquipmentsType().equals())
+                //return true
+            }
+        }
+
+        return false;
     }
 
     public ArrayList<Asset> getMovingObjects()

@@ -18,15 +18,15 @@ public interface Movable
         if (destinationX < 1 || destinationY < 1 || destinationX > map.getWidth() || destinationY > map.getWidth())
             return MovingResult.INVALID_INDEX;
 
-        Cell currentCell = map.getCells()[currentX][currentY];
-        if (currentCell.isAbleToMoveOn())
+        Cell destinationCell = map.getCells()[destinationX][destinationY];
+        if (destinationCell.isAbleToMoveOn())
             return MovingResult.BAD_PLACE;
-        if (!currentCell.getBuilding().getOwnerNumber().equals(asset.getOwnerNumber()))
+        if (!destinationCell.getBuilding().getOwnerNumber().equals(asset.getOwnerNumber()))
             return MovingResult.BAD_PLACE;
-        if(currentCell.getTrap()!=null && currentCell.getTrap().getOwnerNumber().equals(asset.getOwnerNumber()))
+        if(destinationCell.getTrap()!=null && destinationCell.getTrap().getOwnerNumber().equals(asset.getOwnerNumber()))
             return MovingResult.BAD_PLACE;
 
-        int destinationDistance = map.distanceOfTwoCells(currentX, currentY, destinationX, destinationY, ableToClimbLadder);
+        int destinationDistance = map.distanceOfTwoCellsForMoving(currentX, currentY, destinationX, destinationY, ableToClimbLadder);
 
         if (destinationDistance > speed)
             return MovingResult.TOO_FAR;

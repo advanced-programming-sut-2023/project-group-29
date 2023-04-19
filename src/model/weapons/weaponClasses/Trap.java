@@ -1,5 +1,7 @@
 package model.weapons.weaponClasses;
 
+import model.Map;
+import model.Offensive;
 import model.PlayerNumber;
 import model.weapons.weaponTypes.TrapType;
 import model.weapons.Weapon;
@@ -14,6 +16,11 @@ public class Trap extends Weapon {
         this.trapType = trapType;
         this.damage = trapType.getDamage();
     }
+    //TODO implement trap with offensive or not
+//    public Offensive.AttackingResult attack(Map map, int targetX, int targetY)
+//    {
+//        return Offensive.attack(map,this,0,targetX,targetY);
+//    }
 
     public int getDamage() {
         return damage;

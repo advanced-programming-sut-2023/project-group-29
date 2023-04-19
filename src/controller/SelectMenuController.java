@@ -17,11 +17,8 @@ public class SelectMenuController {
 
     public static void repairBuilding(){}
 
-    public static String moveUnit(Matcher matcher)
+    public static String moveUnit(int destinationX,int destinationY)
     {
-        int destinationX=1;    //TODO matcher get
-        int destinationY=1;
-
         GameData gameData=GameMenuController.getGameData();
 
         int currentX= gameData.getSelectedCellX();
@@ -31,12 +28,7 @@ public class SelectMenuController {
         Cell currentCell=map.getCells()[currentX][currentY];
 
         //create moving object list
-        ArrayList<Movable> movingObjects=new ArrayList<>();
-        for(Asset movingObject:currentCell.getMovingObjects())
-        {
-            if(movingObject.getOwnerNumber().equals(gameData.getPlayerOfTurn()))
-                movingObjects.add((Movable) movingObject);
-        }
+        ArrayList<Movable> movingObjects=currentCell.getMovingObjectsOfPlayer(gameData.getPlayerOfTurn());
 
 
         //apply moves
@@ -94,11 +86,77 @@ public class SelectMenuController {
 //
 //    }
 
-    public static void patrolUnit(){}
+    public static void patrolUnit()
+    {
+        //TODO
+    }
 
-    public static void setStateOfUnit(){}
+    public static void setStateOfUnit()
+    {
+        //TODO
+    }
 
-    public static void MakeUnitAttacking(){}
+    public static String MakeUnitAttacking(int targetX,int targetY)
+    {
+        GameData gameData=GameMenuController.getGameData();
+
+        int currentX= gameData.getSelectedCellX();
+        int currentY= gameData.getSelectedCellY();
+
+        Map map= gameData.getMap();
+
+        //create attacking objects list
+        Cell currentCell=map.getCells()[currentX][currentY];
+        ArrayList<Offensive> attackingObjects=currentCell.getAttackingListOfPlayerNumber(gameData.getPlayerOfTurn());
+
+        //create enemy objects list
+        Cell targetCell=map.getCells()[targetX][targetY];
+        ArrayList<Asset> enemies=targetCell.getEnemiesOfPlayerInCell(gameData.getPlayerOfTurn());
+
+        boolean targetCellHasBuilding= targetCell.hasBuilding();
+        boolean targetCellHasFiringTrap=targetCell.hasFiringTrap();
+        boolean portableShieldExistsInTargetCell=targetCell.shieldExistsInCell();
+
+        //calculate total damage
+
+        int totalDamage=0;
+        int failures=0;
+        for(Offensive attackingObject:attackingObjects)
+        {
+            Offensive.AttackingResult attackingResult=attackingObject.attack(map,targetX,targetY);
+
+            switch (attackingResult)
+            {
+                case SUCCESSFUL:
+                    if(attackingObject instanceof Soldier)
+                        totalDamage+=((Soldier)attackingObject).getFormulatedDamage(portableShieldExistsInTargetCell);
+                    else totalDamage+=attackingObject.getDamage();
+                    break;
+                case INVALID_INDEX:
+                    return "Your target index is invalid!";
+                case TOO_FAR:
+                    failures++;
+                    break;
+            }
+        }
+
+        //apply attack
+        //TODO this is a simple implementation which decrease from every unit equally
+        //if a unit is near to death or not, makes no change for others
+
+
+
+        //apply de attack
+
+
+
+        //results
+        if(failures==0)
+            return "All units attacked successfully!";
+
+        int totalAttackingEfforts=attackingObjects.size();
+        return (totalAttackingEfforts-failures)+" troops out of "+totalAttackingEfforts+" attacked successfully!";
+    }
 
     public static void pourOil(){}
 
