@@ -1,7 +1,7 @@
 package model;
 
 public class Asset {
-    private Empire ownerEmpire;
+    protected Empire ownerEmpire;
     private final PlayerNumber ownerNumber;
     private int positionX;
     private int positionY;

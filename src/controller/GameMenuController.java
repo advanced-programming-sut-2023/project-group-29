@@ -1,9 +1,6 @@
 package controller;
 
-import model.Cell;
-import model.Empire;
-import model.GameData;
-import model.Map;
+import model.*;
 import model.buildings.Building;
 import view.messages.GameMenuMessages;
 
@@ -54,19 +51,19 @@ public class GameMenuController {
         return null;
     }
 
-    public static GameMenuMessages dropBuilding(int x, int y, String type) {
+    public static GameMenuMessages dropBuilding(int x, int y, String type, PlayerNumber playerNumber) {
         if (invalidPosition(x, y)) {
             return GameMenuMessages.INVALID_POSITION;
         }
         Cell chosenCell = map.getCell(x, y);
-        if (!Building.isBuildingTypeValid(type)) {
+        if (!Building.isBuildingNameValid(type)) {
             return GameMenuMessages.INVALID_TYPE;
         } else if (!chosenCell.isAbleToBuildOn(type)) {
             return GameMenuMessages.IMPROPER_CELL_TYPE;
         } else if (chosenCell.getBuilding() != null) {
             return GameMenuMessages.FULL_CELL;
         }
-        chosenCell.makeBuilding(type);
+        chosenCell.makeBuilding(type, playerNumber);
         return GameMenuMessages.SUCCESS;
     }
 

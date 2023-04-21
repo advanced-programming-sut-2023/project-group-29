@@ -3,7 +3,10 @@ package model.buildings;
 import model.Asset;
 import model.PlayerNumber;
 
+import java.util.HashMap;
+
 public class Building extends Asset {
+    private static final HashMap<String, Integer> buildingNamesAndTheirGroup = new HashMap<>();
     protected int hp;
     protected int numberOfWorkers;
     protected int cost;
@@ -17,9 +20,19 @@ public class Building extends Asset {
         maxHp = hp;
     }
 
-    public static boolean isBuildingTypeValid(String BuildingType) {
-        //TODO: complete
+    public static void addToValidBuildingNames(String buildingName, int groupNumber) {
+        buildingNamesAndTheirGroup.put(buildingName, groupNumber);
+    }
+
+    public static boolean isBuildingNameValid(String buildingName) {
+        for (String name : buildingNamesAndTheirGroup.keySet()) {
+            if (name.equals(buildingName)) return true;
+        }
         return false;
+    }
+
+    public static int getGroupNumberByBuildingName(String buildingName) {
+        return buildingNamesAndTheirGroup.get(buildingName);
     }
 
     public boolean isEnemyNearIt() {
@@ -28,7 +41,7 @@ public class Building extends Asset {
     }
 
     public void repair() {
-        //TODO: decrease stone equal to maxHp - hp;
+        ownerEmpire.decreaseStone(maxHp - hp);
         hp = maxHp;
     }
 }

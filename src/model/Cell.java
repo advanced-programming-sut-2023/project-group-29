@@ -1,19 +1,31 @@
 package model;
 
 import model.buildings.Building;
+import model.buildings.buildingClasses.*;
 import model.weapons.weaponClasses.Trap;
 
 import java.util.ArrayList;
 
 public class Cell {
+    private int xPosition;
+    private int yPosition;
+
+    public int getXPosition() {
+        return xPosition;
+    }
+
+    public int getYPosition() {
+        return yPosition;
+    }
+
     private final ArrayList<Asset> movingObjects = new ArrayList<>();
-    private Trap trap = null;
-    private Building building = null;
-    private int speed;
-    private Color showingColor;
     private final CellType cellType;
     private final boolean ableToBuildOn;
     private final boolean ableToMoveOn;
+    private Trap trap = null;
+    private Building innerBuilding = null;
+    private int speed;
+    private Color showingColor;
 
     public Cell(CellType cellType) {
         this.cellType = cellType;
@@ -36,11 +48,11 @@ public class Cell {
     }
 
     public Building getBuilding() {
-        return building;
+        return innerBuilding;
     }
 
     public void setBuilding(Building building) {
-        this.building = building;
+        this.innerBuilding = building;
     }
 
     public int getSpeed() {
@@ -72,8 +84,18 @@ public class Cell {
         return ableToMoveOn;
     }
 
-    public void makeBuilding(String type) {
-        //TODO: complete this function
+    public void makeBuilding(String buildingName, PlayerNumber ownerPlayerNumber) {
+        int buildingGroupNumber = Building.getGroupNumberByBuildingName(buildingName);
+        int x = this.getXPosition(), y = this.getYPosition();
+        switch (buildingGroupNumber) {
+            case 1 -> innerBuilding = new Accommodation(buildingName, ownerPlayerNumber, x, y);
+            case 2 -> innerBuilding = new AttackingBuilding(buildingName, ownerPlayerNumber, x, y);
+            case 3 -> innerBuilding = new OtherBuildings(buildingName, ownerPlayerNumber, x, y);
+            case 4 -> innerBuilding = new Processor(buildingName, ownerPlayerNumber, x, y);
+            case 5 -> innerBuilding = new ResourceExtracter(buildingName, ownerPlayerNumber, x, y);
+            case 6 -> innerBuilding = new Service(buildingName, ownerPlayerNumber, x, y);
+            case 7 -> innerBuilding = new Store(buildingName, ownerPlayerNumber, x, y);
+        }
     }
 
     enum Color {

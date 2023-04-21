@@ -1,5 +1,6 @@
 package controller;
 
+import model.buildings.buildingTypes.*;
 import view.GameMenu;
 import view.LoginMenu;
 
@@ -7,6 +8,7 @@ import java.util.Scanner;
 
 public class Controller {
     public static void run() {
+        buildEnums();
         Scanner scanner = new Scanner(System.in);
         MenuNames menuNames = MenuNames.LOGIN_MENU;
 
@@ -20,5 +22,15 @@ public class Controller {
                     break;
             }
         }
+    }
+
+    private static void buildEnums() {
+        AccommodationType.enumBuilder();
+        AttackingBuildingType.enumBuilder();
+        OtherBuildingsType.enumBuilder();
+        ProcessorType.enumBuilder();
+        ResourceExtracterType.enumBuilder();
+        ServiceType.enumBuilder();
+        StoreType.enumBuilder();
     }
 }

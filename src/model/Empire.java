@@ -100,5 +100,9 @@ public class Empire {
         return false;
     }
 
+    public void decreaseStone(int amount) {
+        //TODO: complete
+    }
+
     //TODO: modify equal function
 }
