@@ -8,9 +8,11 @@ public class ResourceExtracter extends Building {
     private final ResourceExtracterType resourceExtracterType;
     private final int rate;
 
-    public ResourceExtracter(String buildingName, PlayerNumber playerNumber, int positionX, int positionY) {
-        super(ResourceExtracterType.getResourceExtracterTypeByBuildingName(buildingName).getBuildingType(), playerNumber, positionX, positionY);
-        this.resourceExtracterType = ResourceExtracterType.getResourceExtracterTypeByBuildingName(buildingName);
+    public ResourceExtracter
+            (ResourceExtracterType resourceExtracterType, PlayerNumber playerNumber, int positionX, int positionY) {
+
+        super(resourceExtracterType.getBuildingType(), playerNumber, positionX, positionY);
+        this.resourceExtracterType = resourceExtracterType;
         this.rate = resourceExtracterType.getRate();
     }
 }

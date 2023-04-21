@@ -9,7 +9,7 @@ public class Worker extends Human {
 
     public Worker(WorkerType workerType, PlayerNumber playerNumber) {
         //TODO: enter proper position
-        super(workerType.getHumanType(), playerNumber,0,0);
+        super(workerType.getHumanType(), playerNumber, 0, 0);
 
         this.workerType = workerType;
     }

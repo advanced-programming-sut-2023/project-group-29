@@ -8,11 +8,9 @@ public class Accommodation extends Building {
     private final AccommodationType accommodationType;
     private final int numberOfSettler;
 
-    public Accommodation(String buildingName, PlayerNumber playerNumber, int positionX, int positionY) {
-        super(AccommodationType.getAccommodationTypeByBuildingName(buildingName).getBuildingType()
-                , playerNumber, positionX, positionY);
-
-        this.accommodationType = AccommodationType.getAccommodationTypeByBuildingName(buildingName);
+    public Accommodation(AccommodationType accommodationType, PlayerNumber playerNumber, int positionX, int positionY) {
+        super(accommodationType.getBuildingType(), playerNumber, positionX, positionY);
+        this.accommodationType = accommodationType;
         this.numberOfSettler = accommodationType.getNumberOfSettler();
     }
 }

@@ -10,13 +10,13 @@ public class Empire {
     private final ArrayList<Soldier> soldiers = new ArrayList<>();
     private final ArrayList<Worker> workers = new ArrayList<>();
     private final ArrayList<Building> buildings = new ArrayList<>();//TODO expand this to its children
+    private final int[] foods = new int[4];
     private int population;
     private int growthRate;
     private int peopleSatisfaction;
     private int wealth;
     private int tax;
     private int fear;
-    private final int[] foods = new int[4];
     private int foodRate;
 
     public int getPopulation() {

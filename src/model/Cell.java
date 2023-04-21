@@ -2,26 +2,18 @@ package model;
 
 import model.buildings.Building;
 import model.buildings.buildingClasses.*;
+import model.buildings.buildingTypes.*;
 import model.weapons.weaponClasses.Trap;
 
 import java.util.ArrayList;
 
 public class Cell {
-    private int xPosition;
-    private int yPosition;
-
-    public int getXPosition() {
-        return xPosition;
-    }
-
-    public int getYPosition() {
-        return yPosition;
-    }
-
     private final ArrayList<Asset> movingObjects = new ArrayList<>();
     private final CellType cellType;
     private final boolean ableToBuildOn;
     private final boolean ableToMoveOn;
+    private int xPosition;
+    private int yPosition;
     private Trap trap = null;
     private Building innerBuilding = null;
     private int speed;
@@ -33,6 +25,14 @@ public class Cell {
         this.speed = cellType.getSpeed();
         this.ableToBuildOn = cellType.isAbleToBuildOn();
         this.ableToMoveOn = cellType.isAbleToMoveOn();
+    }
+
+    public int getXPosition() {
+        return xPosition;
+    }
+
+    public int getYPosition() {
+        return yPosition;
     }
 
     public ArrayList<Asset> getMovingObjects() {
@@ -88,13 +88,27 @@ public class Cell {
         int buildingGroupNumber = Building.getGroupNumberByBuildingName(buildingName);
         int x = this.getXPosition(), y = this.getYPosition();
         switch (buildingGroupNumber) {
-            case 1 -> innerBuilding = new Accommodation(buildingName, ownerPlayerNumber, x, y);
-            case 2 -> innerBuilding = new AttackingBuilding(buildingName, ownerPlayerNumber, x, y);
-            case 3 -> innerBuilding = new OtherBuildings(buildingName, ownerPlayerNumber, x, y);
-            case 4 -> innerBuilding = new Processor(buildingName, ownerPlayerNumber, x, y);
-            case 5 -> innerBuilding = new ResourceExtracter(buildingName, ownerPlayerNumber, x, y);
-            case 6 -> innerBuilding = new Service(buildingName, ownerPlayerNumber, x, y);
-            case 7 -> innerBuilding = new Store(buildingName, ownerPlayerNumber, x, y);
+            case 1 -> innerBuilding = new Accommodation
+                    (AccommodationType.getAccommodationTypeByBuildingName(buildingName),
+                            ownerPlayerNumber, x, y);
+            case 2 -> innerBuilding = new AttackingBuilding
+                    (AttackingBuildingType.getAttackingBuildingTypeByBuildingName(buildingName),
+                            ownerPlayerNumber, x, y);
+            case 3 -> innerBuilding = new OtherBuildings
+                    (OtherBuildingsType.getOtherBuildingTypeByBuildingName(buildingName),
+                            ownerPlayerNumber, x, y);
+            case 4 -> innerBuilding = new Processor
+                    (ProcessorType.getProcessorTypeByBuildingName(buildingName),
+                            ownerPlayerNumber, x, y);
+            case 5 -> innerBuilding = new ResourceExtracter
+                    (ResourceExtracterType.getResourceExtracterTypeByBuildingName(buildingName),
+                            ownerPlayerNumber, x, y);
+            case 6 -> innerBuilding = new Service
+                    (ServiceType.getServiceTypeByBuildingName(buildingName),
+                            ownerPlayerNumber, x, y);
+            case 7 -> innerBuilding = new Store
+                    (StoreType.getStoreTypeByBuildingName(buildingName),
+                            ownerPlayerNumber, x, y);
         }
     }
 

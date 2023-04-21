@@ -51,25 +51,25 @@ public class GameMenuController {
         return null;
     }
 
-    public static GameMenuMessages dropBuilding(int x, int y, String type, PlayerNumber playerNumber) {
-        if (invalidPosition(x, y)) {
+    public static GameMenuMessages dropBuilding(int x, int y, String buildingName, PlayerNumber playerNumber) {
+        if (positionIsInvalid(x, y)) {
             return GameMenuMessages.INVALID_POSITION;
         }
         Cell chosenCell = map.getCell(x, y);
-        if (!Building.isBuildingNameValid(type)) {
+        if (!Building.isBuildingNameValid(buildingName)) {
             return GameMenuMessages.INVALID_TYPE;
-        } else if (!chosenCell.isAbleToBuildOn(type)) {
+        } else if (!chosenCell.isAbleToBuildOn(buildingName)) {
             return GameMenuMessages.IMPROPER_CELL_TYPE;
         } else if (chosenCell.getBuilding() != null) {
             return GameMenuMessages.FULL_CELL;
         }
-        chosenCell.makeBuilding(type, playerNumber);
+        chosenCell.makeBuilding(buildingName, playerNumber);
         return GameMenuMessages.SUCCESS;
     }
 
     public static GameMenuMessages selectBuilding(int x, int y, Empire currentPlayerEmpire) {
         Building building;
-        if (invalidPosition(x, y)) {
+        if (positionIsInvalid(x, y)) {
             return GameMenuMessages.INVALID_POSITION;
         }
         Cell chosenCell = map.getCell(x, y);
@@ -81,7 +81,7 @@ public class GameMenuController {
         return GameMenuMessages.SUCCESS;
     }
 
-    private static boolean invalidPosition(int x, int y) {
+    private static boolean positionIsInvalid(int x, int y) {
         return x <= 0 || y <= 0
                 || x > map.getWidth()
                 || y > map.getWidth();

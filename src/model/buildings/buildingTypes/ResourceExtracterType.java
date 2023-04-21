@@ -5,7 +5,7 @@ import model.buildings.BuildingType;
 
 public enum ResourceExtracterType {
     //TODO split this class
-    PITCH_RIG(0, null,"pitchRig"),
+    PITCH_RIG(0, null, "pitchRig"),
     OX_TETHER(0, null, "oxTether"),
     QUARRY(0, null, "quarry"),
     WOOD_CUTTER(0, null, "woodCutter"),
@@ -34,13 +34,17 @@ public enum ResourceExtracterType {
         this.buildingType = buildingType;
         Building.addToValidBuildingNames(buildingName, 5);
     }
-    public static void enumBuilder() {}
+
+    public static void enumBuilder() {
+    }
+
     public static ResourceExtracterType getResourceExtracterTypeByBuildingName(String buildingName) {
-        for (ResourceExtracterType resourceExtracterType: ResourceExtracterType.values()) {
+        for (ResourceExtracterType resourceExtracterType : ResourceExtracterType.values()) {
             if (resourceExtracterType.name.equals(buildingName)) return resourceExtracterType;
         }
         return null;
     }
+
     public int getRate() {
         return rate;
     }

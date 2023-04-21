@@ -7,9 +7,10 @@ import model.buildings.buildingTypes.OtherBuildingsType;
 public class OtherBuildings extends Building {
     private final OtherBuildingsType otherBuildingsType;
 
-    public OtherBuildings(String buildingName, PlayerNumber playerNumber, int positionX, int positionY) {
-        super(OtherBuildingsType.getOtherBuildingTypeByBuildingName(buildingName).getBuildingType()
-                , playerNumber, positionX, positionY);
-        this.otherBuildingsType = OtherBuildingsType.getOtherBuildingTypeByBuildingName(buildingName);
+    public OtherBuildings
+            (OtherBuildingsType otherBuildingsType, PlayerNumber playerNumber, int positionX, int positionY) {
+
+        super(otherBuildingsType.getBuildingType(), playerNumber, positionX, positionY);
+        this.otherBuildingsType = otherBuildingsType;
     }
 }

@@ -4,7 +4,7 @@ import model.buildings.Building;
 import model.buildings.BuildingType;
 
 public enum StoreType {
-    ARMOURY(0, null,"armoury"),
+    ARMOURY(0, null, "armoury"),
     FOOD_STORE(0, null, "foodStore"),
     STOCK_PILE(0, null, "stockPile"),
     ;
@@ -19,13 +19,17 @@ public enum StoreType {
         this.buildingType = buildingType;
         Building.addToValidBuildingNames(buildingName, 7);
     }
-    public static void enumBuilder() {}
+
+    public static void enumBuilder() {
+    }
+
     public static StoreType getStoreTypeByBuildingName(String buildingName) {
-        for (StoreType storeType: StoreType.values()) {
+        for (StoreType storeType : StoreType.values()) {
             if (storeType.name.equals(buildingName)) return storeType;
         }
         return null;
     }
+
     public int getCapacity() {
         return capacity;
     }

@@ -4,7 +4,7 @@ import model.buildings.Building;
 import model.buildings.BuildingType;
 
 public enum ServiceType {
-    INN(0, 0, null,"inn"),
+    INN(0, 0, null, "inn"),
     ;
 
     private final int popularityRange;
@@ -19,13 +19,17 @@ public enum ServiceType {
         this.buildingType = buildingType;
         Building.addToValidBuildingNames(buildingName, 6);
     }
-    public static void enumBuilder() {}
+
+    public static void enumBuilder() {
+    }
+
     public static ServiceType getServiceTypeByBuildingName(String buildingName) {
-        for (ServiceType serviceType: ServiceType.values()) {
+        for (ServiceType serviceType : ServiceType.values()) {
             if (serviceType.name.equals(buildingName)) return serviceType;
         }
         return null;
     }
+
     public int getPopularityRange() {
         return popularityRange;
     }
