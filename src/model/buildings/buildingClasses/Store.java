@@ -8,9 +8,9 @@ public class Store extends Building {
     private final int capacity;
     private StoreType storeType;
 
-    public Store(String buildingName, PlayerNumber playerNumber, int positionX, int positionY) {
-        super(StoreType.getStoreTypeByBuildingName(buildingName).getBuildingType(), playerNumber, positionX, positionY);
-        this.storeType = StoreType.getStoreTypeByBuildingName(buildingName);
+    public Store(StoreType storeType, PlayerNumber playerNumber, int positionX, int positionY) {
+        super(storeType.getBuildingType(), playerNumber, positionX, positionY);
+        this.storeType = storeType;
         this.capacity = storeType.getCapacity();
     }
 }
