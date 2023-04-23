@@ -19,12 +19,17 @@ public class GameMenuController {
         return null;
     }
 
-    public static String showPopularityFactors() {
-        return null;
+    public static String showPopularityFactors(Empire empire) {
+        String output = "popularity factors:\n";
+        output += "factor 1: religion -> " + empire.getPopularityChange("religion") + "\n";
+        output += "factor 2: tax rate -> " + empire.getPopularityChange("tax") + "\n";
+        output += "factor 3: fear rate -> " + empire.getPopularityChange("fear") + "\n";
+        output += "factor 4: food variation -> " + empire.getPopularityChange("foodRate");
+        return output;
     }
 
-    public static int showPopularity() {
-        return 0;
+    public static int showPopularity(Empire empire) {
+        return empire.getPopularity();
     }
 
     public static String showFoodList() {

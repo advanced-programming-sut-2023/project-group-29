@@ -28,7 +28,7 @@ public enum AttackingBuildingType {
     public static void enumBuilder() {
     }
 
-    public static AttackingBuildingType getAttackingBuildingTypeByBuildingName(String buildingName) {
+    public static AttackingBuildingType getTypeByBuildingName(String buildingName) {
         for (AttackingBuildingType attackingBuildingType : AttackingBuildingType.values()) {
             if (attackingBuildingType.name.equals(buildingName)) return attackingBuildingType;
         }

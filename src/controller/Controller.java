@@ -1,8 +1,7 @@
 package controller;
 
 import model.buildings.buildingTypes.*;
-import view.GameMenu;
-import view.LoginMenu;
+import view.*;
 
 import java.util.Scanner;
 

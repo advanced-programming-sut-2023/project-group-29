@@ -27,7 +27,7 @@ public enum ProcessorType {
     public static void enumBuilder() {
     }
 
-    public static ProcessorType getProcessorTypeByBuildingName(String buildingName) {
+    public static ProcessorType getTypeByBuildingName(String buildingName) {
         for (ProcessorType processorType : ProcessorType.values()) {
             if (processorType.name.equals(buildingName)) return processorType;
         }

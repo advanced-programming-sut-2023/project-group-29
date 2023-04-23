@@ -21,7 +21,7 @@ public enum AccommodationType {
     public static void enumBuilder() {
     }
 
-    public static AccommodationType getAccommodationTypeByBuildingName(String buildingName) {
+    public static AccommodationType getTypeByBuildingName(String buildingName) {
         for (AccommodationType accommodationType : AccommodationType.values()) {
             if (accommodationType.name.equals(buildingName)) return accommodationType;
         }

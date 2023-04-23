@@ -23,7 +23,7 @@ public enum StoreType {
     public static void enumBuilder() {
     }
 
-    public static StoreType getStoreTypeByBuildingName(String buildingName) {
+    public static StoreType getTypeByBuildingName(String buildingName) {
         for (StoreType storeType : StoreType.values()) {
             if (storeType.name.equals(buildingName)) return storeType;
         }

@@ -38,7 +38,7 @@ public enum ResourceExtracterType {
     public static void enumBuilder() {
     }
 
-    public static ResourceExtracterType getResourceExtracterTypeByBuildingName(String buildingName) {
+    public static ResourceExtracterType getTypeByBuildingName(String buildingName) {
         for (ResourceExtracterType resourceExtracterType : ResourceExtracterType.values()) {
             if (resourceExtracterType.name.equals(buildingName)) return resourceExtracterType;
         }

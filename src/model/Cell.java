@@ -89,26 +89,19 @@ public class Cell {
         int x = this.getXPosition(), y = this.getYPosition();
         switch (buildingGroupNumber) {
             case 1 -> innerBuilding = new Accommodation
-                    (AccommodationType.getAccommodationTypeByBuildingName(buildingName),
-                            ownerPlayerNumber, x, y);
+                    (AccommodationType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
             case 2 -> innerBuilding = new AttackingBuilding
-                    (AttackingBuildingType.getAttackingBuildingTypeByBuildingName(buildingName),
-                            ownerPlayerNumber, x, y);
+                    (AttackingBuildingType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
             case 3 -> innerBuilding = new OtherBuildings
-                    (OtherBuildingsType.getOtherBuildingTypeByBuildingName(buildingName),
-                            ownerPlayerNumber, x, y);
+                    (OtherBuildingsType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
             case 4 -> innerBuilding = new Processor
-                    (ProcessorType.getProcessorTypeByBuildingName(buildingName),
-                            ownerPlayerNumber, x, y);
+                    (ProcessorType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
             case 5 -> innerBuilding = new ResourceExtracter
-                    (ResourceExtracterType.getResourceExtracterTypeByBuildingName(buildingName),
-                            ownerPlayerNumber, x, y);
+                    (ResourceExtracterType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
             case 6 -> innerBuilding = new Service
-                    (ServiceType.getServiceTypeByBuildingName(buildingName),
-                            ownerPlayerNumber, x, y);
+                    (ServiceType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
             case 7 -> innerBuilding = new Store
-                    (StoreType.getStoreTypeByBuildingName(buildingName),
-                            ownerPlayerNumber, x, y);
+                    (StoreType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
         }
     }
 

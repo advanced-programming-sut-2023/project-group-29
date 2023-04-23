@@ -23,7 +23,7 @@ public enum ServiceType {
     public static void enumBuilder() {
     }
 
-    public static ServiceType getServiceTypeByBuildingName(String buildingName) {
+    public static ServiceType getTypeByBuildingName(String buildingName) {
         for (ServiceType serviceType : ServiceType.values()) {
             if (serviceType.name.equals(buildingName)) return serviceType;
         }

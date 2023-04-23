@@ -5,6 +5,7 @@ import model.people.humanClasses.Soldier;
 import model.people.humanClasses.Worker;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Empire {
     private final ArrayList<Soldier> soldiers = new ArrayList<>();
@@ -13,11 +14,30 @@ public class Empire {
     private final int[] foods = new int[4];
     private int population;
     private int growthRate;
-    private int peopleSatisfaction;
+    private HashMap<String, Integer> popularityChange = new HashMap<>();
     private int wealth;
     private int tax;
     private int fear;
     private int foodRate;
+    private int popularity = 0;
+
+    //TODO: initialize correctly
+    //initialize popularity:
+    {
+        //TODO: initialize correctly
+        popularityChange.put("religion", 0);
+        popularityChange.put("tax", 0);
+        popularityChange.put("fear", 0);
+        popularityChange.put("foodRate", 0);
+    }
+
+    public int getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(int popularity) {
+        this.popularity = popularity;
+    }
 
     public int getPopulation() {
         return population;
@@ -25,14 +45,6 @@ public class Empire {
 
     public void setPopulation(int population) {
         this.population = population;
-    }
-
-    public int getPeopleSatisfaction() {
-        return peopleSatisfaction;
-    }
-
-    public void setPeopleSatisfaction(int peopleSatisfaction) {
-        this.peopleSatisfaction = peopleSatisfaction;
     }
 
     public int getWealth() {
@@ -93,6 +105,19 @@ public class Empire {
 
     public void addWorker(Worker worker) {
         workers.add(worker);
+    }
+
+    public int getPopularityChange(String cause) {
+        return popularityChange.get(cause);
+    }
+
+    public void adjustPopularity() {
+        //TODO: adjust numbers correctly:
+        popularityChange.replace("religion", 0);
+        popularityChange.replace("tax", 0);
+        popularityChange.replace("fear", 0);
+        popularityChange.replace("foodRate", foodRate * 4);
+        //TODO: affect it to real popularity.
     }
 
     public boolean hasEnoughStoneToRepair(Building building) {

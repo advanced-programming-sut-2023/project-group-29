@@ -23,7 +23,7 @@ public enum OtherBuildingsType {
     public static void enumBuilder() {
     }
 
-    public static OtherBuildingsType getOtherBuildingTypeByBuildingName(String buildingName) {
+    public static OtherBuildingsType getTypeByBuildingName(String buildingName) {
         for (OtherBuildingsType otherBuildingsType : OtherBuildingsType.values()) {
             if (otherBuildingsType.name.equals(buildingName)) return otherBuildingsType;
         }
