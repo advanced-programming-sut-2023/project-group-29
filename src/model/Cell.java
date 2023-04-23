@@ -33,6 +33,14 @@ public class Cell {
         this.ableToMoveOn= cellType.isAbleToMoveOn();
     }
 
+    public void removeDeadUnits()
+    {
+        movingObjects.removeIf(asset -> asset.isDead());
+        if(trap!=null && trap.isDead())
+            trap=null;
+        if(building!=null && building.isDead())
+            building=null;
+    }
     public ArrayList<Movable> getMovingObjectsOfPlayer(PlayerNumber playerNumber)
     {
         ArrayList<Movable> movables=new ArrayList<>();
@@ -84,12 +92,11 @@ public class Cell {
         //TODO has firing trap
         return true;
     }
-    public boolean shieldExistsInCell()
+    public boolean shieldExistsInCell(PlayerNumber playerNumber)
     {
-        //TODO this will not check that shield belong to who. it just defends all of people in it
         for (Asset movingObject:movingObjects)
         {
-            if(movingObject instanceof Equipments)
+            if(movingObject instanceof Equipments && movingObject.getOwnerNumber().equals(playerNumber))
             {
                 Equipments equipment=(Equipments) movingObject;
 

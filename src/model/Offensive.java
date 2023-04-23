@@ -5,13 +5,12 @@ public interface Offensive
     public enum AttackingResult{
         SUCCESSFUL,
         INVALID_INDEX,
-        //EMPTY_CELL,
         TOO_FAR
     }
+    public static final int decreasingFactorForAirDamageDueToShield=1;  //TODO reasonable value
+    public AttackingResult canAttack(Map map, int targetX, int targetY);
 
-    public AttackingResult attack(Map map, int targetX, int targetY);
-
-    public static AttackingResult attack(Map map, Asset asset, int aimRange, int targetX, int targetY)
+    public static AttackingResult canAttack(Map map, Asset asset, int aimRange, int targetX, int targetY)
     {
         int currentX=asset.getPositionX();
         int currentY=asset.getPositionY();
@@ -27,8 +26,8 @@ public interface Offensive
             return AttackingResult.TOO_FAR;
 
         //TODO extra distance for taller towers
-
         return AttackingResult.SUCCESSFUL;
     }
     public int getDamage();
+    public boolean isArcherType();
 }

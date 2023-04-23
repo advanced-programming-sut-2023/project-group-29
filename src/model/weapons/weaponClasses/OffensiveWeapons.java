@@ -25,9 +25,9 @@ public class OffensiveWeapons extends Weapon implements Movable,Offensive
     {
         return Movable.move(map,this,speed,false,destinationX,destinationY);
     }
-    public AttackingResult attack(Map map, int targetX, int targetY)
+    public AttackingResult canAttack(Map map, int targetX, int targetY)
     {
-        return Offensive.attack(map,this,aimRange,targetX,targetY);
+        return Offensive.canAttack(map,this,aimRange,targetX,targetY);
     }
 
     @Override
@@ -39,6 +39,11 @@ public class OffensiveWeapons extends Weapon implements Movable,Offensive
     public int getAimRange()
     {
         return aimRange;
+    }
+    public boolean isArcherType()
+    {
+        //TODO
+        return true;
     }
 
     public OffensiveWeaponsType getOffensiveWeaponsType()

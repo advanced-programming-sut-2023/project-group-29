@@ -29,4 +29,9 @@ public class Trap extends Weapon {
     public TrapType getTrapType() {
         return trapType;
     }
+    public boolean isArcherType()
+    {
+        //TODO
+        return true;
+    }
 }

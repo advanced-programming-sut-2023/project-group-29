@@ -13,7 +13,6 @@ public class Human extends Asset implements Movable
 
     //TODO speed type slow, middle, fast and convert to number
     protected State state = State.STANDING;
-    protected int hp;
     protected boolean ableToClimbLadder;
     protected int speed;
     private boolean patrolling;
@@ -31,11 +30,6 @@ public class Human extends Asset implements Movable
         return Movable.move(map,this,speed,ableToClimbLadder,destinationX,destinationY);
     }
 
-    public int getHp()
-    {
-        return hp;
-    }
-
     public boolean isAbleToClimbLadder()
     {
         return ableToClimbLadder;
@@ -49,11 +43,6 @@ public class Human extends Asset implements Movable
     public void setState(State state)
     {
         this.state = state;
-    }
-
-    public void changeHp(int amount)
-    {
-        hp += amount;
     }
 
     public boolean isAlive()

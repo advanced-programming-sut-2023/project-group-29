@@ -2,6 +2,7 @@ package model;
 
 public interface Movable
 {
+    //TODO handle portable tower. it should not been allowed to go in a building because it is a building
     public enum MovingResult{
         SUCCESSFUL,
         INVALID_INDEX,
@@ -15,7 +16,7 @@ public interface Movable
         int currentX=asset.getPositionX();
         int currentY=asset.getPositionY();
 
-        if (destinationX < 1 || destinationY < 1 || destinationX > map.getWidth() || destinationY > map.getWidth())
+        if(!map.isIndexValid(destinationX,destinationY))
             return MovingResult.INVALID_INDEX;
 
         Cell destinationCell = map.getCells()[destinationX][destinationY];

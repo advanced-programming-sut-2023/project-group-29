@@ -2,14 +2,8 @@ package controller;
 
 import model.*;
 import model.Map;
-import model.people.Human;
-import model.people.humanClasses.Soldier;
-import model.weapons.Weapon;
-import view.GameMenu;
-import view.ProfileMenu;
 
 import java.util.*;
-import java.util.regex.Matcher;
 
 public class SelectMenuController {
     public static void createUnit() {
@@ -104,58 +98,107 @@ public class SelectMenuController {
         int currentY= gameData.getSelectedCellY();
 
         Map map= gameData.getMap();
+        if(!map.isIndexValid(targetX,targetY))
+            return "Your target index is invalid!";
 
         //create attacking objects list
         Cell currentCell=map.getCells()[currentX][currentY];
-        ArrayList<Offensive> attackingObjects=currentCell.getAttackingListOfPlayerNumber(gameData.getPlayerOfTurn());
+        ArrayList<Offensive> currentPlayerAttackers=currentCell.getAttackingListOfPlayerNumber(gameData.getPlayerOfTurn());
 
         //create enemy objects list
         Cell targetCell=map.getCells()[targetX][targetY];
         ArrayList<Asset> enemies=targetCell.getEnemiesOfPlayerInCell(gameData.getPlayerOfTurn());
 
-        boolean targetCellHasBuilding= targetCell.hasBuilding();
-        boolean targetCellHasFiringTrap=targetCell.hasFiringTrap();
-        boolean portableShieldExistsInTargetCell=targetCell.shieldExistsInCell();
 
-        //calculate total damage
+        //TODO firing the trap
 
-        int totalDamage=0;
-        int failures=0;
-        for(Offensive attackingObject:attackingObjects)
-        {
-            Offensive.AttackingResult attackingResult=attackingObject.attack(map,targetX,targetY);
-
-            switch (attackingResult)
-            {
-                case SUCCESSFUL:
-                    if(attackingObject instanceof Soldier)
-                        totalDamage+=((Soldier)attackingObject).getFormulatedDamage(portableShieldExistsInTargetCell);
-                    else totalDamage+=attackingObject.getDamage();
-                    break;
-                case INVALID_INDEX:
-                    return "Your target index is invalid!";
-                case TOO_FAR:
-                    failures++;
-                    break;
-            }
-        }
 
         //apply attack
         //TODO this is a simple implementation which decrease from every unit equally
         //if a unit is near to death or not, makes no change for others
+        DamageStruct totalDamage=findTotalDamage(currentPlayerAttackers,map,targetX,targetY);
+        applyAttackDamage(enemies,totalDamage,targetCell);
+        int currentPlayerFailures=totalDamage.failures;
 
+        //apply back attack
+        DamageStruct counterAttackTotalDamage=new DamageStruct();
+        DamageStruct partialDamage=new DamageStruct();
 
+        for(PlayerNumber playerNumber:PlayerNumber.values())
+        {
+            if(playerNumber.equals(gameData.getPlayerOfTurn()))
+                continue;
 
-        //apply de attack
+            ArrayList<Offensive> playerAttackers=targetCell.getAttackingListOfPlayerNumber(playerNumber);
+            partialDamage=findTotalDamage(playerAttackers,map,currentX,currentY);
+            counterAttackTotalDamage.add(partialDamage);
+        }
 
-
+        applyAttackDamage(OffensiveArrayListToAssetArrayList(currentPlayerAttackers),counterAttackTotalDamage,currentCell);
 
         //results
-        if(failures==0)
+        if(currentPlayerFailures==0)
             return "All units attacked successfully!";
 
-        int totalAttackingEfforts=attackingObjects.size();
-        return (totalAttackingEfforts-failures)+" troops out of "+totalAttackingEfforts+" attacked successfully!";
+        int totalAttackingEfforts=currentPlayerAttackers.size();
+        return (totalAttackingEfforts-currentPlayerFailures)+" troops out of "+totalAttackingEfforts+" attacked successfully!";
+    }
+    private static ArrayList<Asset> OffensiveArrayListToAssetArrayList(ArrayList<Offensive> attackers)
+    {
+        ArrayList<Asset> assets=new ArrayList<>();
+        for(Offensive attacker:attackers)
+            assets.add((Asset) attacker);
+        return assets;
+    }
+    private static void applyAttackDamage(ArrayList<Asset> assets,DamageStruct damageStruct,Cell damagedCell)
+    {
+        boolean[] playerHasShieldInCell=new boolean[9];
+        for(int i=1;i<=8;i++)
+            playerHasShieldInCell[i]=damagedCell.shieldExistsInCell(PlayerNumber.getPlayerByIndex(i));
+
+        for(Asset asset:assets)
+        {
+            asset.decreaseHp(damageStruct.landDamage);
+            if(playerHasShieldInCell[asset.getOwnerNumber().getNumber()])
+                asset.decreaseHp(damageStruct.airDamage/Offensive.decreasingFactorForAirDamageDueToShield);
+            else asset.decreaseHp(damageStruct.airDamage);
+        }
+    }
+    private static DamageStruct findTotalDamage(ArrayList<Offensive> attackers,Map map,int targetX,int targetY)
+    {
+        DamageStruct damageStruct=new DamageStruct();
+
+        for(Offensive attacker:attackers)
+        {
+            Offensive.AttackingResult attackingResult=attacker.canAttack(map,targetX,targetY);
+
+            switch (attackingResult)
+            {
+                case SUCCESSFUL:
+                    if(attacker.isArcherType())
+                        damageStruct.airDamage+=attacker.getDamage();
+                    else
+                        damageStruct.landDamage+=attacker.getDamage();
+                    break;
+                case TOO_FAR:
+                    damageStruct.failures++;
+                    break;
+            }
+        }
+
+        return damageStruct;
+    }
+    static class DamageStruct
+    {
+        public int landDamage=0;
+        public int airDamage=0;
+        public int failures=0;
+        public void add(DamageStruct secondDamageStruct)
+        {
+            landDamage+=secondDamageStruct.landDamage;
+            airDamage+=secondDamageStruct.airDamage;
+            failures+=secondDamageStruct.failures;
+        }
     }
 
     public static void pourOil(){}

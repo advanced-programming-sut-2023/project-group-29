@@ -22,9 +22,9 @@ public class Soldier extends Human implements Offensive
         this.damage = soldierType.getDamage();
         this.aimRange = soldierType.getAimRange();
     }
-    public AttackingResult attack(Map map, int targetX, int targetY)
+    public AttackingResult canAttack(Map map, int targetX, int targetY)
     {
-        return Offensive.attack(map,this,aimRange,targetX,targetY);
+        return Offensive.canAttack(map,this,aimRange,targetX,targetY);
     }
 
     public boolean isArcherType()
@@ -34,12 +34,6 @@ public class Soldier extends Human implements Offensive
         return true;
     }
 
-    public int getFormulatedDamage(boolean enemyHasPortableShield)
-    {
-        if(this.isArcherType() && enemyHasPortableShield)
-            return damage/decreasingFactorOfShieldForArchers;
-        return damage;
-    }
     public int getDamage() {
         return damage;
     }
