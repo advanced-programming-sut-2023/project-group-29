@@ -16,8 +16,8 @@ public class Empire {
     private int growthRate;
     private HashMap<String, Integer> popularityChange = new HashMap<>();
     private int wealth;
-    private int tax;
-    private int fear;
+    private int taxRate;
+    private int fearRate;
     private int foodRate;
     private int popularity = 0;
 
@@ -55,24 +55,20 @@ public class Empire {
         this.wealth = wealth;
     }
 
-    public int getTax() {
-        return tax;
+    public int getTaxRate() {
+        return taxRate;
     }
 
-    public void setTax(int tax) {
-        this.tax = tax;
+    public void setTaxRate(int taxRate) {
+        this.taxRate = taxRate;
     }
 
-    public int getFear() {
-        return fear;
+    public void setFearRate(int fearRate) {
+        this.fearRate = fearRate;
     }
 
-    public void setFear(int fear) {
-        this.fear = fear;
-    }
-
-    public int[] getFoods() {
-        return foods;
+    public int getFoodsCount(int type) {
+        return foods[type - 1];
     }
 
     public int getFoodRate() {

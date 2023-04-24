@@ -28,32 +28,40 @@ public class GameMenuController {
         return output;
     }
 
-    public static int showPopularity(Empire empire) {
-        return empire.getPopularity();
+    public static String showPopularity(Empire empire) {
+        return "Your popularity: " + empire.getPopularity();
     }
 
-    public static String showFoodList() {
-        return null;
+    public static String showFoodList(Empire empire) {
+        String output = "food list:\n";
+        output += "food 1 -> count: " + empire.getFoodsCount(1) + "\n";
+        output += "food 2 -> count: " + empire.getFoodsCount(2) + "\n";
+        output += "food 3 -> count: " + empire.getFoodsCount(3) + "\n";
+        output += "food 4 -> count: " + empire.getFoodsCount(4);
+        return output;
     }
 
-    public static String determinationOfFoodRate(Matcher matcher) {
-        return null;
+    public static GameMenuMessages determinationOfFoodRate(Empire empire, int foodRate) {
+        empire.setFoodRate(foodRate);
+        return GameMenuMessages.SUCCESS;
     }
 
-    public static String foodRateShow() {
-        return null;
+    public static String foodRateShow(Empire empire) {
+        return "Your food rate: " + empire.getFoodRate();
     }
 
-    public static String determinationOfTaxRate(Matcher matcher) {
-        return null;
+    public static GameMenuMessages determinationOfTaxRate(Empire empire, int taxRate) {
+        empire.setTaxRate(taxRate);
+        return GameMenuMessages.SUCCESS;
     }
 
-    public static String TaxRateShow() {
-        return null;
+    public static String TaxRateShow(Empire empire) {
+        return "Your tax rate: " + empire.getTaxRate();
     }
 
-    public static String determinationOfFareRate(Matcher matcher) {
-        return null;
+    public static GameMenuMessages determinationOfFareRate(Empire empire, int fareRate) {
+        empire.setFearRate(fareRate);
+        return GameMenuMessages.SUCCESS;
     }
 
     public static GameMenuMessages dropBuilding(int x, int y, String buildingName, PlayerNumber playerNumber) {
