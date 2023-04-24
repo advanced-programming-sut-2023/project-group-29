@@ -1,22 +1,11 @@
 package model;
 
-public interface Movable
-{
-    //TODO handle portable tower. it should not been allowed to go in a building because it is a building
-    public enum MovingResult{
-        SUCCESSFUL,
-        INVALID_INDEX,
-        BAD_PLACE,
-        TOO_FAR
-    }
-    public MovingResult move(Map map,int destinationX,int destinationY);
+public interface Movable {
+    static MovingResult move(Map map, Asset asset, int speed, boolean ableToClimbLadder, int destinationX, int destinationY) {
+        int currentX = asset.getPositionX();
+        int currentY = asset.getPositionY();
 
-    public static MovingResult move(Map map,Asset asset,int speed,boolean ableToClimbLadder,int destinationX,int destinationY)
-    {
-        int currentX=asset.getPositionX();
-        int currentY=asset.getPositionY();
-
-        if(!map.isIndexValid(destinationX,destinationY))
+        if (!map.isIndexValid(destinationX, destinationY))
             return MovingResult.INVALID_INDEX;
 
         Cell destinationCell = map.getCells()[destinationX][destinationY];
@@ -24,7 +13,7 @@ public interface Movable
             return MovingResult.BAD_PLACE;
         if (!destinationCell.getBuilding().getOwnerNumber().equals(asset.getOwnerNumber()))
             return MovingResult.BAD_PLACE;
-        if(destinationCell.getTrap()!=null && destinationCell.getTrap().getOwnerNumber().equals(asset.getOwnerNumber()))
+        if (destinationCell.getTrap() != null && destinationCell.getTrap().getOwnerNumber().equals(asset.getOwnerNumber()))
             return MovingResult.BAD_PLACE;
 
         int destinationDistance = map.distanceOfTwoCellsForMoving(currentX, currentY, destinationX, destinationY, ableToClimbLadder);
@@ -36,5 +25,15 @@ public interface Movable
         asset.setPositionY(destinationY);
 
         return MovingResult.SUCCESSFUL;
+    }
+
+    MovingResult move(Map map, int destinationX, int destinationY);
+
+    //TODO handle portable tower. it should not been allowed to go in a building because it is a building
+    enum MovingResult {
+        SUCCESSFUL,
+        INVALID_INDEX,
+        BAD_PLACE,
+        TOO_FAR
     }
 }

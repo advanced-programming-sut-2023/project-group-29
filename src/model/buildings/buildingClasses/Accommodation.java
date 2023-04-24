@@ -8,7 +8,7 @@ public class Accommodation extends Building {
     private final AccommodationType accommodationType;
     private final int numberOfSettler;
 
-    public Accommodation(AccommodationType accommodationType, PlayerNumber playerNumber,int positionX,int positionY) {
+    public Accommodation(AccommodationType accommodationType, PlayerNumber playerNumber, int positionX, int positionY) {
         super(accommodationType.getBuildingType(), playerNumber, positionX, positionY);
 
         this.accommodationType = accommodationType;

@@ -16,7 +16,7 @@ public class Empire {
     private int wealth;
     private int tax;
     private int fear;
-    private int[] foods = new int[4];
+    private final int[] foods = new int[4];
     private int foodRate;
 
     public int getPopulation() {

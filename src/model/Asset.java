@@ -1,19 +1,18 @@
 package model;
 
 public class Asset {
+    protected int hp;
     private Empire ownerEmpire;
-    private PlayerNumber ownerNumber;
+    private final PlayerNumber ownerNumber;
     private int positionX;
     private int positionY;
-    protected int hp;
 
-    public Asset(PlayerNumber ownerNumber,int positionX,int positionY) {
+    public Asset(PlayerNumber ownerNumber, int positionX, int positionY) {
         this.ownerNumber = ownerNumber;
         //TODO: set empire from number
     }
 
-    public Empire getOwnerEmpire()
-    {
+    public Empire getOwnerEmpire() {
         return ownerEmpire;
     }
 
@@ -21,38 +20,31 @@ public class Asset {
         return ownerNumber;
     }
 
-    public int getPositionX()
-    {
+    public int getPositionX() {
         return positionX;
     }
 
-    public void setPositionX(int positionX)
-    {
+    public void setPositionX(int positionX) {
         this.positionX = positionX;
     }
 
-    public int getPositionY()
-    {
+    public int getPositionY() {
         return positionY;
     }
 
-    public void setPositionY(int positionY)
-    {
+    public void setPositionY(int positionY) {
         this.positionY = positionY;
     }
 
-    public int getHp()
-    {
+    public int getHp() {
         return hp;
     }
-    public void decreaseHp(int amount)
-    {
-        hp-=amount;
+
+    public void decreaseHp(int amount) {
+        hp -= amount;
     }
-    public boolean isDead()
-    {
-        if(hp<=0)
-            return true;
-        return false;
+
+    public boolean isDead() {
+        return hp <= 0;
     }
 }

@@ -1,14 +1,13 @@
 package model;
 
 public class Trade {
-    private PlayerNumber senderPlayer;
-    private PlayerNumber receiverPlayer;
-    private int price;
-    private Resource resource;
-    private int count;
+    private final PlayerNumber senderPlayer;
+    private final PlayerNumber receiverPlayer;
+    private final int price;
+    private final Resource resource;
+    private final int count;
 
-    public Trade(PlayerNumber senderPlayer, PlayerNumber receiverPlayer, int price, Resource resource, int count)
-    {
+    public Trade(PlayerNumber senderPlayer, PlayerNumber receiverPlayer, int price, Resource resource, int count) {
         this.senderPlayer = senderPlayer;
         this.receiverPlayer = receiverPlayer;
         this.price = price;
@@ -16,28 +15,23 @@ public class Trade {
         this.count = count;
     }
 
-    public PlayerNumber getSenderPlayer()
-    {
+    public PlayerNumber getSenderPlayer() {
         return senderPlayer;
     }
 
-    public PlayerNumber getReceiverPlayer()
-    {
+    public PlayerNumber getReceiverPlayer() {
         return receiverPlayer;
     }
 
-    public int getPrice()
-    {
+    public int getPrice() {
         return price;
     }
 
-    public Resource getCommodity()
-    {
+    public Resource getCommodity() {
         return resource;
     }
 
-    public int getCount()
-    {
+    public int getCount() {
         return count;
     }
 }

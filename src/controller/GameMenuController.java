@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 public class GameMenuController {
 
     private static GameData gameData;
+
     public static ArrayList<Cell> showMap(Matcher matcher) {
         return null;
     }
@@ -51,18 +52,22 @@ public class GameMenuController {
     public static void selectBuilding() {
     }
 
-    public static void selectUnit() {}
+    public static void selectUnit() {
+    }
 
-    public static void trade(){}
+    public static void trade() {
+    }
 
-    public static void showTradeList(){}
+    public static void showTradeList() {
+    }
 
-    public static void tradeAccept(){}
+    public static void tradeAccept() {
+    }
 
-    public static void tradeHistory(){}
+    public static void tradeHistory() {
+    }
 
-    public static GameData getGameData()
-    {
+    public static GameData getGameData() {
         return gameData;
     }
 }
