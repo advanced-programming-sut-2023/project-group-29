@@ -11,14 +11,14 @@ public class LoginMenu {
     public static MenuNames run(Scanner scanner) {
         Matcher matcher;
         String input = scanner.nextLine();
-        if(Command.getMatcher(input, Command.USER_CREATE) != null) {
-            System.out.println(LoginMenuController.createUser(Command.getMatcher(input, Command.USER_CREATE)));
+        if((matcher = Command.getMatcher(input, Command.USER_CREATE)) != null) {
+            System.out.println(LoginMenuController.createUser(matcher));
         }
-        else if (Command.getMatcher(input, Command.EXIT) != null) {
+        else if ((matcher = Command.getMatcher(input, Command.EXIT)) != null) {
             return MenuNames.EXIT;
         }
-        else if (Command.getMatcher(input, Command.LOGIN) != null) {
-            String output = LoginMenuController.login(Command.getMatcher(input, Command.LOGIN));
+        else if ((matcher = Command.getMatcher(input, Command.LOGIN)) != null) {
+            String output = LoginMenuController.login(matcher);
             System.out.println(output);
             if (output.equals("user logged in successfully!")) {
                 AppData.setDelayInLogin(0);
@@ -32,8 +32,8 @@ public class LoginMenu {
                 }catch(Exception e){}
             }
         }
-        else if (Command.getMatcher(input, Command.FORGET_PASSWORD) != null) {
-            System.out.println(LoginMenuController.forgottenPassword(Command.getMatcher(input, Command.FORGET_PASSWORD)));
+        else if ((matcher = Command.getMatcher(input, Command.FORGET_PASSWORD)) != null) {
+            System.out.println(LoginMenuController.forgottenPassword(matcher));
         }
         else {
             System.out.println("Invalid command!");

@@ -46,7 +46,7 @@ public class GameMenuController {
         return GameMenuMessages.SUCCESS;
     }
 
-    public static String foodRateShow(Empire empire) {
+    public static String showFoodRate(Empire empire) {
         return "Your food rate: " + empire.getFoodRate();
     }
 
@@ -55,11 +55,11 @@ public class GameMenuController {
         return GameMenuMessages.SUCCESS;
     }
 
-    public static String TaxRateShow(Empire empire) {
+    public static String showTaxRate(Empire empire) {
         return "Your tax rate: " + empire.getTaxRate();
     }
 
-    public static GameMenuMessages determinationOfFareRate(Empire empire, int fareRate) {
+    public static GameMenuMessages determinationOfFearRate(Empire empire, int fareRate) {
         empire.setFearRate(fareRate);
         return GameMenuMessages.SUCCESS;
     }

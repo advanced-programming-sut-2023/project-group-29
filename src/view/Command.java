@@ -24,7 +24,24 @@ public enum Command {
     DISPLAY_PROFILE("\\s*profile\\s+display\\s*"),
     BACK_MAIN_MENU("\\s*back\\s*"),
 
-    SHOW_MAP("show map -x (?<xAmount>\\d+) -y (?<yAmount>\\d+)");
+    SHOW_MAP("show map -x (?<xAmount>\\d+) -y (?<yAmount>\\d+)"),
+    SHOW_POPULARITY_FACTORS(""),
+    SHOW_POPULARITY(""),
+    SHOW_FOOD_LIST(""),
+    SHOW_FOOD_RATE(""),
+    SHOW_TAX_RATE(""),
+    SET_FOOD_RATE(""),
+    SET_TAX_RATE(""),
+    SET_FEAR_RATE(""),
+    DROP_BUILDING(""),
+    SELECT_BUILDING(""),
+    SELECT_UNIT(""),
+    TRADE(""),
+    SHOW_TRADE_LIST(""),
+    TRADE_ACCEPT(""),
+    TRADE_HISTORY(""),
+
+    ;
     private final String regex;
 
     Command(String regex) {
