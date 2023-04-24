@@ -1,15 +1,13 @@
 package model;
 
-public enum Resource
-{
+public enum Resource {
     ;
-    private int buyingPrice;
-    private int sellingPrice;
+    private final int buyingPrice;
+    private final int sellingPrice;
 
-    private Resource(int buyingPrice, int sellingPrice)
-    {
-        this.buyingPrice=buyingPrice;
-        this.sellingPrice=sellingPrice;
+    Resource(int buyingPrice, int sellingPrice) {
+        this.buyingPrice = buyingPrice;
+        this.sellingPrice = sellingPrice;
     }
 
 }

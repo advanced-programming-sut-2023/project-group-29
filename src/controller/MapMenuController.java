@@ -120,17 +120,23 @@ public class MapMenuController {
     //TODO below functions should probably move to another menu
 
 
-    public static void setTexture(){}
+    public static void setTexture() {
+    }
 
-    public static void clear(){}
+    public static void clear() {
+    }
 
-    public static void dropRock(){}
+    public static void dropRock() {
+    }
 
-    public static void dropTree(){}
+    public static void dropTree() {
+    }
 
-    public static void dropBuilding(){}
+    public static void dropBuilding() {
+    }
 
-    public static void dropUnit(){}
+    public static void dropUnit() {
+    }
 
 
 }

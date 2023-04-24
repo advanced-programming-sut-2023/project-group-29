@@ -1,17 +1,15 @@
 package model.weapons.weaponClasses;
 
-import model.Map;
-import model.Offensive;
 import model.PlayerNumber;
-import model.weapons.weaponTypes.TrapType;
 import model.weapons.Weapon;
+import model.weapons.weaponTypes.TrapType;
 
 public class Trap extends Weapon {
     private final int damage;
     private final TrapType trapType;
 
-    public Trap(TrapType trapType, PlayerNumber playerNumber,int positionX,int positionY) {
-        super(trapType.getWeaponTypes(), playerNumber,positionX,positionY);
+    public Trap(TrapType trapType, PlayerNumber playerNumber, int positionX, int positionY) {
+        super(trapType.getWeaponTypes(), playerNumber, positionX, positionY);
 
         this.trapType = trapType;
         this.damage = trapType.getDamage();
@@ -29,8 +27,8 @@ public class Trap extends Weapon {
     public TrapType getTrapType() {
         return trapType;
     }
-    public boolean isArcherType()
-    {
+
+    public boolean isArcherType() {
         //TODO
         return true;
     }
