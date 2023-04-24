@@ -5,6 +5,8 @@ public class Asset {
     private PlayerNumber ownerNumber;
     private int positionX;
     private int positionY;
+    protected String showingSignInMap;
+    //TODO add this field to all enums
     protected int hp;
 
     public Asset(PlayerNumber ownerNumber,int positionX,int positionY) {
@@ -54,5 +56,10 @@ public class Asset {
         if(hp<=0)
             return true;
         return false;
+    }
+
+    public String getShowingSignInMap()
+    {
+        return showingSignInMap;
     }
 }

@@ -2,6 +2,7 @@ package controller;
 
 import model.*;
 import model.Map;
+import model.people.humanClasses.Soldier;
 
 import java.util.*;
 
@@ -176,9 +177,9 @@ public class SelectMenuController {
             {
                 case SUCCESSFUL:
                     if(attacker.isArcherType())
-                        damageStruct.airDamage+=attacker.getDamage();
+                        damageStruct.airDamage+=formulatedDamage(attacker);
                     else
-                        damageStruct.landDamage+=attacker.getDamage();
+                        damageStruct.landDamage+=formulatedDamage(attacker);
                     break;
                 case TOO_FAR:
                     damageStruct.failures++;
@@ -187,6 +188,13 @@ public class SelectMenuController {
         }
 
         return damageStruct;
+    }
+    private static int formulatedDamage(Offensive attacker)
+    {
+        int fearRate=((Asset) attacker).getOwnerEmpire().getFear();
+        if(attacker instanceof Soldier)
+            return (attacker.getDamage()*(100+fearRate*5))/100;
+        return attacker.getDamage();
     }
     static class DamageStruct
     {

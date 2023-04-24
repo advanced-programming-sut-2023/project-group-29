@@ -19,18 +19,16 @@ public class Cell {
     private final ArrayList<Asset> movingObjects=new ArrayList<>();
     private Trap trap=null;
     private Building building = null;
-    private int speed;
-    private Color showingColor;
+//    private int speed;
     private CellType cellType;
-    private boolean ableToBuildOn;
-    private boolean ableToMoveOn;
+//    private boolean ableToBuildOn;
+//    private boolean ableToMoveOn;
     public Cell(CellType cellType)
     {
         this.cellType=cellType;
-        this.showingColor=cellType.getShowingColor();
-        this.speed=cellType.getSpeed();
-        this.ableToBuildOn=cellType.isAbleToBuildOn();
-        this.ableToMoveOn= cellType.isAbleToMoveOn();
+//        this.speed=cellType.getSpeed();
+//        this.ableToBuildOn=cellType.isAbleToBuildOn();
+//        this.ableToMoveOn= cellType.isAbleToMoveOn();
     }
 
     public void removeDeadUnits()
@@ -132,21 +130,13 @@ public class Cell {
         this.building = building;
     }
 
-    public int getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
-    public Color getShowingColor() {
-        return showingColor;
-    }
-
-    public void setShowingColor(Color showingColor) {
-        this.showingColor = showingColor;
-    }
+//    public int getSpeed() {
+//        return speed;
+//    }
+//
+//    public void setSpeed(int speed) {
+//        this.speed = speed;
+//    }
 
     public CellType getCellType()
     {
@@ -155,17 +145,16 @@ public class Cell {
 
     public boolean isAbleToBuildOn()
     {
-        return ableToBuildOn;
+        return cellType.isAbleToBuildOn();
     }
 
     public boolean isAbleToMoveOn()
     {
-        return ableToMoveOn;
+        return cellType.isAbleToMoveOn();
+    }
+    public ConsoleColors getShowingColor()
+    {
+        return cellType.getShowingColor();
     }
 
-    enum Color {
-        RED,
-        GREEN,
-        BLUE
-    }
 }
