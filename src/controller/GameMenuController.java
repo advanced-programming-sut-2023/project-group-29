@@ -60,7 +60,7 @@ public class GameMenuController {
         if (positionIsInvalid(x, y)) {
             return GameMenuMessages.INVALID_POSITION;
         }
-        Cell chosenCell = map.getCell(x, y);
+        Cell chosenCell = map.getCells()[x][y];
         if (!Building.isBuildingNameValid(buildingName)) {
             return GameMenuMessages.INVALID_TYPE;
         }
@@ -79,7 +79,7 @@ public class GameMenuController {
         if (positionIsInvalid(x, y)) {
             return GameMenuMessages.INVALID_POSITION;
         }
-        Cell chosenCell = map.getCell(x, y);
+        Cell chosenCell = map.getCells()[x][y];
         if ((building = chosenCell.getBuilding()) == null) {
             return GameMenuMessages.EMPTY_CELL;
         }

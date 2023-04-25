@@ -1,6 +1,11 @@
 package model;
 
-import model.buildings.Building;
+import model.buildings.*;
+import model.buildings.buildingClasses.ResourceExtracter;
+import model.buildings.buildingClasses.*;
+
+import model.buildings.buildingTypes.AttackingBuildingType;
+import model.buildings.buildingTypes.*;
 import model.people.humanClasses.Soldier;
 import model.people.humanClasses.Worker;
 import model.weapons.Weapon;
@@ -142,46 +147,47 @@ public class Cell {
         return cellType;
     }
 
-    public boolean isAbleToBuildOn()
-    {
+    public boolean isAbleToBuildOn() {
         return cellType.isAbleToBuildOn();
+    }
     public boolean isAbleToBuildOn(String type) {
         //TODO: complete this function
-        return ableToBuildOn;
+        return isAbleToBuildOn();
     }
 
     public boolean isAbleToMoveOn() {
         return cellType.isAbleToMoveOn();
-    }
-    public boolean isAbleToMoveOn() {
-        return ableToMoveOn;
     }
 
     public void makeBuilding(String buildingName, PlayerNumber ownerPlayerNumber) {
         int buildingGroupNumber = Building.getGroupNumberByBuildingName(buildingName);
         int x = this.getXPosition(), y = this.getYPosition();
         switch (buildingGroupNumber) {
-            case 1 -> innerBuilding = new Accommodation
+            case 1 -> building = new Accommodation
                     (AccommodationType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
-            case 2 -> innerBuilding = new AttackingBuilding
+            case 2 -> building = new AttackingBuilding
                     (AttackingBuildingType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
-            case 3 -> innerBuilding = new OtherBuildings
+            case 3 -> building = new OtherBuildings
                     (OtherBuildingsType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
-            case 4 -> innerBuilding = new Processor
+            case 4 -> building = new Processor
                     (ProcessorType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
-            case 5 -> innerBuilding = new ResourceExtracter
+            case 5 -> building = new ResourceExtracter
                     (ResourceExtracterType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
-            case 6 -> innerBuilding = new Service
+            case 6 -> building = new Service
                     (ServiceType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
-            case 7 -> innerBuilding = new Store
+            case 7 -> building = new Store
                     (StoreType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
         }
     }
 
-    enum Color {
-        RED,
-        GREEN,
-        BLUE
+    //TODO complete two functions below
+    private int getXPosition() {
+        return 1;
+    }
+    private int getYPosition() {
+        return 1;
+    }
+
     public ConsoleColors getShowingColor()
     {
         return cellType.getShowingColor();
