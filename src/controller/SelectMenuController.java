@@ -15,7 +15,8 @@ public class SelectMenuController {
         Empire ownerEmpire = building.getOwnerEmpire();
         if (!ownerEmpire.hasEnoughStoneToRepair(building)) {
             return SelectMenuMessages.LACK_OF_STONE;
-        } else if (building.isEnemyNearIt()) {
+        }
+        else if (building.isEnemyNearIt()) {
             return SelectMenuMessages.ENEMY_IS_NEAR;
         }
         building.repair();
