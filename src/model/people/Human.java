@@ -8,11 +8,9 @@ import model.PlayerNumber;
 public class Human extends Asset implements Movable {
     //TODO speed type slow, middle, fast and convert to number
     protected State state = State.STANDING;
-    protected int hp;
     protected boolean ableToClimbLadder;
     protected int speed;
     private boolean patrolling;
-
     protected Human(HumanType humanType, PlayerNumber playerNumber, int positionX, int positionY) {
         super(playerNumber, positionX, positionY);
         this.hp = humanType.getHp();
@@ -22,10 +20,6 @@ public class Human extends Asset implements Movable {
 
     public MovingResult move(Map map, int destinationX, int destinationY) {
         return Movable.move(map, this, speed, ableToClimbLadder, destinationX, destinationY);
-    }
-
-    public int getHp() {
-        return hp;
     }
 
     public boolean isAbleToClimbLadder() {
@@ -38,10 +32,6 @@ public class Human extends Asset implements Movable {
 
     public void setState(State state) {
         this.state = state;
-    }
-
-    public void changeHp(int amount) {
-        hp += amount;
     }
 
     public boolean isAlive() {

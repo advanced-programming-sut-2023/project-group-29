@@ -18,4 +18,8 @@ public class Equipments extends Weapon implements Movable {
     public MovingResult move(Map map, int destinationX, int destinationY) {
         return Movable.move(map, this, speed, false, destinationX, destinationY);
     }
+
+    public EquipmentsType getEquipmentsType() {
+        return equipmentsType;
+    }
 }

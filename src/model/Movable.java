@@ -5,18 +5,18 @@ public interface Movable {
         int currentX = asset.getPositionX();
         int currentY = asset.getPositionY();
 
-        if (destinationX < 1 || destinationY < 1 || destinationX > map.getWidth() || destinationY > map.getWidth())
+        if (!map.isIndexValid(destinationX, destinationY))
             return MovingResult.INVALID_INDEX;
 
-        Cell currentCell = map.getCells()[currentX][currentY];
-        if (currentCell.isAbleToMoveOn())
+        Cell destinationCell = map.getCells()[destinationX][destinationY];
+        if (destinationCell.isAbleToMoveOn())
             return MovingResult.BAD_PLACE;
-        if (!currentCell.getBuilding().getOwnerNumber().equals(asset.getOwnerNumber()))
+        if (!destinationCell.getBuilding().getOwnerNumber().equals(asset.getOwnerNumber()))
             return MovingResult.BAD_PLACE;
-        if (currentCell.getTrap() != null && currentCell.getTrap().getOwnerNumber().equals(asset.getOwnerNumber()))
+        if (destinationCell.getTrap() != null && destinationCell.getTrap().getOwnerNumber().equals(asset.getOwnerNumber()))
             return MovingResult.BAD_PLACE;
 
-        int destinationDistance = map.distanceOfTwoCells(currentX, currentY, destinationX, destinationY, ableToClimbLadder);
+        int destinationDistance = map.distanceOfTwoCellsForMoving(currentX, currentY, destinationX, destinationY, ableToClimbLadder);
 
         if (destinationDistance > speed)
             return MovingResult.TOO_FAR;
@@ -29,6 +29,7 @@ public interface Movable {
 
     MovingResult move(Map map, int destinationX, int destinationY);
 
+    //TODO handle portable tower. it should not been allowed to go in a building because it is a building
     enum MovingResult {
         SUCCESSFUL,
         INVALID_INDEX,

@@ -5,6 +5,9 @@ public class Asset {
     protected Empire ownerEmpire;
     private int positionX;
     private int positionY;
+    protected String showingSignInMap;
+    //TODO add this field to all enums
+    protected int hp;
 
     public Asset(PlayerNumber ownerNumber, int positionX, int positionY) {
         this.ownerNumber = ownerNumber;
@@ -33,5 +36,25 @@ public class Asset {
 
     public void setPositionY(int positionY) {
         this.positionY = positionY;
+    }
+
+    public int getHp()
+    {
+        return hp;
+    }
+    public void decreaseHp(int amount)
+    {
+        hp-=amount;
+    }
+    public boolean isDead()
+    {
+        if(hp<=0)
+            return true;
+        return false;
+    }
+
+    public String getShowingSignInMap()
+    {
+        return showingSignInMap;
     }
 }
