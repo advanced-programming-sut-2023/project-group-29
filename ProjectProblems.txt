@@ -4,3 +4,4 @@
 4.test graphic
 5.is it necessary to add a typeclass fields to its real class ????
 6.repetition of 7 part
+7.using empire and player number correctly!
