@@ -13,8 +13,11 @@ public class MainMenu {
             AppData.setStayLoggedIn(0);
             return MenuNames.LOGIN_MENU;
         } else if (Command.getMatcher(input, Command.ENTER_PROFILE_MENU) != null) {
-            System.out.println("You entered in profile menu successfully");
+            System.out.println("You entered profile menu successfully");
             return MenuNames.PROFILE_MENU;
+        } else if (Command.getMatcher(input, Command.START_GAME) != null) {
+            System.out.println("You have started a new game. GOOD LUCK!");
+            return MenuNames.GAME_MENU;
         } else {
             System.out.println("Invalid command!");
         }

@@ -217,7 +217,6 @@ public class LoginMenuController {
         String slogan = "";
         String newSlogan = "";
         if (matcherExistSlogan.matches()) {
-            System.out.println("1");
             if (!matcherSlogan.group(1).equals("random")) {
                 slogan = matcherSlogan.group(1);
                 for (int i = 0; i < slogan.length() - 1; i++) {

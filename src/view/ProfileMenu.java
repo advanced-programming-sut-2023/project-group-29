@@ -13,7 +13,7 @@ public class ProfileMenu {
         if (Command.getMatcher(input, Command.REMOVE_SLOGAN) != null) {
             System.out.println(ProfileMenuController.removeSlogan());
         } else if (Command.getMatcher(input, Command.BACK_MAIN_MENU) != null) {
-            System.out.println("You entered in main menu");
+            System.out.println("You entered main menu");
             return MenuNames.MAIN_MENU;
         } else if ((matcher = Command.getMatcher(input, Command.CHANGE_USERNAME)) != null) {
             System.out.println(ProfileMenuController.changeUsername(matcher));

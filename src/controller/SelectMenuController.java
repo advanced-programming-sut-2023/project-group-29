@@ -86,7 +86,7 @@ public class SelectMenuController {
         //TODO
     }
 
-    public static String MakeUnitAttacking(int targetX, int targetY) {
+    public static String makeUnitAttacking(int targetX, int targetY) {
         GameData gameData = GameMenuController.getGameData();
 
         int currentX = gameData.getSelectedCellX();
@@ -128,7 +128,7 @@ public class SelectMenuController {
             counterAttackTotalDamage.add(partialDamage);
         }
 
-        applyAttackDamage(OffensiveArrayListToAssetArrayList(currentPlayerAttackers), counterAttackTotalDamage, currentCell);
+        applyAttackDamage(offensiveArrayListToAssetArrayList(currentPlayerAttackers), counterAttackTotalDamage, currentCell);
 
         //results
         if (currentPlayerFailures == 0)
@@ -138,7 +138,7 @@ public class SelectMenuController {
         return (totalAttackingEfforts - currentPlayerFailures) + " troops out of " + totalAttackingEfforts + " attacked successfully!";
     }
 
-    private static ArrayList<Asset> OffensiveArrayListToAssetArrayList(ArrayList<Offensive> attackers) {
+    private static ArrayList<Asset> offensiveArrayListToAssetArrayList(ArrayList<Offensive> attackers) {
         ArrayList<Asset> assets = new ArrayList<>();
         for (Offensive attacker : attackers)
             assets.add((Asset) attacker);
