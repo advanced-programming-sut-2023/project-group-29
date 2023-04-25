@@ -1,106 +1,84 @@
 package model;
 
-import model.buildings.*;
-import model.buildings.buildingClasses.ResourceExtracter;
+import model.buildings.Building;
 import model.buildings.buildingClasses.*;
-
-import model.buildings.buildingTypes.AttackingBuildingType;
 import model.buildings.buildingTypes.*;
-import model.people.humanClasses.Soldier;
-import model.people.humanClasses.Worker;
-import model.weapons.Weapon;
 import model.weapons.weaponClasses.Equipments;
-import model.weapons.weaponClasses.OffensiveWeapons;
 import model.weapons.weaponClasses.Trap;
 
-import java.lang.ref.PhantomReference;
 import java.util.ArrayList;
-
-import static controller.GameMenuController.getGameData;
 
 
 public class Cell {
-    private final ArrayList<Asset> movingObjects=new ArrayList<>();
-    private Trap trap=null;
+    private final ArrayList<Asset> movingObjects = new ArrayList<>();
+    private Trap trap = null;
     private Building building = null;
-//    private int speed;
-    private CellType cellType;
-//    private boolean ableToBuildOn;
+    //    private int speed;
+    private final CellType cellType;
+
+    //    private boolean ableToBuildOn;
 //    private boolean ableToMoveOn;
-    public Cell(CellType cellType)
-    {
-        this.cellType=cellType;
+    public Cell(CellType cellType) {
+        this.cellType = cellType;
 //        this.speed=cellType.getSpeed();
 //        this.ableToBuildOn=cellType.isAbleToBuildOn();
 //        this.ableToMoveOn= cellType.isAbleToMoveOn();
     }
 
-    public void removeDeadUnits()
-    {
+    public void removeDeadUnits() {
         movingObjects.removeIf(asset -> asset.isDead());
-        if(trap!=null && trap.isDead())
-            trap=null;
-        if(building!=null && building.isDead())
-            building=null;
+        if (trap != null && trap.isDead())
+            trap = null;
+        if (building != null && building.isDead())
+            building = null;
     }
-    public ArrayList<Movable> getMovingObjectsOfPlayer(PlayerNumber playerNumber)
-    {
-        ArrayList<Movable> movables=new ArrayList<>();
-        for(Asset movingObject:movingObjects)
-        {
-            if(movingObject.getOwnerNumber().equals(playerNumber))
+
+    public ArrayList<Movable> getMovingObjectsOfPlayer(PlayerNumber playerNumber) {
+        ArrayList<Movable> movables = new ArrayList<>();
+        for (Asset movingObject : movingObjects) {
+            if (movingObject.getOwnerNumber().equals(playerNumber))
                 movables.add((Movable) movingObject);
         }
 
         return movables;
     }
 
-    public ArrayList<Asset> getEnemiesOfPlayerInCell(PlayerNumber playerNumber)
-    {
-        ArrayList<Asset> enemies=new ArrayList<>();
-        for(Asset movingObject:movingObjects)
-        {
-            if(!movingObject.getOwnerNumber().equals(playerNumber))
+    public ArrayList<Asset> getEnemiesOfPlayerInCell(PlayerNumber playerNumber) {
+        ArrayList<Asset> enemies = new ArrayList<>();
+        for (Asset movingObject : movingObjects) {
+            if (!movingObject.getOwnerNumber().equals(playerNumber))
                 enemies.add(movingObject);
         }
 
         return enemies;
     }
-    public ArrayList<Offensive> getAttackingListOfPlayerNumber(PlayerNumber playerNumber)
-    {
-        ArrayList<Offensive> attackingObjects=new ArrayList<>();
-        for(Asset movingObject:movingObjects)
-        {
-            if(movingObject.getOwnerNumber().equals(playerNumber) && movingObject instanceof Offensive)
+
+    public ArrayList<Offensive> getAttackingListOfPlayerNumber(PlayerNumber playerNumber) {
+        ArrayList<Offensive> attackingObjects = new ArrayList<>();
+        for (Asset movingObject : movingObjects) {
+            if (movingObject.getOwnerNumber().equals(playerNumber) && movingObject instanceof Offensive)
                 attackingObjects.add((Offensive) movingObject);
         }
 
         return attackingObjects;
     }
-    public boolean hasBuilding()
-    {
-        if(!building.equals(null))
-            return true;
-        return false;
+
+    public boolean hasBuilding() {
+        return !building.equals(null);
     }
-    public boolean hasTrap()
-    {
-        if(!trap.equals(null))
-            return true;
-        return false;
+
+    public boolean hasTrap() {
+        return !trap.equals(null);
     }
-    public boolean hasFiringTrap()
-    {
+
+    public boolean hasFiringTrap() {
         //TODO has firing trap
         return true;
     }
-    public boolean shieldExistsInCell(PlayerNumber playerNumber)
-    {
-        for (Asset movingObject:movingObjects)
-        {
-            if(movingObject instanceof Equipments && movingObject.getOwnerNumber().equals(playerNumber))
-            {
-                Equipments equipment=(Equipments) movingObject;
+
+    public boolean shieldExistsInCell(PlayerNumber playerNumber) {
+        for (Asset movingObject : movingObjects) {
+            if (movingObject instanceof Equipments equipment && movingObject.getOwnerNumber().equals(playerNumber)) {
 
                 //TODO complete if below for type portable shield
                 //if(equipment.getEquipmentsType().equals())
@@ -111,18 +89,15 @@ public class Cell {
         return false;
     }
 
-    public ArrayList<Asset> getMovingObjects()
-    {
+    public ArrayList<Asset> getMovingObjects() {
         return movingObjects;
     }
 
-    public Trap getTrap()
-    {
+    public Trap getTrap() {
         return trap;
     }
 
-    public void setTrap(Trap trap)
-    {
+    public void setTrap(Trap trap) {
         this.trap = trap;
     }
 
@@ -142,14 +117,14 @@ public class Cell {
 //        this.speed = speed;
 //    }
 
-    public CellType getCellType()
-    {
+    public CellType getCellType() {
         return cellType;
     }
 
     public boolean isAbleToBuildOn() {
         return cellType.isAbleToBuildOn();
     }
+
     public boolean isAbleToBuildOn(String type) {
         //TODO: complete this function
         return isAbleToBuildOn();
@@ -184,12 +159,12 @@ public class Cell {
     private int getXPosition() {
         return 1;
     }
+
     private int getYPosition() {
         return 1;
     }
 
-    public ConsoleColors getShowingColor()
-    {
+    public ConsoleColors getShowingColor() {
         return cellType.getShowingColor();
     }
 }

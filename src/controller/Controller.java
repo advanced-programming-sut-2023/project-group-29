@@ -1,8 +1,7 @@
 package controller;
 
 import model.buildings.buildingTypes.*;
-import view.GameMenu;
-import view.LoginMenu;
+import view.*;
 
 import java.util.Scanner;
 
@@ -14,20 +13,13 @@ public class Controller {
 
         while (true) {
             switch (menuNames) {
-                case LOGIN_MENU:
-                    menuNames = LoginMenu.run(scanner);
-                    break;
-                case GAME_MENU:
-                    menuNames = GameMenu.run(scanner);
-                    break;
-                case MAIN_MENU:
-                    menuNames = MainMenu.run(scanner);
-                    break;
-                case PROFILE_MENU:
-                    menuNames = ProfileMenu.run(scanner);
-                    break;
-                case EXIT:
+                case LOGIN_MENU -> menuNames = LoginMenu.run(scanner);
+                case GAME_MENU -> menuNames = GameMenu.run(scanner);
+                case MAIN_MENU -> menuNames = MainMenu.run(scanner);
+                case PROFILE_MENU -> menuNames = ProfileMenu.run(scanner);
+                case EXIT -> {
                     return;
+                }
             }
         }
     }

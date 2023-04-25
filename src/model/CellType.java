@@ -1,22 +1,20 @@
 package model;
 
-public enum CellType
-{
+public enum CellType {
     //LAKE,
     //MOUNTAIN;
     ;
 
     //private int speed;
-    private ConsoleColors showingColor;
-    private boolean ableToBuildOn;
-    private boolean ableToMoveOn;
+    private final ConsoleColors showingColor;
+    private final boolean ableToBuildOn;
+    private final boolean ableToMoveOn;
 
-    CellType(int speed,ConsoleColors showingColor,boolean ableToBuildOn,boolean ableToMoveOn)
-    {
+    CellType(int speed, ConsoleColors showingColor, boolean ableToBuildOn, boolean ableToMoveOn) {
         //this.speed=speed;
-        this.ableToBuildOn=ableToBuildOn;
-        this.ableToMoveOn=ableToMoveOn;
-        this.showingColor=showingColor;
+        this.ableToBuildOn = ableToBuildOn;
+        this.ableToMoveOn = ableToMoveOn;
+        this.showingColor = showingColor;
     }
 
 //    public int getSpeed()
@@ -24,18 +22,15 @@ public enum CellType
 //        return speed;
 //    }
 
-    public ConsoleColors getShowingColor()
-    {
+    public ConsoleColors getShowingColor() {
         return showingColor;
     }
 
-    public boolean isAbleToBuildOn()
-    {
+    public boolean isAbleToBuildOn() {
         return ableToBuildOn;
     }
 
-    public boolean isAbleToMoveOn()
-    {
+    public boolean isAbleToMoveOn() {
         return ableToMoveOn;
     }
 }

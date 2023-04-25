@@ -3,11 +3,11 @@ package model;
 public class Asset {
     private final PlayerNumber ownerNumber;
     protected Empire ownerEmpire;
-    private int positionX;
-    private int positionY;
     protected String showingSignInMap;
     //TODO add this field to all enums
     protected int hp;
+    private int positionX;
+    private int positionY;
 
     public Asset(PlayerNumber ownerNumber, int positionX, int positionY) {
         this.ownerNumber = ownerNumber;
@@ -38,23 +38,19 @@ public class Asset {
         this.positionY = positionY;
     }
 
-    public int getHp()
-    {
+    public int getHp() {
         return hp;
     }
-    public void decreaseHp(int amount)
-    {
-        hp-=amount;
-    }
-    public boolean isDead()
-    {
-        if(hp<=0)
-            return true;
-        return false;
+
+    public void decreaseHp(int amount) {
+        hp -= amount;
     }
 
-    public String getShowingSignInMap()
-    {
+    public boolean isDead() {
+        return hp <= 0;
+    }
+
+    public String getShowingSignInMap() {
         return showingSignInMap;
     }
 }

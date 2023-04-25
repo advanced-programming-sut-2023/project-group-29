@@ -1,9 +1,7 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.stream.Collector;
 
 public class AppData {
     public static ArrayList<User> users = new ArrayList<>();
@@ -12,8 +10,8 @@ public class AppData {
     public static int stayLoggedIn = 0;
 
     public static User getUserByUsername(String username) {
-        for(int i = 0; i < users.size(); i++) {
-            if(users.get(i).getUsername().equals(username)) {
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getUsername().equals(username)) {
                 return users.get(i);
             }
         }
@@ -21,8 +19,8 @@ public class AppData {
     }
 
     public static User getUserByEmail(String email) {
-        for(int i = 0; i < users.size(); i++) {
-            if(users.get(i).getEmail().toLowerCase().equals(email.toLowerCase())) {
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getEmail().equalsIgnoreCase(email)) {
                 return users.get(i);
             }
         }
@@ -59,12 +57,12 @@ public class AppData {
 
     public static ArrayList<User> sortUserByHighScore() {
         ArrayList<User> sortedUsers = new ArrayList<>();
-        for(int i = 0; i < users.size(); i++) {
+        for (int i = 0; i < users.size(); i++) {
             sortedUsers.add(users.get(i));
         }
-        for(int i = 0; i < users.size(); i++) {
-            for(int j = i + 1; j < users.size(); j++) {
-                if(sortedUsers.get(i).getHighScore() < sortedUsers.get(j).getHighScore()) {
+        for (int i = 0; i < users.size(); i++) {
+            for (int j = i + 1; j < users.size(); j++) {
+                if (sortedUsers.get(i).getHighScore() < sortedUsers.get(j).getHighScore()) {
                     Collections.swap(sortedUsers, i, j);
                 }
             }
@@ -73,8 +71,8 @@ public class AppData {
     }
 
     public static int rankOfUser(ArrayList<User> sortedUsers, String username) {
-        for(int i = 0; i < sortedUsers.size(); i++) {
-            if(sortedUsers.get(i).getUsername().equals(username)) {
+        for (int i = 0; i < sortedUsers.size(); i++) {
+            if (sortedUsers.get(i).getUsername().equals(username)) {
                 return i + 1;
             }
         }

@@ -15,7 +15,7 @@ public class User {
     private String email;
     //recovery question
     private String slogan;
-    private String securityQuestion;
+    private final String securityQuestion;
     private int highScore = 0;
 
     public User(String username, String password, String nickname, String email, String slogan, String securityQuestion) {
@@ -37,6 +37,10 @@ public class User {
 
     public String getUsername() {
         return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -73,10 +77,6 @@ public class User {
 
     public String getSecurityQuestion() {
         return securityQuestion;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public int getHighScore() {

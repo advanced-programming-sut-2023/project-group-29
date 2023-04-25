@@ -11,6 +11,7 @@ public class Human extends Asset implements Movable {
     protected boolean ableToClimbLadder;
     protected int speed;
     private boolean patrolling;
+
     protected Human(HumanType humanType, PlayerNumber playerNumber, int positionX, int positionY) {
         super(playerNumber, positionX, positionY);
         this.hp = humanType.getHp();

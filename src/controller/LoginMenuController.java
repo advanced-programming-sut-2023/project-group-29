@@ -16,27 +16,25 @@ public class LoginMenuController {
         int checkSmall = 0;
         int checkNumber = 0;
         int checkOddCharacter = 0;
-        if(password.length() >= 6) {
+        if (password.length() >= 6) {
             checkLengthOfPassword = 1;
         }
-        for(int i = 0; i < password.length(); i++) {
-            if((int)password.charAt(i) >= 65 && (int)password.charAt(i) <= 90) {
+        for (int i = 0; i < password.length(); i++) {
+            int passwordChar = (int) password.charAt(i);
+            if (passwordChar >= 65 && passwordChar <= 90) {
                 checkCapital = 1;
-            }
-            else if((int)password.charAt(i) >= 97 && (int)password.charAt(i) <= 122) {
+            } else if (passwordChar >= 97 && passwordChar <= 122) {
                 checkSmall = 1;
-            }
-            else if((int)password.charAt(i) >= 48 && (int)password.charAt(i) <= 57) {
+            } else if (passwordChar >= 48 && passwordChar <= 57) {
                 checkNumber = 1;
-            }
-            else {
+            } else {
                 checkOddCharacter = 1;
             }
         }
-        if(checkLengthOfPassword == 0) {
+        if (checkLengthOfPassword == 0) {
             return 0;
         }
-        if(!(checkCapital == 1 && checkSmall == 1 && checkNumber == 1 && checkOddCharacter == 1)) {
+        if (!(checkCapital == 1 && checkSmall == 1 && checkNumber == 1 && checkOddCharacter == 1)) {
             return 1;
         }
         return 2;
@@ -45,7 +43,7 @@ public class LoginMenuController {
     public static int checkEmailFormat(String email) {
         Pattern patternOfFormatOfEmail = Pattern.compile("\\S+@\\S+.\\S+");
         Matcher matcherOfFormatOfEmail = patternOfFormatOfEmail.matcher(email);
-        if(matcherOfFormatOfEmail.matches()) {
+        if (matcherOfFormatOfEmail.matches()) {
             return 1;
         }
         return 0;
@@ -56,39 +54,42 @@ public class LoginMenuController {
         Random random = new Random();
         int charAscii = 0;
         int myRandom = 0;
-        myRandom = random.nextInt() % 26; myRandom *= myRandom; charAscii = (myRandom % 26) + 65; output += (char)charAscii;
-        myRandom = random.nextInt() % 26; myRandom *= myRandom; charAscii = (myRandom % 26) + 65; output += (char)charAscii;
-        myRandom = random.nextInt() % 26; myRandom *= myRandom; charAscii = (myRandom % 26) + 65; output += (char)charAscii;
-        myRandom = random.nextInt() % 26; myRandom *= myRandom; charAscii = (myRandom % 26) + 97; output += (char)charAscii;
-        myRandom = random.nextInt() % 10; myRandom *= myRandom; charAscii = (myRandom % 10) + 48; output += (char)charAscii;
-        myRandom = random.nextInt() % 10; myRandom *= myRandom; charAscii = (myRandom % 10) + 48; output += (char)charAscii;
-        myRandom = random.nextInt() % 10; myRandom *= myRandom; charAscii = (myRandom % 10) + 48; output += (char)charAscii;
-        myRandom = random.nextInt() % 15; myRandom *= myRandom; charAscii = (myRandom % 15) + 33; output += (char)charAscii;
-
-        System.out.println("Your random password is: " + output);
-        System.out.println("Please re-enter your password here:");
+        output = addCharToPassword(random, output, 26, 65);
+        output = addCharToPassword(random, output, 26, 65);
+        output = addCharToPassword(random, output, 26, 65);
+        output = addCharToPassword(random, output, 26, 97);
+        output = addCharToPassword(random, output, 10, 48);
+        output = addCharToPassword(random, output, 10, 48);
+        output = addCharToPassword(random, output, 10, 48);
+        output = addCharToPassword(random, output, 15, 33);
+        output = "Your random password is: " + output + "Please re-enter your password here:";
+        System.out.println(output);
         Scanner scanner = new Scanner(System.in);
         String password = scanner.nextLine();
-        if(!password.equals(output)) {
+        if (!password.equals(output)) {
             return "Incorrect password!";
         }
         return output;
+    }
+
+    private static String addCharToPassword(Random random, String output, int n1, int n2) {
+        int myRandom = random.nextInt() % n1;
+        myRandom *= myRandom;
+        int charAscii = (myRandom % n1) + n2;
+        return output + (char) charAscii;
     }
 
     private static String createRandomSlogan() {
         Random random = new Random();
         int myRandom = random.nextInt();
         myRandom = myRandom % 5;
-        if(myRandom == 0) {
+        if (myRandom == 0) {
             return "This day, is a very bad day for our enemies!";
-        }
-        else if(myRandom == 1) {
+        } else if (myRandom == 1) {
             return "Our empire destroys its enemies!";
-        }
-        else if(myRandom == 2) {
+        } else if (myRandom == 2) {
             return "You are just a looser!";
-        }
-        else if(myRandom == 3) {
+        } else if (myRandom == 3) {
             return "We are winner!";
         }
         return "Us against whole of the world!";
@@ -101,31 +102,28 @@ public class LoginMenuController {
                     "was my first pet’s name? 3. What is my mother’s last name?");
             Scanner scanner = new Scanner(System.in);
             String input = scanner.nextLine();
-            Pattern pattern1 = Pattern.compile("question pick -q (?<questionNumber>\\d) -a (?<answer>\\S+) -c (?<answerconfirm>\\S+)");
-            Pattern pattern2 = Pattern.compile("question pick -a (?<answer>\\S+) -c (?<answerconfirm>\\S+) -q (?<questionNumber>\\d)");
+            String regex1 = "question pick -q (?<questionNumber>\\d) -a (?<answer>\\S+) -c (?<answerconfirm>\\S+)";
+            Pattern pattern1 = Pattern.compile(regex1);
+            String regex2 = "question pick -a (?<answer>\\S+) -c (?<answerconfirm>\\S+) -q (?<questionNumber>\\d)";
+            Pattern pattern2 = Pattern.compile(regex2);
             Matcher matcher1 = pattern1.matcher(input);
             Matcher matcher2 = pattern2.matcher(input);
-            if(matcher1.matches()) {
-                if(Integer.parseInt(matcher1.group(1)) > 3) {
+            if (matcher1.matches()) {
+                if (Integer.parseInt(matcher1.group(1)) > 3) {
                     System.out.println("Invalid number of question!");
-                }
-                else if(!matcher1.group(2).equals(matcher1.group(3))) {
+                } else if (!matcher1.group(2).equals(matcher1.group(3))) {
                     System.out.println("Please enter your answer confirm correctly");
-                }
-                else {
+                } else {
                     output = matcher1.group(1) + " " + matcher1.group(2);
                     break;
                 }
-            }
-            else if(matcher2.matches()) {
-                if(Integer.parseInt(matcher2.group(3)) > 3) {
+            } else if (matcher2.matches()) {
+                if (Integer.parseInt(matcher2.group(3)) > 3) {
                     System.out.println("Invalid number of question!");
-                }
-                else if(!matcher2.group(1).equals(matcher2.group(2))) {
+                } else if (!matcher2.group(1).equals(matcher2.group(2))) {
                     System.out.println("Please enter your answer confirm correctly");
-                }
-                else {
-                    output = matcher2.group(3) + " " +matcher2.group(1);
+                } else {
+                    output = matcher2.group(3) + " " + matcher2.group(1);
                     break;
                 }
             }
@@ -149,49 +147,49 @@ public class LoginMenuController {
         Matcher matcherExistPassword = patternExistPassword.matcher(input);
         Matcher matcherExistNickname = patternExistNickname.matcher(input);
         Matcher matcherExistEmail = patternExistEmail.matcher(input);
-        if(!(matcherExistUsername.find() && matcherExistPassword.find() &&
-             matcherExistNickname.find() && matcherExistEmail.find())) {
+        if (!(matcherExistUsername.find() && matcherExistPassword.find() &&
+                matcherExistNickname.find() && matcherExistEmail.find())) {
             return "Invalid command!";
         }
         Matcher matcherUsername = patternUsername.matcher(input);
-        if(!matcherUsername.find()) {
+        if (!matcherUsername.find()) {
             return "Fill your username";
         }
         Matcher matcherPassword = patternPassword.matcher(input);
-        if(!matcherPassword.find()) {
+        if (!matcherPassword.find()) {
             return "Fill your password";
         }
         Matcher matcherNickname = patternNickname.matcher(input);
-        if(!matcherNickname.find()) {
+        if (!matcherNickname.find()) {
             return "Fill your nickname";
         }
         Matcher matcherEmail = patternEmail.matcher(input);
-        if(!matcherEmail.find()) {
+        if (!matcherEmail.find()) {
             return "Fill your email";
         }
         Matcher matcherExistSlogan = patternExistSlogan.matcher(input);
         Matcher matcherSlogan = patternSlogan.matcher(input);
-        if(matcherExistSlogan.find() && !matcherSlogan.find()) {
+        if (matcherExistSlogan.find() && !matcherSlogan.find()) {
             return "Fill your slogan";
         }
         String username = matcherUsername.group(1);
         Pattern patternCheckUsername = Pattern.compile("\\w+");
         Matcher matcherCheckUsername = patternCheckUsername.matcher(username);
-        if(!matcherCheckUsername.matches()) {
+        if (!matcherCheckUsername.matches()) {
             return "Check format of your username";
         }
 
-        if(AppData.getUserByUsername(username) != null) {
+        if (AppData.getUserByUsername(username) != null) {
             System.out.println("This username is already exist! Do you want to have " + username + "1 as your username?");
             Scanner scanner = new Scanner(System.in);
             String newInput = scanner.nextLine();
-            if(!(newInput.equals("Yes") || newInput.equals("yes"))) {
+            if (!(newInput.equals("Yes") || newInput.equals("yes"))) {
                 return "Account didn't create!";
             }
             username = username + "1";
         }
         String password = matcherPassword.group(1);
-        if(!password.equals("random")) {
+        if (!password.equals("random")) {
             int checkPass = checkWeakPassword(password);
             if (checkPass == 0) {
                 return "Your password is short!";
@@ -202,37 +200,35 @@ public class LoginMenuController {
             if (!password.equals(passwordConfirmation)) {
                 return "Please enter password confirmation correctly!";
             }
-        }
-        else {
+        } else {
             password = createRandomPassword(username);
             if (password.equals("Incorrect password!")) {
                 return "Incorrect password!";
             }
         }
         String email = matcherEmail.group(1);
-        if(AppData.getUserByEmail(email) != null) {
+        if (AppData.getUserByEmail(email) != null) {
             return "This email is already exist!";
         }
-        if(checkEmailFormat(email) == 0) {
+        if (checkEmailFormat(email) == 0) {
             return "Check format of your email";
         }
         String nickname = matcherNickname.group(1);
         String slogan = "";
         String newSlogan = "";
-        if(matcherExistSlogan.matches()) {
+        if (matcherExistSlogan.matches()) {
             System.out.println("1");
-            if(!matcherSlogan.group(1).equals("random")) {
+            if (!matcherSlogan.group(1).equals("random")) {
                 slogan = matcherSlogan.group(1);
                 for (int i = 0; i < slogan.length() - 1; i++) {
                     newSlogan += slogan.charAt(i);
                 }
                 slogan = newSlogan;
-            }
-            else {
+            } else {
                 slogan = createRandomSlogan();
             }
         }
-        User user = new User(username, password, nickname, email, slogan,checkSecurityQuestion());
+        User user = new User(username, password, nickname, email, slogan, checkSecurityQuestion());
         AppData.addUser(user);
         return "user created successfully";
     }
@@ -248,15 +244,15 @@ public class LoginMenuController {
         }
         String username = matcherUsername.group(1);
         String password = matcherPassword.group(1);
-        if(AppData.getUserByUsername(username) == null) {
+        if (AppData.getUserByUsername(username) == null) {
             return "User with this username doesn't exist!";
         }
-        if(!AppData.getUserByUsername(username).getPassword().equals(password)) {
+        if (!AppData.getUserByUsername(username).getPassword().equals(password)) {
             return "Username and password didn't match!";
         }
         Pattern patternStayLoggedIn = Pattern.compile("--stay-logged-in");
         Matcher matcherStayLoggedIn = patternStayLoggedIn.matcher(input);
-        if(matcherStayLoggedIn.find()) {
+        if (matcherStayLoggedIn.find()) {
             AppData.setStayLoggedIn(1);
         }
         AppData.setCurrentUser(AppData.getUserByUsername(username));
@@ -265,19 +261,17 @@ public class LoginMenuController {
 
     public static String forgottenPassword(Matcher matcher) {
         String username = matcher.group(1);
-        if(AppData.getUserByUsername(username) == null) {
+        if (AppData.getUserByUsername(username) == null) {
             return "User with this username doesn't exist!";
         }
         String[] securityQuestion = AppData.getUserByUsername(username).getSecurityQuestion().split(" ");
         int numberOfQuestion = Integer.parseInt(securityQuestion[0]);
         String answer = securityQuestion[1];
-        if(numberOfQuestion == 1) {
+        if (numberOfQuestion == 1) {
             System.out.println("What is your father’s name?");
-        }
-        else if(numberOfQuestion == 2) {
+        } else if (numberOfQuestion == 2) {
             System.out.println("What was your first pet’s name?");
-        }
-        else if(numberOfQuestion == 3) {
+        } else if (numberOfQuestion == 3) {
             System.out.println("What is your mother’s last name?");
         }
         Scanner scanner = new Scanner(System.in);
