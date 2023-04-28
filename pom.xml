@@ -14,7 +14,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-<<<<<<< HEAD
     <dependencies>
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -38,7 +37,3 @@
     </dependencies>
 
 </project>
-
-=======
-</project>
->>>>>>> origin/main
