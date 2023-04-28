@@ -12,9 +12,10 @@ public class Empire {
     private final ArrayList<Worker> workers = new ArrayList<>();
     private final ArrayList<Building> buildings = new ArrayList<>();//TODO expand this to its children
     private final int[] foods = new int[4];
+    private final HashMap<String, Integer> popularityChange = new HashMap<>();
+    private HashMap<Resource, Integer> resourceAmounts;
     private int population;
     private int growthRate;
-    private final HashMap<String, Integer> popularityChange = new HashMap<>();
     private int wealth;
     private int taxRate;
     private int fearRate;
@@ -29,6 +30,7 @@ public class Empire {
         popularityChange.put("tax", 0);
         popularityChange.put("fear", 0);
         popularityChange.put("foodRate", 0);
+        InitializeResourceAmount();
     }
 
     public int getPopularity() {
@@ -51,10 +53,6 @@ public class Empire {
         return wealth;
     }
 
-    public void setWealth(int wealth) {
-        this.wealth = wealth;
-    }
-
     public int getTaxRate() {
         return taxRate;
     }
@@ -66,6 +64,7 @@ public class Empire {
     public int getFearRate() {
         return fearRate;
     }
+
     public void setFearRate(int fearRate) {
         this.fearRate = fearRate;
     }
@@ -106,6 +105,24 @@ public class Empire {
         workers.add(worker);
     }
 
+    public void changeWealth(int amount) {
+        wealth += amount;
+    }
+    private void InitializeResourceAmount() {
+        resourceAmounts = new HashMap<>();
+        for (Resource resource: Resource.values()) {
+            resourceAmounts.put(resource, 0);
+            //TODO: initialize correctly!
+        }
+    }
+
+    public void changeResourceAmount(Resource resource, int amount) {
+        resourceAmounts.replace(resource, resourceAmounts.get(resource) + amount);
+    }
+
+    public int getResourceAmount(Resource resource) {
+        return resourceAmounts.get(resource);
+    }
     public int getPopularityChange(String cause) {
         return popularityChange.get(cause);
     }
