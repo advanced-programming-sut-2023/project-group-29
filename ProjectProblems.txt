@@ -1,11 +1,11 @@
-1.learning how to work with Appache Maven
-2.How to save data in files
-3.functions shouldn't be long.
-4.test graphic
-5.is it necessary to add a typeclass fields to its real class ????
-6.repetition of 7 part
-7.using empire and player number correctly!
-
+1.all: How to save data in files
+2.jasbi: functions shouldn't be long.
+3.all: test graphic
+4.jasbi: is it necessary to add a typeclass fields to its real class ????
+5.unknown: repetition of 7 part
+6.jasbi: using empire and player number correctly!
+7.jasbi: some TODOs aren't shown in the IntelliJ TODO.
+8.jasbi: passing cell or x and y??
 
 save data -> abbasfar
 shop -> jasbi
