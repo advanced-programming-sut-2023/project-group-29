@@ -7,7 +7,6 @@ import java.util.HashMap;
 
 public class Building extends Asset {
     private static final HashMap<String, Integer> buildingNamesAndTheirGroup = new HashMap<>();
-    protected int hp;
     protected int numberOfWorkers;
     protected int cost;
     protected int maxHp;

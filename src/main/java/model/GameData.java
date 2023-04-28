@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class GameData {
     private final ArrayList<Trade> trades = new ArrayList<>();
     private final ArrayList<Empire> empires = new ArrayList<>();
+    //TODO: getEmpireByPlayerNumber
     private Map map;
     private Shop shop;
     private int turnNumber = 1;

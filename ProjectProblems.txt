@@ -10,3 +10,8 @@ for Saturday:
 8.appData class change public field to private and remove extra fields
 9.arrange files
 10.handle todos
+
+
+save data -> abbasfar
+shop -> jasbi
+trade -> faratin
