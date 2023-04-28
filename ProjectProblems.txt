@@ -8,9 +8,9 @@
 8.jasbi: passing cell or x and y??
 
 for Saturday:
-8.appData class change public field to private and remove extra fields
-9.arrange files
-10.handle todos
+9.appData class change public field to private and remove extra fields
+10.arrange files
+11.handle todos
 
 save data -> abbasfar
 shop -> jasbi
