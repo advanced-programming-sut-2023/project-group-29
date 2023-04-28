@@ -83,12 +83,8 @@ public class GameMenu {
         int foodRate = Integer.parseInt(matcher.group("")); //TODO: using matcher correctly;
         GameMenuMessages result = GameMenuController.determinationOfFoodRate(loggedInEmpire, foodRate);
         switch (result) {
-            case SUCCESS:
-                System.out.println("food rate has been set successfully!");
-            case UNSUCCESS:
-                System.out.println("There was an error in the process!");
-            default:
-                break;
+            case SUCCESS -> System.out.println("Food rate has been set successfully!");
+            case UNSUCCESS -> System.out.println("There was an error in the process!");
         }
     }
 
@@ -96,12 +92,8 @@ public class GameMenu {
         int taxRate = Integer.parseInt(matcher.group("")); //TODO: using matcher correctly;
         GameMenuMessages result = GameMenuController.determinationOfTaxRate(loggedInEmpire, taxRate);
         switch (result) {
-            case SUCCESS:
-                System.out.println("tax rate has been set successfully!");
-            case UNSUCCESS:
-                System.out.println("There was an error in the process!");
-            default:
-                break;
+            case SUCCESS -> System.out.println("Tax rate has been set successfully!");
+            case UNSUCCESS -> System.out.println("There was an error in the process!");
         }
     }
 
@@ -109,7 +101,7 @@ public class GameMenu {
         int fearRate = Integer.parseInt(matcher.group("")); //TODO: using matcher correctly;
         GameMenuMessages result = GameMenuController.determinationOfFearRate(loggedInEmpire, fearRate);
         switch (result) {
-            case SUCCESS -> System.out.println("fear rate has been set successfully!");
+            case SUCCESS -> System.out.println("Fear rate has been set successfully!");
             case UNSUCCESS -> System.out.println("There was an error in the process!");
         }
     }

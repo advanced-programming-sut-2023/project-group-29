@@ -13,6 +13,7 @@ public class SelectMenuController {
     }
 
     public static String moveUnit(int destinationX, int destinationY) {
+        //TODO: split to some functions
         GameData gameData = GameMenuController.getGameData();
 
         int currentX = gameData.getSelectedCellX();

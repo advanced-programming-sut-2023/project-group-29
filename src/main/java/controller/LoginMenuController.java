@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 public class LoginMenuController {
 
     public static int checkWeakPassword(String password) {
+        //TODO: replace with regex!!
         int checkLengthOfPassword = 0;
         int checkCapital = 0;
         int checkSmall = 0;
@@ -103,11 +104,9 @@ public class LoginMenuController {
             Scanner scanner = new Scanner(System.in);
             String input = scanner.nextLine();
             String regex1 = "question pick -q (?<questionNumber>\\d) -a (?<answer>\\S+) -c (?<answerconfirm>\\S+)";
-            Pattern pattern1 = Pattern.compile(regex1);
             String regex2 = "question pick -a (?<answer>\\S+) -c (?<answerconfirm>\\S+) -q (?<questionNumber>\\d)";
-            Pattern pattern2 = Pattern.compile(regex2);
-            Matcher matcher1 = pattern1.matcher(input);
-            Matcher matcher2 = pattern2.matcher(input);
+            Matcher matcher1 = Pattern.compile(regex1).matcher(input);
+            Matcher matcher2 = Pattern.compile(regex2).matcher(input);
             if (matcher1.matches()) {
                 if (Integer.parseInt(matcher1.group(1)) > 3) {
                     System.out.println("Invalid number of question!");
@@ -132,6 +131,7 @@ public class LoginMenuController {
     }
 
     public static String createUser(Matcher matcher) {
+        //TODO : split it to smaller functions
         String input = matcher.group(0);
         Pattern patternExistUsername = Pattern.compile("-u");
         Pattern patternUsername = Pattern.compile("-u (?<username>\\w\\S+)");
@@ -234,9 +234,8 @@ public class LoginMenuController {
 
     public static String login(Matcher matcher) {
         String input = matcher.group(0);
-        Pattern patternUsername = Pattern.compile("\\s*-u\\s+(\\S+)\\s*");
         Pattern patternPassword = Pattern.compile("\\s*-p\\s+(\\S+)\\s*");
-        Matcher matcherUsername = patternUsername.matcher(input);
+        Matcher matcherUsername = Pattern.compile("\\s*-u\\s+(\\S+)\\s*").matcher(input);
         Matcher matcherPassword = patternPassword.matcher(input);
         if (!(matcherUsername.find() && matcherPassword.find())) {
             return "Invalid command!";
@@ -245,12 +244,10 @@ public class LoginMenuController {
         String password = matcherPassword.group(1);
         if (AppData.getUserByUsername(username) == null) {
             return "User with this username doesn't exist!";
-        }
-        if (!AppData.getUserByUsername(username).getPassword().equals(password)) {
+        } else if (!AppData.getUserByUsername(username).getPassword().equals(password)) {
             return "Username and password didn't match!";
         }
-        Pattern patternStayLoggedIn = Pattern.compile("--stay-logged-in");
-        Matcher matcherStayLoggedIn = patternStayLoggedIn.matcher(input);
+        Matcher matcherStayLoggedIn = Pattern.compile("--stay-logged-in").matcher(input);
         if (matcherStayLoggedIn.find()) {
             AppData.setStayLoggedIn(1);
         }
@@ -259,6 +256,7 @@ public class LoginMenuController {
     }
 
     public static String forgottenPassword(Matcher matcher) {
+        //TODO: it can be smaller
         String username = matcher.group(1);
         if (AppData.getUserByUsername(username) == null) {
             return "User with this username doesn't exist!";
@@ -279,8 +277,7 @@ public class LoginMenuController {
             System.out.println("Enter your new password and its confirmation");
             Scanner scannerNewPassword = new Scanner(System.in);
             String newPassword = scannerNewPassword.nextLine();
-            Pattern passwordPattern = Pattern.compile("\\s*(\\S+)\\s+(\\S+)\\s*");
-            Matcher passwordMatcher = passwordPattern.matcher(newPassword);
+            Matcher passwordMatcher = Pattern.compile("\\s*(\\S+)\\s+(\\S+)\\s*").matcher(newPassword);
             if (!passwordMatcher.matches()) {
                 return "Invalid command!";
             }

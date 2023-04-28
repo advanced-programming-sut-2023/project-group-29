@@ -2,6 +2,7 @@ package model;
 
 public interface Movable {
     static MovingResult move(Map map, Asset asset, int speed, boolean ableToClimbLadder, int destinationX, int destinationY) {
+        //TODO: some lines were too long
         int currentX = asset.getPositionX();
         int currentY = asset.getPositionY();
 

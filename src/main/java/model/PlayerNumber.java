@@ -17,23 +17,8 @@ public enum PlayerNumber {
     }
 
     public static PlayerNumber getPlayerByIndex(int index) {
-        switch (index) {
-            case 1:
-                return FIRST;
-            case 2:
-                return SECOND;
-            case 3:
-                return THIRD;
-            case 4:
-                return FORTH;
-            case 5:
-                return FIFTH;
-            case 6:
-                return SIXTH;
-            case 7:
-                return SEVENTH;
-            case 8:
-                return EIGHTH;
+        for (PlayerNumber playerNumber: PlayerNumber.values()) {
+            if (playerNumber.number == index) return playerNumber;
         }
         return null;
     }

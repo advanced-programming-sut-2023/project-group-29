@@ -35,14 +35,9 @@ public class ShopMenu {
         int amount = Integer.parseInt(matcher.group("amount"));
         ShopMenuMessages result = ShopMenuController.buy(loggedInEmpire, resourceName, amount);
         switch (result) {
-            case SUCCESS:
-                System.out.println("The buy process was successful!");
-            case FEW_CASH:
-                System.out.println("You don't have enough money!");
-            case LACK_OF_SPACE:
-                System.out.println("You don't have enough space for storage!");
-            default:
-                break;
+            case SUCCESS -> System.out.println("The buy process was successful!");
+            case FEW_CASH -> System.out.println("You don't have enough money!");
+            case LACK_OF_SPACE -> System.out.println("You don't have enough space for storage!");
         }
     }
 
@@ -51,12 +46,8 @@ public class ShopMenu {
         int amount = Integer.parseInt(matcher.group("amount"));
         ShopMenuMessages result = ShopMenuController.sell(loggedInEmpire, resourceName, amount);
         switch (result) {
-            case SUCCESS:
-                System.out.println("The sell process was successful!");
-            case FEW_AMOUNT:
-                  System.out.println("The amount you have entered is greater than the amount you have!");
-            default:
-                break;
+            case SUCCESS -> System.out.println("The sell process was successful!");
+            case FEW_AMOUNT -> System.out.println("The amount you have entered is greater than the amount you have!");
         }
     }
 }
