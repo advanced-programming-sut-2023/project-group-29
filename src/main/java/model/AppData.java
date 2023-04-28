@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class AppData {
+    public static final String usersDataBaseFilePath="./src/main/dataFiles/UsersDataBase.json";
     public static ArrayList<User> users = new ArrayList<>();
     public static User currentUser;
     public static int delayInLogin = 0;
