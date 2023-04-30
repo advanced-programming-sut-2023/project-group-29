@@ -1,7 +1,7 @@
-package controller;
+package controller.menucontrollers;
 
 import model.Empire;
-import model.Resource;
+import model.dealing.Resource;
 import view.messages.ShopMenuMessages;
 
 public class ShopMenuController {
@@ -22,7 +22,8 @@ public class ShopMenuController {
         Resource resource = Resource.getResourceByName(resourceName);
         if (empire.getWealth() < resource.getBuyingPrice() * amount) {
             return ShopMenuMessages.FEW_CASH;
-        } else if (true/*TODO: check if the empire has enough space*/) {
+        }
+        else if (true/*TODO: check if the empire has enough space*/) {
             return ShopMenuMessages.LACK_OF_SPACE;
         }
         empire.changeWealth(-resource.getBuyingPrice() * amount);

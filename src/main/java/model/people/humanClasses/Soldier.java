@@ -1,8 +1,8 @@
 package model.people.humanClasses;
 
-import model.Map;
 import model.Offensive;
 import model.PlayerNumber;
+import model.map.Map;
 import model.people.Human;
 import model.people.humanTypes.SoldierType;
 

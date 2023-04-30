@@ -3,7 +3,7 @@ package model.people.humanTypes;
 import model.people.HumanType;
 
 public enum SoldierType {
-    //TODO complete below list
+    //TODO abbadfar complete below list
     ;
     private final int damage;
     private final int aimRange;

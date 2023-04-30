@@ -4,6 +4,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum Command {
+    //TODO check option duplication
+    //TODO complete regex
     FIND_USER(""),
     USER_CREATE("\\s*user\\s+create.+"),
     EXIT("\\s*exit\\s*"),
@@ -17,7 +19,7 @@ public enum Command {
     CHANGE_PASSWORD("\\s*profile\\s+change\\s+password\\s+-[on]\\s+(\\S+)\\s+-[no]\\s+(\\S+)\\s+"),
     CHANGE_NICKNAME("\\s*profile\\s+change\\s+-n\\s+(?<nickname>\\S+)\\s*"),
     CHANGE_EMAIL("\\s*profile\\s+change\\s+-e\\s+(?<email>\\S+)\\s*"),
-    CHANGE_SLOGAN("\\s*profile\\s+change\\s+slogan\\s+-s\\s+(?<slogan>.+)"),
+    CHANGE_SLOGAN("\\s*profile\\s+change\\s+slogan\\s+-s\\s+(?<slogan>.+\\S)\\s*"),
     REMOVE_SLOGAN("\\s*profile\\s+remove\\s+slogan\\s*"),
     DISPLAY_HIGH_SCORE("\\s*profile\\s+display\\s+highscore\\s*"),
     DISPLAY_SLOGAN("\\s*profile\\s+display\\s+slogan\\s*"),

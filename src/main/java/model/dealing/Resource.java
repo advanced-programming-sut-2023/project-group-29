@@ -1,4 +1,4 @@
-package model;
+package model.dealing;
 
 public enum Resource {
     //TODO: complete resources!!
@@ -27,7 +27,7 @@ public enum Resource {
     }
 
     public static Resource getResourceByName(String name) {
-        for (Resource resource: Resource.values()) {
+        for (Resource resource : Resource.values()) {
             if (resource.name.equals(name)) return resource;
         }
         return null;

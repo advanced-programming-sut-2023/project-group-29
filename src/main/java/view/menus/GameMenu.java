@@ -1,54 +1,73 @@
-package view;
+package view.menus;
 
-import controller.GameMenuController;
 import controller.MenuNames;
+import controller.menucontrollers.GameMenuController;
 import model.Empire;
+import model.GameData;
 import model.PlayerNumber;
+import view.Command;
 import view.messages.GameMenuMessages;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class GameMenu {
-    private static Empire loggedInEmpire;
+    private static Empire loggedInEmpire;//todo jasbi
     private static PlayerNumber playerNumber;
 
     public static MenuNames run(Scanner scanner) {
         Matcher matcher;
         String input = scanner.nextLine();
+
         if (Command.getMatcher(input, Command.SHOW_MAP) != null) {
             showMap();
-        } else if (Command.getMatcher(input, Command.SHOW_POPULARITY_FACTORS) != null) {
+        }
+        else if (Command.getMatcher(input, Command.SHOW_POPULARITY_FACTORS) != null) {
             showPopularityFactors();
-        } else if (Command.getMatcher(input, Command.SHOW_POPULARITY) != null) {
+        }
+        else if (Command.getMatcher(input, Command.SHOW_POPULARITY) != null) {
             showPopularity();
-        } else if (Command.getMatcher(input, Command.SHOW_FOOD_LIST) != null) {
+        }
+        else if (Command.getMatcher(input, Command.SHOW_FOOD_LIST) != null) {
             showFoodList();
-        } else if (Command.getMatcher(input, Command.SHOW_FOOD_RATE) != null) {
+        }
+        else if (Command.getMatcher(input, Command.SHOW_FOOD_RATE) != null) {
             showFoodRate();
-        } else if (Command.getMatcher(input, Command.SHOW_TAX_RATE) != null) {
+        }
+        else if (Command.getMatcher(input, Command.SHOW_TAX_RATE) != null) {
             showTaxRate();
-        } else if ((matcher = Command.getMatcher(input, Command.SET_FOOD_RATE)) != null) {
+        }
+        else if ((matcher = Command.getMatcher(input, Command.SET_FOOD_RATE)) != null) {
             setFoodRate(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.SET_TAX_RATE)) != null) {
+        }
+        else if ((matcher = Command.getMatcher(input, Command.SET_TAX_RATE)) != null) {
             setTaxRate(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.SET_FEAR_RATE)) != null) {
+        }
+        else if ((matcher = Command.getMatcher(input, Command.SET_FEAR_RATE)) != null) {
             setFearRate(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.DROP_BUILDING)) != null) {
+        }
+        else if ((matcher = Command.getMatcher(input, Command.DROP_BUILDING)) != null) {
             dropBuilding(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.SELECT_BUILDING)) != null) {
+        }
+        else if ((matcher = Command.getMatcher(input, Command.SELECT_BUILDING)) != null) {
             selectBuilding(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.SELECT_UNIT)) != null) {
+        }
+        else if ((matcher = Command.getMatcher(input, Command.SELECT_UNIT)) != null) {
             selectUnit(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.TRADE)) != null) {
+        }
+        else if ((matcher = Command.getMatcher(input, Command.TRADE)) != null) {
             trade(matcher);
-        } else if (Command.getMatcher(input, Command.SHOW_TRADE_LIST) != null) {
+        }
+        else if (Command.getMatcher(input, Command.SHOW_TRADE_LIST) != null) {
             showTradeList();
-        } else if ((matcher = Command.getMatcher(input, Command.TRADE_ACCEPT)) != null) {
+        }
+        else if ((matcher = Command.getMatcher(input, Command.TRADE_ACCEPT)) != null) {
             tradeAccept(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.TRADE_HISTORY)) != null) {
+        }
+        else if ((matcher = Command.getMatcher(input, Command.TRADE_HISTORY)) != null) {
             tradeHistory(matcher);
-        } else {
+        }
+        else {
             System.out.println("Invalid command!");
         }
 

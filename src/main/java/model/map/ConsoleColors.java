@@ -1,4 +1,4 @@
-package model;
+package model.map;
 
 public enum ConsoleColors {
     RED_BACKGROUND("\u001B[41m"),

@@ -1,4 +1,6 @@
-package model;
+package model.dealing;
+
+import model.PlayerNumber;
 
 public class Trade {
     private final PlayerNumber senderPlayer;

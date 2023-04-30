@@ -14,7 +14,8 @@ public class Trap extends Weapon {
         this.trapType = trapType;
         this.damage = trapType.getDamage();
     }
-    //TODO implement trap with offensive or not
+
+    //todo implement traps
 //    public Offensive.AttackingResult attack(Map map, int targetX, int targetY)
 //    {
 //        return Offensive.attack(map,this,0,targetX,targetY);
@@ -29,7 +30,7 @@ public class Trap extends Weapon {
     }
 
     public boolean isArcherType() {
-        //TODO
+        //TODO abbasfar
         return true;
     }
 }

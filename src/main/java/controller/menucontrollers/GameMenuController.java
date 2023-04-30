@@ -1,7 +1,11 @@
-package controller;
+package controller.menucontrollers;
 
-import model.*;
+import model.Empire;
+import model.GameData;
+import model.PlayerNumber;
 import model.buildings.Building;
+import model.map.Cell;
+import model.map.Map;
 import view.messages.GameMenuMessages;
 
 import java.util.ArrayList;
@@ -71,9 +75,11 @@ public class GameMenuController {
         Cell chosenCell = map.getCells()[x][y];
         if (!Building.isBuildingNameValid(buildingName)) {
             return GameMenuMessages.INVALID_TYPE;
-        } else if (!chosenCell.isAbleToBuildOn(buildingName)) {
+        }
+        else if (!chosenCell.isAbleToBuildOn(buildingName)) {
             return GameMenuMessages.IMPROPER_CELL_TYPE;
-        } else if (chosenCell.getBuilding() != null) {
+        }
+        else if (chosenCell.getBuilding() != null) {
             return GameMenuMessages.FULL_CELL;
         }
         chosenCell.makeBuilding(buildingName, playerNumber);
@@ -88,7 +94,8 @@ public class GameMenuController {
         Cell chosenCell = map.getCells()[x][y];
         if ((building = chosenCell.getBuilding()) == null) {
             return GameMenuMessages.EMPTY_CELL;
-        } else if (!building.getOwnerEmpire().equals(currentPlayerEmpire)) {
+        }
+        else if (!building.getOwnerEmpire().equals(currentPlayerEmpire)) {
             return GameMenuMessages.OTHERS_BUILDINGS;
         }
         return GameMenuMessages.SUCCESS;
@@ -117,5 +124,9 @@ public class GameMenuController {
 
     public static GameData getGameData() {
         return gameData;
+    }
+
+    public static void setGameData(GameData gameData) {
+        GameMenuController.gameData = gameData;
     }
 }

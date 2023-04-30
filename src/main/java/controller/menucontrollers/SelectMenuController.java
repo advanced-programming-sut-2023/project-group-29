@@ -1,6 +1,8 @@
-package controller;
+package controller.menucontrollers;
 
 import model.*;
+import model.map.Cell;
+import model.map.Map;
 import model.people.humanClasses.Soldier;
 
 import java.util.ArrayList;
@@ -13,7 +15,6 @@ public class SelectMenuController {
     }
 
     public static String moveUnit(int destinationX, int destinationY) {
-        //TODO: split to some functions
         GameData gameData = GameMenuController.getGameData();
 
         int currentX = gameData.getSelectedCellX();
@@ -58,33 +59,12 @@ public class SelectMenuController {
         return (totalObjectCount - failuresCount) + " troop(s) out of " + totalObjectCount + " moved successfully!";
     }
 
-    //TODO complete below
-//    private static boolean distanceOfTwoCells(int firstX,int firstY,int secondX,int secondY)
-//    {
-//        //this function uses BFS algorithm
-//
-//        GameData gameData=GameMenuController.getGameData();
-//        Map map= gameData.getMap();
-//
-//        //mark for bfs
-//        int[][] mark=new int[map.getCells().length][map.getCells()[0].length];
-//
-//        //queue for bfs
-//        class Pair{
-//            public int x,y;
-//        }
-//        Queue<Pair> queue=new LinkedList<>();
-//
-//
-//
-//    }
-
     public static void patrolUnit() {
-        //TODO
+        //TODO abbasfar
     }
 
     public static void setStateOfUnit() {
-        //TODO
+        //TODO abbasfar
     }
 
     public static String makeUnitAttacking(int targetX, int targetY) {
@@ -105,12 +85,9 @@ public class SelectMenuController {
         Cell targetCell = map.getCells()[targetX][targetY];
         ArrayList<Asset> enemies = targetCell.getEnemiesOfPlayerInCell(gameData.getPlayerOfTurn());
 
-
-        //TODO firing the trap
-
-
         //apply attack
-        //TODO this is a simple implementation which decrease from every unit equally
+        //TODO abbasfar: state for soldiers
+        //todo abbasfar: building damage applying
         //if a unit is near to death or not, makes no change for others
         DamageStruct totalDamage = findTotalDamage(currentPlayerAttackers, map, targetX, targetY);
         applyAttackDamage(enemies, totalDamage, targetCell);

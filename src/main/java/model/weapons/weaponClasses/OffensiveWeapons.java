@@ -1,9 +1,9 @@
 package model.weapons.weaponClasses;
 
-import model.Map;
 import model.Movable;
 import model.Offensive;
 import model.PlayerNumber;
+import model.map.Map;
 import model.weapons.Weapon;
 import model.weapons.weaponTypes.OffensiveWeaponsType;
 

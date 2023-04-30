@@ -6,7 +6,7 @@ public class User {
     private static ArrayList<String> questions = new ArrayList<>();
 
     static {    //question initialize
-
+        //TODO complete
     }
 
     private String username;

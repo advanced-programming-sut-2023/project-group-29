@@ -1,4 +1,4 @@
-package model;
+package model.dealing;
 
 public class Shop {
 

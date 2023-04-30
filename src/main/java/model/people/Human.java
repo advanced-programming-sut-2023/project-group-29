@@ -1,9 +1,9 @@
 package model.people;
 
 import model.Asset;
-import model.Map;
 import model.Movable;
 import model.PlayerNumber;
+import model.map.Map;
 
 public class Human extends Asset implements Movable {
     //TODO speed type slow, middle, fast and convert to number

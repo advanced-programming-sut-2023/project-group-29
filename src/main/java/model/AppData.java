@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class AppData {
-    public static final String usersDataBaseFilePath="./src/main/dataFiles/UsersDataBase.json";
-    public static ArrayList<User> users = new ArrayList<>();
-    public static User currentUser;
-    public static int delayInLogin = 0;
-    public static int stayLoggedIn = 0;
+    private static final String usersDataBaseFilePath = "./src/main/dataFiles/UsersDataBase.json";
+    private static ArrayList<User> users = new ArrayList<>();
+    private static User currentUser;
+    private static int delayInLogin = 0;
+
+    //todo faratin handle stay logged in
+
+    //todo jasbi user or empire
+    private static int stayLoggedIn = 0;
 
     public static User getUserByUsername(String username) {
         for (int i = 0; i < users.size(); i++) {
@@ -78,5 +82,13 @@ public class AppData {
             }
         }
         return 0;
+    }
+
+    public static ArrayList<User> getUsers() {
+        return users;
+    }
+
+    public static String getUsersDataBaseFilePath() {
+        return usersDataBaseFilePath;
     }
 }

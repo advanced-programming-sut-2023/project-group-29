@@ -1,8 +1,8 @@
-package controller;
+package controller.menucontrollers;
 
-import model.Cell;
-import model.ConsoleColors;
-import model.Map;
+import model.map.Cell;
+import model.map.ConsoleColors;
+import model.map.Map;
 
 import java.util.ArrayList;
 
@@ -80,8 +80,8 @@ public class MapMenuController {
             tile.add(showingSignOfOtherUnits);
         }
 
-        //TODO maybe show ... for more units
-        //TODO maybe count number of each soldier
+        //TODO extra point defined by us:maybe show ... for more units
+        //TODO extra point defined by us:maybe count number of each soldier
 
         return tile;
     }

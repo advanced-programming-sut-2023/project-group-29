@@ -1,4 +1,4 @@
-package controller;
+package controller.menucontrollers;
 
 import model.AppData;
 import model.User;
@@ -11,7 +11,6 @@ import java.util.regex.Pattern;
 public class LoginMenuController {
 
     public static int checkWeakPassword(String password) {
-        //TODO: replace with regex!!
         int checkLengthOfPassword = 0;
         int checkCapital = 0;
         int checkSmall = 0;
@@ -20,15 +19,19 @@ public class LoginMenuController {
         if (password.length() >= 6) {
             checkLengthOfPassword = 1;
         }
+        //TODO faratin: replace with regex!!
         for (int i = 0; i < password.length(); i++) {
             int passwordChar = (int) password.charAt(i);
             if (passwordChar >= 65 && passwordChar <= 90) {
                 checkCapital = 1;
-            } else if (passwordChar >= 97 && passwordChar <= 122) {
+            }
+            else if (passwordChar >= 97 && passwordChar <= 122) {
                 checkSmall = 1;
-            } else if (passwordChar >= 48 && passwordChar <= 57) {
+            }
+            else if (passwordChar >= 48 && passwordChar <= 57) {
                 checkNumber = 1;
-            } else {
+            }
+            else {
                 checkOddCharacter = 1;
             }
         }
@@ -55,6 +58,8 @@ public class LoginMenuController {
         Random random = new Random();
         int charAscii = 0;
         int myRandom = 0;
+
+        //TODO jasbi
         output = addCharToPassword(random, output, 26, 65);
         output = addCharToPassword(random, output, 26, 65);
         output = addCharToPassword(random, output, 26, 65);
@@ -86,11 +91,14 @@ public class LoginMenuController {
         myRandom = myRandom % 5;
         if (myRandom == 0) {
             return "This day, is a very bad day for our enemies!";
-        } else if (myRandom == 1) {
+        }
+        else if (myRandom == 1) {
             return "Our empire destroys its enemies!";
-        } else if (myRandom == 2) {
+        }
+        else if (myRandom == 2) {
             return "You are just a looser!";
-        } else if (myRandom == 3) {
+        }
+        else if (myRandom == 3) {
             return "We are winner!";
         }
         return "Us against whole of the world!";
@@ -110,18 +118,23 @@ public class LoginMenuController {
             if (matcher1.matches()) {
                 if (Integer.parseInt(matcher1.group(1)) > 3) {
                     System.out.println("Invalid number of question!");
-                } else if (!matcher1.group(2).equals(matcher1.group(3))) {
+                }
+                else if (!matcher1.group(2).equals(matcher1.group(3))) {
                     System.out.println("Please enter your answer confirm correctly");
-                } else {
+                }
+                else {
                     output = matcher1.group(1) + " " + matcher1.group(2);
                     break;
                 }
-            } else if (matcher2.matches()) {
+            }
+            else if (matcher2.matches()) {
                 if (Integer.parseInt(matcher2.group(3)) > 3) {
                     System.out.println("Invalid number of question!");
-                } else if (!matcher2.group(1).equals(matcher2.group(2))) {
+                }
+                else if (!matcher2.group(1).equals(matcher2.group(2))) {
                     System.out.println("Please enter your answer confirm correctly");
-                } else {
+                }
+                else {
                     output = matcher2.group(3) + " " + matcher2.group(1);
                     break;
                 }
@@ -131,7 +144,7 @@ public class LoginMenuController {
     }
 
     public static String createUser(Matcher matcher) {
-        //TODO : split it to smaller functions
+        //TODO faratin: split it to smaller functions
         String input = matcher.group(0);
         Pattern patternExistUsername = Pattern.compile("-u");
         Pattern patternUsername = Pattern.compile("-u (?<username>\\w\\S+)");
@@ -193,14 +206,16 @@ public class LoginMenuController {
             int checkPass = checkWeakPassword(password);
             if (checkPass == 0) {
                 return "Your password is short!";
-            } else if (checkPass == 1) {
+            }
+            else if (checkPass == 1) {
                 return "Your password has a incorrect format!";
             }
             String passwordConfirmation = matcherPassword.group(2);
             if (!password.equals(passwordConfirmation)) {
                 return "Please enter password confirmation correctly!";
             }
-        } else {
+        }
+        else {
             password = createRandomPassword(username);
             if (password.equals("Incorrect password!")) {
                 return "Incorrect password!";
@@ -223,7 +238,8 @@ public class LoginMenuController {
                     newSlogan += slogan.charAt(i);
                 }
                 slogan = newSlogan;
-            } else {
+            }
+            else {
                 slogan = createRandomSlogan();
             }
         }
@@ -244,7 +260,8 @@ public class LoginMenuController {
         String password = matcherPassword.group(1);
         if (AppData.getUserByUsername(username) == null) {
             return "User with this username doesn't exist!";
-        } else if (!AppData.getUserByUsername(username).getPassword().equals(password)) {
+        }
+        else if (!AppData.getUserByUsername(username).getPassword().equals(password)) {
             return "Username and password didn't match!";
         }
         Matcher matcherStayLoggedIn = Pattern.compile("--stay-logged-in").matcher(input);
@@ -256,7 +273,7 @@ public class LoginMenuController {
     }
 
     public static String forgottenPassword(Matcher matcher) {
-        //TODO: it can be smaller
+        //todo faratin transfer
         String username = matcher.group(1);
         if (AppData.getUserByUsername(username) == null) {
             return "User with this username doesn't exist!";
@@ -266,9 +283,11 @@ public class LoginMenuController {
         String answer = securityQuestion[1];
         if (numberOfQuestion == 1) {
             System.out.println("What is your father’s name?");
-        } else if (numberOfQuestion == 2) {
+        }
+        else if (numberOfQuestion == 2) {
             System.out.println("What was your first pet’s name?");
-        } else if (numberOfQuestion == 3) {
+        }
+        else if (numberOfQuestion == 3) {
             System.out.println("What is your mother’s last name?");
         }
         Scanner scanner = new Scanner(System.in);

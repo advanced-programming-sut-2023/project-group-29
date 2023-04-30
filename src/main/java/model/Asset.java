@@ -3,15 +3,16 @@ package model;
 public class Asset {
     private final PlayerNumber ownerNumber;
     protected Empire ownerEmpire;
-    protected String showingSignInMap;
-    //TODO add this field to all enums
     protected int hp;
     private int positionX;
     private int positionY;
+    protected String showingSignInMap;
+
+    //todo jasbi, abbasfar handle this field in all classes and enums
 
     public Asset(PlayerNumber ownerNumber, int positionX, int positionY) {
         this.ownerNumber = ownerNumber;
-        //TODO: set empire from number
+        //TODO: jasbi: set empire from number
     }
 
     public Empire getOwnerEmpire() {

@@ -1,7 +1,7 @@
 package controller;
 
 import model.buildings.buildingTypes.*;
-import view.*;
+import view.menus.*;
 
 import java.util.Scanner;
 
@@ -30,7 +30,7 @@ public class Controller {
         AttackingBuildingType.enumBuilder();
         OtherBuildingsType.enumBuilder();
         ProcessorType.enumBuilder();
-        ResourceExtracterType.enumBuilder();
+        ResourceExtractorType.enumBuilder();
         ServiceType.enumBuilder();
         StoreType.enumBuilder();
     }

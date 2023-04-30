@@ -1,6 +1,7 @@
-package view;
+package view.menus;
 
 import controller.MenuNames;
+import view.Command;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -11,25 +12,35 @@ public class SelectMenu {
         String input = scanner.nextLine();
         if ((matcher = Command.getMatcher(input, Command.CREATE_UNIT)) != null) {
             createUnit();
-        } else if ((matcher = Command.getMatcher(input, Command.REPAIR_BUILDING)) != null) {
+        }
+        else if ((matcher = Command.getMatcher(input, Command.REPAIR_BUILDING)) != null) {
             repairBuilding(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.MOVE_UNIT)) != null) {
+        }
+        else if ((matcher = Command.getMatcher(input, Command.MOVE_UNIT)) != null) {
             moveUnit(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.PATROL_UNIT)) != null) {
+        }
+        else if ((matcher = Command.getMatcher(input, Command.PATROL_UNIT)) != null) {
             patrolUnit(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.SET_STATE_OF_UNIT)) != null) {
+        }
+        else if ((matcher = Command.getMatcher(input, Command.SET_STATE_OF_UNIT)) != null) {
             setStateOfUnit(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.MAKE_UNIT_ATTACKING)) != null) {
+        }
+        else if ((matcher = Command.getMatcher(input, Command.MAKE_UNIT_ATTACKING)) != null) {
             makeUnitAttacking(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.POUR_OIL)) != null) {
+        }
+        else if ((matcher = Command.getMatcher(input, Command.POUR_OIL)) != null) {
             pourOil(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.DIG_TUNNEL)) != null) {
+        }
+        else if ((matcher = Command.getMatcher(input, Command.DIG_TUNNEL)) != null) {
             digTunnel(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.BUILD_EQUIPMENT)) != null) {
+        }
+        else if ((matcher = Command.getMatcher(input, Command.BUILD_EQUIPMENT)) != null) {
             buildEquipment(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.DISBAND_UNIT)) != null) {
+        }
+        else if ((matcher = Command.getMatcher(input, Command.DISBAND_UNIT)) != null) {
             disbandUnit(matcher);
-        } else {
+        }
+        else {
             System.out.println("Invalid command!");
         }
 

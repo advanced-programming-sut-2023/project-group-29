@@ -1,8 +1,8 @@
 package model.buildings.buildingTypes;
 
-import model.Resource;
 import model.buildings.Building;
 import model.buildings.BuildingType;
+import model.dealing.Resource;
 
 public enum ProcessorType {
     ARMOURER(0, null, null, "Armourer"),

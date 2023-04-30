@@ -1,6 +1,7 @@
 package model;
 
 import model.buildings.Building;
+import model.dealing.Resource;
 import model.people.humanClasses.Soldier;
 import model.people.humanClasses.Worker;
 
@@ -108,9 +109,10 @@ public class Empire {
     public void changeWealth(int amount) {
         wealth += amount;
     }
+
     private void InitializeResourceAmount() {
         resourceAmounts = new HashMap<>();
-        for (Resource resource: Resource.values()) {
+        for (Resource resource : Resource.values()) {
             resourceAmounts.put(resource, 0);
             //TODO: initialize correctly!
         }
@@ -123,6 +125,7 @@ public class Empire {
     public int getResourceAmount(Resource resource) {
         return resourceAmounts.get(resource);
     }
+
     public int getPopularityChange(String cause) {
         return popularityChange.get(cause);
     }

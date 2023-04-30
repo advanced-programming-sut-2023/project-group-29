@@ -1,5 +1,9 @@
-package model;
+package model.map;
 
+import model.Asset;
+import model.Movable;
+import model.Offensive;
+import model.PlayerNumber;
 import model.buildings.Building;
 import model.buildings.buildingClasses.*;
 import model.buildings.buildingTypes.*;
@@ -147,7 +151,7 @@ public class Cell {
             case 4 -> building = new Processor
                     (ProcessorType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
             case 5 -> building = new ResourceExtracter
-                    (ResourceExtracterType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
+                    (ResourceExtractorType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
             case 6 -> building = new Service
                     (ServiceType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
             case 7 -> building = new Store

@@ -1,9 +1,9 @@
 package model.buildings.buildingClasses;
 
 import model.PlayerNumber;
-import model.Resource;
 import model.buildings.Building;
 import model.buildings.buildingTypes.ProcessorType;
+import model.dealing.Resource;
 
 public class Processor extends Building {
     private final ProcessorType processorType;

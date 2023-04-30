@@ -1,28 +1,40 @@
-1.all: test graphic
-2.jasbi: using empire and player number correctly!
-3.jasbi: passing cell or x and y??
+for later:
+    1.functions shouldn't be too long.
+    2.check end of the game and condition of that
+    3.set texture
+
+branch
+timing
+
+Faratin(){
+    trade;
+    don't use scanner in controller;
+    move println's to menus;
+    move recovery questions to user model;
+    handle own todos;
+    handle menus;
+
+    Sunday night;
+}
+
+jasbi(){
+    complete enums in model;
+    complete unique functions for each building type;
+    handle own todos;
+    test for one of the procedures;
+    add initialize menu for start game;
+    passing cell or x and y;
+}
+
+abbasfar()
+{
+    complete enums in model;
+    for all classes:
+        check player number index starts from 0;
+    create default maps;
+    handle own todos
+    empire factor,feed rate,... in general empire things;
+    other things remaining for soldiers and weapons
+}
 
 
-
-for Saturday:
-1.appData class change public field to private and remove extra fields
-2.arrange files
-3.handle todos
-4.all: How to save data in files
-5.jasbi: is it necessary to add a typeclass fields to its real class ????
-6.jasbi: some TODOs aren't shown in the IntelliJ TODO.
-7.jasbi: functions shouldn't be too long.
-8.use regex instead of iterating string.!!
-9.plan for future.
-10.classify model classes
-11.plan for writing tests.
-12.don't use scanner in login menu controller.
-13.decide for main menu
-14.complete regex
-15.unify our code
-
-
-
-save data -> abbasfar
-shop -> jasbi
-trade -> faratin

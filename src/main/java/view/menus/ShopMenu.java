@@ -1,8 +1,9 @@
-package view;
+package view.menus;
 
 import controller.MenuNames;
-import controller.ShopMenuController;
+import controller.menucontrollers.ShopMenuController;
 import model.Empire;
+import view.Command;
 import view.messages.ShopMenuMessages;
 
 import java.util.Scanner;
@@ -16,11 +17,14 @@ public class ShopMenu {
         String input = scanner.nextLine();
         if ((matcher = Command.getMatcher(input, Command.SHOW_PRICE_LIST)) != null) {
             showPriceList();
-        } else if ((matcher = Command.getMatcher(input, Command.BUY)) != null) {
+        }
+        else if ((matcher = Command.getMatcher(input, Command.BUY)) != null) {
             buy(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.SELL)) != null) {
+        }
+        else if ((matcher = Command.getMatcher(input, Command.SELL)) != null) {
             sell(matcher);
-        } else {
+        }
+        else {
             System.out.println("Invalid command!");
         }
         return MenuNames.SHOP_MENU;

@@ -1,6 +1,7 @@
-package view;
+package view.menus;
 
 import controller.MenuNames;
+import view.Command;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -11,21 +12,29 @@ public class MapMenu {
         String input = scanner.nextLine();
         if (Command.getMatcher(input, Command.SHOW_MAP) != null) {
             showMap();
-        } else if ((matcher = Command.getMatcher(input, Command.MOVE_MAP)) != null) {
+        }
+        else if ((matcher = Command.getMatcher(input, Command.MOVE_MAP)) != null) {
             moveMap(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.SET_TEXTURE)) != null) {
+        }
+        else if ((matcher = Command.getMatcher(input, Command.SET_TEXTURE)) != null) {
             setTexture(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.CLEAR)) != null) {
+        }
+        else if ((matcher = Command.getMatcher(input, Command.CLEAR)) != null) {
             clear(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.DROP_ROCK)) != null) {
+        }
+        else if ((matcher = Command.getMatcher(input, Command.DROP_ROCK)) != null) {
             dropRock(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.DROP_TREE)) != null) {
+        }
+        else if ((matcher = Command.getMatcher(input, Command.DROP_TREE)) != null) {
             dropTree(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.DROP_BUILDING)) != null) {
+        }
+        else if ((matcher = Command.getMatcher(input, Command.DROP_BUILDING)) != null) {
             dropBuilding(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.DROP_UNIT)) != null) {
+        }
+        else if ((matcher = Command.getMatcher(input, Command.DROP_UNIT)) != null) {
             dropUnit(matcher);
-        } else {
+        }
+        else {
             System.out.println("Invalid command!");
         }
 

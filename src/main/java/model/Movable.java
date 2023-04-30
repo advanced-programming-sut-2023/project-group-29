@@ -1,5 +1,8 @@
 package model;
 
+import model.map.Cell;
+import model.map.Map;
+
 public interface Movable {
     static MovingResult move(Map map, Asset asset, int speed, boolean ableToClimbLadder, int destinationX, int destinationY) {
         //TODO: some lines were too long

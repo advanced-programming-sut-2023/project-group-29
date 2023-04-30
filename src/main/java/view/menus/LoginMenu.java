@@ -1,8 +1,9 @@
-package view;
+package view.menus;
 
-import controller.LoginMenuController;
 import controller.MenuNames;
+import controller.menucontrollers.LoginMenuController;
 import model.AppData;
+import view.Command;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -13,9 +14,11 @@ public class LoginMenu {
         String input = scanner.nextLine();
         if ((matcher = Command.getMatcher(input, Command.USER_CREATE)) != null) {
             System.out.println(LoginMenuController.createUser(matcher));
-        } else if ((matcher = Command.getMatcher(input, Command.EXIT)) != null) {
+        }
+        else if ((matcher = Command.getMatcher(input, Command.EXIT)) != null) {
             return MenuNames.EXIT;
-        } else if ((matcher = Command.getMatcher(input, Command.LOGIN)) != null) {
+        }
+        else if ((matcher = Command.getMatcher(input, Command.LOGIN)) != null) {
             String output = LoginMenuController.login(matcher);
             System.out.println(output);
             if (output.equals("user logged in successfully!")) {
@@ -30,9 +33,11 @@ public class LoginMenu {
                 } catch (Exception e) {
                 }
             }
-        } else if ((matcher = Command.getMatcher(input, Command.FORGET_PASSWORD)) != null) {
+        }
+        else if ((matcher = Command.getMatcher(input, Command.FORGET_PASSWORD)) != null) {
             System.out.println(LoginMenuController.forgottenPassword(matcher));
-        } else {
+        }
+        else {
             System.out.println("Invalid command!");
         }
         return MenuNames.LOGIN_MENU;

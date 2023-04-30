@@ -1,4 +1,4 @@
-package controller;
+package controller.menucontrollers;
 
 import model.AppData;
 
@@ -31,7 +31,7 @@ public class ProfileMenuController {
         }
         String oldPass = oldPassMatcher.group(1);
         String newPass = newPassMatcher.group(1);
-        //TODO CAPTCHA
+        //TODO faratin:CAPTCHA
         if (!AppData.getCurrentUser().getPassword().equals(oldPass)) {
             return "Enter your old password correctly!";
         }
