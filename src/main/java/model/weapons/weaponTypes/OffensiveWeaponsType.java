@@ -1,17 +1,25 @@
 package model.weapons.weaponTypes;
 
+import model.speedanddamageenums.AimRangeEnum;
+import model.speedanddamageenums.SpeedEnum;
+import model.weapons.Weapon;
 import model.weapons.WeaponTypes;
 
 public enum OffensiveWeaponsType {
-    ;
+    GATE_DESTROYER(new WeaponTypes(Weapon.BuilderType.ENGINEER, 50, 4),SpeedEnum.TOO_SLOW, 100,AimRangeEnum.NON_ARCHER),
+    CATAPULT(new WeaponTypes(Weapon.BuilderType.ENGINEER, 50, 2),SpeedEnum.TOO_SLOW, 70,AimRangeEnum.LONG_RANGE_ARCHER),
+    FIRE_STONE_THROWER(new WeaponTypes(Weapon.BuilderType.ENGINEER, 50, 3),SpeedEnum.TOO_SLOW, 90,AimRangeEnum.LONG_RANGE_ARCHER);
+
     private final int damage;
+    private final int speed;
     private final int aimRange;
     private final WeaponTypes weaponTypes;
 
-    OffensiveWeaponsType(WeaponTypes weaponTypes, int damage, int aimRange) {
+    OffensiveWeaponsType(WeaponTypes weaponTypes,SpeedEnum speed, int damage, AimRangeEnum aimRange) {
         this.weaponTypes = weaponTypes;
+        this.speed=speed.getSpeedValue();
         this.damage = damage;
-        this.aimRange = aimRange;
+        this.aimRange = aimRange.getRange();
     }
 
     public int getDamage() {
@@ -24,5 +32,9 @@ public enum OffensiveWeaponsType {
 
     public WeaponTypes getWeaponTypes() {
         return weaponTypes;
+    }
+
+    public int getSpeed() {
+        return speed;
     }
 }

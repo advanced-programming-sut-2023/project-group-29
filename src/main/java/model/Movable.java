@@ -4,6 +4,7 @@ import model.map.Cell;
 import model.map.Map;
 
 public interface Movable {
+    //todo go into darvaze in what direction
     static MovingResult move(Map map, Asset asset, int speed, boolean ableToClimbLadder, int destinationX, int destinationY) {
         //TODO: some lines were too long
         int currentX = asset.getPositionX();

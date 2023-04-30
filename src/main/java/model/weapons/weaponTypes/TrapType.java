@@ -4,8 +4,7 @@ import model.weapons.Weapon;
 import model.weapons.WeaponTypes;
 
 public enum TrapType {
-    AMIN(new WeaponTypes(Weapon.BuilderType.ENGINEER, 1000, 1000, 100), 1000),
-    AMIN2(null, 1000);
+    KILLING_HOLE(new WeaponTypes(Weapon.BuilderType.ALL, 20, 100), 100);
     private final int damage;
     private final WeaponTypes weaponTypes;
 

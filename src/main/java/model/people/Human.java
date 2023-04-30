@@ -7,6 +7,8 @@ import model.map.Map;
 
 public class Human extends Asset implements Movable {
     //TODO speed type slow, middle, fast and convert to number
+
+    //todo defense damage should differ
     protected State state = State.STANDING;
     protected boolean ableToClimbLadder;
     protected int speed;
@@ -14,9 +16,10 @@ public class Human extends Asset implements Movable {
 
     protected Human(HumanType humanType, PlayerNumber playerNumber, int positionX, int positionY) {
         super(playerNumber, positionX, positionY);
-        this.hp = humanType.getHp();
-        this.ableToClimbLadder = humanType.isAbleToClimbLadder();
-        this.speed = humanType.getSpeed();
+        this.hp = humanType.hp();
+        this.ableToClimbLadder = humanType.ableToClimbLadder();
+        this.speed = humanType.speed().getSpeedValue();
+        this.showingSignInMap=humanType.showingSignInMap();
     }
 
     public MovingResult move(Map map, int destinationX, int destinationY) {

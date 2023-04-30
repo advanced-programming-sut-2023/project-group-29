@@ -5,24 +5,17 @@ import model.PlayerNumber;
 
 public class Weapon extends Asset {
     protected BuilderType builderType;
-    protected int speed;
-    protected int hp;
     protected int builderNeededCount;
 
     protected Weapon(WeaponTypes weaponTypes, PlayerNumber playerNumber, int positionX, int positionY) {
         super(playerNumber, positionX, positionY);
-        this.hp = weaponTypes.getHp();
-        this.speed = weaponTypes.getSpeed();
-        this.builderType = weaponTypes.getBuilderType();
-        this.builderNeededCount = weaponTypes.getBuilderNeededCount();
+        this.hp = weaponTypes.hp();
+        this.builderType = weaponTypes.builderType();
+        this.builderNeededCount = weaponTypes.builderNeededCount();
     }
 
     public BuilderType getBuilderType() {
         return builderType;
-    }
-
-    public int getSpeed() {
-        return speed;
     }
 
     public int getHp() {
@@ -35,7 +28,6 @@ public class Weapon extends Asset {
 
     public enum BuilderType {
         ENGINEER,
-        LADDER_MAN,
         ALL
     }
 }

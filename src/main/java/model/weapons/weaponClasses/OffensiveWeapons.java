@@ -10,12 +10,14 @@ import model.weapons.weaponTypes.OffensiveWeaponsType;
 public class OffensiveWeapons extends Weapon implements Movable, Offensive {
     private final int damage;
     private final int aimRange;
+    private final int speed;
     private final OffensiveWeaponsType offensiveWeaponsType;
 
     public OffensiveWeapons(OffensiveWeaponsType offensiveWeaponsType, PlayerNumber playerNumber, int positionX, int positionY) {
         super(offensiveWeaponsType.getWeaponTypes(), playerNumber, positionX, positionY);
 
         this.offensiveWeaponsType = offensiveWeaponsType;
+        this.speed=offensiveWeaponsType.getSpeed();
         this.damage = offensiveWeaponsType.getDamage();
         this.aimRange = offensiveWeaponsType.getAimRange();
     }
@@ -44,5 +46,9 @@ public class OffensiveWeapons extends Weapon implements Movable, Offensive {
 
     public OffensiveWeaponsType getOffensiveWeaponsType() {
         return offensiveWeaponsType;
+    }
+
+    public int getSpeed() {
+        return speed;
     }
 }

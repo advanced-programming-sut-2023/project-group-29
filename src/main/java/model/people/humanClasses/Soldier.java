@@ -18,7 +18,7 @@ public class Soldier extends Human implements Offensive {
         super(soldierType.getHumanType(), playerNumber, positionX, positionY);
 
         this.soldierType = soldierType;
-        this.damage = soldierType.getDamage();
+        this.damage = soldierType.getAttackDamage();
         this.aimRange = soldierType.getAimRange();
     }
 
@@ -27,9 +27,10 @@ public class Soldier extends Human implements Offensive {
     }
 
     public boolean isArcherType() {
-        //TODO if(soldierType.equals(archer)) and all other archer types
-
-        return true;
+        return switch (soldierType) {
+            case ARCHER, CROSSBOWMAN, ARCHER_BOW, SLINGER, HORSE_ARCHER, FIRE_THROWER -> true;
+            default -> false;
+        };
     }
 
     public int getDamage() {

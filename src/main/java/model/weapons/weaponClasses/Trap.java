@@ -15,11 +15,6 @@ public class Trap extends Weapon {
         this.damage = trapType.getDamage();
     }
 
-    //todo implement traps
-//    public Offensive.AttackingResult attack(Map map, int targetX, int targetY)
-//    {
-//        return Offensive.attack(map,this,0,targetX,targetY);
-//    }
 
     public int getDamage() {
         return damage;
