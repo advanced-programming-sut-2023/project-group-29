@@ -1,7 +1,8 @@
 package model.map;
 
 public enum CellType {
-    //LAKE,
+    PLAIN_GROUND(0,null,false,false);
+    //LAKE, page 27 of doc
     //MOUNTAIN;
     ;
 

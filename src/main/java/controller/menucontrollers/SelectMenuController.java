@@ -124,8 +124,8 @@ public class SelectMenuController {
     }
 
     private static void applyAttackDamage(ArrayList<Asset> assets, DamageStruct damageStruct, Cell damagedCell) {
-        boolean[] playerHasShieldInCell = new boolean[9];
-        for (int i = 1; i <= 8; i++)
+        boolean[] playerHasShieldInCell = new boolean[8];
+        for (int i = 0; i <= 7; i++)
             playerHasShieldInCell[i] = damagedCell.shieldExistsInCell(PlayerNumber.getPlayerByIndex(i));
 
         for (Asset asset : assets) {

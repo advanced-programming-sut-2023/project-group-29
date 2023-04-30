@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Map;
 
 public class AppData {
     private static final String usersDataBaseFilePath = "./src/main/dataFiles/UsersDataBase.json";

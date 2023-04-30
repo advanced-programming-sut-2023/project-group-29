@@ -1,12 +1,16 @@
 package model.map;
 
+import java.util.PropertyResourceBundle;
+
 public class Map {
     private final Cell[][] cells;
     private final int width;
+    private final int usersCount;
 
-    public Map(int width) {
+    public Map(int width,int usersCount) {
         this.width = width;
-        this.cells = new Cell[width][width];
+        this.cells = new Cell[width+1][width+1];
+        this.usersCount=usersCount;
     }
 
     public Cell[][] getCells() {
@@ -29,5 +33,9 @@ public class Map {
 
     public boolean isIndexValid(int x, int y) {
         return x >= 1 && x <= width && y >= 1 && y <= width;
+    }
+
+    public int getUsersCount() {
+        return usersCount;
     }
 }

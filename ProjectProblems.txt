@@ -28,9 +28,6 @@ jasbi(){
 
 abbasfar()
 {
-    complete enums in model;
-    for all classes:
-        check player number index starts from 0;
     create default maps;
     handle own todos
     empire factor,feed rate,... in general empire things;
