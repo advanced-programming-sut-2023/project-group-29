@@ -7,7 +7,7 @@ import model.weapons.WeaponTypes;
 
 public enum OffensiveWeaponsType {
     GATE_DESTROYER(new WeaponTypes(Weapon.BuilderType.ENGINEER, 50, 4),SpeedEnum.TOO_SLOW, 100,AimRangeEnum.NON_ARCHER),
-    CATAPULT(new WeaponTypes(Weapon.BuilderType.ENGINEER, 50, 2),SpeedEnum.TOO_SLOW, 70,AimRangeEnum.LONG_RANGE_ARCHER),
+    CATAPULT(new WeaponTypes(Weapon.BuilderType.ENGINEER, 50, 2),SpeedEnum.TOO_SLOW, 70,AimRangeEnum.SHORT_CATAPULT_RANGE),
     FIRE_STONE_THROWER(new WeaponTypes(Weapon.BuilderType.ENGINEER, 50, 3),SpeedEnum.TOO_SLOW, 90,AimRangeEnum.LONG_RANGE_ARCHER);
 
     private final int damage;

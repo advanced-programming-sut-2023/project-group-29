@@ -8,7 +8,7 @@ public class Asset {
     private int positionY;
     protected String showingSignInMap;
 
-    //todo jasbi, abbasfar handle this field in all classes and enums
+    //todo jasbi, handle this field in all classes and enums
 
     public Asset(PlayerNumber ownerNumber, int positionX, int positionY) {
         this.ownerNumber = ownerNumber;

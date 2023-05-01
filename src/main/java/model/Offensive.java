@@ -2,6 +2,8 @@ package model;
 
 import model.map.Cell;
 import model.map.Map;
+import model.weapons.weaponClasses.StaticOffensiveWeapons;
+import model.weapons.weaponTypes.StaticOffensiveWeaponsType;
 
 public interface Offensive {
     int decreasingFactorForAirDamageDueToShield = 1;  //TODO reasonable value
@@ -15,7 +17,13 @@ public interface Offensive {
 
         Cell targetCell = map.getCells()[targetX][targetY];
 
-        int destinationDistance = map.distanceOfTwoCellsForAttacking(currentX, currentY, targetX, targetY);
+        int destinationDistance;
+        if(asset instanceof StaticOffensiveWeapons &&
+                ((StaticOffensiveWeapons)asset).getStaticOffensiveWeaponsType().equals(StaticOffensiveWeaponsType.CATAPULT_WITH_BALLAST))
+            destinationDistance = map.distanceOfTwoCellsForAttacking(currentX, currentY, targetX, targetY,true);
+        else
+            destinationDistance = map.distanceOfTwoCellsForAttacking(currentX, currentY, targetX, targetY,false);
+
 
         if (destinationDistance > aimRange)
             return AttackingResult.TOO_FAR;

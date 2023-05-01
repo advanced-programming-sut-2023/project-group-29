@@ -1,10 +1,8 @@
 for later:
     1.functions shouldn't be too long.
     2.check end of the game and condition of that
-    3.set texture
+    3.set texture and drop building
 
-branch
-timing
 
 Faratin(){
     trade;
@@ -13,8 +11,6 @@ Faratin(){
     move recovery questions to user model;
     handle own todos;
     handle menus;
-
-    Sunday night;
 }
 
 jasbi(){
@@ -28,10 +24,17 @@ jasbi(){
 
 abbasfar()
 {
-    create default maps;
-    handle own todos
     empire factor,feed rate,... in general empire things;
-    other things remaining for soldiers and weapons
+    add texture enum
+
+    other things remaining for soldiers and weapons;
+    {
+        building hp decrease;
+        condition that soldiers are on the wall and land soldiers attack wall;
+    }
+
+    create default maps;
+    handle own todos;
 }
 
 

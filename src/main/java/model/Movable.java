@@ -2,6 +2,8 @@ package model;
 
 import model.map.Cell;
 import model.map.Map;
+import model.people.humanClasses.Soldier;
+import model.people.humanTypes.SoldierType;
 
 public interface Movable {
     //todo go into darvaze in what direction
@@ -21,7 +23,13 @@ public interface Movable {
         if (destinationCell.getTrap() != null && destinationCell.getTrap().getOwnerNumber().equals(asset.getOwnerNumber()))
             return MovingResult.BAD_PLACE;
 
-        int destinationDistance = map.distanceOfTwoCellsForMoving(currentX, currentY, destinationX, destinationY, ableToClimbLadder);
+        int destinationDistance;
+        if(asset instanceof Soldier &&
+                ((Soldier)asset).getSoldierType().equals(SoldierType.ASSASSIN))
+            destinationDistance = map.distanceOfTwoCellsForMoving(currentX, currentY, destinationX, destinationY, ableToClimbLadder,true);
+        else
+            destinationDistance = map.distanceOfTwoCellsForMoving(currentX, currentY, destinationX, destinationY, ableToClimbLadder,false);
+
 
         if (destinationDistance > speed)
             return MovingResult.TOO_FAR;
