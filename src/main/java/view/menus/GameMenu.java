@@ -2,6 +2,7 @@ package view.menus;
 
 import controller.MenuNames;
 import controller.menucontrollers.GameMenuController;
+import model.AppData;
 import model.Empire;
 import model.GameData;
 import model.PlayerNumber;
@@ -55,23 +56,30 @@ public class GameMenu {
         else if ((matcher = Command.getMatcher(input, Command.SELECT_UNIT)) != null) {
             selectUnit(matcher);
         }
-        else if ((matcher = Command.getMatcher(input, Command.TRADE)) != null) {
-            trade(matcher);
-        }
-        else if (Command.getMatcher(input, Command.SHOW_TRADE_LIST) != null) {
-            showTradeList();
-        }
-        else if ((matcher = Command.getMatcher(input, Command.TRADE_ACCEPT)) != null) {
-            tradeAccept(matcher);
-        }
-        else if ((matcher = Command.getMatcher(input, Command.TRADE_HISTORY)) != null) {
-            tradeHistory(matcher);
+        else if (Command.getMatcher(input, Command.ENTER_TRADE_MENU) != null) {
+            System.out.println("You entered trade menu");
+            for(int i = 0; i < AppData.getUsers().size(); i++) {
+                System.out.println("User" + (i + 1) + ": " + AppData.getUsers().get(i).getUsername());
+            }
+            return MenuNames.TRADE_MENU;
+        } else if (Command.getMatcher(input, Command.ENTER_SHOP_MENU) != null) {
+            System.out.println("You entered shop menu");
+            return MenuNames.SHOP_MENU;
+        } else if (Command.getMatcher(input, Command.ENTER_SELECT_MENU) != null) {
+            System.out.println("You entered select menu");
+            return MenuNames.SELECT_MENU;
+        } else if (Command.getMatcher(input, Command.ENTER_MAP_MENU) != null) {
+            System.out.println("You entered map menu");
+            return MenuNames.MAP_MENU;
+        } else if (Command.getMatcher(input, Command.BACK_MAIN_MENU) != null) {
+            System.out.println("You entered main menu");
+            return MenuNames.MAIN_MENU;
         }
         else {
             System.out.println("Invalid command!");
         }
 
-        return null;
+        return MenuNames.GAME_MENU;
     }
 
     private static void showMap() {

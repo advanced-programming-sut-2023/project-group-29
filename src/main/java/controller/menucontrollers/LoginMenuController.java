@@ -2,6 +2,7 @@ package controller.menucontrollers;
 
 import model.AppData;
 import model.User;
+import view.menus.LoginMenu;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -11,34 +12,14 @@ import java.util.regex.Pattern;
 public class LoginMenuController {
 
     public static int checkWeakPassword(String password) {
-        int checkLengthOfPassword = 0;
-        int checkCapital = 0;
-        int checkSmall = 0;
-        int checkNumber = 0;
-        int checkOddCharacter = 0;
-        if (password.length() >= 6) {
-            checkLengthOfPassword = 1;
+        Matcher matcherCapital = Pattern.compile("[A-Z]").matcher(password);
+        Matcher matcherSmall = Pattern.compile("[a-z]").matcher(password);
+        Matcher matcherNumber = Pattern.compile("\\d").matcher(password);
+        Matcher matcherOdd = Pattern.compile("[!@#&%_\\-=~\\+\\(\\)\\^\\{\\}\"\\?]").matcher(password);
+        if (password.length() < 6) {
+            return  0;
         }
-        //TODO faratin: replace with regex!!
-        for (int i = 0; i < password.length(); i++) {
-            int passwordChar = (int) password.charAt(i);
-            if (passwordChar >= 65 && passwordChar <= 90) {
-                checkCapital = 1;
-            }
-            else if (passwordChar >= 97 && passwordChar <= 122) {
-                checkSmall = 1;
-            }
-            else if (passwordChar >= 48 && passwordChar <= 57) {
-                checkNumber = 1;
-            }
-            else {
-                checkOddCharacter = 1;
-            }
-        }
-        if (checkLengthOfPassword == 0) {
-            return 0;
-        }
-        if (!(checkCapital == 1 && checkSmall == 1 && checkNumber == 1 && checkOddCharacter == 1)) {
+        if (!(matcherCapital.find() && matcherSmall.find() && matcherNumber.find() && matcherOdd.find())) {
             return 1;
         }
         return 2;
@@ -69,9 +50,7 @@ public class LoginMenuController {
         output = addCharToPassword(random, output, 10, 48);
         output = addCharToPassword(random, output, 15, 33);
         output = "Your random password is: " + output + "Please re-enter your password here:";
-        System.out.println(output);
-        Scanner scanner = new Scanner(System.in);
-        String password = scanner.nextLine();
+        String password = LoginMenu.showRandomPassword(output);
         if (!password.equals(output)) {
             return "Incorrect password!";
         }
@@ -104,45 +83,6 @@ public class LoginMenuController {
         return "Us against whole of the world!";
     }
 
-    private static String checkSecurityQuestion() {
-        String output = "";
-        while (true) {
-            System.out.println("Pick your security question: 1. What is my father’s name? 2. What " +
-                    "was my first pet’s name? 3. What is my mother’s last name?");
-            Scanner scanner = new Scanner(System.in);
-            String input = scanner.nextLine();
-            String regex1 = "question pick -q (?<questionNumber>\\d) -a (?<answer>\\S+) -c (?<answerconfirm>\\S+)";
-            String regex2 = "question pick -a (?<answer>\\S+) -c (?<answerconfirm>\\S+) -q (?<questionNumber>\\d)";
-            Matcher matcher1 = Pattern.compile(regex1).matcher(input);
-            Matcher matcher2 = Pattern.compile(regex2).matcher(input);
-            if (matcher1.matches()) {
-                if (Integer.parseInt(matcher1.group(1)) > 3) {
-                    System.out.println("Invalid number of question!");
-                }
-                else if (!matcher1.group(2).equals(matcher1.group(3))) {
-                    System.out.println("Please enter your answer confirm correctly");
-                }
-                else {
-                    output = matcher1.group(1) + " " + matcher1.group(2);
-                    break;
-                }
-            }
-            else if (matcher2.matches()) {
-                if (Integer.parseInt(matcher2.group(3)) > 3) {
-                    System.out.println("Invalid number of question!");
-                }
-                else if (!matcher2.group(1).equals(matcher2.group(2))) {
-                    System.out.println("Please enter your answer confirm correctly");
-                }
-                else {
-                    output = matcher2.group(3) + " " + matcher2.group(1);
-                    break;
-                }
-            }
-        }
-        return output;
-    }
-
     public static String createUser(Matcher matcher) {
         //TODO faratin: split it to smaller functions
         String input = matcher.group(0);
@@ -154,8 +94,8 @@ public class LoginMenuController {
         Pattern patternNickname = Pattern.compile("-n (?<nickname>\\w\\S+)");
         Pattern patternExistEmail = Pattern.compile("-email");
         Pattern patternEmail = Pattern.compile("-email (?<email>\\w\\S+)");
-        Pattern patternExistSlogan = Pattern.compile(".+-s.+");
-        Pattern patternSlogan = Pattern.compile("-s (?<slogan>\\w.+)");
+        Pattern patternExistSlogan = Pattern.compile("-s");
+        Pattern patternSlogan = Pattern.compile("-s (?<slogan>\\w.+\\S)");
         Matcher matcherExistUsername = patternExistUsername.matcher(input);
         Matcher matcherExistPassword = patternExistPassword.matcher(input);
         Matcher matcherExistNickname = patternExistNickname.matcher(input);
@@ -193,9 +133,7 @@ public class LoginMenuController {
         }
 
         if (AppData.getUserByUsername(username) != null) {
-            System.out.println("This username is already exist! Do you want to have " + username + "1 as your username?");
-            Scanner scanner = new Scanner(System.in);
-            String newInput = scanner.nextLine();
+            String newInput = LoginMenu.suggestUsername(username);
             if (!(newInput.equals("Yes") || newInput.equals("yes"))) {
                 return "Account didn't create!";
             }
@@ -230,20 +168,15 @@ public class LoginMenuController {
         }
         String nickname = matcherNickname.group(1);
         String slogan = "";
-        String newSlogan = "";
         if (matcherExistSlogan.matches()) {
             if (!matcherSlogan.group(1).equals("random")) {
                 slogan = matcherSlogan.group(1);
-                for (int i = 0; i < slogan.length() - 1; i++) {
-                    newSlogan += slogan.charAt(i);
-                }
-                slogan = newSlogan;
             }
             else {
                 slogan = createRandomSlogan();
             }
         }
-        User user = new User(username, password, nickname, email, slogan, checkSecurityQuestion());
+        User user = new User(username, password, nickname, email, slogan, LoginMenu.checkSecurityQuestion());
         AppData.addUser(user);
         return "user created successfully";
     }
@@ -281,21 +214,9 @@ public class LoginMenuController {
         String[] securityQuestion = AppData.getUserByUsername(username).getSecurityQuestion().split(" ");
         int numberOfQuestion = Integer.parseInt(securityQuestion[0]);
         String answer = securityQuestion[1];
-        if (numberOfQuestion == 1) {
-            System.out.println("What is your father’s name?");
-        }
-        else if (numberOfQuestion == 2) {
-            System.out.println("What was your first pet’s name?");
-        }
-        else if (numberOfQuestion == 3) {
-            System.out.println("What is your mother’s last name?");
-        }
-        Scanner scanner = new Scanner(System.in);
-        String input = scanner.nextLine();
+        String input = LoginMenu.askSecurityQuestion(numberOfQuestion);
         if (input.equals(answer)) {
-            System.out.println("Enter your new password and its confirmation");
-            Scanner scannerNewPassword = new Scanner(System.in);
-            String newPassword = scannerNewPassword.nextLine();
+            String newPassword = LoginMenu.changePasswordWithSecurityQuestion();
             Matcher passwordMatcher = Pattern.compile("\\s*(\\S+)\\s+(\\S+)\\s*").matcher(newPassword);
             if (!passwordMatcher.matches()) {
                 return "Invalid command!";

@@ -7,6 +7,7 @@ import view.Command;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class LoginMenu {
     public static MenuNames run(Scanner scanner) {
@@ -41,5 +42,75 @@ public class LoginMenu {
             System.out.println("Invalid command!");
         }
         return MenuNames.LOGIN_MENU;
+    }
+
+    public static String checkSecurityQuestion() {
+        String output = "";
+        while (true) {
+            System.out.println("Pick your security question: 1. What is my father’s name? 2. What " +
+                    "was my first pet’s name? 3. What is my mother’s last name?");
+            Scanner scanner = new Scanner(System.in);
+            String input = scanner.nextLine();
+            String regex1 = "question pick -q (?<questionNumber>\\d) -a (?<answer>\\S+) -c (?<answerconfirm>\\S+)";
+            String regex2 = "question pick -a (?<answer>\\S+) -c (?<answerconfirm>\\S+) -q (?<questionNumber>\\d)";
+            Matcher matcher1 = Pattern.compile(regex1).matcher(input);
+            Matcher matcher2 = Pattern.compile(regex2).matcher(input);
+            if (matcher1.matches()) {
+                if (Integer.parseInt(matcher1.group(1)) > 3) {
+                    System.out.println("Invalid number of question!");
+                }
+                else if (!matcher1.group(2).equals(matcher1.group(3))) {
+                    System.out.println("Please enter your answer confirm correctly");
+                }
+                else {
+                    output = matcher1.group(1) + " " + matcher1.group(2);
+                    break;
+                }
+            }
+            else if (matcher2.matches()) {
+                if (Integer.parseInt(matcher2.group(3)) > 3) {
+                    System.out.println("Invalid number of question!");
+                }
+                else if (!matcher2.group(1).equals(matcher2.group(2))) {
+                    System.out.println("Please enter your answer confirm correctly");
+                }
+                else {
+                    output = matcher2.group(3) + " " + matcher2.group(1);
+                    break;
+                }
+            }
+        }
+        return output;
+    }
+
+    public static String suggestUsername(String username) {
+        System.out.println("This username is already exist! Do you want to have " + username + "1 as your username?");
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextLine();
+
+    }
+
+    public static String askSecurityQuestion(int numberOfQuestion) {
+        if (numberOfQuestion == 1) {
+            System.out.println("What is your father’s name?");
+        } else if (numberOfQuestion == 2) {
+            System.out.println("What was your first pet’s name?");
+        } else if (numberOfQuestion == 3) {
+            System.out.println("What is your mother’s last name?");
+        }
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextLine();
+    }
+
+    public static String changePasswordWithSecurityQuestion() {
+        System.out.println("Enter your new password and its confirmation");
+        Scanner scannerNewPassword = new Scanner(System.in);
+        return scannerNewPassword.nextLine();
+    }
+
+    public static String showRandomPassword(String output) {
+        System.out.println(output);
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextLine();
     }
 }

@@ -64,6 +64,11 @@ public enum Command {
     SHOW_PRICE_LIST(""),
     BUY(""),
     SELL(""),
+    ENTER_TRADE_MENU("\\s*enter\\s+trade\\s+menu\\s*"),
+    ENTER_SHOP_MENU("\\s*enter\\s+shop\\s+menu\\s*"),
+    ENTER_SELECT_MENU("\\s*enter\\s+select\\s+menu\\s*"),
+    ENTER_MAP_MENU("\\s*enter\\s+map\\s+menu\\s*"),
+    BACK_GAME_MENU("\\s*back\\s*")
     ;
     private final String regex;
 

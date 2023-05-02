@@ -39,12 +39,15 @@ public class SelectMenu {
         }
         else if ((matcher = Command.getMatcher(input, Command.DISBAND_UNIT)) != null) {
             disbandUnit(matcher);
+        } else if ((matcher = Command.getMatcher(input, Command.BACK_GAME_MENU)) != null) {
+            System.out.println("You entered game menu");
+            return MenuNames.GAME_MENU;
         }
         else {
             System.out.println("Invalid command!");
         }
 
-        return null;
+        return MenuNames.SELECT_MENU;
     }
 
     private static void createUnit() {

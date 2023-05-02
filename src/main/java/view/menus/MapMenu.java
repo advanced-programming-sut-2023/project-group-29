@@ -33,12 +33,15 @@ public class MapMenu {
         }
         else if ((matcher = Command.getMatcher(input, Command.DROP_UNIT)) != null) {
             dropUnit(matcher);
+        } else if ((matcher = Command.getMatcher(input, Command.BACK_GAME_MENU)) != null) {
+            System.out.println("You entered game menu");
+            return MenuNames.GAME_MENU;
         }
         else {
             System.out.println("Invalid command!");
         }
 
-        return null;
+        return MenuNames.MAP_MENU;
     }
 
     private static void moveMap(Matcher matcher) {
