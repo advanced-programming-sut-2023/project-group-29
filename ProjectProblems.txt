@@ -11,6 +11,11 @@ Faratin(){
     move recovery questions to user model;
     handle own todos;
     handle menus;
+
+    empire factor,feed rate,... in general empire things;
+    add texture enum
+
+    write test
 }
 
 jasbi(){
@@ -24,9 +29,6 @@ jasbi(){
 
 abbasfar()
 {
-    empire factor,feed rate,... in general empire things;
-    add texture enum
-
     other things remaining for soldiers and weapons;
     {
         building hp decrease;
