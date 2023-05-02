@@ -5,26 +5,21 @@ for later:
 
 
 Faratin(){
+
+    add texture enum;
     trade;
-    don't use scanner in controller;
-    move println's to menus;
+    empire factor,feed rate,... in general empire things;
+    write test;
+
     move recovery questions to user model;
     handle own todos;
-    handle menus;
-
-    empire factor,feed rate,... in general empire things;
-    add texture enum
-
-    write test
 }
 
 jasbi(){
     complete enums in model;
     complete unique functions for each building type;
+
     handle own todos;
-    test for one of the procedures;
-    add initialize menu for start game;
-    passing cell or x and y;
 }
 
 abbasfar()

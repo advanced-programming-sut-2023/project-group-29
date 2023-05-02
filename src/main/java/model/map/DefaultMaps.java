@@ -6,6 +6,7 @@ public enum DefaultMaps {
 
     private final int index;
     private Map map;
+    private static final int defaultMapsCount=2;
 
     DefaultMaps(int index)
     {
@@ -44,5 +45,9 @@ public enum DefaultMaps {
 
     public Map getMap() {
         return map;
+    }
+
+    public static int getDefaultMapsCount() {
+        return defaultMapsCount;
     }
 }

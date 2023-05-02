@@ -1,9 +1,8 @@
 package model.map;
 
 public enum CellType {
-    PLAIN_GROUND(null,false,false);
-    //LAKE, page 27 of doc
-    //MOUNTAIN;
+    PLAIN_GROUND(ConsoleColors.YELLOW_BACKGROUND,true,true);
+    //page 27 of doc
     ;
     private final ConsoleColors showingColor;
     private final boolean ableToBuildOn;
