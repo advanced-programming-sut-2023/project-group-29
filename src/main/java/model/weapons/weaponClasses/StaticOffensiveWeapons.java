@@ -12,6 +12,8 @@ public class StaticOffensiveWeapons extends Weapon implements Offensive {
     private final int damage;
     private final int aimRange;
     private final StaticOffensiveWeaponsType staticOffensiveWeaponsType;
+    private boolean attackedThisTurn=false;
+
 
     public StaticOffensiveWeapons(StaticOffensiveWeaponsType staticOffensiveWeaponsType, PlayerNumber playerNumber, int positionX, int positionY) {
         super(staticOffensiveWeaponsType.getWeaponTypes(), playerNumber, positionX, positionY);
@@ -37,8 +39,16 @@ public class StaticOffensiveWeapons extends Weapon implements Offensive {
     public boolean isArcherType() {
         return true;
     }
+    public boolean hasAttackedThisTurn()
+    {
+        return attackedThisTurn;
+    }
 
     public StaticOffensiveWeaponsType getStaticOffensiveWeaponsType() {
         return staticOffensiveWeaponsType;
+    }
+
+    public void setAttackedThisTurn(boolean attackedThisTurn) {
+        this.attackedThisTurn = attackedThisTurn;
     }
 }

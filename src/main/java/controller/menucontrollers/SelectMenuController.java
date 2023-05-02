@@ -3,7 +3,10 @@ package controller.menucontrollers;
 import model.*;
 import model.map.Cell;
 import model.map.Map;
+import model.people.Human;
+import model.people.HumanState;
 import model.people.humanClasses.Soldier;
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 
@@ -59,12 +62,66 @@ public class SelectMenuController {
         return (totalObjectCount - failuresCount) + " troop(s) out of " + totalObjectCount + " moved successfully!";
     }
 
-    public static void patrolUnit() {
-        //TODO abbasfar
+    //todo abbasfar where is ordoogah??? disband unit
+
+    public static String patrolUnit(int firstX,int firstY,int secondX,int secondY) {
+
+        GameData gameData = GameMenuController.getGameData();
+
+        int currentX = gameData.getSelectedCellX();
+        int currentY = gameData.getSelectedCellY();
+
+        Map map = gameData.getMap();
+        Cell currentCell = map.getCells()[currentX][currentY];
+
+        //create moving object list
+        ArrayList<Movable> movingObjects = currentCell.getMovingObjectsOfPlayer(gameData.getPlayerOfTurn());
+
+        int failures=0;
+        for(Movable movingObject:movingObjects){
+            if(!movingObject.checkForMoveErrors(map,firstX,firstY).equals(Movable.MovingResult.SUCCESSFUL)){
+                failures++;
+                continue;
+            }
+
+            ((Asset)movingObject).setPositionX(firstX);
+            ((Asset)movingObject).setPositionY(firstY);
+
+            if(movingObject.checkForMoveErrors(map,secondX,secondY).equals(Movable.MovingResult.SUCCESSFUL)){
+                movingObject.getPatrol().startNewPatrol(firstX,firstY,secondX,secondY);
+            }
+            else
+            {
+                failures++;
+            }
+
+            ((Asset)movingObject).setPositionX(currentX);
+            ((Asset)movingObject).setPositionY(currentY);
+        }
+
+        return (movingObjects.size()-failures) + " unit(s) out of "+movingObjects.size()+" has been set successfully!";
     }
 
-    public static void setStateOfUnit() {
-        //TODO abbasfar
+    public static String setStateOfUnit(int cellX,int cellY,String stateOfUnitString) {
+
+        GameData gameData=GameMenuController.getGameData();
+        Map map=gameData.getMap();
+
+        if(!map.isIndexValid(cellX,cellY))
+            return "The index is invalid!";
+        Cell cell=map.getCells()[cellX][cellY];
+
+        HumanState humanState=HumanState.getHumanStateByString(stateOfUnitString);
+        if(humanState==null)
+            return "Enter a valid state";
+
+        ArrayList<Movable> assetsInCell=cell.getMovingObjectsOfPlayer(gameData.getPlayerOfTurn());
+
+        for(Movable movable:assetsInCell)
+            if(movable instanceof Human)
+                ((Human)movable).setState(humanState);
+
+        return "State successfully set!";
     }
 
     public static String makeUnitAttacking(int targetX, int targetY) {
@@ -175,6 +232,7 @@ public class SelectMenuController {
     }
 
     public static void disbandUnit() {
+        //todo
     }
 
     static class DamageStruct {

@@ -2,6 +2,7 @@ package model.people;
 
 import model.Asset;
 import model.Movable;
+import model.Patrol;
 import model.PlayerNumber;
 import model.map.Map;
 
@@ -9,10 +10,13 @@ public class Human extends Asset implements Movable {
     //TODO speed type slow, middle, fast and convert to number
 
     //todo defense damage should differ
-    protected State state = State.STANDING;
+    protected HumanState humanState = HumanState.STANDING;
     protected boolean ableToClimbLadder;
     protected int speed;
-    private boolean patrolling;
+    private boolean movedThisTurn=false;
+
+    private final Patrol patrol=new Patrol();
+
 
     protected Human(HumanType humanType, PlayerNumber playerNumber, int positionX, int positionY) {
         super(playerNumber, positionX, positionY);
@@ -25,17 +29,20 @@ public class Human extends Asset implements Movable {
     public MovingResult move(Map map, int destinationX, int destinationY) {
         return Movable.move(map, this, speed, ableToClimbLadder, destinationX, destinationY);
     }
+    public MovingResult checkForMoveErrors(Map map, int destinationX, int destinationY) {
+        return Movable.checkForMoveErrors(map, this, speed, ableToClimbLadder, destinationX, destinationY);
+    }
 
     public boolean isAbleToClimbLadder() {
         return ableToClimbLadder;
     }
 
-    public State getState() {
-        return state;
+    public HumanState getState() {
+        return humanState;
     }
 
-    public void setState(State state) {
-        this.state = state;
+    public void setState(HumanState humanState) {
+        this.humanState = humanState;
     }
 
     public boolean isAlive() {
@@ -46,17 +53,17 @@ public class Human extends Asset implements Movable {
         return speed;
     }
 
-    public boolean isPatrolling() {
-        return patrolling;
+    public boolean hasMovedThisTurn()
+    {
+        return movedThisTurn;
     }
 
-    public void setPatrolling(boolean patrolling) {
-        this.patrolling = patrolling;
+    public void setMovedThisTurn(boolean movedThisTurn) {
+        this.movedThisTurn = movedThisTurn;
     }
 
-    enum State {
-        OFFENSIVE,
-        DEFENSIVE,
-        STANDING
+    @Override
+    public Patrol getPatrol() {
+        return patrol;
     }
 }

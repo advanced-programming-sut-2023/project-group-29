@@ -13,6 +13,8 @@ public class Soldier extends Human implements Offensive {
 
     //TODO reasonable value below
     private final int decreasingFactorOfShieldForArchers = 4;
+    private boolean attackedThisTurn=false;
+
 
     public Soldier(SoldierType soldierType, PlayerNumber playerNumber, int positionX, int positionY) {
         super(soldierType.getHumanType(), playerNumber, positionX, positionY);
@@ -43,5 +45,13 @@ public class Soldier extends Human implements Offensive {
 
     public SoldierType getSoldierType() {
         return soldierType;
+    }
+    public boolean hasAttackedThisTurn()
+    {
+        return attackedThisTurn;
+    }
+
+    public void setAttackedThisTurn(boolean attackedThisTurn) {
+        this.attackedThisTurn = attackedThisTurn;
     }
 }

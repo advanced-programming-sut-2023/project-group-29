@@ -24,14 +24,20 @@ jasbi(){
 
 abbasfar()
 {
-    other things remaining for soldiers and weapons;
-    {
-        building hp decrease;
-        condition that soldiers are on the wall and land soldiers attack wall;
-    }
+
+    building hp decrease;
+
+    pour oil, dig tunnel;
 
     create default maps;
+
+    end turn:
+        patrol apply
+        aggressive,defending apply
+
+
     handle own todos;
+
 }
 
 

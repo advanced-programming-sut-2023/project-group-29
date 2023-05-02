@@ -1,5 +1,6 @@
 package model.map;
 
+import model.Pair;
 import org.checkerframework.checker.units.qual.A;
 
 import java.util.*;
@@ -86,17 +87,6 @@ public class Map {
         DOWN,
         LEFT,
         UP
-    }
-
-    static class Pair{
-        public int first;
-        public int second;
-
-        public Pair(int first,int second)
-        {
-            this.first=first;
-            this.second=second;
-        }
     }
 
     public int getWidth() {

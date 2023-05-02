@@ -1,8 +1,6 @@
 package model.weapons.weaponClasses;
 
-import model.Movable;
-import model.Offensive;
-import model.PlayerNumber;
+import model.*;
 import model.map.Map;
 import model.weapons.Weapon;
 import model.weapons.weaponTypes.OffensiveWeaponsType;
@@ -12,6 +10,9 @@ public class OffensiveWeapons extends Weapon implements Movable, Offensive {
     private final int aimRange;
     private final int speed;
     private final OffensiveWeaponsType offensiveWeaponsType;
+    private boolean movedThisTurn=false;
+    private boolean attackedThisTurn=false;
+    private final Patrol patrol=new Patrol();
 
     public OffensiveWeapons(OffensiveWeaponsType offensiveWeaponsType, PlayerNumber playerNumber, int positionX, int positionY) {
         super(offensiveWeaponsType.getWeaponTypes(), playerNumber, positionX, positionY);
@@ -24,6 +25,10 @@ public class OffensiveWeapons extends Weapon implements Movable, Offensive {
 
     public MovingResult move(Map map, int destinationX, int destinationY) {
         return Movable.move(map, this, speed, false, destinationX, destinationY);
+    }
+
+    public MovingResult checkForMoveErrors(Map map, int destinationX, int destinationY) {
+        return Movable.checkForMoveErrors(map, this, speed, false, destinationX, destinationY);
     }
 
     public AttackingResult canAttack(Map map, int targetX, int targetY) {
@@ -50,5 +55,27 @@ public class OffensiveWeapons extends Weapon implements Movable, Offensive {
 
     public int getSpeed() {
         return speed;
+    }
+
+    public boolean hasMovedThisTurn()
+    {
+        return movedThisTurn;
+    }
+    public boolean hasAttackedThisTurn()
+    {
+        return attackedThisTurn;
+    }
+
+    public void setAttackedThisTurn(boolean attackedThisTurn) {
+        this.attackedThisTurn = attackedThisTurn;
+    }
+
+    public void setMovedThisTurn(boolean movedThisTurn) {
+        this.movedThisTurn = movedThisTurn;
+    }
+
+    @Override
+    public Patrol getPatrol() {
+        return patrol;
     }
 }

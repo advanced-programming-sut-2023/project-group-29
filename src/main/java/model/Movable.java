@@ -4,11 +4,22 @@ import model.map.Cell;
 import model.map.Map;
 import model.people.humanClasses.Soldier;
 import model.people.humanTypes.SoldierType;
+import org.checkerframework.checker.units.qual.A;
 
 public interface Movable {
     //todo go into darvaze in what direction
     static MovingResult move(Map map, Asset asset, int speed, boolean ableToClimbLadder, int destinationX, int destinationY) {
-        //TODO: some lines were too long
+
+        MovingResult movingResult=checkForMoveErrors(map,asset,speed,ableToClimbLadder,destinationX,destinationY);
+
+        if(movingResult.equals(MovingResult.SUCCESSFUL))
+            finalTransfer(asset,destinationX,destinationY);
+
+        return movingResult;
+    }
+
+    public static MovingResult checkForMoveErrors(Map map, Asset asset, int speed, boolean ableToClimbLadder, int destinationX, int destinationY)
+    {
         int currentX = asset.getPositionX();
         int currentY = asset.getPositionY();
 
@@ -34,15 +45,23 @@ public interface Movable {
         if (destinationDistance > speed)
             return MovingResult.TOO_FAR;
 
+        return MovingResult.SUCCESSFUL;
+    }
+    private static void finalTransfer(Asset asset,int destinationX,int destinationY)
+    {
         asset.setPositionX(destinationX);
         asset.setPositionY(destinationY);
 
-        return MovingResult.SUCCESSFUL;
+        ((Movable)asset).setMovedThisTurn(true);
     }
 
     MovingResult move(Map map, int destinationX, int destinationY);
+    MovingResult checkForMoveErrors(Map map, int destinationX, int destinationY);
 
-    //TODO handle portable tower. it should not been allowed to go in a building because it is a building
+    void setMovedThisTurn(boolean movedThisTurn);
+
+    boolean hasMovedThisTurn();
+    Patrol getPatrol();
     enum MovingResult {
         SUCCESSFUL,
         INVALID_INDEX,

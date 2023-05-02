@@ -2,6 +2,7 @@ package model;
 
 import model.map.Cell;
 import model.map.Map;
+import model.weapons.weaponClasses.OffensiveWeapons;
 import model.weapons.weaponClasses.StaticOffensiveWeapons;
 import model.weapons.weaponTypes.StaticOffensiveWeaponsType;
 
@@ -28,13 +29,15 @@ public interface Offensive {
         if (destinationDistance > aimRange)
             return AttackingResult.TOO_FAR;
 
-        //TODO extra distance for taller towers
+        ((Offensive)asset).setAttackedThisTurn(true);
         return AttackingResult.SUCCESSFUL;
     }
 
     AttackingResult canAttack(Map map, int targetX, int targetY);
+    boolean hasAttackedThisTurn();
+    void setAttackedThisTurn(boolean attackedThisTurn);
 
-    int getDamage();
+        int getDamage();
 
     boolean isArcherType();
 
