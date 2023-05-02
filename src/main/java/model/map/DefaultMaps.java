@@ -17,6 +17,11 @@ public enum DefaultMaps {
         }
     }
 
+    public static int getNumberOfDefaultMaps() {
+        //TODO: abbasfar complete this function;
+        return 2;
+    }
+
     private Map initializeFirstMap()
     {
         Map firstMap=new Map(100,3);

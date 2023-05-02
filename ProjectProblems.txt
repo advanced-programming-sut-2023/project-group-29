@@ -22,9 +22,9 @@ jasbi(){
     complete enums in model;
     complete unique functions for each building type;
     handle own todos;
-    test for one of the procedures;
-    add initialize menu for start game;
-    passing cell or x and y;
+    test for one of the procedures; --> faratin
+    add initialize menu for start game --> done
+    passing cell or x and y --> DONE
 }
 
 abbasfar()

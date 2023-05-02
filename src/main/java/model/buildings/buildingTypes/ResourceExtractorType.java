@@ -4,23 +4,76 @@ import model.buildings.Building;
 import model.buildings.BuildingType;
 
 public enum ResourceExtractorType {
-    PITCH_RIG(0, null, "pitchRig"),
-    OX_TETHER(0, null, "oxTether"),
-    QUARRY(0, null, "quarry"),
-    WOOD_CUTTER(0, null, "woodCutter"),
-    MILL(0, null, "mill"),
-    IRON_MINE(0, null, "ironMine"),
-    APPLE_GARDEN(0, null, "appleGarden"),
-    DAIRY_PRODUCTS(0, null, "dairyProducts"),
-    GRAIN_FARM(0, null, "grainFarm"),
-    HUNTING_POST(0, null, "huntingPost"),
-    WHEAT_FARM(0, null, "wheatFarm"),
-    BAKERY(0, null, "bakery"),
-    BEER_BREWING(0, null, "beerBrewing"),
-    BARRACK(0, null, "barrack"),
-    MERCENARY_POST(0, null, "mercenaryPost"),
-    ENGINEER_GUILD(0, null, "engineerGuild"),
-    STABLE(0, null, "stable"),
+    PITCH_RIG( // دکل قیر
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 20, 0}),
+            0, "pitchRig"
+    ),
+    OX_TETHER( // افسار گاو
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 5, 0}),
+            0, "oxTether"
+    ),
+    QUARRY( // معدن سنگ
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 20, 0}),
+            0, "quarry"
+    ),
+    WOOD_CUTTER( //چوب بر
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 3, 0}),
+            0, "woodCutter"
+    ),
+    MILL( //آسیاب
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 20, 0}),
+            0, "mill"
+    ),
+    IRON_MINE(//معدن آهن
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 20, 0}),
+            0, "ironMine"
+    ),
+    APPLE_GARDEN( //باغ سیب
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 5, 0}),
+            0, "appleGarden"
+    ),
+    DAIRY_PRODUCTS( //لبنیاتی
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 10, 0}),
+            0, "dairyProducts"
+    ),
+    GRAIN_FARM(// مزرعه جو
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 15, 0}),
+            0, "grainFarm"
+    ),
+    HUNTING_POST(// پست شکار
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 5, 0}),
+            0, "huntingPost"
+    ),
+    WHEAT_FARM( //مزرعه گندم
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 15, 0}),
+            0, "wheatFarm"
+    ),
+    BAKERY( //نانوایی
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 10, 0}),
+            0, "bakery"
+    ),
+    BEER_BREWING(// آبجوسازی
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 10, 0}),
+            0, "beerBrewing"
+    ),
+    BARRACK( //سربازخانه
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 15, 0, 0}),
+            0, "barrack"
+    ),
+    MERCENARY_POST( // سربازخانه مزدوران
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 10, 0}),
+            0, "mercenaryPost"
+    ),
+    ENGINEER_GUILD( // صنف مهندسان
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{100, 0, 10, 0}),
+            0, "engineerGuild"
+    ),
+    STABLE(//اصطبل
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{400, 0, 20, 0}),
+            0, "stable"
+    ),
+
+    //کارخانه ذوب
     ;
 
     private final int rate;
@@ -28,7 +81,7 @@ public enum ResourceExtractorType {
     private String name;
 
 
-    ResourceExtractorType(int rate, BuildingType buildingType, String buildingName) {
+    ResourceExtractorType(BuildingType buildingType, int rate, String buildingName) {
         this.rate = rate;
         this.buildingType = buildingType;
         Building.addToValidBuildingNames(buildingName, 5);

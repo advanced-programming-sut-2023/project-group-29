@@ -4,9 +4,18 @@ import model.buildings.Building;
 import model.buildings.BuildingType;
 
 public enum AccommodationType {
-    BIG_STONE_GATEHOUSE(null, 0, "bigStoneGatehouse"),
-    SMALL_STONE_GATEHOUSE(null, 0, "smallStoneGatehouse"),
-    HOVEL(null, 0, "hovel");
+    BIG_STONE_GATEHOUSE( // دروازه سنگی بزرگ
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 20, 0, 0}),
+            10, "bigStoneGatehouse"
+    ),
+    SMALL_STONE_GATEHOUSE( //دروازه سنگی کوچک
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 15, 0, 0}),
+            8, "smallStoneGatehouse"
+    ),
+    HOVEL( // خانه
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 6, 0}),
+            8, "hovel"
+    );
     private final int numberOfSettler;
     private final BuildingType buildingType;
     private final String name;
