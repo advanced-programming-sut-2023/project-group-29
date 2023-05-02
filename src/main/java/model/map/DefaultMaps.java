@@ -1,5 +1,8 @@
 package model.map;
 
+import controller.menucontrollers.MapMenuController;
+import model.buildings.buildingTypes.AccommodationType;
+
 public enum DefaultMaps {
     FIRST_MAP(0),
     SECOND_MAP(1);
@@ -35,7 +38,7 @@ public enum DefaultMaps {
                 cells[i][j]=new Cell(CellType.PLAIN_GROUND);
             }
 
-        //todo abbasfar add main maghars
+        //MapMenuController.dropBuilding(5,5, AccommodationType.MAIN_KEEP.getNam,);
         return secondMap;
     }
 

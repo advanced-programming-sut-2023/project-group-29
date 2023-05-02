@@ -1,6 +1,8 @@
 package controller.menucontrollers;
 
 import model.*;
+import model.buildings.Building;
+import model.buildings.buildingClasses.AttackingBuilding;
 import model.map.Cell;
 import model.map.Map;
 import model.people.Human;
@@ -42,7 +44,7 @@ public class SelectMenuController {
                     return "Troops cannot go there!";
                 case INVALID_INDEX:
                     return "Destination index is invalid!";
-                case TOO_FAR:
+                case TOO_FAR,HAS_MOVED:
                     failuresCount++;
                     break;
                 case SUCCESSFUL:
@@ -134,19 +136,23 @@ public class SelectMenuController {
         if (!map.isIndexValid(targetX, targetY))
             return "Your target index is invalid!";
 
+        PlayerNumber currentPlayer=gameData.getPlayerOfTurn();
+
         //create attacking objects list
         Cell currentCell = map.getCells()[currentX][currentY];
-        ArrayList<Offensive> currentPlayerAttackers = currentCell.getAttackingListOfPlayerNumber(gameData.getPlayerOfTurn());
+        ArrayList<Offensive> currentPlayerAttackers = currentCell.getAttackingListOfPlayerNumber(currentPlayer);
 
         //create enemy objects list
         Cell targetCell = map.getCells()[targetX][targetY];
         ArrayList<Asset> enemies = targetCell.getEnemiesOfPlayerInCell(gameData.getPlayerOfTurn());
+        if(targetCell.hasBuilding())
+            enemies.add(targetCell.getBuilding());
 
         //apply attack
-        //TODO abbasfar: state for soldiers
-        //todo abbasfar: building damage applying
         //if a unit is near to death or not, makes no change for others
-        DamageStruct totalDamage = findTotalDamage(currentPlayerAttackers, map, targetX, targetY);
+
+        HeightOfAsset heightOfAttackers=currentCell.heightOfUnitsOfPlayer(currentPlayer);
+        DamageStruct totalDamage = findTotalDamage(heightOfAttackers,currentPlayerAttackers, map, targetX, targetY);
         applyAttackDamage(enemies, totalDamage, targetCell);
         int currentPlayerFailures = totalDamage.failures;
 
@@ -155,15 +161,20 @@ public class SelectMenuController {
         DamageStruct partialDamage = new DamageStruct();
 
         for (PlayerNumber playerNumber : PlayerNumber.values()) {
-            if (playerNumber.equals(gameData.getPlayerOfTurn()))
+            if (playerNumber.equals(currentPlayer))
                 continue;
 
             ArrayList<Offensive> playerAttackers = targetCell.getAttackingListOfPlayerNumber(playerNumber);
-            partialDamage = findTotalDamage(playerAttackers, map, currentX, currentY);
+
+            heightOfAttackers=currentCell.heightOfUnitsOfPlayer(playerNumber);
+            partialDamage = findTotalDamage(heightOfAttackers,playerAttackers, map, currentX, currentY);
             counterAttackTotalDamage.add(partialDamage);
         }
 
         applyAttackDamage(offensiveArrayListToAssetArrayList(currentPlayerAttackers), counterAttackTotalDamage, currentCell);
+
+        currentCell.removeDeadUnitsAndBuilding();
+        targetCell.removeDeadUnitsAndBuilding();
 
         //results
         if (currentPlayerFailures == 0)
@@ -180,20 +191,48 @@ public class SelectMenuController {
         return assets;
     }
 
-    private static void applyAttackDamage(ArrayList<Asset> assets, DamageStruct damageStruct, Cell damagedCell) {
+    private static void applyAttackDamage(ArrayList<Asset> targetedAssets, DamageStruct damageStruct, Cell damagedCell) {
         boolean[] playerHasShieldInCell = new boolean[8];
         for (int i = 0; i <= 7; i++)
             playerHasShieldInCell[i] = damagedCell.shieldExistsInCell(PlayerNumber.getPlayerByIndex(i));
 
-        for (Asset asset : assets) {
-            asset.decreaseHp(damageStruct.landDamage);
+        ArrayList<Asset> upHeightTargets=new ArrayList<>();
+        ArrayList<Asset> middleHeightTargets=new ArrayList<>();
+        ArrayList<Asset> groundHeightTargets=new ArrayList<>();
+
+        for (Asset asset:targetedAssets)
+        {
+            if(damagedCell.heightOfUnitsOfPlayer(asset.getOwnerNumber()).equals(HeightOfAsset.UP))
+                upHeightTargets.add(asset);
+            else if(damagedCell.heightOfUnitsOfPlayer(asset.getOwnerNumber()).equals(HeightOfAsset.MIDDLE))
+                middleHeightTargets.add(asset);
+            else if(damagedCell.heightOfUnitsOfPlayer(asset.getOwnerNumber()).equals(HeightOfAsset.GROUND))
+                groundHeightTargets.add(asset);
+        }
+
+        int totalNumberOfUnits=upHeightTargets.size()+middleHeightTargets.size()+groundHeightTargets.size();
+        int dividedAirDamage= damageStruct.airDamage/totalNumberOfUnits;
+
+        int dividedUpDamage= damageStruct.upDamage/upHeightTargets.size();
+        applyAttackDamageOnLevel(upHeightTargets,dividedUpDamage,dividedAirDamage,playerHasShieldInCell);
+
+        int dividedMiddleDamage= damageStruct.middleDamage/middleHeightTargets.size();
+        applyAttackDamageOnLevel(middleHeightTargets,dividedMiddleDamage,dividedAirDamage,playerHasShieldInCell);
+
+        int dividedGroundDamage= damageStruct.groundDamage/groundHeightTargets.size();
+        applyAttackDamageOnLevel(groundHeightTargets,dividedGroundDamage,dividedAirDamage,playerHasShieldInCell);
+    }
+    private static void applyAttackDamageOnLevel(ArrayList<Asset> targetedAssets,int sameHeightDamageDividedToTargets,int airDamageDividedToTargets,boolean[] playerHasShieldInCell)
+    {
+        for(Asset asset:targetedAssets){
+            asset.decreaseHp(sameHeightDamageDividedToTargets);
             if (playerHasShieldInCell[asset.getOwnerNumber().getNumber()])
-                asset.decreaseHp(damageStruct.airDamage / Offensive.decreasingFactorForAirDamageDueToShield);
-            else asset.decreaseHp(damageStruct.airDamage);
+                asset.decreaseHp(airDamageDividedToTargets / Offensive.decreasingFactorForAirDamageDueToShield);
+            else asset.decreaseHp(airDamageDividedToTargets);
         }
     }
 
-    private static DamageStruct findTotalDamage(ArrayList<Offensive> attackers, Map map, int targetX, int targetY) {
+    private static DamageStruct findTotalDamage(HeightOfAsset heightOfAttackers,ArrayList<Offensive> attackers, Map map, int targetX, int targetY) {
         DamageStruct damageStruct = new DamageStruct();
 
         for (Offensive attacker : attackers) {
@@ -203,10 +242,14 @@ public class SelectMenuController {
                 case SUCCESSFUL:
                     if (attacker.isArcherType())
                         damageStruct.airDamage += formulatedDamage(attacker);
-                    else
-                        damageStruct.landDamage += formulatedDamage(attacker);
+                    else if(heightOfAttackers.equals(HeightOfAsset.UP))
+                        damageStruct.upDamage += formulatedDamage(attacker);
+                    else if(heightOfAttackers.equals(HeightOfAsset.MIDDLE))
+                        damageStruct.middleDamage += formulatedDamage(attacker);
+                    else if(heightOfAttackers.equals(HeightOfAsset.GROUND))
+                        damageStruct.groundDamage += formulatedDamage(attacker);
                     break;
-                case TOO_FAR:
+                case TOO_FAR, HAS_ATTACKED:
                     damageStruct.failures++;
                     break;
             }
@@ -232,16 +275,20 @@ public class SelectMenuController {
     }
 
     public static void disbandUnit() {
-        //todo
+        //todo for later
     }
 
     static class DamageStruct {
-        public int landDamage = 0;
+        public int groundDamage = 0;
+        public int middleDamage = 0;
+        public int upDamage = 0;
         public int airDamage = 0;
         public int failures = 0;
 
         public void add(DamageStruct secondDamageStruct) {
-            landDamage += secondDamageStruct.landDamage;
+            groundDamage += secondDamageStruct.groundDamage;
+            middleDamage += secondDamageStruct.middleDamage;
+            upDamage += secondDamageStruct.upDamage;
             airDamage += secondDamageStruct.airDamage;
             failures += secondDamageStruct.failures;
         }

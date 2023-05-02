@@ -126,10 +126,10 @@ public class MapMenuController {
     public static void dropTree() {
     }
 
-    public static void dropBuilding() {
+    public static void dropBuilding(int positionX,int positionY,String type,int ownerPlayerNumber) {
     }
 
-    public static void dropUnit() {
+    public static void dropUnit(int positionX,int positionY,String type,int count,int ownerPlayerNumber) {
     }
 
 

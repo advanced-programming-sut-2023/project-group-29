@@ -26,6 +26,9 @@ public interface Movable {
         if (!map.isIndexValid(destinationX, destinationY))
             return MovingResult.INVALID_INDEX;
 
+        if(((Movable)asset).hasMovedThisTurn())
+            return MovingResult.HAS_MOVED;
+
         Cell destinationCell = map.getCells()[destinationX][destinationY];
         if (destinationCell.isAbleToMoveOn())
             return MovingResult.BAD_PLACE;
@@ -66,6 +69,7 @@ public interface Movable {
         SUCCESSFUL,
         INVALID_INDEX,
         BAD_PLACE,
+        HAS_MOVED,
         TOO_FAR
     }
 }

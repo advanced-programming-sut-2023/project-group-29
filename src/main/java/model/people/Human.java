@@ -14,7 +14,7 @@ public class Human extends Asset implements Movable {
     protected boolean ableToClimbLadder;
     protected int speed;
     private boolean movedThisTurn=false;
-
+    private String name;
     private final Patrol patrol=new Patrol();
 
 
@@ -65,5 +65,13 @@ public class Human extends Asset implements Movable {
     @Override
     public Patrol getPatrol() {
         return patrol;
+    }
+
+    public HumanState getHumanState() {
+        return humanState;
+    }
+
+    public String getName() {
+        return name;
     }
 }

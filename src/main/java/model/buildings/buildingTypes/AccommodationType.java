@@ -4,6 +4,7 @@ import model.buildings.Building;
 import model.buildings.BuildingType;
 
 public enum AccommodationType {
+    MAIN_KEEP(null,0,"mainKeep"),
     BIG_STONE_GATEHOUSE(null, 0, "bigStoneGatehouse"),
     SMALL_STONE_GATEHOUSE(null, 0, "smallStoneGatehouse"),
     HOVEL(null, 0, "hovel");
@@ -34,5 +35,9 @@ public enum AccommodationType {
 
     public BuildingType getBuildingType() {
         return buildingType;
+    }
+
+    public String getName() {
+        return name;
     }
 }

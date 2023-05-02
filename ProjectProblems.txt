@@ -24,20 +24,16 @@ jasbi(){
 
 abbasfar()
 {
-
-    building hp decrease;
-
     pour oil, dig tunnel;
-
     create default maps;
 
     end turn:
         patrol apply
         aggressive,defending apply
 
+    handle trap;
 
-    handle own todos;
-
+    get unit by string name
 }
 
 

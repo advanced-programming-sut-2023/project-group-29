@@ -1,12 +1,10 @@
 package model.map;
 
-import model.Asset;
-import model.Movable;
-import model.Offensive;
-import model.PlayerNumber;
+import model.*;
 import model.buildings.Building;
 import model.buildings.buildingClasses.*;
 import model.buildings.buildingTypes.*;
+import model.weapons.Weapon;
 import model.weapons.weaponClasses.Equipments;
 import model.weapons.weaponClasses.Trap;
 import org.checkerframework.checker.units.qual.C;
@@ -30,12 +28,18 @@ public class Cell {
 //        this.ableToMoveOn= cellType.isAbleToMoveOn();
     }
 
-    public void removeDeadUnits() {
+    public void removeDeadUnitsAndBuilding() {
         movingObjects.removeIf(asset -> asset.isDead());
         if (trap != null && trap.isDead())
             trap = null;
         if (building != null && building.isDead())
             building = null;
+    }
+
+    public HeightOfAsset heightOfUnitsOfPlayer(PlayerNumber playerNumber)
+    {
+        //todo define height enum for buildings
+        return null;
     }
 
     public ArrayList<Movable> getMovingObjectsOfPlayer(PlayerNumber playerNumber) {

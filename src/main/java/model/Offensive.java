@@ -16,6 +16,9 @@ public interface Offensive {
         if (targetX < 1 || targetY < 1 || targetX > map.getWidth() || targetY > map.getWidth())
             return AttackingResult.INVALID_INDEX;
 
+        if(((Offensive)asset).hasAttackedThisTurn())
+            return AttackingResult.HAS_ATTACKED;
+
         Cell targetCell = map.getCells()[targetX][targetY];
 
         int destinationDistance;
@@ -44,6 +47,7 @@ public interface Offensive {
     enum AttackingResult {
         SUCCESSFUL,
         INVALID_INDEX,
+        HAS_ATTACKED,
         TOO_FAR
     }
 }

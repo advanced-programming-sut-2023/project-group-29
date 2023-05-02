@@ -28,8 +28,7 @@ public class Trap extends Weapon{
     }
 
     public boolean isArcherType() {
-        //TODO abbasfar
-        return true;
+        return false;
     }
     public boolean hasAttackedThisTurn()
     {
