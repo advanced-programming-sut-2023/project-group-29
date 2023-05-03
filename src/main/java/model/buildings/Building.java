@@ -5,7 +5,7 @@ import model.PlayerNumber;
 
 import java.util.HashMap;
 
-public class Building extends Asset {
+public abstract class Building extends Asset {
     private static final HashMap<String, Integer> buildingNamesAndTheirGroup = new HashMap<>();
     protected int numberOfWorkers;
     protected int[] neededResources;

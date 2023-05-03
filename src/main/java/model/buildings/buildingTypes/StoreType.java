@@ -26,7 +26,7 @@ public enum StoreType {
     StoreType(BuildingType buildingType, int capacity, String buildingName) {
         this.capacity = capacity;
         this.buildingType = buildingType;
-        Building.addToValidBuildingNames(buildingName, 7);
+        Building.addToValidBuildingNames(buildingName, 8);
     }
 
     public static void enumBuilder() {

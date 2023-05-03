@@ -33,9 +33,11 @@ public class Controller {
         AccommodationType.enumBuilder();
         AttackingBuildingType.enumBuilder();
         OtherBuildingsType.enumBuilder();
-        ProcessorType.enumBuilder();
+        ProductExtractorType.enumBuilder();
+        ProductProcessorType.enumBuilder();
         ResourceExtractorType.enumBuilder();
-        ServiceType.enumBuilder();
+        ResourceProcessorType.enumBuilder();
         StoreType.enumBuilder();
+        UnitCreatorType.enumBuilder();
     }
 }

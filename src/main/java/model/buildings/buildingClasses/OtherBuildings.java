@@ -9,8 +9,14 @@ public class OtherBuildings extends Building {
 
     public OtherBuildings
             (OtherBuildingsType otherBuildingsType, PlayerNumber playerNumber, int positionX, int positionY) {
-
         super(otherBuildingsType.getBuildingType(), playerNumber, positionX, positionY);
         this.otherBuildingsType = otherBuildingsType;
+        setPopularity(otherBuildingsType);
+    }
+
+    private void setPopularity(OtherBuildingsType otherBuildingsType) {
+        switch (otherBuildingsType) {
+            case CHURCH, CATHEDRAL -> this.getOwnerEmpire().changeNumberOfReligiousBuildings(1);
+        }
     }
 }

@@ -28,6 +28,10 @@ public enum OtherBuildingsType {
             new BuildingType(/*correction*/0, /*correction*/0, new int[]{100, 0, 10, 0}),
             "cagedWarDogs"
     ),
+    INN( //مسافرخانه
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{100, 0, 20, 0}),
+            "inn"
+    ),
     ;
     private final BuildingType buildingType;
     private String name;

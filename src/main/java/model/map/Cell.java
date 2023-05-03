@@ -1,15 +1,12 @@
 package model.map;
 
-import model.Asset;
-import model.Movable;
-import model.Offensive;
-import model.PlayerNumber;
+import controller.menucontrollers.GameMenuController;
+import model.*;
 import model.buildings.Building;
 import model.buildings.buildingClasses.*;
 import model.buildings.buildingTypes.*;
 import model.weapons.weaponClasses.Equipments;
 import model.weapons.weaponClasses.Trap;
-import org.checkerframework.checker.units.qual.C;
 
 import java.util.ArrayList;
 
@@ -149,15 +146,21 @@ public class Cell {
                     (AttackingBuildingType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
             case 3 -> building = new OtherBuildings
                     (OtherBuildingsType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
-            case 4 -> building = new Processor
-                    (ProcessorType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
-            case 5 -> building = new ResourceExtracter
+            case 4 -> building = new ProductExtractor
+                    (ProductExtractorType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
+            case 5 -> building = new ProductProcessor
+                    (ProductProcessorType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
+            case 6 -> building = new ResourceExtractor
                     (ResourceExtractorType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
-            case 6 -> building = new Service
-                    (ServiceType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
-            case 7 -> building = new Store
+            case 7 -> building = new ResourceProcessor
+                    (ResourceProcessorType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
+            case 8 -> building = new Store
                     (StoreType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
+            case 9 -> building = new UnitCreator
+                    (UnitCreatorType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
         }
+        Empire empire = GameMenuController.getGameData().getEmpireByPlayerNumber(ownerPlayerNumber);
+        empire.addBuilding(building, buildingGroupNumber);
     }
 
     //TODO complete two functions below

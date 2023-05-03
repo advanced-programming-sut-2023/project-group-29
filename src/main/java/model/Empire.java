@@ -1,6 +1,11 @@
 package model;
 
 import model.buildings.Building;
+import model.buildings.buildingClasses.ProductExtractor;
+import model.buildings.buildingClasses.ProductProcessor;
+import model.buildings.buildingClasses.ResourceExtractor;
+import model.buildings.buildingClasses.ResourceProcessor;
+import model.dealing.Product;
 import model.dealing.Resource;
 import model.people.humanClasses.Soldier;
 import model.people.humanClasses.Worker;
@@ -11,10 +16,11 @@ import java.util.HashMap;
 public class Empire {
     private final ArrayList<Soldier> soldiers = new ArrayList<>();
     private final ArrayList<Worker> workers = new ArrayList<>();
-    private final ArrayList<Building> buildings = new ArrayList<>();//TODO expand this to its children
+    private final HashMap<Building, Integer> buildings = new HashMap<>();//TODO expand this to its children
     private final int[] foods = new int[4];
     private final HashMap<String, Integer> popularityChange = new HashMap<>();
     private HashMap<Resource, Integer> resourceAmounts;
+    private HashMap<Product, Integer> productAmounts;
     private int population;
     private int growthRate;
     private int wealth;
@@ -22,6 +28,8 @@ public class Empire {
     private int fearRate;
     private int foodRate;
     private int popularity = 0;
+
+    private int numberOfReligiousBuildings = 0;
 
     //TODO: initialize correctly
     //initialize popularity:
@@ -31,9 +39,11 @@ public class Empire {
         popularityChange.put("tax", 0);
         popularityChange.put("fear", 0);
         popularityChange.put("foodRate", 0);
-        InitializeResourceAmount();
+        InitializeResourceAndProduct();
     }
-
+    public void changeNumberOfReligiousBuildings(int change) {
+        numberOfReligiousBuildings += change;
+    }
     public int getPopularity() {
         return popularity;
     }
@@ -110,11 +120,15 @@ public class Empire {
         wealth += amount;
     }
 
-    private void InitializeResourceAmount() {
+    private void InitializeResourceAndProduct() {
         resourceAmounts = new HashMap<>();
         for (Resource resource : Resource.values()) {
             resourceAmounts.put(resource, 0);
             //TODO: initialize correctly!
+        }
+        productAmounts = new HashMap<>();
+        for (Product product : Product.values()) {
+            productAmounts.put(product, 0);
         }
     }
 
@@ -146,6 +160,37 @@ public class Empire {
 
     public void decreaseStone(int amount) {
         //TODO: complete
+    }
+
+    public void addBuilding(Building building, int groupNumber) {
+        buildings.put(building, groupNumber);
+    }
+
+    public void updateBuildings() {
+        for (Building building: buildings.keySet()) {
+            switch (buildings.get(building)) {
+                case 1://TODO: functions for accommodation type
+                case 2://TODO: functions for attackingBuilding type
+                case 3://TODO: functions for other building type
+                case 4: ((ProductExtractor)building).update(this);
+                case 5:((ProductProcessor)building).update(this);
+                case 6:((ResourceExtractor)building).update(this);
+                case 7:((ResourceProcessor)building).update(this);
+                case 8://TODO: functions for store type --> {
+                    //church and popularity
+                    //dog cage
+                    //draw building//siege tent
+                case 9://TODO: functions for unit creator type
+            }
+        }
+    }
+
+    public void changeProduct(Product product, int amount) {
+        productAmounts.replace(product, productAmounts.get(product) + amount);
+    }
+
+    public int getProductAmount(Product product) {
+        return productAmounts.get(product);
     }
 
     //TODO: modify equal function
