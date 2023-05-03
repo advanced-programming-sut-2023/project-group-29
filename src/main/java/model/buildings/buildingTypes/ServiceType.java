@@ -4,7 +4,10 @@ import model.buildings.Building;
 import model.buildings.BuildingType;
 
 public enum ServiceType {
-    INN(0, 0, null, "inn"),
+    INN( //مسافرخانه
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{100, 0, 20, 0}),
+            0, 0, "inn"
+    ),
     ;
 
     private final int popularityRange;
@@ -13,7 +16,7 @@ public enum ServiceType {
     private String name;
 
 
-    ServiceType(int popularityRange, int wineUsage, BuildingType buildingType, String buildingName) {
+    ServiceType(BuildingType buildingType, int popularityRange, int wineUsage, String buildingName) {
         this.popularityRange = popularityRange;
         this.wineUsage = wineUsage;
         this.buildingType = buildingType;

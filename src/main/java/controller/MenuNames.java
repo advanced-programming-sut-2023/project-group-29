@@ -14,5 +14,6 @@ public enum MenuNames {
     MAP_MENU,
     SHOP_MENU,
     SELECT_MENU,
-    TRADE_MENU;
+    TRADE_MENU,
+    PRE_GAME_MENU;
 }

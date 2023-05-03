@@ -5,10 +5,22 @@ import model.buildings.BuildingType;
 import model.dealing.Resource;
 
 public enum ProcessorType {
-    ARMOURER(0, null, null, "Armourer"),
-    BLACK_SMITH(0, null, null, "blackSmith"),
-    FLETCHER(0, null, null, "fletcher"),
-    POLETURNER(0, null, null, "poleturner"),
+    ARMOURER( // زره سازی
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{100, 0, 20, 0}),
+            0, null, "Armourer"
+    ),
+    BLACK_SMITH( // ساختمان آهنگری
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{100, 0, 20, 0}),
+            0, null, "blackSmith"
+    ),
+    FLETCHER( // کمان سازی
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{100, 0, 20, 0}),
+            0, null, "fletcher"
+    ),
+    POLETURNER( // نیزه سازی
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{100, 0, 10, 0}),
+            0, null, "poleturner"
+    ),
     ;
 
     private final int productionRate;
@@ -17,7 +29,7 @@ public enum ProcessorType {
     private String name;
 
 
-    ProcessorType(int productionRate, Resource resource, BuildingType buildingType, String buildingName) {
+    ProcessorType(BuildingType buildingType, int productionRate, Resource resource, String buildingName) {
         this.productionRate = productionRate;
         this.resource = resource;
         this.buildingType = buildingType;

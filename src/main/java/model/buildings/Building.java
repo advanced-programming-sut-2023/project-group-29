@@ -8,14 +8,14 @@ import java.util.HashMap;
 public class Building extends Asset {
     private static final HashMap<String, Integer> buildingNamesAndTheirGroup = new HashMap<>();
     protected int numberOfWorkers;
-    protected int cost;
+    protected int[] neededResources;
     protected int maxHp;
 
     protected Building(BuildingType buildingType, PlayerNumber playerNumber, int positionX, int positionY) {
         super(playerNumber, positionX, positionY);
-        this.cost = buildingType.getCost();
-        this.hp = buildingType.getHp();
-        this.numberOfWorkers = buildingType.getNumberOfWorkers();
+        this.neededResources = buildingType.neededResources();
+        this.hp = buildingType.hp();
+        this.numberOfWorkers = buildingType.numberOfWorkers();
         maxHp = hp;
     }
 

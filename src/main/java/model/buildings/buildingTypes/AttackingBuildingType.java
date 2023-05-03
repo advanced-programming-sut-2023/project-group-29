@@ -4,12 +4,30 @@ import model.buildings.Building;
 import model.buildings.BuildingType;
 
 public enum AttackingBuildingType {
-    LOOKOUT_TOWER(null, 0, 0, "lookoutTower"),
-    CIRCLE_TOWER(null, 0, 0, "circleTower"),
-    PERIMETER_TOWER(null, 0, 0, "perimeterTower"),
-    SQUARE_TOWER(null, 0, 0, "squareTower"),
-    DEFENCE_TURRET(null, 0, 0, "defenceTurret"),
-    KILLING_PIT(null, 0, 0, "killingPit"),
+    LOOKOUT_TOWER( // برج دیدبانی
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 10, 0, 0}),
+            0, 0, "lookoutTower"
+    ),
+    CIRCLE_TOWER( // برچ دایره‌ای
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 40, 0, 0}),
+            0, 0, "circleTower"
+    ),
+    PERIMETER_TOWER( // برج محیطی
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 10, 0, 0}),
+            0, 0, "perimeterTower"
+    ),
+    SQUARE_TOWER( // برج مربعی
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 35, 0, 0}),
+            0, 0, "squareTower"
+    ),
+    DEFENCE_TURRET( //برجک دفاعی
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 15, 0, 0}),
+            0, 0, "defenceTurret"
+    ),
+    KILLING_PIT( // گودال کشتار
+            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 6, 0}),
+            0, 0, "killingPit"
+    ),
     ;
 
     private final int fireRange;

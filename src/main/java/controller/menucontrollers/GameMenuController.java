@@ -12,18 +12,23 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 public class GameMenuController {
-    private static final Map map;
-    private static GameData gameData;
+    private static Map map;
+    private static GameData gameData = null;
 
-    static {
+    /*static {
         map = gameData.getMap();
+    }*///TODO: caused bug
+
+    public static void setGameData(GameData gameData) {
+        GameMenuController.gameData = gameData;
     }
 
     public static ArrayList<Cell> showMap(Matcher matcher) {
         return null;
     }
 
-    public static String showPopularityFactors(Empire empire) {
+    public static String showPopularityFactors(PlayerNumber playerNumber) {
+        Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
         String output = "popularity factors:\n";
         output += "factor 1: religion -> " + empire.getPopularityChange("religion") + "\n";
         output += "factor 2: tax rate -> " + empire.getPopularityChange("tax") + "\n";
@@ -32,11 +37,13 @@ public class GameMenuController {
         return output;
     }
 
-    public static String showPopularity(Empire empire) {
+    public static String showPopularity(PlayerNumber playerNumber) {
+        Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
         return "Your popularity: " + empire.getPopularity();
     }
 
-    public static String showFoodList(Empire empire) {
+    public static String showFoodList(PlayerNumber playerNumber) {
+        Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
         String output = "food list:\n";
         output += "food 1 -> count: " + empire.getFoodsCount(1) + "\n";
         output += "food 2 -> count: " + empire.getFoodsCount(2) + "\n";
@@ -45,25 +52,30 @@ public class GameMenuController {
         return output;
     }
 
-    public static GameMenuMessages determinationOfFoodRate(Empire empire, int foodRate) {
+    public static GameMenuMessages determinationOfFoodRate(PlayerNumber playerNumber, int foodRate) {
+        Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
         empire.setFoodRate(foodRate);
         return GameMenuMessages.SUCCESS;
     }
 
-    public static String showFoodRate(Empire empire) {
+    public static String showFoodRate(PlayerNumber playerNumber) {
+        Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
         return "Your food rate: " + empire.getFoodRate();
     }
 
-    public static GameMenuMessages determinationOfTaxRate(Empire empire, int taxRate) {
+    public static GameMenuMessages determinationOfTaxRate(PlayerNumber playerNumber, int taxRate) {
+        Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
         empire.setTaxRate(taxRate);
         return GameMenuMessages.SUCCESS;
     }
 
-    public static String showTaxRate(Empire empire) {
+    public static String showTaxRate(PlayerNumber playerNumber) {
+        Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
         return "Your tax rate: " + empire.getTaxRate();
     }
 
-    public static GameMenuMessages determinationOfFearRate(Empire empire, int fareRate) {
+    public static GameMenuMessages determinationOfFearRate(PlayerNumber playerNumber, int fareRate) {
+        Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
         empire.setFearRate(fareRate);
         return GameMenuMessages.SUCCESS;
     }
@@ -86,8 +98,9 @@ public class GameMenuController {
         return GameMenuMessages.SUCCESS;
     }
 
-    public static GameMenuMessages selectBuilding(int x, int y, Empire currentPlayerEmpire) {
+    public static GameMenuMessages selectBuilding(int x, int y, PlayerNumber playerNumber) {
         Building building;
+        Empire currentPlayerEmpire = gameData.getEmpireByPlayerNumber(playerNumber);
         if (positionIsInvalid(x, y)) {
             return GameMenuMessages.INVALID_POSITION;
         }
@@ -126,7 +139,8 @@ public class GameMenuController {
         return gameData;
     }
 
-    public static void setGameData(GameData gameData) {
-        GameMenuController.gameData = gameData;
+    public static void nextTurn() {
+        gameData.changePlayingPlayer();
+        //some functions TODO
     }
 }

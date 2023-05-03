@@ -2,13 +2,19 @@ package view.menus;
 
 import controller.MenuNames;
 import controller.menucontrollers.GameMenuController;
+import controller.menucontrollers.MainMenuController;
 import model.AppData;
 import model.GameData;
+import model.User;
 import view.Command;
 
 import java.util.Scanner;
 
 public class MainMenu {
+    private static User loggedInUser;
+    public static void setLoggedInUser(User user) {
+        loggedInUser = user;
+    }
     public static MenuNames run(Scanner scanner) {
         String input = scanner.nextLine();
         if (Command.getMatcher(input, Command.LOGOUT) != null) {
@@ -21,12 +27,14 @@ public class MainMenu {
             return MenuNames.PROFILE_MENU;
         }
         else if (Command.getMatcher(input, Command.START_GAME) != null) {
-            System.out.println("You have started a new game. GOOD LUCK!");
-            return MenuNames.GAME_MENU;
+            MainMenuController.createGameData(loggedInUser);
+            System.out.println("Please choose your opponents and map");
+            return MenuNames.PRE_GAME_MENU;
         }
         else {
             System.out.println("Invalid command!");
         }
         return MenuNames.MAIN_MENU;
     }
+
 }

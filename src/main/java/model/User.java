@@ -17,6 +17,7 @@ public class User {
     private String slogan;
     private final String securityQuestion;
     private int highScore = 0;
+    private Empire empire;
 
     public User(String username, String password, String nickname, String email, String slogan, String securityQuestion) {
         this.username = username;
@@ -25,6 +26,7 @@ public class User {
         this.email = email;
         this.slogan = slogan;
         this.securityQuestion = securityQuestion;
+        empire = new Empire();
     }
 
     public static ArrayList<String> getQuestions() {
@@ -85,5 +87,9 @@ public class User {
 
     public void setHighScore(int highScore) {
         this.highScore = highScore;
+    }
+
+    public Empire getEmpire() {
+        return empire;
     }
 }

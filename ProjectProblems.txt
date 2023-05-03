@@ -13,13 +13,21 @@ Faratin(){
 
     move recovery questions to user model;
     handle own todos;
+    handle menus;
+
+    empire factor,feed rate,... in general empire things;
+    add texture enum
+
+    write test
 }
 
 jasbi(){
-    complete enums in model;
+    complete enums in model;  --> somehow done
     complete unique functions for each building type;
-
     handle own todos;
+    test for one of the procedures; --> faratin
+    add initialize menu for start game --> done
+    passing cell or x and y --> DONE
 }
 
 abbasfar()
