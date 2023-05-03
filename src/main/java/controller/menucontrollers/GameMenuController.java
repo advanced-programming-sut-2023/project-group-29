@@ -8,7 +8,6 @@ import model.map.Cell;
 import model.map.Map;
 import view.messages.GameMenuMessages;
 
-import java.lang.management.PlatformLoggingMXBean;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 

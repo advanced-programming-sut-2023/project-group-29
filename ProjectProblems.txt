@@ -19,7 +19,7 @@ Faratin(){
 }
 
 jasbi(){
-    complete enums in model;
+    complete enums in model;  --> somehow done
     complete unique functions for each building type;
     handle own todos;
     test for one of the procedures; --> faratin

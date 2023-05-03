@@ -12,31 +12,14 @@ import java.util.regex.Pattern;
 public class LoginMenuController {
 
     public static int checkWeakPassword(String password) {
-        int checkLengthOfPassword = 0;
-        int checkCapital = 0;
-        int checkSmall = 0;
-        int checkNumber = 0;
-        int checkOddCharacter = 0;
-        if (password.length() >= 6) {
-            checkLengthOfPassword = 1;
-        }
-        //TODO faratin: replace with regex!!
-        for (int i = 0; i < password.length(); i++) {
-            int passwordChar = (int) password.charAt(i);
-            if (passwordChar >= 65 && passwordChar <= 90) {
-                checkCapital = 1;
-            } else if (passwordChar >= 97 && passwordChar <= 122) {
-                checkSmall = 1;
-            } else if (passwordChar >= 48 && passwordChar <= 57) {
-                checkNumber = 1;
-            } else {
-                checkOddCharacter = 1;
-            }
-        }
-        if (checkLengthOfPassword == 0) {
+        Matcher matcherCapital = Pattern.compile("[A-Z]").matcher(password);
+        Matcher matcherSmall = Pattern.compile("[a-z]").matcher(password);
+        Matcher matcherNumber = Pattern.compile("\\d").matcher(password);
+        Matcher matcherOdd = Pattern.compile("[!@#&%_\\-=~\\+\\(\\)\\^\\{\\}\"\\?]").matcher(password);
+        if (password.length() < 6) {
             return 0;
         }
-        if (!(checkCapital == 1 && checkSmall == 1 && checkNumber == 1 && checkOddCharacter == 1)) {
+        if (!(matcherCapital.find() && matcherSmall.find() && matcherNumber.find() && matcherOdd.find())) {
             return 1;
         }
         return 2;
@@ -139,6 +122,7 @@ public class LoginMenuController {
         Pattern patternEmail = Pattern.compile("-email (?<email>\\w\\S+)");
         Pattern patternExistSlogan = Pattern.compile(".+-s.+");
         Pattern patternSlogan = Pattern.compile("-s (?<slogan>\\w.+)");
+        //TODO: maybe some changes in merging
         Matcher matcherExistUsername = patternExistUsername.matcher(input);
         Matcher matcherExistPassword = patternExistPassword.matcher(input);
         Matcher matcherExistNickname = patternExistNickname.matcher(input);

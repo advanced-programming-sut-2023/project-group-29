@@ -24,7 +24,6 @@ public class PreGameMenu {
         } else {
             System.out.println("Invalid command!");
         }
-
         return MenuNames.PRE_GAME_MENU;
     }
 
