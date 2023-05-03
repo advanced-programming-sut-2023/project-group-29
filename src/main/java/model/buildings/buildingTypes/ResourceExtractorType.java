@@ -77,10 +77,9 @@ public enum ResourceExtractorType {
     ;
 
     private final int rate;
-    private final BuildingType buildingType;
     private String name;
 
-
+    private final BuildingType buildingType;
     ResourceExtractorType(BuildingType buildingType, int rate, String buildingName) {
         this.rate = rate;
         this.buildingType = buildingType;
@@ -97,11 +96,17 @@ public enum ResourceExtractorType {
         return null;
     }
 
+    //todo jasbi name not assigned but used :/
+
     public int getRate() {
         return rate;
     }
 
     public BuildingType getBuildingType() {
         return buildingType;
+    }
+
+    public String getName() {
+        return name;
     }
 }

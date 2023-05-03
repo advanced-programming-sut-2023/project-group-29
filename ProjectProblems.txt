@@ -32,16 +32,20 @@ jasbi(){
 
 abbasfar()
 {
-    pour oil, dig tunnel;
     create default maps;
+    add dropUnit function to maps;
+    get unit by string name;
+
+    pour oil, dig tunnel;
+    state is not for human. change and use it for all units;
+    handle trap; //it can even be not weapon;
+
+    handle not deep water decrease speed;
+    handle some units can pass khandagh;
 
     end turn:
         patrol apply
         aggressive,defending apply
-
-    handle trap;
-
-    get unit by string name
 }
 
 

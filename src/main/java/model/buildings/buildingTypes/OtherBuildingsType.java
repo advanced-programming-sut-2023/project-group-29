@@ -50,4 +50,8 @@ public enum OtherBuildingsType {
     public BuildingType getBuildingType() {
         return buildingType;
     }
+
+    public String getName() {
+        return name;
+    }
 }

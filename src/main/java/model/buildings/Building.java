@@ -10,6 +10,8 @@ public class Building extends Asset {
     protected int numberOfWorkers;
     protected int[] neededResources;
     protected int maxHp;
+    protected String name;
+    //todo jasbi this field must be completed
 
     protected Building(BuildingType buildingType, PlayerNumber playerNumber, int positionX, int positionY) {
         super(playerNumber, positionX, positionY);
@@ -42,5 +44,9 @@ public class Building extends Asset {
     public void repair() {
         ownerEmpire.decreaseStone(maxHp - hp);
         hp = maxHp;
+    }
+
+    public String getName() {
+        return name;
     }
 }

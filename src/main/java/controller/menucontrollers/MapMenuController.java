@@ -127,6 +127,8 @@ public class MapMenuController {
     }
 
     public static void dropBuilding(int positionX,int positionY,String type,int ownerPlayerNumber) {
+
+        //todo each map has drop building function you should call that for implementation of this function
     }
 
     public static void dropUnit(int positionX,int positionY,String type,int count,int ownerPlayerNumber) {

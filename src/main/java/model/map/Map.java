@@ -100,4 +100,9 @@ public class Map {
     public int getUsersCount() {
         return usersCount;
     }
+
+    public void dropBuilding(int positionX,int positionY,String type,int ownerPlayerNumber)
+    {
+        //todo
+    }
 }

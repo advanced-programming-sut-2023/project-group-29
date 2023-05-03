@@ -44,4 +44,8 @@ public enum ServiceType {
     public BuildingType getBuildingType() {
         return buildingType;
     }
+
+    public String getName() {
+        return name;
+    }
 }

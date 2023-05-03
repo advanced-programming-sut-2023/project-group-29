@@ -46,4 +46,8 @@ public enum StoreType {
     public BuildingType getBuildingType() {
         return buildingType;
     }
+
+    public String getName() {
+        return name;
+    }
 }
