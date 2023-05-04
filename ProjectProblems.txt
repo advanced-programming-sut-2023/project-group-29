@@ -22,12 +22,25 @@ Faratin(){
 }
 
 jasbi(){
+    church and popularity --> done
     complete enums in model;  --> somehow done
-    complete unique functions for each building type;
-    handle own todos;
     test for one of the procedures; --> faratin
     add initialize menu for start game --> done
     passing cell or x and y --> DONE
+    make popularity --> done
+    affect processors --> done
+    attacking building --> with abbasfar's help
+    complete unique functions for each building type;
+    handle own todos;
+    affect resource extractor --> done
+    make transitions
+    capacity
+    population and accommodation
+    draw bridge
+    siege tent
+    dog cage
+    how to connect building to people?
+    کارخانه ذوب، افسار گاو
 }
 
 abbasfar()

@@ -141,6 +141,8 @@ public class GameMenuController {
 
     public static void nextTurn() {
         gameData.changePlayingPlayer();
+        Empire empire = gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn());
+        empire.updateBuildings();
         //some functions TODO
     }
 }
