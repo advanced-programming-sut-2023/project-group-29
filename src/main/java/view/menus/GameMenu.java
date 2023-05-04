@@ -18,7 +18,7 @@ public class GameMenu {
         String input = scanner.nextLine();
 
         if (Command.getMatcher(input, Command.SHOW_MAP) != null) {
-            showMap();
+            return MenuNames.MAP_MENU;
         } else if (Command.getMatcher(input, Command.SHOW_POPULARITY_FACTORS) != null) {
             showPopularityFactors();
         } else if (Command.getMatcher(input, Command.SHOW_POPULARITY) != null) {
@@ -54,9 +54,6 @@ public class GameMenu {
         } else if (Command.getMatcher(input, Command.ENTER_SELECT_MENU) != null) {
             System.out.println("You entered select menu");
             return MenuNames.SELECT_MENU;
-        } else if (Command.getMatcher(input, Command.ENTER_MAP_MENU) != null) {
-            System.out.println("You entered map menu");
-            return MenuNames.MAP_MENU;
         } else if (Command.getMatcher(input, Command.BACK_MAIN_MENU) != null) {
             System.out.println("You entered main menu");
             return MenuNames.MAIN_MENU;
@@ -67,9 +64,6 @@ public class GameMenu {
         return MenuNames.GAME_MENU;
     }
 
-    private static void showMap() {
-        //TODO: complete it
-    }
 
     private static void showPopularityFactors() {
         System.out.println(GameMenuController.showPopularityFactors(playerNumber));
@@ -92,7 +86,7 @@ public class GameMenu {
     }
 
     private static void setFoodRate(Matcher matcher) {
-        int foodRate = Integer.parseInt(matcher.group("")); //TODO: using matcher correctly;
+        int foodRate = Integer.parseInt(matcher.group("rate")); //TODO: using matcher correctly;
         GameMenuMessages result = GameMenuController.determinationOfFoodRate(playerNumber, foodRate);
         switch (result) {
             case SUCCESS -> System.out.println("Food rate has been set successfully!");
@@ -101,7 +95,7 @@ public class GameMenu {
     }
 
     private static void setTaxRate(Matcher matcher) {
-        int taxRate = Integer.parseInt(matcher.group("")); //TODO: using matcher correctly;
+        int taxRate = Integer.parseInt(matcher.group("rate")); //TODO: using matcher correctly;
         GameMenuMessages result = GameMenuController.determinationOfTaxRate(playerNumber, taxRate);
         switch (result) {
             case SUCCESS -> System.out.println("Tax rate has been set successfully!");
@@ -110,7 +104,7 @@ public class GameMenu {
     }
 
     private static void setFearRate(Matcher matcher) {
-        int fearRate = Integer.parseInt(matcher.group("")); //TODO: using matcher correctly;
+        int fearRate = Integer.parseInt(matcher.group("rate")); //TODO: using matcher correctly;
         GameMenuMessages result = GameMenuController.determinationOfFearRate(playerNumber, fearRate);
         switch (result) {
             case SUCCESS -> System.out.println("Fear rate has been set successfully!");
@@ -119,9 +113,9 @@ public class GameMenu {
     }
 
     private static void dropBuilding(Matcher matcher) {
-        int x = Integer.parseInt(matcher.group("")); //TODO: using matcher correctly;
-        int y = Integer.parseInt(matcher.group("")); //TODO: using matcher correctly;
-        String buildingName = matcher.group(""); //TODO: using matcher correctly;
+        int x = Integer.parseInt(matcher.group("xPosition")); //TODO: using matcher correctly;
+        int y = Integer.parseInt(matcher.group("yPosition")); //TODO: using matcher correctly;
+        String buildingName = matcher.group("type"); //TODO: using matcher correctly;
         GameMenuMessages result = GameMenuController.dropBuilding(x, y, buildingName, playerNumber);
         switch (result) {
             case INVALID_POSITION -> System.out.println("You have chosen an Invalid amount of x or y!");
@@ -133,8 +127,8 @@ public class GameMenu {
     }
 
     private static void selectBuilding(Matcher matcher) {
-        int x = Integer.parseInt(matcher.group("")); //TODO: using matcher correctly;
-        int y = Integer.parseInt(matcher.group("")); //TODO: using matcher correctly;
+        int x = Integer.parseInt(matcher.group("xPosition")); //TODO: using matcher correctly;
+        int y = Integer.parseInt(matcher.group("yPosition")); //TODO: using matcher correctly;
         GameMenuMessages result = GameMenuController.selectBuilding(x, y, playerNumber);
         switch (result) {
             case INVALID_POSITION -> System.out.println("You have chosen an Invalid amount of x or y!");

@@ -24,48 +24,16 @@ public enum ResourceExtractorType {
     IRON_MINE(//معدن آهن
             new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 20, 0}),
             0, Resource.IRON,"ironMine"
-    ),
-    WHEAT_FARM( //مزرعه گندم
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 15, 0}),
-            0, "wheatFarm"
-    ),
-    BAKERY( //نانوایی
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 10, 0}),
-            0, "bakery"
-    ),
-    BEER_BREWING(// آبجوسازی
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 10, 0}),
-            0, "beerBrewing"
-    ),
-    BARRACK( //سربازخانه
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 15, 0, 0}),
-            0, "barrack"
-    ),
-    MERCENARY_POST( // سربازخانه مزدوران
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 10, 0}),
-            0, "mercenaryPost"
-    ),
-    ENGINEER_GUILD( // صنف مهندسان
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{100, 0, 10, 0}),
-            0, "engineerGuild"
-    ),
-    STABLE(//اصطبل
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{400, 0, 20, 0}),
-            0, "stable"
-    ),
-
+    );
     //کارخانه ذوب
-    ;
 
-    private final int rate;
+    private int rate;
     private Resource producingResource;
     private final BuildingType buildingType;
     private String name;
 
 
     ResourceExtractorType(BuildingType buildingType, int rate, Resource producingResource, String buildingName) {
-    private final BuildingType buildingType;
-    ResourceExtractorType(BuildingType buildingType, int rate, String buildingName) {
         this.rate = rate;
         this.buildingType = buildingType;
         this.producingResource = producingResource;

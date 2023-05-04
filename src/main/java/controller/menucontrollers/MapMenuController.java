@@ -1,8 +1,15 @@
 package controller.menucontrollers;
 
+import model.GameData;
+import model.PlayerNumber;
+import model.buildings.Building;
 import model.map.Cell;
 import model.map.ConsoleColors;
 import model.map.Map;
+import model.people.humanClasses.Soldier;
+import model.people.humanTypes.SoldierType;
+import view.menus.GameMenu;
+import view.messages.GameMenuMessages;
 
 import java.util.ArrayList;
 
@@ -44,8 +51,10 @@ public class MapMenuController {
 
             for (int j = 0; j < tileHeight; j++) {
                 for (int k = 0; k < mapShowingWidth; k++) {
+
+                    //System.out.println("j: "+j+" k:" +k+" i: "+i);
                     tilesOfMap += "|";
-                    tilesOfMap += tiles[i][k].get(j);
+                    tilesOfMap += tiles[k][i].get(j);
                 }
                 tilesOfMap += "|\n";
             }
@@ -61,9 +70,9 @@ public class MapMenuController {
         //building or trap
         String showingSignOfBuilding = "";
         if (cell.hasBuilding())
-            showingSignOfBuilding = cell.getBuilding().getShowingSignInMap();
+            showingSignOfBuilding ="buil"; //todo cell.getBuilding().getShowingSignInMap();
         else if (cell.hasTrap())
-            showingSignOfBuilding = cell.getTrap().getShowingSignInMap();
+            showingSignOfBuilding ="kolang"; //todo cell.getTrap().getShowingSignInMap();
 
         showingSignOfBuilding = fitStringToTileWidthWithNumberSign(showingSignOfBuilding);
         showingSignOfBuilding = colorString(showingSignOfBuilding, cell.getShowingColor());
@@ -126,12 +135,33 @@ public class MapMenuController {
     public static void dropTree() {
     }
 
-    public static void dropBuilding(int positionX,int positionY,String type,int ownerPlayerNumber) {
-
-        //todo each map has drop building function you should call that for implementation of this function
-    }
+    //todo complete
+//    public static GameMenuMessages dropBuilding(int x, int y, String buildingName, PlayerNumber playerNumber) {
+//        if (positionIsInvalid(x, y)) {
+//            return GameMenuMessages.INVALID_POSITION;
+//        }
+//        Cell chosenCell = map.getCells()[x][y];
+//        if (!Building.isBuildingNameValid(buildingName)) {
+//            return GameMenuMessages.INVALID_TYPE;
+//        }
+//        else if (!chosenCell.isAbleToBuildOn(buildingName)) {
+//            return GameMenuMessages.IMPROPER_CELL_TYPE;
+//        }
+//        else if (chosenCell.getBuilding() != null) {
+//            return GameMenuMessages.FULL_CELL;
+//        }
+//        chosenCell.makeBuilding(buildingName, playerNumber);
+//        return GameMenuMessages.SUCCESS;
+//    }
 
     public static void dropUnit(int positionX,int positionY,String type,int count,int ownerPlayerNumber) {
+
+        Map map=GameMenuController.getGameData().getMap();
+
+        //todo complete function
+
+
+        map.getCells()[positionX][positionY].getMovingObjects().add(new Soldier(SoldierType.SWORDSMAN,PlayerNumber.getPlayerByIndex(ownerPlayerNumber),positionX,positionY));
     }
 
 

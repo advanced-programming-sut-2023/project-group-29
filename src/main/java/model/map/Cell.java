@@ -1,9 +1,7 @@
 package model.map;
 
-import model.Asset;
-import model.Movable;
-import model.Offensive;
-import model.PlayerNumber;
+import controller.menucontrollers.GameMenuController;
+import model.*;
 import model.buildings.Building;
 import model.buildings.buildingClasses.*;
 import model.buildings.buildingTypes.*;
@@ -75,11 +73,11 @@ public class Cell {
     }
 
     public boolean hasBuilding() {
-        return !building.equals(null);
+        return building!=null;
     }
 
     public boolean hasTrap() {
-        return !trap.equals(null);
+        return trap == null;
     }
 
     public boolean hasFiringTrap() {

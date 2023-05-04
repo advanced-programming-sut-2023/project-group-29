@@ -23,9 +23,9 @@ public class GameMenuController {
         GameMenuController.gameData = gameData;
     }
 
-    public static ArrayList<Cell> showMap(Matcher matcher) {
-        return null;
-    }
+//    public static ArrayList<Cell> showMap(Matcher matcher) {
+//        return null;
+//    }
 
     public static String showPopularityFactors(PlayerNumber playerNumber) {
         Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);

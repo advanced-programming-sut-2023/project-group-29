@@ -9,6 +9,7 @@ import view.messages.PreGameMenuMessages;
 
 public class PreGameMenuController {
 
+    //todo jasbi user dooooooes nooooot have empire
     public static PreGameMenuMessages addUserToGame(String username) {
         GameData gameData = GameMenuController.getGameData();
         User user;
@@ -25,12 +26,11 @@ public class PreGameMenuController {
     }
 
     public static PreGameMenuMessages chooseMap(int index) {
-        if (index >= DefaultMaps.getNumberOfDefaultMaps()) {
-            //TODO: Connect to abbasfar
+        if (index >= DefaultMaps.getDefaultMapsCount()) {
             return PreGameMenuMessages.OUT_OF_RANGE;
         }
         //TODO: choose map number index;
-        GameMenuController.getGameData().setMap(new Map(10,23));
+        GameMenuController.getGameData().setMap(DefaultMaps.SECOND_MAP.getMap());//todo get by index
         return PreGameMenuMessages.SUCCESS;
     }
 

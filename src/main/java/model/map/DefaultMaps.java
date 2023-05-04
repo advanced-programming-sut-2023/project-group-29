@@ -21,11 +21,6 @@ public enum DefaultMaps {
         }
     }
 
-    public static int getNumberOfDefaultMaps() {
-        //TODO: abbasfar complete this function;
-        return 2;
-    }
-
     private Map initializeFirstMap()
     {
         Map firstMap=new Map(100,3);
@@ -46,11 +41,11 @@ public enum DefaultMaps {
         secondMap.dropBuilding(5,5, AccommodationType.MAIN_KEEP.getName(),1);
         secondMap.dropBuilding(100,5, AccommodationType.MAIN_KEEP.getName(),2);
         secondMap.dropBuilding(185,5, AccommodationType.MAIN_KEEP.getName(),3);
-        secondMap.dropBuilding(185,100, AccommodationType.MAIN_KEEP.getName(),4);
-        secondMap.dropBuilding(185,185, AccommodationType.MAIN_KEEP.getName(),5);
-        secondMap.dropBuilding(100,185, AccommodationType.MAIN_KEEP.getName(),6);
-        secondMap.dropBuilding(5,185, AccommodationType.MAIN_KEEP.getName(),7);
-        secondMap.dropBuilding(5,100, AccommodationType.MAIN_KEEP.getName(),8);
+//        secondMap.dropBuilding(185,100, AccommodationType.MAIN_KEEP.getName(),4);
+//        secondMap.dropBuilding(185,185, AccommodationType.MAIN_KEEP.getName(),5);
+//        secondMap.dropBuilding(100,185, AccommodationType.MAIN_KEEP.getName(),6);
+//        secondMap.dropBuilding(5,185, AccommodationType.MAIN_KEEP.getName(),7);
+//        secondMap.dropBuilding(5,100, AccommodationType.MAIN_KEEP.getName(),8);
 
 
         return secondMap;
