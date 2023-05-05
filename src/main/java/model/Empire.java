@@ -231,4 +231,16 @@ public class Empire {
     public int getEmptySpace(int switcher) {
         return storage[1][switcher] - storage[0][switcher];
     }
+
+    public int getNumberOfBuildingType(String buildingName) {
+        int count = 0;
+        for (Building building: buildings.keySet()) {
+            if (building.getName().equals(buildingName)) count++;
+        }
+        return count;
+    }
+
+    public void affectDestructedStorages() {
+        //TODO: complete
+    }
 }

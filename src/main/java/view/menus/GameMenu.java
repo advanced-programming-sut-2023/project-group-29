@@ -118,6 +118,7 @@ public class GameMenu {
             case TWO_MAIN_KEEP -> System.out.println("You aren't allowed to have two main keeps!");
             case INVALID_POSITION -> System.out.println("You have chosen an Invalid amount of x or y!");
             case INVALID_TYPE -> System.out.println("This type of building doesn't exist!");
+            case UNCONNECTED_STOREROOMS -> System.out.println("Your storerooms must be connected to each other!");
             case IMPROPER_CELL_TYPE -> System.out.println("This cell is improper for dropping this type of building!");
             case FULL_CELL -> System.out.println("Another building has been already dropped here!");
             case SUCCESS -> System.out.println("The building was dropped successfully!");
