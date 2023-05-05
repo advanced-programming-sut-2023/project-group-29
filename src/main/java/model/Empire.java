@@ -271,16 +271,4 @@ public class Empire {
                 && building.getNeededResource(2) <= resourceAmounts.get(Resource.WOOD)
                 && building.getNeededResource(3) <= resourceAmounts.get(Resource.IRON);
     }
-
-    public int getNumberOfBuildingType(String buildingName) {
-        int count = 0;
-        for (Building building: buildings.keySet()) {
-            if (building.getName().equals(buildingName)) count++;
-        }
-        return count;
-    }
-
-    public void affectDestructedStorages() {
-        //TODO: complete
-    }
 }

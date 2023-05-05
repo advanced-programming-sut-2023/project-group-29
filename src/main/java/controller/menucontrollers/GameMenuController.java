@@ -16,9 +16,10 @@ public class GameMenuController {
         GameMenuController.gameData = gameData;
     }
 
-//    public static ArrayList<Cell> showMap(Matcher matcher) {
-//        return null;
-//    }
+
+    public static GameData getGameData() {
+        return gameData;
+    }
 
     public static String showPopularityFactors(PlayerNumber playerNumber) {
         Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
@@ -166,15 +167,12 @@ public class GameMenuController {
     public static void tradeHistory() {
     }
 
-    public static GameData getGameData() {
-        return gameData;
-    }
-
     public static void nextTurn() {
         gameData.changePlayingPlayer();
         Empire empire = gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn());
         empire.updateBuildings();
         empire.affectDestructedStorerooms();
+        empire.affectDestructedAccommodations();
         //TODO: some functions. This function should be called in the beginning of the game
     }
 }

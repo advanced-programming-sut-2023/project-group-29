@@ -15,7 +15,6 @@ public class LoginMenu {
         while (true) {
             Matcher matcher;
             String input = scanner.nextLine();
-
             if ((matcher = Command.getMatcher(input, Command.USER_CREATE)) != null) {
                 System.out.println(LoginMenuController.createUser(matcher, scanner));
             } else if ((matcher = Command.getMatcher(input, Command.EXIT)) != null) {

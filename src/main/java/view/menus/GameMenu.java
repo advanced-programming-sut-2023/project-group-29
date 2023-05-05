@@ -18,7 +18,6 @@ public class GameMenu {
         while (true) {
             Matcher matcher;
             String input = scanner.nextLine();
-
             if (Command.getMatcher(input, Command.SHOW_MAP) != null) {
                 return MenuNames.MAP_MENU;
             } else if (Command.getMatcher(input, Command.SHOW_POPULARITY_FACTORS) != null) {
