@@ -42,7 +42,7 @@ public class PreGameMenu {
     }
 
     private static void chooseMap(Matcher matcher) {
-        int index = Integer.parseInt(matcher.group("index")); //TODO ME: catch exception
+        int index = Integer.parseInt(matcher.group("index"));
         PreGameMenuMessages result = PreGameMenuController.chooseMap(index);
         switch (result) {
             case OUT_OF_RANGE -> System.out.println("No map exists with this index!");

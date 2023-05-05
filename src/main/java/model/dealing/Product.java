@@ -1,10 +1,10 @@
 package model.dealing;
 
 public enum Product {
-    ARMOUR("armour"),
-    SWORD("sword"),
-    BOW("bow"),
-    PIKE("pike"),
+    ARMOUR("armour"),  //TODO: how we can use this??
+    SWORD("sword"),  //TODO: how we can use this??
+    BOW("bow"), //TODO: how we can use this??
+    PIKE("pike"), //TODO: how we can use this??
     WHEAT("wheat"),
     APPLE("apple"),
     CHEESE("cheese"),

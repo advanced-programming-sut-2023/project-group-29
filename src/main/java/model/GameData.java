@@ -74,11 +74,6 @@ public class GameData {
     }
 
     public boolean IsUserInGame(User user) {
-        System.out.println("**********");
-        System.out.println(getNumberOfPlayers());
-        for (Empire empire: empires) {
-            System.out.println(empire.getUser().getUsername());
-        }
         for (Empire empire : empires) {
             if (user.equals(empire.getUser())) return true;
         }

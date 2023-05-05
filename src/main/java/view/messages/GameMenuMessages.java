@@ -9,5 +9,5 @@ public enum GameMenuMessages {
     EMPTY_CELL,
     IMPROPER_CELL_TYPE,
     OTHERS_BUILDINGS,
-
+    TWO_MAIN_KEEP,
 }

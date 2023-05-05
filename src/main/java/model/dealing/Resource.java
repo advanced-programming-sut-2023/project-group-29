@@ -2,11 +2,11 @@ package model.dealing;
 
 public enum Resource {
     //TODO: real numbers!!
-    COINS(50, 40, "coins"), // TODO ME: we can't buy coin
+    COINS(50, 40, "coins"),
     STONE(50, 40, "stone"),
     WOOD(50, 40, "wood"),
     IRON(50, 40, "iron"),
-    PITCH(0,0,"pitch") //TODO ME: complete!
+    PITCH(0,0,"pitch"),
     ;
     private final String name;
     private final int buyingPrice;

@@ -21,11 +21,11 @@ public class ProductProcessor extends Building {
         this.rate = productProcessorType.getRate();
     }
 
-    public void update(Empire empire) {
-        int availableConsumingProduct = empire.getProductAmount(this.consumingProduct);
+    public void update() {
+        int availableConsumingProduct = ownerEmpire.getProductAmount(this.consumingProduct);
         int changeAmount = Math.min(availableConsumingProduct, rate);
-        empire.changeProduct(this.consumingProduct, -changeAmount);
-        empire.changeProduct(this.producingProduct, changeAmount);
+        ownerEmpire.changeProduct(this.consumingProduct, -changeAmount);
+        ownerEmpire.changeProduct(this.producingProduct, changeAmount);
     }
 
     @Override

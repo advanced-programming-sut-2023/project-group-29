@@ -1,10 +1,7 @@
 package model;
 
 import model.buildings.Building;
-import model.buildings.buildingClasses.ProductExtractor;
-import model.buildings.buildingClasses.ProductProcessor;
-import model.buildings.buildingClasses.ResourceExtractor;
-import model.buildings.buildingClasses.ResourceProcessor;
+import model.buildings.buildingClasses.*;
 import model.dealing.Product;
 import model.dealing.Resource;
 import model.people.humanClasses.Soldier;
@@ -18,6 +15,7 @@ public class Empire {
     private final ArrayList<Worker> workers = new ArrayList<>();
     private final HashMap<Building, Integer> buildings = new HashMap<>();//TODO expand this to its children
     private final int[] foods = new int[4];
+    private int[][] storage = new int[2][3]; //{food, productsAndResources, weapons} {0--> filled, 1--> capacity}
     private final HashMap<String, Integer> popularityChange = new HashMap<>();
     private HashMap<Resource, Integer> resourceAmounts;
     private HashMap<Product, Integer> productAmounts;
@@ -164,20 +162,12 @@ public class Empire {
         //TODO: affect it to real popularity.
     }
 
-    public boolean hasEnoughStoneToRepair(Building building) {
-        //TODO ME: complete
-        return false;
-    }
-
-    public void decreaseStone(int amount) {
-        //TODO ME: complete
-    }
-
     public void addBuilding(Building building, int groupNumber) {
         buildings.put(building, groupNumber);
     }
 
     public void updateBuildings() {
+        makeCapacitiesZero();
         for (Building building : buildings.keySet()) {
             switch (buildings.get(building)) {
                 case 1://TODO ME: functions for accommodation type
@@ -187,24 +177,41 @@ public class Empire {
                 case 3://TODO ME: functions for other building type
                     break;
                 case 4:
-                    ((ProductExtractor) building).update(this);break;
+                    ((ProductExtractor) building).update();
+                    break;
                 case 5:
-                    ((ProductProcessor) building).update(this);break;
+                    ((ProductProcessor) building).update();
+                    break;
                 case 6:
-                    ((ResourceExtractor) building).update(this);break;
+                    ((ResourceExtractor) building).update();
+                    break;
                 case 7:
-                    ((ResourceProcessor) building).update(this);break;
-                case 8://TODO ME: functions for store type --> {
-                    //church and popularity
-                    //dog cage
-                    //draw building//siege tent
+                    ((ResourceProcessor) building).update();
+                    break;
+                case 8:((Store) building).update();
                     break;
                 case 9://TODO ME: functions for unit creator type
+                    //church and popularity
+                    //dog cage
+                    //draw bridge//siege tent
                     break;
             }
         }
     }
 
+    private void makeCapacitiesZero() {
+        storage[1][0] = 0;
+        storage[1][1] = 0;
+        storage[1][2] = 0;
+    }
+
+    public void addStorage(int capacity, int switcher) {
+        storage[1][switcher] += capacity;
+    }
+
+    public void fillStorage(int switcher, int change) {
+        storage[0][switcher] += change;
+    }
     public void changeProduct(Product product, int amount) {
         productAmounts.replace(product, productAmounts.get(product) + amount);
     }
@@ -216,8 +223,12 @@ public class Empire {
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Empire) {
-            return ((Empire)obj).user.equals(this.user);
+            return ((Empire) obj).user.equals(this.user);
         }
         return false;
+    }
+
+    public int getEmptySpace(int switcher) {
+        return storage[1][switcher] - storage[0][switcher];
     }
 }

@@ -22,27 +22,31 @@ public class ShopMenuController {
 
     public static ShopMenuMessages buy(String resourceName, int amount) {
         Empire empire = AppData.getCurrentUser().getEmpire();
-
         Resource resource = Resource.getResourceByName(resourceName);
-        if (empire.getWealth() < resource.getBuyingPrice() * amount) {
+        if (resource == null || resourceName.equals("coins")) {
+            return ShopMenuMessages.INVALID_NAME;
+        } else if (empire.getWealth() < resource.getBuyingPrice() * amount) {
             return ShopMenuMessages.FEW_CASH;
-        }
-        else if (true/*TODO ME: check if the empire has enough space*/) {
+        } else if (empire.getEmptySpace(1) < amount) {
             return ShopMenuMessages.LACK_OF_SPACE;
         }
         empire.changeWealth(-resource.getBuyingPrice() * amount);
         empire.changeResourceAmount(resource, amount);
+        empire.fillStorage(1, amount);
         return ShopMenuMessages.SUCCESS;
     }
 
     public static ShopMenuMessages sell(String resourceName, int amount) {
         Empire empire = AppData.getCurrentUser().getEmpire();
         Resource resource = Resource.getResourceByName(resourceName);
-        if (empire.getResourceAmount(resource) < amount) {
+        if (resource == null || resourceName.equals("coins")) {
+            return ShopMenuMessages.INVALID_NAME;
+        } else if (empire.getResourceAmount(resource) < amount) {
             return ShopMenuMessages.FEW_AMOUNT;
         }
         empire.changeWealth(resource.getSellingPrice() * amount);
         empire.changeResourceAmount(resource, -amount);
+        empire.fillStorage(1, -amount);
         return ShopMenuMessages.SUCCESS;
     }
 

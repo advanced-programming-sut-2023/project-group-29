@@ -16,7 +16,7 @@ public enum DefaultMaps {
             case 1 -> this.map = initializeSecondMap();
         }
     }
-
+//در داک گفته شده که یک انبار باید در کنار مقر اصلی به صورت پیش فرض ساخته شود.
     private Map initializeFirstMap() {
         Map firstMap = new Map(100, 3);
         return null;

@@ -1,12 +1,16 @@
 package view.menus;
 
 import controller.MenuNames;
+import controller.menucontrollers.SelectMenuController;
+import model.buildings.Building;
 import view.Command;
+import view.messages.SelectMenuMessages;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class SelectMenu {
+    private static Building selectedBuilding;
     public static MenuNames run(Scanner scanner) {
         System.out.println("You have entered select menu");
         while (true) {
@@ -15,7 +19,7 @@ public class SelectMenu {
             if ((matcher = Command.getMatcher(input, Command.CREATE_UNIT)) != null) {
                 createUnit();
             } else if ((matcher = Command.getMatcher(input, Command.REPAIR_BUILDING)) != null) {
-                repairBuilding(matcher);
+                repairBuilding();
             } else if ((matcher = Command.getMatcher(input, Command.MOVE_UNIT)) != null) {
                 moveUnit(matcher);
             } else if ((matcher = Command.getMatcher(input, Command.PATROL_UNIT)) != null) {
@@ -44,7 +48,13 @@ public class SelectMenu {
         //TODO: abbasfar kamel kon
     }
 
-    private static void repairBuilding(Matcher matcher) {
+    private static void repairBuilding() {
+        SelectMenuMessages result = SelectMenuController.repairBuilding(selectedBuilding);
+        switch (result){
+            case LACK_OF_STONE -> System.out.println("You don't have enough stone to repair your building!");
+            case ENEMY_IS_NEAR -> System.out.println("You can't repair your buildings while Enemies are near them!");
+            case SUCCESS -> System.out.println("Your building was successfully repaired!");
+        }
 
     }
 

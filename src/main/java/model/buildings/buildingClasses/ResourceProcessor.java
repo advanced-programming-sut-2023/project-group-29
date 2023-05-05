@@ -27,10 +27,10 @@ public class ResourceProcessor extends Building {
         return resourceProcessorType.getName();
     }
 
-    public void update(Empire empire) {
-        int availableResource = empire.getResourceAmount(this.resource);
+    public void update() {
+        int availableResource = ownerEmpire.getResourceAmount(this.resource);
         int changeAmount = Math.min(availableResource, rate);
-        empire.changeResourceAmount(this.resource, -changeAmount);
-        empire.changeProduct(this.product, changeAmount);
+        ownerEmpire.changeResourceAmount(this.resource, -changeAmount);
+        ownerEmpire.changeProduct(this.product, changeAmount);
     }
 }

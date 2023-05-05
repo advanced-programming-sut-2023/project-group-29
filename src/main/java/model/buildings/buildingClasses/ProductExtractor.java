@@ -19,8 +19,10 @@ public class ProductExtractor extends Building {
         this.producingProduct = productExtractorType.getProducingProduct();
     }
 
-    public void update(Empire empire) {
-        empire.changeProduct(this.producingProduct, rate);
+    public void update() {
+        int change = Math.min(ownerEmpire.getEmptySpace(1),rate);
+        ownerEmpire.changeProduct(this.producingProduct, change);
+        ownerEmpire.fillStorage(1,change);
     }
 
     @Override

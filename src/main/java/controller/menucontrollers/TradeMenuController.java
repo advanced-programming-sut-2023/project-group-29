@@ -4,6 +4,7 @@ import model.GameData;
 import model.dealing.Trade;
 
 public class TradeMenuController {
+    //TODO: should be linked to storage!
     public static String trade(String type, String amount, String price, String message) {
         //TODO CHECK TYPE
         if(Integer.parseInt(amount) < 0) {

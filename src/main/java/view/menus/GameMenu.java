@@ -115,6 +115,7 @@ public class GameMenu {
         String buildingName = matcher.group("type");
         GameMenuMessages result = GameMenuController.dropBuilding(x, y, buildingName, playerNumber);
         switch (result) {
+            case TWO_MAIN_KEEP -> System.out.println("You aren't allowed to have two main keeps!");
             case INVALID_POSITION -> System.out.println("You have chosen an Invalid amount of x or y!");
             case INVALID_TYPE -> System.out.println("This type of building doesn't exist!");
             case IMPROPER_CELL_TYPE -> System.out.println("This cell is improper for dropping this type of building!");

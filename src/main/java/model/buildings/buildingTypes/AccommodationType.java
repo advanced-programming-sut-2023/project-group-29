@@ -20,8 +20,6 @@ public enum AccommodationType {
             new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 0, 0}),
             /*correction*/8, "mainKeep"
     );
-    //todo user is not allowed to build main keep
-
 
     private final int numberOfSettler;
     private final BuildingType buildingType;

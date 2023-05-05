@@ -76,7 +76,10 @@ public class GameMenuController {
             return GameMenuMessages.INVALID_POSITION;
         }
         Cell chosenCell = gameData.getMap().getCells()[x][y];
-        if (!Building.isBuildingNameValid(buildingName)) {
+        if (buildingName.equals("mainKeep")) {
+            return GameMenuMessages.TWO_MAIN_KEEP;
+        }
+        else if (!Building.isBuildingNameValid(buildingName)) {
             return GameMenuMessages.INVALID_TYPE;
         }
         else if (!chosenCell.isAbleToBuildOn(buildingName)) {
@@ -135,6 +138,6 @@ public class GameMenuController {
         gameData.changePlayingPlayer();
         Empire empire = gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn());
         empire.updateBuildings();
-        //some functions TODO ME
+        //TODO: some functions
     }
 }

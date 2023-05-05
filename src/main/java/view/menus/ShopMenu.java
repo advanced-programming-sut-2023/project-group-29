@@ -38,6 +38,7 @@ public class ShopMenu {
         int amount = Integer.parseInt(matcher.group("amount"));
         ShopMenuMessages result = ShopMenuController.buy(resourceName, amount);
         switch (result) {
+            case INVALID_NAME -> System.out.println("We don't have any resource with this name!");
             case SUCCESS -> System.out.println("The buy process was successful!");
             case FEW_CASH -> System.out.println("You don't have enough money!");
             case LACK_OF_SPACE -> System.out.println("You don't have enough space for storage!");
@@ -49,6 +50,7 @@ public class ShopMenu {
         int amount = Integer.parseInt(matcher.group("amount"));
         ShopMenuMessages result = ShopMenuController.sell(resourceName, amount);
         switch (result) {
+            case INVALID_NAME -> System.out.println("We don't have any resource with this name!");
             case SUCCESS -> System.out.println("The sell process was successful!");
             case FEW_AMOUNT -> System.out.println("The amount you have entered is greater than the amount you have!");
         }
