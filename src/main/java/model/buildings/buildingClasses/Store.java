@@ -13,4 +13,10 @@ public class Store extends Building {
         this.storeType = storeType;
         this.capacity = storeType.getCapacity();
     }
+
+    @Override
+    public String getName() {
+        return storeType.getName();
+    }
+
 }

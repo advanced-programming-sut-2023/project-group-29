@@ -10,21 +10,24 @@ import java.util.regex.Matcher;
 
 public class PreGameMenu {
     public static MenuNames run(Scanner scanner) {
-        String input = scanner.nextLine();
-        Matcher matcher;
-        if ((matcher = Command.getMatcher(input, Command.ADD_PLAYER_TO_GAME)) != null) {
-            addPlayerToGame(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.CHOOSE_MAP)) != null) {
-            chooseMap(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.READY)) != null) {
-            if (notReady()) return MenuNames.PRE_GAME_MENU;
-            return MenuNames.GAME_MENU;
-        } else if ((matcher = Command.getMatcher(input, Command.CANCEL)) != null) {
-            return MenuNames.MAIN_MENU;
-        } else {
-            System.out.println("Invalid command!");
+        System.out.println("Please choose your opponents and map:");
+        while (true) {
+            String input = scanner.nextLine();
+            Matcher matcher;
+            if ((matcher = Command.getMatcher(input, Command.ADD_PLAYER_TO_GAME)) != null) {
+                addPlayerToGame(matcher);
+            } else if ((matcher = Command.getMatcher(input, Command.CHOOSE_MAP)) != null) {
+                chooseMap(matcher);
+            } else if ((matcher = Command.getMatcher(input, Command.READY)) != null) {
+                if (notReady()) continue;
+                return MenuNames.GAME_MENU;
+            } else if ((matcher = Command.getMatcher(input, Command.CANCEL)) != null) {
+                System.out.println("The game was canceled!");
+                return MenuNames.MAIN_MENU;
+            } else {
+                System.out.println("Invalid command!");
+            }
         }
-        return MenuNames.PRE_GAME_MENU;
     }
 
     private static void addPlayerToGame(Matcher matcher) {
@@ -39,7 +42,7 @@ public class PreGameMenu {
     }
 
     private static void chooseMap(Matcher matcher) {
-        int index = Integer.parseInt(matcher.group("index")); //TODO: catch exception
+        int index = Integer.parseInt(matcher.group("index")); //TODO ME: catch exception
         PreGameMenuMessages result = PreGameMenuController.chooseMap(index);
         switch (result) {
             case OUT_OF_RANGE -> System.out.println("No map exists with this index!");

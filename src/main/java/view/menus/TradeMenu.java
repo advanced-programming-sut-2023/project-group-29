@@ -11,23 +11,24 @@ import java.util.regex.Pattern;
 
 public class TradeMenu {
     public static MenuNames run(Scanner scanner) {
-        Matcher matcher;
-        String input = scanner.nextLine();
-        if ((matcher = Command.getMatcher(input, Command.TRADE)) != null) {
-            trade(matcher);
-        } else if (Command.getMatcher(input, Command.SHOW_TRADE_LIST) != null) {
-            showTradeList();
-        } else if ((matcher = Command.getMatcher(input, Command.TRADE_ACCEPT)) != null) {
-            tradeAccept(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.TRADE_HISTORY)) != null) {
-            tradeHistory();
-        } else if ((matcher = Command.getMatcher(input, Command.BACK_GAME_MENU)) != null) {
-            System.out.println("You entered game menu");
-            return MenuNames.GAME_MENU;
-        } else {
-            System.out.println("Invalid command!");
+        System.out.println("You have entered trade menu");
+        while (true) {
+            Matcher matcher;
+            String input = scanner.nextLine();
+            if ((matcher = Command.getMatcher(input, Command.TRADE)) != null) {
+                trade(matcher);
+            } else if (Command.getMatcher(input, Command.SHOW_TRADE_LIST) != null) {
+                showTradeList();
+            } else if ((matcher = Command.getMatcher(input, Command.TRADE_ACCEPT)) != null) {
+                tradeAccept(matcher);
+            } else if ((matcher = Command.getMatcher(input, Command.TRADE_HISTORY)) != null) {
+                tradeHistory();
+            } else if ((matcher = Command.getMatcher(input, Command.BACK_GAME_MENU)) != null) {
+                return MenuNames.GAME_MENU;
+            } else {
+                System.out.println("Invalid command!");
+            }
         }
-        return MenuNames.TRADE_MENU;
     }
 
     private static void trade(Matcher matcher) {

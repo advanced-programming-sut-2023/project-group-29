@@ -12,7 +12,6 @@ public class Asset {
 
     public Asset(PlayerNumber ownerNumber, int positionX, int positionY) {
         this.ownerNumber = ownerNumber;
-        //TODO: jasbi: set empire from number
     }
 
     public Empire getOwnerEmpire() {

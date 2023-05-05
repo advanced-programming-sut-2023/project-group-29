@@ -65,4 +65,8 @@ public enum ProductExtractorType {
     public BuildingType getBuildingType() {
         return buildingType;
     }
+
+    public String getName() {
+        return name;
+    }
 }

@@ -27,4 +27,9 @@ public class ProductProcessor extends Building {
         empire.changeProduct(this.consumingProduct, -changeAmount);
         empire.changeProduct(this.producingProduct, changeAmount);
     }
+
+    @Override
+    public String getName() {
+        return productProcessorType.getName();
+    }
 }

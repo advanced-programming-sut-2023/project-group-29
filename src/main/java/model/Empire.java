@@ -21,6 +21,7 @@ public class Empire {
     private final HashMap<String, Integer> popularityChange = new HashMap<>();
     private HashMap<Resource, Integer> resourceAmounts;
     private HashMap<Product, Integer> productAmounts;
+    private User user;
     private int population;
     private int growthRate;
     private int wealth;
@@ -41,9 +42,19 @@ public class Empire {
         popularityChange.put("foodRate", 0);
         InitializeResourceAndProduct();
     }
+
+    public Empire(User user) {
+        this.user = user;
+    }
+
     public void changeNumberOfReligiousBuildings(int change) {
         numberOfReligiousBuildings += change;
     }
+
+    public User getUser() {
+        return user;
+    }
+
     public int getPopularity() {
         return popularity;
     }
@@ -154,12 +165,12 @@ public class Empire {
     }
 
     public boolean hasEnoughStoneToRepair(Building building) {
-        //TODO: complete
+        //TODO ME: complete
         return false;
     }
 
     public void decreaseStone(int amount) {
-        //TODO: complete
+        //TODO ME: complete
     }
 
     public void addBuilding(Building building, int groupNumber) {
@@ -167,20 +178,29 @@ public class Empire {
     }
 
     public void updateBuildings() {
-        for (Building building: buildings.keySet()) {
+        for (Building building : buildings.keySet()) {
             switch (buildings.get(building)) {
-                case 1://TODO: functions for accommodation type
-                case 2://TODO: functions for attackingBuilding type
-                case 3://TODO: functions for other building type
-                case 4: ((ProductExtractor)building).update(this);
-                case 5:((ProductProcessor)building).update(this);
-                case 6:((ResourceExtractor)building).update(this);
-                case 7:((ResourceProcessor)building).update(this);
-                case 8://TODO: functions for store type --> {
+                case 1://TODO ME: functions for accommodation type
+                    break;
+                case 2://TODO ME: functions for attackingBuilding type
+                    break;
+                case 3://TODO ME: functions for other building type
+                    break;
+                case 4:
+                    ((ProductExtractor) building).update(this);break;
+                case 5:
+                    ((ProductProcessor) building).update(this);break;
+                case 6:
+                    ((ResourceExtractor) building).update(this);break;
+                case 7:
+                    ((ResourceProcessor) building).update(this);break;
+                case 8://TODO ME: functions for store type --> {
                     //church and popularity
                     //dog cage
                     //draw building//siege tent
-                case 9://TODO: functions for unit creator type
+                    break;
+                case 9://TODO ME: functions for unit creator type
+                    break;
             }
         }
     }
@@ -193,5 +213,11 @@ public class Empire {
         return productAmounts.get(product);
     }
 
-    //TODO: modify equal function
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Empire) {
+            return ((Empire)obj).user.equals(this.user);
+        }
+        return false;
+    }
 }

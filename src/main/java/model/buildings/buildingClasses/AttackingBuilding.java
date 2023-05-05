@@ -17,4 +17,9 @@ public class AttackingBuilding extends Building {
         this.defendRange = attackingBuildingType.getDefendRange();
         this.fireRange = attackingBuildingType.getFireRange();
     }
+
+    @Override
+    public String getName() {
+        return attackingBuildingType.getName();
+    }
 }

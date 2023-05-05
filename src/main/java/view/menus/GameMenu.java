@@ -14,54 +14,51 @@ public class GameMenu {
     private static PlayerNumber playerNumber;
 
     public static MenuNames run(Scanner scanner) {
-        Matcher matcher;
-        String input = scanner.nextLine();
+        System.out.println("You have entered game menu");
+        while (true) {
+            Matcher matcher;
+            String input = scanner.nextLine();
 
-        if (Command.getMatcher(input, Command.SHOW_MAP) != null) {
-            return MenuNames.MAP_MENU;
-        } else if (Command.getMatcher(input, Command.SHOW_POPULARITY_FACTORS) != null) {
-            showPopularityFactors();
-        } else if (Command.getMatcher(input, Command.SHOW_POPULARITY) != null) {
-            showPopularity();
-        } else if (Command.getMatcher(input, Command.SHOW_FOOD_LIST) != null) {
-            showFoodList();
-        } else if (Command.getMatcher(input, Command.SHOW_FOOD_RATE) != null) {
-            showFoodRate();
-        } else if (Command.getMatcher(input, Command.SHOW_TAX_RATE) != null) {
-            showTaxRate();
-        } else if ((matcher = Command.getMatcher(input, Command.SET_FOOD_RATE)) != null) {
-            setFoodRate(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.SET_TAX_RATE)) != null) {
-            setTaxRate(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.SET_FEAR_RATE)) != null) {
-            setFearRate(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.DROP_BUILDING)) != null) {
-            dropBuilding(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.SELECT_BUILDING)) != null) {
-            selectBuilding(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.SELECT_UNIT)) != null) {
-            selectUnit(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.NEXT_TURN)) != null) {
-            GameMenuController.nextTurn();
-        } else if (Command.getMatcher(input, Command.ENTER_TRADE_MENU) != null) {
-            System.out.println("You entered trade menu");
-            for (int i = 0; i < AppData.getUsers().size(); i++)
-                System.out.println("User" + (i + 1) + ": " + AppData.getUsers().get(i).getUsername());
-            return MenuNames.TRADE_MENU;
-        } else if (Command.getMatcher(input, Command.ENTER_SHOP_MENU) != null) {
-            System.out.println("You entered shop menu");
-            return MenuNames.SHOP_MENU;
-        } else if (Command.getMatcher(input, Command.ENTER_SELECT_MENU) != null) {
-            System.out.println("You entered select menu");
-            return MenuNames.SELECT_MENU;
-        } else if (Command.getMatcher(input, Command.BACK_MAIN_MENU) != null) {
-            System.out.println("You entered main menu");
-            return MenuNames.MAIN_MENU;
-        } else {
-            System.out.println("Invalid command!");
+            if (Command.getMatcher(input, Command.SHOW_MAP) != null) {
+                return MenuNames.MAP_MENU;
+            } else if (Command.getMatcher(input, Command.SHOW_POPULARITY_FACTORS) != null) {
+                showPopularityFactors();
+            } else if (Command.getMatcher(input, Command.SHOW_POPULARITY) != null) {
+                showPopularity();
+            } else if (Command.getMatcher(input, Command.SHOW_FOOD_LIST) != null) {
+                showFoodList();
+            } else if (Command.getMatcher(input, Command.SHOW_FOOD_RATE) != null) {
+                showFoodRate();
+            } else if (Command.getMatcher(input, Command.SHOW_TAX_RATE) != null) {
+                showTaxRate();
+            } else if ((matcher = Command.getMatcher(input, Command.SET_FOOD_RATE)) != null) {
+                setFoodRate(matcher);
+            } else if ((matcher = Command.getMatcher(input, Command.SET_TAX_RATE)) != null) {
+                setTaxRate(matcher);
+            } else if ((matcher = Command.getMatcher(input, Command.SET_FEAR_RATE)) != null) {
+                setFearRate(matcher);
+            } else if ((matcher = Command.getMatcher(input, Command.DROP_BUILDING)) != null) {
+                dropBuilding(matcher);
+            } else if ((matcher = Command.getMatcher(input, Command.SELECT_BUILDING)) != null) {
+                selectBuilding(matcher);
+            } else if ((matcher = Command.getMatcher(input, Command.SELECT_UNIT)) != null) {
+                selectUnit(matcher);
+            } else if ((matcher = Command.getMatcher(input, Command.NEXT_TURN)) != null) {
+                GameMenuController.nextTurn();
+            } else if (Command.getMatcher(input, Command.ENTER_TRADE_MENU) != null) {
+                for (int i = 0; i < AppData.getUsers().size(); i++)
+                    System.out.println("User" + (i + 1) + ": " + AppData.getUsers().get(i).getUsername());
+                return MenuNames.TRADE_MENU;
+            } else if (Command.getMatcher(input, Command.ENTER_SHOP_MENU) != null) {
+                return MenuNames.SHOP_MENU;
+            } else if (Command.getMatcher(input, Command.ENTER_SELECT_MENU) != null) {
+                return MenuNames.SELECT_MENU;
+            } else if (Command.getMatcher(input, Command.BACK_MAIN_MENU) != null) {
+                return MenuNames.MAIN_MENU;
+            } else {
+                System.out.println("Invalid command!");
+            }
         }
-
-        return MenuNames.GAME_MENU;
     }
 
 
@@ -86,7 +83,7 @@ public class GameMenu {
     }
 
     private static void setFoodRate(Matcher matcher) {
-        int foodRate = Integer.parseInt(matcher.group("rate")); //TODO: using matcher correctly;
+        int foodRate = Integer.parseInt(matcher.group("rate"));
         GameMenuMessages result = GameMenuController.determinationOfFoodRate(playerNumber, foodRate);
         switch (result) {
             case SUCCESS -> System.out.println("Food rate has been set successfully!");
@@ -95,7 +92,7 @@ public class GameMenu {
     }
 
     private static void setTaxRate(Matcher matcher) {
-        int taxRate = Integer.parseInt(matcher.group("rate")); //TODO: using matcher correctly;
+        int taxRate = Integer.parseInt(matcher.group("rate"));
         GameMenuMessages result = GameMenuController.determinationOfTaxRate(playerNumber, taxRate);
         switch (result) {
             case SUCCESS -> System.out.println("Tax rate has been set successfully!");
@@ -104,7 +101,7 @@ public class GameMenu {
     }
 
     private static void setFearRate(Matcher matcher) {
-        int fearRate = Integer.parseInt(matcher.group("rate")); //TODO: using matcher correctly;
+        int fearRate = Integer.parseInt(matcher.group("rate"));
         GameMenuMessages result = GameMenuController.determinationOfFearRate(playerNumber, fearRate);
         switch (result) {
             case SUCCESS -> System.out.println("Fear rate has been set successfully!");
@@ -113,9 +110,9 @@ public class GameMenu {
     }
 
     private static void dropBuilding(Matcher matcher) {
-        int x = Integer.parseInt(matcher.group("xPosition")); //TODO: using matcher correctly;
-        int y = Integer.parseInt(matcher.group("yPosition")); //TODO: using matcher correctly;
-        String buildingName = matcher.group("type"); //TODO: using matcher correctly;
+        int x = Integer.parseInt(matcher.group("xPosition"));
+        int y = Integer.parseInt(matcher.group("yPosition"));
+        String buildingName = matcher.group("type");
         GameMenuMessages result = GameMenuController.dropBuilding(x, y, buildingName, playerNumber);
         switch (result) {
             case INVALID_POSITION -> System.out.println("You have chosen an Invalid amount of x or y!");
@@ -127,8 +124,8 @@ public class GameMenu {
     }
 
     private static void selectBuilding(Matcher matcher) {
-        int x = Integer.parseInt(matcher.group("xPosition")); //TODO: using matcher correctly;
-        int y = Integer.parseInt(matcher.group("yPosition")); //TODO: using matcher correctly;
+        int x = Integer.parseInt(matcher.group("xPosition"));
+        int y = Integer.parseInt(matcher.group("yPosition"));
         GameMenuMessages result = GameMenuController.selectBuilding(x, y, playerNumber);
         switch (result) {
             case INVALID_POSITION -> System.out.println("You have chosen an Invalid amount of x or y!");

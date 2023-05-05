@@ -22,4 +22,9 @@ public class ProductExtractor extends Building {
     public void update(Empire empire) {
         empire.changeProduct(this.producingProduct, rate);
     }
+
+    @Override
+    public String getName() {
+        return productExtractorType.getName();
+    }
 }

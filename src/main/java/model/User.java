@@ -1,5 +1,7 @@
 package model;
 
+import controller.menucontrollers.GameMenuController;
+
 import java.util.ArrayList;
 
 public class User {
@@ -17,7 +19,6 @@ public class User {
     private String slogan;
     private final String securityQuestion;
     private int highScore = 0;
-    private Empire empire;
 
     public User(String username, String password, String nickname, String email, String slogan, String securityQuestion) {
         this.username = username;
@@ -26,7 +27,6 @@ public class User {
         this.email = email;
         this.slogan = slogan;
         this.securityQuestion = securityQuestion;
-        empire = new Empire();
     }
 
     public static ArrayList<String> getQuestions() {
@@ -89,7 +89,19 @@ public class User {
         this.highScore = highScore;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof User) {
+            return ((User)obj).username.equals(this.username);
+        }
+        return false;
+    }
+
     public Empire getEmpire() {
-        return empire;
+        GameData gameData = GameMenuController.getGameData();
+        for (Empire empire: gameData.getEmpires()){
+            if (empire.getUser().equals(this)) return empire;
+        }
+        return null;
     }
 }

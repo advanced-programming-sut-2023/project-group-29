@@ -1,15 +1,11 @@
 package controller.menucontrollers;
 
-import model.GameData;
 import model.PlayerNumber;
-import model.buildings.Building;
 import model.map.Cell;
 import model.map.ConsoleColors;
 import model.map.Map;
 import model.people.humanClasses.Soldier;
 import model.people.humanTypes.SoldierType;
-import view.menus.GameMenu;
-import view.messages.GameMenuMessages;
 
 import java.util.ArrayList;
 
@@ -135,7 +131,7 @@ public class MapMenuController {
     public static void dropTree() {
     }
 
-    //todo complete
+    //TODO ME complete
 //    public static GameMenuMessages dropBuilding(int x, int y, String buildingName, PlayerNumber playerNumber) {
 //        if (positionIsInvalid(x, y)) {
 //            return GameMenuMessages.INVALID_POSITION;

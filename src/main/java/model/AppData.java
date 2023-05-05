@@ -11,8 +11,6 @@ public class AppData {
     private static int delayInLogin = 0;
 
     //todo faratin handle stay logged in
-
-    //todo jasbi user or empire
     private static int stayLoggedIn = 0;
 
     public static User getUserByUsername(String username) {

@@ -15,7 +15,7 @@ public class LoginMenuController {
         Matcher matcherCapital = Pattern.compile("[A-Z]").matcher(password);
         Matcher matcherSmall = Pattern.compile("[a-z]").matcher(password);
         Matcher matcherNumber = Pattern.compile("\\d").matcher(password);
-        Matcher matcherOdd = Pattern.compile("[!@#&%_\\-=~\\+\\(\\)\\^\\{\\}\"\\?]").matcher(password);
+        Matcher matcherOdd = Pattern.compile("[!@#&%_\\-=~+()^{}\"?]").matcher(password);
         if (password.length() < 6) {
             return 0;
         }
@@ -34,7 +34,7 @@ public class LoginMenuController {
         return 0;
     }
 
-    private static String createRandomPassword(String username) {
+    private static String createRandomPassword(String username, Scanner scanner) {
         String output = "";
         Random random = new Random();
         int charAscii = 0;
@@ -43,7 +43,6 @@ public class LoginMenuController {
         for (int i = 0; i < 8; i++)
             output = addCharToPassword(random, output, n1[i], n2[i]);
         System.out.println("Your random password is: " + output + ". Please re-enter your password here:");
-        Scanner scanner = new Scanner(System.in);
         String password = scanner.nextLine();
         if (!password.equals(output)) {
             return "Incorrect password!";
@@ -74,12 +73,11 @@ public class LoginMenuController {
         return "Us against whole of the world!";
     }
 
-    private static String checkSecurityQuestion() {
+    private static String checkSecurityQuestion(Scanner scanner) {
         String output = "";
         while (true) {
             System.out.println("Pick your security question: 1. What is my father’s name? 2. What " +
                     "was my first pet’s name? 3. What is my mother’s last name?");
-            Scanner scanner = new Scanner(System.in);
             String input = scanner.nextLine();
             String regex1 = "question pick -q (?<questionNumber>\\d) -a (?<answer>\\S+) -c (?<answerconfirm>\\S+)";
             String regex2 = "question pick -a (?<answer>\\S+) -c (?<answerconfirm>\\S+) -q (?<questionNumber>\\d)";
@@ -108,7 +106,7 @@ public class LoginMenuController {
         return output;
     }
 
-    public static String createUser(Matcher matcher) {
+    public static String createUser(Matcher matcher, Scanner scanner) {
         //TODO faratin: split it to smaller functions
         String input = matcher.group(0);
         Pattern patternExistUsername = Pattern.compile("-u");
@@ -161,7 +159,6 @@ public class LoginMenuController {
 
         if (AppData.getUserByUsername(username) != null) {
             System.out.println("This username is already exist! Do you want to have " + username + "1 as your username?");
-            Scanner scanner = new Scanner(System.in);
             String newInput = scanner.nextLine();
             if (!(newInput.equals("Yes") || newInput.equals("yes"))) {
                 return "Account didn't create!";
@@ -181,7 +178,7 @@ public class LoginMenuController {
                 return "Please enter password confirmation correctly!";
             }
         } else {
-            password = createRandomPassword(username);
+            password = createRandomPassword(username,scanner);
             if (password.equals("Incorrect password!")) {
                 return "Incorrect password!";
             }
@@ -207,9 +204,8 @@ public class LoginMenuController {
                 slogan = createRandomSlogan();
             }
         }
-        User user = new User(username, password, nickname, email, slogan, checkSecurityQuestion());
+        User user = new User(username, password, nickname, email, slogan, checkSecurityQuestion(scanner));
         AppData.addUser(user);
-        MainMenu.setLoggedInUser(user);
         return "user created successfully";
     }
 
@@ -236,7 +232,7 @@ public class LoginMenuController {
         return "user logged in successfully!";
     }
 
-    public static String forgottenPassword(Matcher matcher) {
+    public static String forgottenPassword(Matcher matcher, Scanner scanner) {
         //todo faratin transfer
         String username = matcher.group(1);
         if (AppData.getUserByUsername(username) == null) {
@@ -252,12 +248,10 @@ public class LoginMenuController {
         } else if (numberOfQuestion == 3) {
             System.out.println("What is your mother’s last name?");
         }
-        Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
         if (input.equals(answer)) {
             System.out.println("Enter your new password and its confirmation");
-            Scanner scannerNewPassword = new Scanner(System.in);
-            String newPassword = scannerNewPassword.nextLine();
+            String newPassword = scanner.nextLine();
             Matcher passwordMatcher = Pattern.compile("\\s*(\\S+)\\s+(\\S+)\\s*").matcher(newPassword);
             if (!passwordMatcher.matches()) {
                 return "Invalid command!";

@@ -22,6 +22,11 @@ public class ResourceProcessor extends Building {
         this.product = resourceProcessorType.getProduct();
     }
 
+    @Override
+    public String getName() {
+        return resourceProcessorType.getName();
+    }
+
     public void update(Empire empire) {
         int availableResource = empire.getResourceAmount(this.resource);
         int changeAmount = Math.min(availableResource, rate);

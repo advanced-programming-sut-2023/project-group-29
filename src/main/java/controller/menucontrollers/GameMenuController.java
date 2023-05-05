@@ -8,17 +8,8 @@ import model.map.Cell;
 import model.map.Map;
 import view.messages.GameMenuMessages;
 
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-
 public class GameMenuController {
-    private static Map map;
     private static GameData gameData = null;
-
-    /*static {
-        map = gameData.getMap();
-    }*///TODO: caused bug
-
     public static void setGameData(GameData gameData) {
         GameMenuController.gameData = gameData;
     }
@@ -84,7 +75,7 @@ public class GameMenuController {
         if (positionIsInvalid(x, y)) {
             return GameMenuMessages.INVALID_POSITION;
         }
-        Cell chosenCell = map.getCells()[x][y];
+        Cell chosenCell = gameData.getMap().getCells()[x][y];
         if (!Building.isBuildingNameValid(buildingName)) {
             return GameMenuMessages.INVALID_TYPE;
         }
@@ -104,7 +95,7 @@ public class GameMenuController {
         if (positionIsInvalid(x, y)) {
             return GameMenuMessages.INVALID_POSITION;
         }
-        Cell chosenCell = map.getCells()[x][y];
+        Cell chosenCell = gameData.getMap().getCells()[x][y];
         if ((building = chosenCell.getBuilding()) == null) {
             return GameMenuMessages.EMPTY_CELL;
         }
@@ -115,6 +106,7 @@ public class GameMenuController {
     }
 
     private static boolean positionIsInvalid(int x, int y) {
+        Map map = gameData.getMap();
         return x <= 0 || y <= 0
                 || x > map.getWidth()
                 || y > map.getWidth();
@@ -143,6 +135,6 @@ public class GameMenuController {
         gameData.changePlayingPlayer();
         Empire empire = gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn());
         empire.updateBuildings();
-        //some functions TODO
+        //some functions TODO ME
     }
 }

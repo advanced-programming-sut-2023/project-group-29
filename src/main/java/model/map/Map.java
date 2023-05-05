@@ -103,6 +103,6 @@ public class Map {
 
     public void dropBuilding(int positionX,int positionY,String type,int ownerPlayerNumber)
     {
-        //todo
+        //todo ME
     }
 }

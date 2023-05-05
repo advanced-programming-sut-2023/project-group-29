@@ -20,6 +20,10 @@ public class ResourceExtractor extends Building {
         this.producingResource = resourceExtractorType.getProducingResource();
     }
 
+    @Override
+    public String getName() {
+        return resourceExtractorType.getName();
+    }
 
     public void update(Empire empire) {
         empire.changeResourceAmount(this.producingResource, rate);

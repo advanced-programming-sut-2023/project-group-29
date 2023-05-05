@@ -7,8 +7,6 @@ import model.buildings.buildingClasses.*;
 import model.buildings.buildingTypes.*;
 import model.weapons.weaponClasses.Equipments;
 import model.weapons.weaponClasses.Trap;
-import org.checkerframework.checker.units.qual.C;
-
 import java.util.ArrayList;
 
 
@@ -135,7 +133,7 @@ public class Cell {
     }
 
     public boolean isAbleToBuildOn(String type) {
-        //TODO: complete this function
+        //TODO ME: complete this function
         return isAbleToBuildOn();
     }
 

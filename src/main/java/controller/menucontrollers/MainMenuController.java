@@ -1,16 +1,12 @@
 package controller.menucontrollers;
 
-import model.GameData;
-import model.PlayerNumber;
-import model.User;
+import model.*;
 
 public class MainMenuController {
-    public static void createGameData(User loggedInUser) {
-        //todo faratin: give users and chosen map in argument
-        //todo jasbi: add remove users command menu
+    public static void createGameData() {
         GameData gameData = new GameData();
         GameMenuController.setGameData(gameData);
-        gameData.addEmpire(loggedInUser.getEmpire());
+        gameData.addEmpire(new Empire(AppData.getCurrentUser()));
         gameData.setPlayerOfTurn(PlayerNumber.FIRST);
     }
 }

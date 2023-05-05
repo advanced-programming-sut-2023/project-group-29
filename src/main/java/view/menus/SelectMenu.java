@@ -8,46 +8,36 @@ import java.util.regex.Matcher;
 
 public class SelectMenu {
     public static MenuNames run(Scanner scanner) {
-        Matcher matcher;
-        String input = scanner.nextLine();
-        if ((matcher = Command.getMatcher(input, Command.CREATE_UNIT)) != null) {
-            createUnit();
+        System.out.println("You have entered select menu");
+        while (true) {
+            Matcher matcher;
+            String input = scanner.nextLine();
+            if ((matcher = Command.getMatcher(input, Command.CREATE_UNIT)) != null) {
+                createUnit();
+            } else if ((matcher = Command.getMatcher(input, Command.REPAIR_BUILDING)) != null) {
+                repairBuilding(matcher);
+            } else if ((matcher = Command.getMatcher(input, Command.MOVE_UNIT)) != null) {
+                moveUnit(matcher);
+            } else if ((matcher = Command.getMatcher(input, Command.PATROL_UNIT)) != null) {
+                patrolUnit(matcher);
+            } else if ((matcher = Command.getMatcher(input, Command.SET_STATE_OF_UNIT)) != null) {
+                setStateOfUnit(matcher);
+            } else if ((matcher = Command.getMatcher(input, Command.MAKE_UNIT_ATTACKING)) != null) {
+                makeUnitAttacking(matcher);
+            } else if ((matcher = Command.getMatcher(input, Command.POUR_OIL)) != null) {
+                pourOil(matcher);
+            } else if ((matcher = Command.getMatcher(input, Command.DIG_TUNNEL)) != null) {
+                digTunnel(matcher);
+            } else if ((matcher = Command.getMatcher(input, Command.BUILD_EQUIPMENT)) != null) {
+                buildEquipment(matcher);
+            } else if ((matcher = Command.getMatcher(input, Command.DISBAND_UNIT)) != null) {
+                disbandUnit(matcher);
+            } else if ((matcher = Command.getMatcher(input, Command.BACK_GAME_MENU)) != null) {
+                return MenuNames.GAME_MENU;
+            } else {
+                System.out.println("Invalid command!");
+            }
         }
-        else if ((matcher = Command.getMatcher(input, Command.REPAIR_BUILDING)) != null) {
-            repairBuilding(matcher);
-        }
-        else if ((matcher = Command.getMatcher(input, Command.MOVE_UNIT)) != null) {
-            moveUnit(matcher);
-        }
-        else if ((matcher = Command.getMatcher(input, Command.PATROL_UNIT)) != null) {
-            patrolUnit(matcher);
-        }
-        else if ((matcher = Command.getMatcher(input, Command.SET_STATE_OF_UNIT)) != null) {
-            setStateOfUnit(matcher);
-        }
-        else if ((matcher = Command.getMatcher(input, Command.MAKE_UNIT_ATTACKING)) != null) {
-            makeUnitAttacking(matcher);
-        }
-        else if ((matcher = Command.getMatcher(input, Command.POUR_OIL)) != null) {
-            pourOil(matcher);
-        }
-        else if ((matcher = Command.getMatcher(input, Command.DIG_TUNNEL)) != null) {
-            digTunnel(matcher);
-        }
-        else if ((matcher = Command.getMatcher(input, Command.BUILD_EQUIPMENT)) != null) {
-            buildEquipment(matcher);
-        }
-        else if ((matcher = Command.getMatcher(input, Command.DISBAND_UNIT)) != null) {
-            disbandUnit(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.BACK_GAME_MENU)) != null) {
-            System.out.println("You entered game menu");
-            return MenuNames.GAME_MENU;
-        }
-        else {
-            System.out.println("Invalid command!");
-        }
-
-        return MenuNames.SELECT_MENU;
     }
 
     private static void createUnit() {
