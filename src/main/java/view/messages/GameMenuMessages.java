@@ -11,4 +11,5 @@ public enum GameMenuMessages {
     OTHERS_BUILDINGS,
     TWO_MAIN_KEEP,
     UNCONNECTED_STOREROOMS,
+    LACK_OF_RESOURCES,
 }

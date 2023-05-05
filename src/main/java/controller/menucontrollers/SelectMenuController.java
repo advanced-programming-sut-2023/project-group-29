@@ -28,7 +28,7 @@ public class SelectMenuController {
     }
 
     private static boolean hasEnoughStoneToRepair(Empire ownerEmpire, Building building) {
-        int needed = building.getMaxHp() - building.getHp();
+        int needed = (building.getMaxHp() - building.getHp()); //TODO maybe * zarib
         int valid = ownerEmpire.getResourceAmount(Resource.STONE);
         return valid >= needed;
     }
