@@ -73,7 +73,8 @@ public class GameMenuController {
         return GameMenuMessages.SUCCESS;
     }
 
-    public static GameMenuMessages dropBuilding(int x, int y, String buildingName, PlayerNumber playerNumber) {
+    public static GameMenuMessages dropBuilding(int x, int y, String buildingName, PlayerNumber playerNumber, int isAdmin) {
+        Building building;
         Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
         if (positionIsInvalid(x, y)) {
             return GameMenuMessages.INVALID_POSITION;
@@ -85,13 +86,16 @@ public class GameMenuController {
             return GameMenuMessages.INVALID_TYPE;
         } else if (!chosenCell.isAbleToBuildOn(buildingName)) {
             return GameMenuMessages.IMPROPER_CELL_TYPE;
-        } else if (chosenCell.getBuilding() != null) {
+        } else if ((building = chosenCell.getBuilding()) != null) {
             return GameMenuMessages.FULL_CELL;
         } else if (buildingTypeIsStore(buildingName)
                 && IsAnotherStore(empire, buildingName)
                 && !isConnectedToOthers(x, y, buildingName, empire)) {
             return GameMenuMessages.UNCONNECTED_STOREROOMS;
+        } else if (!empire.canBuyBuilding(building)) {
+            return GameMenuMessages.LACK_OF_RESOURCES;
         }
+        empire.buyBuilding(building);
         chosenCell.makeBuilding(buildingName, playerNumber);
         return GameMenuMessages.SUCCESS;
     }
@@ -119,7 +123,7 @@ public class GameMenuController {
         Cell chosenCell = gameData.getMap().getCells()[x][y];
         if (chosenCell.getBuilding() == null) {
             return false;
-        } else{
+        } else {
             return chosenCell.getBuilding().getName().equals(buildingName)
                     && chosenCell.getBuilding().getOwnerEmpire().equals(empire);
         }
@@ -170,7 +174,7 @@ public class GameMenuController {
         gameData.changePlayingPlayer();
         Empire empire = gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn());
         empire.updateBuildings();
-        empire.affectDestructedStorages();
-        //TODO: some functions
+        empire.affectDestructedStorerooms();
+        //TODO: some functions. This function should be called in the beginning of the game
     }
 }

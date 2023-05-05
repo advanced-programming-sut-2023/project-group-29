@@ -38,11 +38,13 @@ public class GameMenu {
             } else if ((matcher = Command.getMatcher(input, Command.SET_FEAR_RATE)) != null) {
                 setFearRate(matcher);
             } else if ((matcher = Command.getMatcher(input, Command.DROP_BUILDING)) != null) {
-                dropBuilding(matcher);
+                dropBuilding(matcher, 0);
             } else if ((matcher = Command.getMatcher(input, Command.SELECT_BUILDING)) != null) {
                 selectBuilding(matcher);
             } else if ((matcher = Command.getMatcher(input, Command.SELECT_UNIT)) != null) {
                 selectUnit(matcher);
+            } else if ((matcher = Command.getMatcher(input, Command.ADMIN_DROP_BUILDING)) != null) {
+                dropBuilding(matcher, 1);
             } else if ((matcher = Command.getMatcher(input, Command.NEXT_TURN)) != null) {
                 GameMenuController.nextTurn();
             } else if (Command.getMatcher(input, Command.ENTER_TRADE_MENU) != null) {
@@ -59,8 +61,6 @@ public class GameMenu {
                 System.out.println("Invalid command!");
             }
         }
-
-        return MenuNames.GAME_MENU;
     }
 
 
@@ -111,19 +111,21 @@ public class GameMenu {
         }
     }
 
-    //todo should move to map menu
-    private static void dropBuilding(Matcher matcher) {
-//        int x = Integer.parseInt(matcher.group("xPosition")); //TODO: using matcher correctly;
-//        int y = Integer.parseInt(matcher.group("yPosition")); //TODO: using matcher correctly;
-//        String buildingName = matcher.group("type"); //TODO: using matcher correctly;
-//        GameMenuMessages result = GameMenuController.dropBuilding(x, y, buildingName, playerNumber);
-//        switch (result) {
-//            case INVALID_POSITION -> System.out.println("You have chosen an Invalid amount of x or y!");
-//            case INVALID_TYPE -> System.out.println("This type of building doesn't exist!");
-//            case IMPROPER_CELL_TYPE -> System.out.println("This cell is improper for dropping this type of building!");
-//            case FULL_CELL -> System.out.println("Another building has been already dropped here!");
-//            case SUCCESS -> System.out.println("The building was dropped successfully!");
-//        }
+    private static void dropBuilding(Matcher matcher, int isAdmin) {
+        int x = Integer.parseInt(matcher.group("xPosition"));
+        int y = Integer.parseInt(matcher.group("yPosition"));
+        String buildingName = matcher.group("type");
+        GameMenuMessages result = GameMenuController.dropBuilding(x, y, buildingName, playerNumber, isAdmin);
+        switch (result) {
+            case TWO_MAIN_KEEP -> System.out.println("You aren't allowed to have two main keeps!");
+            case INVALID_POSITION -> System.out.println("You have chosen an Invalid amount of x or y!");
+            case INVALID_TYPE -> System.out.println("This type of building doesn't exist!");
+            case UNCONNECTED_STOREROOMS -> System.out.println("Your storerooms must be connected to each other!");
+            case IMPROPER_CELL_TYPE -> System.out.println("This cell is improper for dropping this type of building!");
+            case FULL_CELL -> System.out.println("Another building has been already dropped here!");
+            case LACK_OF_RESOURCES -> System.out.println("You don't have enough resources to build this building!");
+            case SUCCESS -> System.out.println("The building was dropped successfully!");
+        }
     }
 
     private static void selectBuilding(Matcher matcher) {
