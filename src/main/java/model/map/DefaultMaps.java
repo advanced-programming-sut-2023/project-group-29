@@ -1,7 +1,10 @@
 package model.map;
 
 import controller.menucontrollers.MapMenuController;
+import model.PlayerNumber;
+import model.buildings.buildingClasses.Accommodation;
 import model.buildings.buildingTypes.AccommodationType;
+import model.people.humanTypes.SoldierType;
 
 public enum DefaultMaps {
     FIRST_MAP(0),
