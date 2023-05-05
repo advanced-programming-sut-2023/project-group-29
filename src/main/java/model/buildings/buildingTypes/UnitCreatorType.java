@@ -45,4 +45,8 @@ public enum UnitCreatorType {
     public BuildingType getBuildingType() {
         return buildingType;
     }
+
+    public String getName() {
+        return name;
+    }
 }

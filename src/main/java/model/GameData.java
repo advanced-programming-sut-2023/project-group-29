@@ -75,7 +75,7 @@ public class GameData {
 
     public boolean IsUserInGame(User user) {
         for (Empire empire : empires) {
-            if (user.getEmpire().equals(empire)) return true;
+            if (user.equals(empire.getUser())) return true;
         }
         return false;
     }

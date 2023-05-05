@@ -11,37 +11,36 @@ import java.util.regex.Pattern;
 
 public class LoginMenu {
     public static MenuNames run(Scanner scanner) {
-        Matcher matcher;
-        String input = scanner.nextLine();
-        if ((matcher = Command.getMatcher(input, Command.USER_CREATE)) != null) {
-            System.out.println(LoginMenuController.createUser(matcher));
-        }
-        else if ((matcher = Command.getMatcher(input, Command.EXIT)) != null) {
-            return MenuNames.EXIT;
-        }
-        else if ((matcher = Command.getMatcher(input, Command.LOGIN)) != null) {
-            String output = LoginMenuController.login(matcher);
-            System.out.println(output);
-            if (output.equals("user logged in successfully!")) {
-                AppData.setDelayInLogin(0);
-                return MenuNames.MAIN_MENU;
-            }
-            if (output.equals("Username and password didn't match!")) {
-                AppData.setDelayInLogin(AppData.getDelayInLogin() + 5000);
-                try {
-                    Thread.sleep(AppData.getDelayInLogin());
+        System.out.println("You have entered login menu");
+        while (true) {
+            Matcher matcher;
+            String input = scanner.nextLine();
 
-                } catch (Exception e) {
+            if ((matcher = Command.getMatcher(input, Command.USER_CREATE)) != null) {
+                System.out.println(LoginMenuController.createUser(matcher, scanner));
+            } else if ((matcher = Command.getMatcher(input, Command.EXIT)) != null) {
+                return MenuNames.EXIT;
+            } else if ((matcher = Command.getMatcher(input, Command.LOGIN)) != null) {
+                String output = LoginMenuController.login(matcher);
+                System.out.println(output);
+                if (output.equals("user logged in successfully!")) {
+                    AppData.setDelayInLogin(0);
+                    return MenuNames.MAIN_MENU;
                 }
+                if (output.equals("Username and password didn't match!")) {
+                    AppData.setDelayInLogin(AppData.getDelayInLogin() + 5000);
+                    try {
+                        Thread.sleep(AppData.getDelayInLogin());
+
+                    } catch (Exception e) {
+                    }
+                }
+            } else if ((matcher = Command.getMatcher(input, Command.FORGET_PASSWORD)) != null) {
+                System.out.println(LoginMenuController.forgottenPassword(matcher, scanner));
+            } else {
+                System.out.println("Invalid command!");
             }
         }
-        else if ((matcher = Command.getMatcher(input, Command.FORGET_PASSWORD)) != null) {
-            System.out.println(LoginMenuController.forgottenPassword(matcher));
-        }
-        else {
-            System.out.println("Invalid command!");
-        }
-        return MenuNames.LOGIN_MENU;
     }
 
     public static String checkSecurityQuestion() {
@@ -58,23 +57,18 @@ public class LoginMenu {
             if (matcher1.matches()) {
                 if (Integer.parseInt(matcher1.group(1)) > 3) {
                     System.out.println("Invalid number of question!");
-                }
-                else if (!matcher1.group(2).equals(matcher1.group(3))) {
+                } else if (!matcher1.group(2).equals(matcher1.group(3))) {
                     System.out.println("Please enter your answer confirm correctly");
-                }
-                else {
+                } else {
                     output = matcher1.group(1) + " " + matcher1.group(2);
                     break;
                 }
-            }
-            else if (matcher2.matches()) {
+            } else if (matcher2.matches()) {
                 if (Integer.parseInt(matcher2.group(3)) > 3) {
                     System.out.println("Invalid number of question!");
-                }
-                else if (!matcher2.group(1).equals(matcher2.group(2))) {
+                } else if (!matcher2.group(1).equals(matcher2.group(2))) {
                     System.out.println("Please enter your answer confirm correctly");
-                }
-                else {
+                } else {
                     output = matcher2.group(3) + " " + matcher2.group(1);
                     break;
                 }

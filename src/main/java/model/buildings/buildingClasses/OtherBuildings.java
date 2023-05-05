@@ -19,4 +19,9 @@ public class OtherBuildings extends Building {
             case CHURCH, CATHEDRAL -> this.getOwnerEmpire().changeNumberOfReligiousBuildings(1);
         }
     }
+
+    @Override
+    public String getName() {
+        return otherBuildingsType.getName();
+    }
 }

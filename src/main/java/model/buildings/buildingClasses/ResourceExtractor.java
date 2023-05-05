@@ -20,8 +20,14 @@ public class ResourceExtractor extends Building {
         this.producingResource = resourceExtractorType.getProducingResource();
     }
 
+    @Override
+    public String getName() {
+        return resourceExtractorType.getName();
+    }
 
-    public void update(Empire empire) {
-        empire.changeResourceAmount(this.producingResource, rate);
+    public void update() {
+        int change = Math.min(ownerEmpire.getEmptySpace(1),rate);
+        ownerEmpire.changeResourceAmount(this.producingResource, change);
+        ownerEmpire.fillStorage(1,change);
     }
 }

@@ -50,8 +50,6 @@ public enum ResourceExtractorType {
         return null;
     }
 
-    //todo jasbi name not assigned but used :/
-
     public int getRate() {
         return rate;
     }
@@ -60,11 +58,11 @@ public enum ResourceExtractorType {
         return buildingType;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public Resource getProducingResource() {
         return producingResource;
+    }
+
+    public String getName() {
+        return name;
     }
 }

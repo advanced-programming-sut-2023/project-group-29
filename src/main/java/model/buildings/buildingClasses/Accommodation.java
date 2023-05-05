@@ -13,4 +13,9 @@ public class Accommodation extends Building {
         this.accommodationType = accommodationType;
         this.numberOfSettler = accommodationType.getNumberOfSettler();
     }
+
+    @Override
+    public String getName() {
+        return accommodationType.getName();
+    }
 }

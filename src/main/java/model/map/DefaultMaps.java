@@ -1,12 +1,7 @@
 package model.map;
 
-import controller.menucontrollers.GameMenuController;
 import controller.menucontrollers.MapMenuController;
-import model.PlayerNumber;
-import model.buildings.Building;
-import model.buildings.buildingClasses.Accommodation;
 import model.buildings.buildingTypes.AccommodationType;
-import model.people.humanTypes.SoldierType;
 
 public enum DefaultMaps {
     FIRST_MAP(0),
@@ -14,21 +9,18 @@ public enum DefaultMaps {
 
     private final int index;
     private Map map;
-    private static final int defaultMapsCount=2;
+    private static final int DEFAULT_MAP_COUNTS = DefaultMaps.values().length;
 
-    DefaultMaps(int index)
-    {
-        this.index=index;
-        switch (index)
-        {
-            case 0-> this.map=initializeFirstMap();
-            case 1-> this.map=initializeSecondMap();
+    DefaultMaps(int index) {
+        this.index = index;
+        switch (index) {
+            case 0 -> this.map = initializeFirstMap();
+            case 1 -> this.map = initializeSecondMap();
         }
     }
-
-    private Map initializeFirstMap()
-    {
-        Map firstMap=new Map(100,3);
+//در داک گفته شده که یک انبار باید در کنار مقر اصلی به صورت پیش فرض ساخته شود.
+    private Map initializeFirstMap() {
+        Map firstMap = new Map(100, 3);
         return null;
         //todo abbasfar
     }
@@ -37,10 +29,9 @@ public enum DefaultMaps {
         Map secondMap=new Map(200,3);
         Cell[][] cells=secondMap.getCells();
 
-        for(int i=1;i<cells.length;i++)
-            for (int j=1;j<cells.length;j++)
-            {
-                cells[i][j]=new Cell(CellType.PLAIN_GROUND);
+        for (int i = 1; i < cells.length; i++)
+            for (int j = 1; j < cells.length; j++) {
+                cells[i][j] = new Cell(CellType.PLAIN_GROUND);
             }
 
         secondMap.getCells()[5][5].setBuilding(new Accommodation(AccommodationType.MAIN_KEEP, PlayerNumber.FIRST,5,5));
@@ -71,6 +62,13 @@ public enum DefaultMaps {
     }
 
     public static int getDefaultMapsCount() {
-        return defaultMapsCount;
+        return DEFAULT_MAP_COUNTS;
+    }
+
+    public static Map getMapByIndex(int index) {
+        for (DefaultMaps dm : DefaultMaps.values()) {
+            if (dm.index == index) return dm.map;
+        }
+        return null;
     }
 }

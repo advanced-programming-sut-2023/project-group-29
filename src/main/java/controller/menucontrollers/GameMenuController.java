@@ -4,20 +4,13 @@ import model.Empire;
 import model.GameData;
 import model.PlayerNumber;
 import model.buildings.Building;
+import model.buildings.buildingTypes.StoreType;
 import model.map.Cell;
 import model.map.Map;
 import view.messages.GameMenuMessages;
 
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-
 public class GameMenuController {
-    private static Map map;
     private static GameData gameData = null;
-
-    /*static {
-        map = gameData.getMap();
-    }*///TODO: caused bug
 
     public static void setGameData(GameData gameData) {
         GameMenuController.gameData = gameData;
@@ -80,25 +73,57 @@ public class GameMenuController {
         return GameMenuMessages.SUCCESS;
     }
 
-    //todo moved to map menu
+    public static GameMenuMessages dropBuilding(int x, int y, String buildingName, PlayerNumber playerNumber) {
+        Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
+        if (positionIsInvalid(x, y)) {
+            return GameMenuMessages.INVALID_POSITION;
+        }
+        Cell chosenCell = gameData.getMap().getCells()[x][y];
+        if (buildingName.equals("mainKeep")) {
+            return GameMenuMessages.TWO_MAIN_KEEP;
+        } else if (!Building.isBuildingNameValid(buildingName)) {
+            return GameMenuMessages.INVALID_TYPE;
+        } else if (!chosenCell.isAbleToBuildOn(buildingName)) {
+            return GameMenuMessages.IMPROPER_CELL_TYPE;
+        } else if (chosenCell.getBuilding() != null) {
+            return GameMenuMessages.FULL_CELL;
+        } else if (buildingTypeIsStore(buildingName)
+                && IsAnotherStore(empire, buildingName)
+                && !isConnectedToOthers(x, y, buildingName, empire)) {
+            return GameMenuMessages.UNCONNECTED_STOREROOMS;
+        }
+        chosenCell.makeBuilding(buildingName, playerNumber);
+        return GameMenuMessages.SUCCESS;
+    }
 
-//    public static GameMenuMessages dropBuilding(int x, int y, String buildingName, PlayerNumber playerNumber) {
-//        if (positionIsInvalid(x, y)) {
-//            return GameMenuMessages.INVALID_POSITION;
-//        }
-//        Cell chosenCell = map.getCells()[x][y];
-//        if (!Building.isBuildingNameValid(buildingName)) {
-//            return GameMenuMessages.INVALID_TYPE;
-//        }
-//        else if (!chosenCell.isAbleToBuildOn(buildingName)) {
-//            return GameMenuMessages.IMPROPER_CELL_TYPE;
-//        }
-//        else if (chosenCell.getBuilding() != null) {
-//            return GameMenuMessages.FULL_CELL;
-//        }
-//        chosenCell.makeBuilding(buildingName, playerNumber);
-//        return GameMenuMessages.SUCCESS;
-//    }
+    private static boolean IsAnotherStore(Empire empire, String buildingName) {
+        return empire.getNumberOfBuildingType(buildingName) > 0;
+    }
+
+    private static boolean buildingTypeIsStore(String buildingName) {
+        for (StoreType storeType : StoreType.values()) {
+            if (storeType.getName().equals(buildingName)) return true;
+        }
+        return false;
+    }
+
+    private static boolean isConnectedToOthers(int x, int y, String buildingName, Empire empire) {
+        return thisTypeIsInThisCell(x - 1, y, buildingName, empire)
+                || thisTypeIsInThisCell(x + 1, y, buildingName, empire)
+                || thisTypeIsInThisCell(x, y - 1, buildingName, empire)
+                || thisTypeIsInThisCell(x, y + 1, buildingName, empire);
+    }
+
+    private static boolean thisTypeIsInThisCell(int x, int y, String buildingName, Empire empire) {
+        if (positionIsInvalid(x, y)) return false;
+        Cell chosenCell = gameData.getMap().getCells()[x][y];
+        if (chosenCell.getBuilding() == null) {
+            return false;
+        } else{
+            return chosenCell.getBuilding().getName().equals(buildingName)
+                    && chosenCell.getBuilding().getOwnerEmpire().equals(empire);
+        }
+    }
 
     public static GameMenuMessages selectBuilding(int x, int y, PlayerNumber playerNumber) {
         Building building;
@@ -106,17 +131,17 @@ public class GameMenuController {
         if (positionIsInvalid(x, y)) {
             return GameMenuMessages.INVALID_POSITION;
         }
-        Cell chosenCell = map.getCells()[x][y];
+        Cell chosenCell = gameData.getMap().getCells()[x][y];
         if ((building = chosenCell.getBuilding()) == null) {
             return GameMenuMessages.EMPTY_CELL;
-        }
-        else if (!building.getOwnerEmpire().equals(currentPlayerEmpire)) {
+        } else if (!building.getOwnerEmpire().equals(currentPlayerEmpire)) {
             return GameMenuMessages.OTHERS_BUILDINGS;
         }
         return GameMenuMessages.SUCCESS;
     }
 
     private static boolean positionIsInvalid(int x, int y) {
+        Map map = gameData.getMap();
         return x <= 0 || y <= 0
                 || x > map.getWidth()
                 || y > map.getWidth();
@@ -145,6 +170,7 @@ public class GameMenuController {
         gameData.changePlayingPlayer();
         Empire empire = gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn());
         empire.updateBuildings();
-        //some functions TODO
+        empire.affectDestructedStorages();
+        //TODO: some functions
     }
 }

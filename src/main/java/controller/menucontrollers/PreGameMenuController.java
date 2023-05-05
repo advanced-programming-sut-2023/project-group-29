@@ -1,6 +1,7 @@
 package controller.menucontrollers;
 
 import model.AppData;
+import model.Empire;
 import model.GameData;
 import model.User;
 import model.map.DefaultMaps;
@@ -9,7 +10,6 @@ import view.messages.PreGameMenuMessages;
 
 public class PreGameMenuController {
 
-    //todo jasbi user dooooooes nooooot have empire
     public static PreGameMenuMessages addUserToGame(String username) {
         GameData gameData = GameMenuController.getGameData();
         User user;
@@ -20,8 +20,7 @@ public class PreGameMenuController {
         } else if (gameData.getNumberOfPlayers() >= 8) {
             return PreGameMenuMessages.FILLED_TO_CAPACITY;
         }
-        gameData.addEmpire(user.getEmpire());
-        //TODO: set player number
+        gameData.addEmpire(new Empire(user));
         return PreGameMenuMessages.SUCCESS;
     }
 
@@ -29,8 +28,9 @@ public class PreGameMenuController {
         if (index >= DefaultMaps.getDefaultMapsCount()) {
             return PreGameMenuMessages.OUT_OF_RANGE;
         }
-        //TODO: choose map number index;
-        GameMenuController.getGameData().setMap(DefaultMaps.SECOND_MAP.getMap());//todo get by index
+        GameData gameData = GameMenuController.getGameData();
+        Map map = DefaultMaps.getMapByIndex(index);
+        gameData.setMap(map);
         return PreGameMenuMessages.SUCCESS;
     }
 

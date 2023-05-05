@@ -1,0 +1,21 @@
+user create -u hossein1 -p 2@Seyed200 2@Seyed200 -email Bandeh200@gmail.com -n the best1 -s I see noOne1
+question pick -q 1 -a morteza1 -c morteza1
+user create -u hossein2 -p 2@Seyed201 2@Seyed201 -email Bandeh201@gmail.com -n the best2 -s I see noOne2
+question pick -q 1 -a morteza2 -c morteza2
+user create -u hossein3 -p 2@Seyed202 2@Seyed202 -email Bandeh202@gmail.com -n the best3 -s I see noOne3
+question pick -q 1 -a morteza3 -c morteza3
+user create -u hossein4 -p 2@Seyed203 2@Seyed203 -email Bandeh203@gmail.com -n the best4 -s I see noOne4
+question pick -q 1 -a morteza4 -c morteza4
+user login -u hossein1 -p 2@Seyed200
+start a new game
+add to game -u hossein2
+add to game -u hossein3
+add to game -u hossein4
+choose map 1
+ready
+next turn
+next turn
+.
+.
+.
+next turn

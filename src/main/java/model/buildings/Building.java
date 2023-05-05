@@ -2,23 +2,24 @@ package model.buildings;
 
 import model.Asset;
 import model.PlayerNumber;
+import model.dealing.Resource;
 
 import java.util.HashMap;
 
 public abstract class Building extends Asset {
+
+    //TODO: تعیین قیمت برای ساختمان های رایگان
     private static final HashMap<String, Integer> buildingNamesAndTheirGroup = new HashMap<>();
     protected int numberOfWorkers;
     protected int[] neededResources;
     protected int maxHp;
-    protected String name;
-    //todo jasbi this field must be completed
 
     protected Building(BuildingType buildingType, PlayerNumber playerNumber, int positionX, int positionY) {
         super(playerNumber, positionX, positionY);
         this.neededResources = buildingType.neededResources();
         this.hp = buildingType.hp();
         this.numberOfWorkers = buildingType.numberOfWorkers();
-        maxHp = hp;
+        this.maxHp = hp;
     }
 
     public static void addToValidBuildingNames(String buildingName, int groupNumber) {
@@ -42,11 +43,13 @@ public abstract class Building extends Asset {
     }
 
     public void repair() {
-        ownerEmpire.decreaseStone(maxHp - hp);
+        ownerEmpire.changeResourceAmount(Resource.STONE, maxHp - hp);
         hp = maxHp;
     }
 
-    public String getName() {
-        return name;
+    public abstract String getName();
+
+    public int getMaxHp() {
+        return maxHp;
     }
 }

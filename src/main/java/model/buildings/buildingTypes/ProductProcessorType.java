@@ -60,4 +60,8 @@ public enum ProductProcessorType {
     public Product getProducingProduct() {
         return producingProduct;
     }
+
+    public String getName() {
+        return name;
+    }
 }

@@ -13,4 +13,10 @@ public class UnitCreator extends Building {
         this.unitCreatorType = unitCreatorType;
         this.unitCost = unitCreatorType.getUnitCost();
     }
+
+    @Override
+    public String getName() {
+        return unitCreatorType.getName();
+    }
+
 }
