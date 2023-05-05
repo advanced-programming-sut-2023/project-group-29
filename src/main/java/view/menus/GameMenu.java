@@ -23,7 +23,6 @@ public class GameMenu {
 
             if ((matcher=Command.getMatcher(input, Command.SHOW_MAP)) != null) {
                 showMap(matcher);
-            if (Command.getMatcher(input, Command.SHOW_MAP) != null) {
                 return MenuNames.MAP_MENU;
             } else if (Command.getMatcher(input, Command.SHOW_POPULARITY_FACTORS) != null) {
                 showPopularityFactors();
@@ -65,8 +64,6 @@ public class GameMenu {
                 System.out.println("Invalid command!");
             }
         }
-
-        return MenuNames.GAME_MENU;
     }
 
 
