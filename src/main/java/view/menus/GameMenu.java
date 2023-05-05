@@ -112,18 +112,19 @@ public class GameMenu {
         }
     }
 
+    //todo should move to map menu
     private static void dropBuilding(Matcher matcher) {
-        int x = Integer.parseInt(matcher.group("xPosition")); //TODO: using matcher correctly;
-        int y = Integer.parseInt(matcher.group("yPosition")); //TODO: using matcher correctly;
-        String buildingName = matcher.group("type"); //TODO: using matcher correctly;
-        GameMenuMessages result = GameMenuController.dropBuilding(x, y, buildingName, playerNumber);
-        switch (result) {
-            case INVALID_POSITION -> System.out.println("You have chosen an Invalid amount of x or y!");
-            case INVALID_TYPE -> System.out.println("This type of building doesn't exist!");
-            case IMPROPER_CELL_TYPE -> System.out.println("This cell is improper for dropping this type of building!");
-            case FULL_CELL -> System.out.println("Another building has been already dropped here!");
-            case SUCCESS -> System.out.println("The building was dropped successfully!");
-        }
+//        int x = Integer.parseInt(matcher.group("xPosition")); //TODO: using matcher correctly;
+//        int y = Integer.parseInt(matcher.group("yPosition")); //TODO: using matcher correctly;
+//        String buildingName = matcher.group("type"); //TODO: using matcher correctly;
+//        GameMenuMessages result = GameMenuController.dropBuilding(x, y, buildingName, playerNumber);
+//        switch (result) {
+//            case INVALID_POSITION -> System.out.println("You have chosen an Invalid amount of x or y!");
+//            case INVALID_TYPE -> System.out.println("This type of building doesn't exist!");
+//            case IMPROPER_CELL_TYPE -> System.out.println("This cell is improper for dropping this type of building!");
+//            case FULL_CELL -> System.out.println("Another building has been already dropped here!");
+//            case SUCCESS -> System.out.println("The building was dropped successfully!");
+//        }
     }
 
     private static void selectBuilding(Matcher matcher) {

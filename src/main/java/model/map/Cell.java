@@ -182,5 +182,9 @@ public class Cell {
     public ConsoleColors getShowingColor() {
         return cellType.getShowingColor();
     }
+    public void addMovingObject(Asset asset)
+    {
+        movingObjects.add(asset);
+    }
 
 }

@@ -27,6 +27,7 @@ public enum SoldierType {
     private final int attackDamage;
     private final int defenseDamage;
     private final int aimRange;
+    private final String name;
     private final HumanType humanType;
 
     SoldierType(HumanType humanType, DamageEnum attackDamage, DamageEnum defenseDamage, AimRangeEnum aimRange) {
@@ -34,6 +35,7 @@ public enum SoldierType {
         this.attackDamage = attackDamage.getDamageValue();
         this.defenseDamage = defenseDamage.getDamageValue();
         this.aimRange = aimRange.getRange();
+        this.name= humanType.name();
     }
 
     public int getAttackDamage() {
@@ -51,4 +53,9 @@ public enum SoldierType {
     public int getDefenseDamage() {
         return defenseDamage;
     }
+
+    public String getName() {
+        return name;
+    }
 }
+

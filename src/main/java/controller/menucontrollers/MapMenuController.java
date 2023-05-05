@@ -6,6 +6,7 @@ import model.buildings.Building;
 import model.map.Cell;
 import model.map.ConsoleColors;
 import model.map.Map;
+import model.people.Human;
 import model.people.humanClasses.Soldier;
 import model.people.humanTypes.SoldierType;
 import view.menus.GameMenu;
@@ -96,7 +97,7 @@ public class MapMenuController {
     }
 
     private static String colorString(String string, ConsoleColors color) {
-        return color.getStringCode() + string + ConsoleColors.RESET_COLOR;
+        return color.getStringCode() + string + ConsoleColors.RESET_COLOR.getStringCode();
     }
 
     private static String fitStringToTileWidthWithNumberSign(String string) {
@@ -135,34 +136,17 @@ public class MapMenuController {
     public static void dropTree() {
     }
 
-    //todo complete
-//    public static GameMenuMessages dropBuilding(int x, int y, String buildingName, PlayerNumber playerNumber) {
-//        if (positionIsInvalid(x, y)) {
-//            return GameMenuMessages.INVALID_POSITION;
-//        }
-//        Cell chosenCell = map.getCells()[x][y];
-//        if (!Building.isBuildingNameValid(buildingName)) {
-//            return GameMenuMessages.INVALID_TYPE;
-//        }
-//        else if (!chosenCell.isAbleToBuildOn(buildingName)) {
-//            return GameMenuMessages.IMPROPER_CELL_TYPE;
-//        }
-//        else if (chosenCell.getBuilding() != null) {
-//            return GameMenuMessages.FULL_CELL;
-//        }
-//        chosenCell.makeBuilding(buildingName, playerNumber);
-//        return GameMenuMessages.SUCCESS;
-//    }
 
-    public static void dropUnit(int positionX,int positionY,String type,int count,int ownerPlayerNumber) {
+    public static String dropUnit(int positionX,int positionY,String type,int count,int ownerPlayerNumberInt) {
 
         Map map=GameMenuController.getGameData().getMap();
-
-        //todo complete function
-
-
-        map.getCells()[positionX][positionY].getMovingObjects().add(new Soldier(SoldierType.SWORDSMAN,PlayerNumber.getPlayerByIndex(ownerPlayerNumber),positionX,positionY));
+        return map.dropUnit(positionX,positionY,type,count,ownerPlayerNumberInt);
     }
 
+    //todo correct return type and other changes in function
+    public static GameMenuMessages dropBuilding(int x, int y, String buildingName, int playerNumberInt) {
 
+        Map map=GameMenuController.getGameData().getMap();
+        return map.dropBuilding(x,y,buildingName,playerNumberInt);
+    }
 }

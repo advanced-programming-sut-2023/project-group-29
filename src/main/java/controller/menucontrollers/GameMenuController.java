@@ -80,23 +80,25 @@ public class GameMenuController {
         return GameMenuMessages.SUCCESS;
     }
 
-    public static GameMenuMessages dropBuilding(int x, int y, String buildingName, PlayerNumber playerNumber) {
-        if (positionIsInvalid(x, y)) {
-            return GameMenuMessages.INVALID_POSITION;
-        }
-        Cell chosenCell = map.getCells()[x][y];
-        if (!Building.isBuildingNameValid(buildingName)) {
-            return GameMenuMessages.INVALID_TYPE;
-        }
-        else if (!chosenCell.isAbleToBuildOn(buildingName)) {
-            return GameMenuMessages.IMPROPER_CELL_TYPE;
-        }
-        else if (chosenCell.getBuilding() != null) {
-            return GameMenuMessages.FULL_CELL;
-        }
-        chosenCell.makeBuilding(buildingName, playerNumber);
-        return GameMenuMessages.SUCCESS;
-    }
+    //todo moved to map menu
+
+//    public static GameMenuMessages dropBuilding(int x, int y, String buildingName, PlayerNumber playerNumber) {
+//        if (positionIsInvalid(x, y)) {
+//            return GameMenuMessages.INVALID_POSITION;
+//        }
+//        Cell chosenCell = map.getCells()[x][y];
+//        if (!Building.isBuildingNameValid(buildingName)) {
+//            return GameMenuMessages.INVALID_TYPE;
+//        }
+//        else if (!chosenCell.isAbleToBuildOn(buildingName)) {
+//            return GameMenuMessages.IMPROPER_CELL_TYPE;
+//        }
+//        else if (chosenCell.getBuilding() != null) {
+//            return GameMenuMessages.FULL_CELL;
+//        }
+//        chosenCell.makeBuilding(buildingName, playerNumber);
+//        return GameMenuMessages.SUCCESS;
+//    }
 
     public static GameMenuMessages selectBuilding(int x, int y, PlayerNumber playerNumber) {
         Building building;

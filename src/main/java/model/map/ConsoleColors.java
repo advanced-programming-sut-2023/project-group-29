@@ -6,6 +6,7 @@ public enum ConsoleColors {
     GREEN_BACKGROUND("\u001B[42m"),
     WHITE_BACKGROUND("\u001B[47m"),
     YELLOW_BACKGROUND("\u001B[43m"),
+    CYAN_BACKGROUND("\u001B[46m"),
     RESET_COLOR("\u001B[0m");
 
     private final String stringCode;

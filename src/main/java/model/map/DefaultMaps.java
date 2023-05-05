@@ -1,7 +1,12 @@
 package model.map;
 
+import controller.menucontrollers.GameMenuController;
 import controller.menucontrollers.MapMenuController;
+import model.PlayerNumber;
+import model.buildings.Building;
+import model.buildings.buildingClasses.Accommodation;
 import model.buildings.buildingTypes.AccommodationType;
+import model.people.humanTypes.SoldierType;
 
 public enum DefaultMaps {
     FIRST_MAP(0),
@@ -29,7 +34,7 @@ public enum DefaultMaps {
     }
     private Map initializeSecondMap()
     {
-        Map secondMap=new Map(200,6);
+        Map secondMap=new Map(200,3);
         Cell[][] cells=secondMap.getCells();
 
         for(int i=1;i<cells.length;i++)
@@ -38,16 +43,22 @@ public enum DefaultMaps {
                 cells[i][j]=new Cell(CellType.PLAIN_GROUND);
             }
 
-        secondMap.dropBuilding(5,5, AccommodationType.MAIN_KEEP.getName(),1);
-        secondMap.dropBuilding(100,5, AccommodationType.MAIN_KEEP.getName(),2);
-        secondMap.dropBuilding(185,5, AccommodationType.MAIN_KEEP.getName(),3);
+        secondMap.getCells()[5][5].setBuilding(new Accommodation(AccommodationType.MAIN_KEEP, PlayerNumber.FIRST,5,5));
+        secondMap.getCells()[100][5].setBuilding(new Accommodation(AccommodationType.MAIN_KEEP, PlayerNumber.SECOND,100,5));
+        secondMap.getCells()[185][5].setBuilding(new Accommodation(AccommodationType.MAIN_KEEP, PlayerNumber.THIRD,185,5));
+
+//        secondMap.dropBuilding(5,5, AccommodationType.MAIN_KEEP.getName(),1);
+//        secondMap.dropBuilding(100,5, AccommodationType.MAIN_KEEP.getName(),2);
+//        secondMap.dropBuilding(185,5, AccommodationType.MAIN_KEEP.getName(),3);
 //        secondMap.dropBuilding(185,100, AccommodationType.MAIN_KEEP.getName(),4);
 //        secondMap.dropBuilding(185,185, AccommodationType.MAIN_KEEP.getName(),5);
 //        secondMap.dropBuilding(100,185, AccommodationType.MAIN_KEEP.getName(),6);
 //        secondMap.dropBuilding(5,185, AccommodationType.MAIN_KEEP.getName(),7);
 //        secondMap.dropBuilding(5,100, AccommodationType.MAIN_KEEP.getName(),8);
 
+        secondMap.dropUnit(5,6, SoldierType.SWORDSMAN.getName(), 5,1);
 
+        //todo map should be cloned before use
         return secondMap;
     }
 

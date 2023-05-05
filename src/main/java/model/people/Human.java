@@ -5,6 +5,10 @@ import model.Movable;
 import model.Patrol;
 import model.PlayerNumber;
 import model.map.Map;
+import model.people.humanClasses.Soldier;
+import model.people.humanClasses.Worker;
+import model.people.humanTypes.SoldierType;
+import model.people.humanTypes.WorkerType;
 
 public class Human extends Asset implements Movable {
     //TODO speed type slow, middle, fast and convert to number
@@ -73,5 +77,20 @@ public class Human extends Asset implements Movable {
 
     public String getName() {
         return name;
+    }
+
+    public static Human createUnitByName(String unitName,PlayerNumber ownerNumber,int positionX,int positionY)
+    {
+        //if soldier
+        for(SoldierType soldierType:SoldierType.values())
+            if(soldierType.getName().equals(unitName))
+                return new Soldier(soldierType,ownerNumber,positionX,positionY);
+
+        //if worker
+        for(WorkerType workerType:WorkerType.values())
+            if(workerType.getName().equals(unitName))
+                return new Worker(workerType,ownerNumber,positionX,positionY);
+
+        return null;
     }
 }
