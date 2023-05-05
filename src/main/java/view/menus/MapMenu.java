@@ -13,8 +13,8 @@ public class MapMenu {
         while(true) {
             Matcher matcher;
             String input = scanner.nextLine();
-            if (Command.getMatcher(input, Command.SHOW_MAP) != null) {
-                showMap();
+            if ((matcher=Command.getMatcher(input, Command.SHOW_MAP)) != null) {
+                showMap(matcher);
             }
             else if ((matcher = Command.getMatcher(input, Command.MOVE_MAP)) != null) {
                 moveMap(matcher);
@@ -72,8 +72,15 @@ public class MapMenu {
 
     }
 
-    private static void showMap() {
-        //todo complete
-        System.out.println(MapMenuController.showMap(1,1));
+    private static void showMap(Matcher matcher) {
+
+        int positionX=Integer.parseInt(matcher.group("xAmount"));
+        int positionY=Integer.parseInt(matcher.group("yAmount"));
+
+        System.out.println(MapMenuController.showMap(positionX,positionY));
+    }
+
+    private static void showMap(){
+        System.out.println(MapMenuController.showMap());
     }
 }

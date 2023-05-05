@@ -2,10 +2,12 @@ package view.menus;
 
 import controller.MenuNames;
 import controller.menucontrollers.GameMenuController;
+import controller.menucontrollers.MapMenuController;
 import model.AppData;
 import model.PlayerNumber;
 import view.Command;
 import view.messages.GameMenuMessages;
+import view.messages.MapMenuMessages;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -19,7 +21,8 @@ public class GameMenu {
             Matcher matcher;
             String input = scanner.nextLine();
 
-            if (Command.getMatcher(input, Command.SHOW_MAP) != null) {
+            if ((matcher=Command.getMatcher(input, Command.SHOW_MAP)) != null) {
+                showMap(matcher);
                 return MenuNames.MAP_MENU;
             } else if (Command.getMatcher(input, Command.SHOW_POPULARITY_FACTORS) != null) {
                 showPopularityFactors();
@@ -59,8 +62,6 @@ public class GameMenu {
                 System.out.println("Invalid command!");
             }
         }
-
-        return MenuNames.GAME_MENU;
     }
 
 
@@ -159,5 +160,14 @@ public class GameMenu {
 
     private static void tradeHistory(Matcher matcher) {
         //TODO: complete it
+    }
+
+    private static void showMap(Matcher matcher) {
+
+        int positionX=Integer.parseInt(matcher.group("xAmount"));
+        int positionY=Integer.parseInt(matcher.group("yAmount"));
+
+        //todo isn't it bad if we call map menu controller in game menu like below?
+        MapMenuController.setShowingMapIndexes(positionX,positionY);
     }
 }

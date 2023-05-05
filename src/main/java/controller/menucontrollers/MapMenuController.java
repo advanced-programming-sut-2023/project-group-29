@@ -11,6 +11,7 @@ import model.people.humanClasses.Soldier;
 import model.people.humanTypes.SoldierType;
 import view.menus.GameMenu;
 import view.messages.GameMenuMessages;
+import view.messages.MapMenuMessages;
 
 import java.util.ArrayList;
 
@@ -19,16 +20,26 @@ public class MapMenuController {
     private static final int tileHeight = 4;
     private static final int maxNumberOfTilesShowingInRow = 14;
     private static final int maxNumberOfTilesShowingInColumn = 4;
-    private static int showingMapIndexX;
-    private static int showingMapIndexY;
+    private static int showingMapIndexX=1;
+    private static int showingMapIndexY=1;
 
-    public static String showMap(int indexX, int indexY) {
+    public static MapMenuMessages setShowingMapIndexes(int indexX, int indexY)
+    {
         Map map = GameMenuController.getGameData().getMap();
         if (!map.isIndexValid(indexX, indexY))
-            return "The index is invalid";
+            return MapMenuMessages.INVALID_INDEX;
 
-        showingMapIndexX = indexX;
-        showingMapIndexY = indexY;
+        showingMapIndexX=indexX;
+        showingMapIndexY=indexY;
+
+        return MapMenuMessages.SUCCESSFUL;
+    }
+    public static String showMap(int indexX, int indexY) {
+        Map map = GameMenuController.getGameData().getMap();
+
+        MapMenuMessages message=setShowingMapIndexes(indexX,indexY);
+        if(message.equals(MapMenuMessages.INVALID_INDEX))
+            return "Invalid index!";
 
         //the first line is the building and trap(if is for user)
         //the second,third and forth line shows other units
@@ -43,6 +54,12 @@ public class MapMenuController {
 
         return showTilesOfMap(tiles, mapShowingWidth, mapShowingHeight);
     }
+
+    public static String showMap()
+    {
+        return showMap(showingMapIndexX,showingMapIndexY);
+    }
+
 
     private static String showTilesOfMap(ArrayList<String>[][] tiles, int mapShowingWidth, int mapShowingHeight) {
         String tilesOfMap = "";

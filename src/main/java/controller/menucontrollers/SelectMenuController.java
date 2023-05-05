@@ -6,7 +6,7 @@ import model.dealing.Resource;
 import model.map.Cell;
 import model.map.Map;
 import model.people.Human;
-import model.people.HumanState;
+import model.people.UnitState;
 import model.people.humanClasses.Soldier;
 import view.messages.SelectMenuMessages;
 
@@ -125,15 +125,17 @@ public class SelectMenuController {
             return "The index is invalid!";
         Cell cell = map.getCells()[cellX][cellY];
 
-        HumanState humanState = HumanState.getHumanStateByString(stateOfUnitString);
-        if (humanState == null)
+        UnitState unitState = UnitState.getUnitStateByString(stateOfUnitString);
+        if (unitState == null)
             return "Enter a valid state";
 
         ArrayList<Movable> assetsInCell = cell.getMovingObjectsOfPlayer(gameData.getPlayerOfTurn());
 
-        for (Movable movable : assetsInCell)
+        //todo change below to offensive and add the setState function to interface
+        for (Movable movable : assetsInCell) {
             if (movable instanceof Human)
-                ((Human) movable).setState(humanState);
+                ((Human) movable).setState(unitState);
+        }
 
         return "State successfully set!";
     }

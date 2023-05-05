@@ -14,7 +14,7 @@ public class Human extends Asset implements Movable {
     //TODO speed type slow, middle, fast and convert to number
 
     //todo defense damage should differ
-    protected HumanState humanState = HumanState.STANDING;
+    protected UnitState unitState = UnitState.STANDING;
     protected boolean ableToClimbLadder;
     protected int speed;
     private boolean movedThisTurn=false;
@@ -41,12 +41,12 @@ public class Human extends Asset implements Movable {
         return ableToClimbLadder;
     }
 
-    public HumanState getState() {
-        return humanState;
+    public UnitState getState() {
+        return unitState;
     }
 
-    public void setState(HumanState humanState) {
-        this.humanState = humanState;
+    public void setState(UnitState unitState) {
+        this.unitState = unitState;
     }
 
     public boolean isAlive() {
@@ -71,8 +71,8 @@ public class Human extends Asset implements Movable {
         return patrol;
     }
 
-    public HumanState getHumanState() {
-        return humanState;
+    public UnitState getHumanState() {
+        return unitState;
     }
 
     public String getName() {
