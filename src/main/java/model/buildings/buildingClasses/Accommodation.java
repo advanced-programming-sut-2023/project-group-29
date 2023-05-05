@@ -1,5 +1,6 @@
 package model.buildings.buildingClasses;
 
+import model.Empire;
 import model.PlayerNumber;
 import model.buildings.Building;
 import model.buildings.buildingTypes.AccommodationType;
@@ -17,5 +18,10 @@ public class Accommodation extends Building {
     @Override
     public String getName() {
         return accommodationType.getName();
+    }
+
+    public void update() {
+        Empire empire = this.ownerEmpire;
+        empire.addPossiblePopulation(this.numberOfSettler);
     }
 }

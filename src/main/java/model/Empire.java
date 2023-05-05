@@ -21,6 +21,7 @@ public class Empire {
     private HashMap<Product, Integer> productAmounts;
     private User user;
     private int population;
+    private int possiblePopulation;
     private int growthRate;
     private int wealth;
     private int taxRate;
@@ -168,13 +169,14 @@ public class Empire {
 
     public void updateBuildings() {
         makeCapacitiesZero();
+        makePossiblePopulationZero();
         for (Building building : buildings.keySet()) {
             switch (buildings.get(building)) {
-                case 1://TODO ME: functions for accommodation type
+                case 1:((Accommodation) building).update();
                     break;
-                case 2://TODO ME: functions for attackingBuilding type
+                case 2://TODO: functions for attackingBuilding type
                     break;
-                case 3://TODO ME: functions for other building type
+                case 3://TODO: functions for other building type
                     break;
                 case 4:
                     ((ProductExtractor) building).update();
@@ -190,7 +192,7 @@ public class Empire {
                     break;
                 case 8:((Store) building).update();
                     break;
-                case 9://TODO ME: functions for unit creator type
+                case 9://TODO: functions for unit creator type
                     //church and popularity
                     //dog cage
                     //draw bridge//siege tent
@@ -199,10 +201,18 @@ public class Empire {
         }
     }
 
+    private void makePossiblePopulationZero() {
+        possiblePopulation = 0;
+    }
+
     private void makeCapacitiesZero() {
         storage[1][0] = 0;
         storage[1][1] = 0;
         storage[1][2] = 0;
+    }
+
+    public void addPossiblePopulation(int possiblePopulation) {
+        this.possiblePopulation += possiblePopulation;
     }
 
     public void addStorage(int capacity, int switcher) {
@@ -230,5 +240,35 @@ public class Empire {
 
     public int getEmptySpace(int switcher) {
         return storage[1][switcher] - storage[0][switcher];
+    }
+
+    public int getNumberOfBuildingType(String buildingName) {
+        int count = 0;
+        for (Building building: buildings.keySet()) {
+            if (building.getName().equals(buildingName)) count++;
+        }
+        return count;
+    }
+
+    public void affectDestructedStorerooms() {
+        //TODO: complete. somehow pointive
+    }
+
+    public void affectDestructedAccommodations() {
+        //TODO: complete. somehow pointive
+    }
+
+    public void buyBuilding(Building building) {
+        changeResourceAmount(Resource.COINS,building.getNeededResource(0));
+        changeResourceAmount(Resource.STONE,building.getNeededResource(1));
+        changeResourceAmount(Resource.WOOD,building.getNeededResource(2));
+        changeResourceAmount(Resource.IRON,building.getNeededResource(3));
+    }
+
+    public boolean canBuyBuilding(Building building) {
+        return building.getNeededResource(0) <= resourceAmounts.get(Resource.COINS)
+                && building.getNeededResource(1) <= resourceAmounts.get(Resource.STONE)
+                && building.getNeededResource(2) <= resourceAmounts.get(Resource.WOOD)
+                && building.getNeededResource(3) <= resourceAmounts.get(Resource.IRON);
     }
 }

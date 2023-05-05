@@ -15,8 +15,6 @@ public class Store extends Building {
         this.capacity = storeType.getCapacity();
     }
 
-    //TODO ME انبارها باید متصل به هم باشند.
-    //TODO ME موقع از بین رفتن انبار ظرفیت متناسب شود.
     @Override
     public String getName() {
         return storeType.getName();

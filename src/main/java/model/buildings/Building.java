@@ -52,4 +52,8 @@ public abstract class Building extends Asset {
     public int getMaxHp() {
         return maxHp;
     }
+
+    public int getNeededResource(int i) {
+        return neededResources[i];
+    }
 }

@@ -56,7 +56,8 @@ public enum Command {
     CLEAR(""),
     DROP_ROCK(""),
     DROP_TREE(""),
-    //DROP_BUILDING(""),
+    ADMIN_DROP_BUILDING("\\s*admin\\s+dropbuilding\\s+-x\\s+" +
+            "(?<xPosition>\\d+)\\s+-y\\s+(?<yPosition>\\d+)\\s+-type\\s+(?<type>\\S+)\\s*"),
     DROP_UNIT("\\s*dropunit\\s+-x\\s+(?<xPosition>\\d+)\\s+-y\\s+(?<yPosition>\\d+)\\s+-t\\s+(?<type>\\S+)\\s+-c\\s+(?<count>\\d+)\\s*"),
     CREATE_UNIT("\\s*createUnit\\s+-t\\s+(?<type>\\S+)\\s+-c\\s+(?<count>\\d+)\\s*"), //TODO
     REPAIR_BUILDING("\\s*repair\\s*"),

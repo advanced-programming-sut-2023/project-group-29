@@ -133,7 +133,7 @@ public class Cell {
     }
 
     public boolean isAbleToBuildOn(String type) {
-        //TODO ME: complete this function
+        //TODO: complete this function
         return isAbleToBuildOn();
     }
 
