@@ -2,10 +2,9 @@ package controller.menucontrollers;
 
 import model.AppData;
 import model.User;
-import view.menus.MainMenu;
+import view.menus.LoginMenu;
 
 import java.util.Random;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,7 +33,7 @@ public class LoginMenuController {
         return 0;
     }
 
-    private static String createRandomPassword(String username, Scanner scanner) {
+    private static String createRandomPassword(String username) {
         String output = "";
         Random random = new Random();
         int charAscii = 0;
@@ -42,8 +41,8 @@ public class LoginMenuController {
         int[] n1 = {26, 26, 26, 26, 10, 10, 10, 15}, n2 = {65, 65, 65, 97, 48, 48, 48, 33};
         for (int i = 0; i < 8; i++)
             output = addCharToPassword(random, output, n1[i], n2[i]);
-        System.out.println("Your random password is: " + output + ". Please re-enter your password here:");
-        String password = scanner.nextLine();
+
+        String password = LoginMenu.showRandomPassword(output);
         if (!password.equals(output)) {
             return "Incorrect password!";
         }
@@ -72,41 +71,7 @@ public class LoginMenuController {
         }
         return "Us against whole of the world!";
     }
-
-    private static String checkSecurityQuestion(Scanner scanner) {
-        String output = "";
-        while (true) {
-            System.out.println("Pick your security question: 1. What is my father’s name? 2. What " +
-                    "was my first pet’s name? 3. What is my mother’s last name?");
-            String input = scanner.nextLine();
-            String regex1 = "question pick -q (?<questionNumber>\\d) -a (?<answer>\\S+) -c (?<answerconfirm>\\S+)";
-            String regex2 = "question pick -a (?<answer>\\S+) -c (?<answerconfirm>\\S+) -q (?<questionNumber>\\d)";
-            Matcher matcher1 = Pattern.compile(regex1).matcher(input);
-            Matcher matcher2 = Pattern.compile(regex2).matcher(input);
-            if (matcher1.matches()) {
-                if (Integer.parseInt(matcher1.group(1)) > 3) {
-                    System.out.println("Invalid number of question!");
-                } else if (!matcher1.group(2).equals(matcher1.group(3))) {
-                    System.out.println("Please enter your answer confirm correctly");
-                } else {
-                    output = matcher1.group(1) + " " + matcher1.group(2);
-                    break;
-                }
-            } else if (matcher2.matches()) {
-                if (Integer.parseInt(matcher2.group(3)) > 3) {
-                    System.out.println("Invalid number of question!");
-                } else if (!matcher2.group(1).equals(matcher2.group(2))) {
-                    System.out.println("Please enter your answer confirm correctly");
-                } else {
-                    output = matcher2.group(3) + " " + matcher2.group(1);
-                    break;
-                }
-            }
-        }
-        return output;
-    }
-
-    public static String createUser(Matcher matcher, Scanner scanner) {
+    public static String createUser(Matcher matcher) {
         //TODO faratin: split it to smaller functions
         String input = matcher.group(0);
         Pattern patternExistUsername = Pattern.compile("-u");
@@ -158,8 +123,7 @@ public class LoginMenuController {
         }
 
         if (AppData.getUserByUsername(username) != null) {
-            System.out.println("This username is already exist! Do you want to have " + username + "1 as your username?");
-            String newInput = scanner.nextLine();
+            String newInput = LoginMenu.suggestUsername(username);
             if (!(newInput.equals("Yes") || newInput.equals("yes"))) {
                 return "Account didn't create!";
             }
@@ -178,7 +142,7 @@ public class LoginMenuController {
                 return "Please enter password confirmation correctly!";
             }
         } else {
-            password = createRandomPassword(username,scanner);
+            password = createRandomPassword(username);
             if (password.equals("Incorrect password!")) {
                 return "Incorrect password!";
             }
@@ -204,7 +168,7 @@ public class LoginMenuController {
                 slogan = createRandomSlogan();
             }
         }
-        User user = new User(username, password, nickname, email, slogan, checkSecurityQuestion(scanner));
+        User user = new User(username, password, nickname, email, slogan, LoginMenu.checkSecurityQuestion());
         AppData.addUser(user);
         return "user created successfully";
     }
@@ -232,7 +196,7 @@ public class LoginMenuController {
         return "user logged in successfully!";
     }
 
-    public static String forgottenPassword(Matcher matcher, Scanner scanner) {
+    public static String forgottenPassword(Matcher matcher) {
         //todo faratin transfer
         String username = matcher.group(1);
         if (AppData.getUserByUsername(username) == null) {
@@ -241,17 +205,9 @@ public class LoginMenuController {
         String[] securityQuestion = AppData.getUserByUsername(username).getSecurityQuestion().split(" ");
         int numberOfQuestion = Integer.parseInt(securityQuestion[0]);
         String answer = securityQuestion[1];
-        if (numberOfQuestion == 1) {
-            System.out.println("What is your father’s name?");
-        } else if (numberOfQuestion == 2) {
-            System.out.println("What was your first pet’s name?");
-        } else if (numberOfQuestion == 3) {
-            System.out.println("What is your mother’s last name?");
-        }
-        String input = scanner.nextLine();
+        String input = LoginMenu.askSecurityQuestion(numberOfQuestion);
         if (input.equals(answer)) {
-            System.out.println("Enter your new password and its confirmation");
-            String newPassword = scanner.nextLine();
+            String newPassword = LoginMenu.changePasswordWithSecurityQuestion();
             Matcher passwordMatcher = Pattern.compile("\\s*(\\S+)\\s+(\\S+)\\s*").matcher(newPassword);
             if (!passwordMatcher.matches()) {
                 return "Invalid command!";

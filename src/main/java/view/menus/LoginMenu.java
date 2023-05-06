@@ -10,13 +10,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class LoginMenu {
+    static Scanner scanner;
     public static MenuNames run(Scanner scanner) {
+        LoginMenu.scanner = scanner;
         System.out.println("You have entered login menu");
         while (true) {
             Matcher matcher;
             String input = scanner.nextLine();
             if ((matcher = Command.getMatcher(input, Command.USER_CREATE)) != null) {
-                System.out.println(LoginMenuController.createUser(matcher, scanner));
+                System.out.println(LoginMenuController.createUser(matcher));
             } else if ((matcher = Command.getMatcher(input, Command.EXIT)) != null) {
                 return MenuNames.EXIT;
             } else if ((matcher = Command.getMatcher(input, Command.LOGIN)) != null) {
@@ -35,7 +37,7 @@ public class LoginMenu {
                     }
                 }
             } else if ((matcher = Command.getMatcher(input, Command.FORGET_PASSWORD)) != null) {
-                System.out.println(LoginMenuController.forgottenPassword(matcher, scanner));
+                System.out.println(LoginMenuController.forgottenPassword(matcher));
             } else {
                 System.out.println("Invalid command!");
             }
@@ -47,7 +49,6 @@ public class LoginMenu {
         while (true) {
             System.out.println("Pick your security question: 1. What is my father’s name? 2. What " +
                     "was my first pet’s name? 3. What is my mother’s last name?");
-            Scanner scanner = new Scanner(System.in);
             String input = scanner.nextLine();
             String regex1 = "question pick -q (?<questionNumber>\\d) -a (?<answer>\\S+) -c (?<answerconfirm>\\S+)";
             String regex2 = "question pick -a (?<answer>\\S+) -c (?<answerconfirm>\\S+) -q (?<questionNumber>\\d)";
@@ -78,7 +79,6 @@ public class LoginMenu {
 
     public static String suggestUsername(String username) {
         System.out.println("This username is already exist! Do you want to have " + username + "1 as your username?");
-        Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
 
     }
@@ -91,19 +91,16 @@ public class LoginMenu {
         } else if (numberOfQuestion == 3) {
             System.out.println("What is your mother’s last name?");
         }
-        Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
 
     public static String changePasswordWithSecurityQuestion() {
         System.out.println("Enter your new password and its confirmation");
-        Scanner scannerNewPassword = new Scanner(System.in);
-        return scannerNewPassword.nextLine();
+        return scanner.nextLine();
     }
 
     public static String showRandomPassword(String output) {
-        System.out.println(output);
-        Scanner scanner = new Scanner(System.in);
+        System.out.println("Your random password is: " + output + ". Please re-enter your password here:");
         return scanner.nextLine();
     }
 }
