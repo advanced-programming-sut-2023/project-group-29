@@ -270,6 +270,7 @@ public class Empire {
     }
 
     public boolean canBuyBuilding(Building building) {
+        //TODO: JASBI
         return building.getNeededResource(0) <= resourceAmounts.get(Resource.COINS)
                 && building.getNeededResource(1) <= resourceAmounts.get(Resource.STONE)
                 && building.getNeededResource(2) <= resourceAmounts.get(Resource.WOOD)

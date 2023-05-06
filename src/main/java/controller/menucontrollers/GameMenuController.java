@@ -102,9 +102,9 @@ public class GameMenuController {
                 && IsAnotherStore(empire, buildingName)
                 && !isConnectedToOthers(x, y, buildingName, empire)) {
             return GameMenuMessages.UNCONNECTED_STOREROOMS;
-        } else if (!empire.canBuyBuilding(building)) {
+        } /*else if (!empire.canBuyBuilding(buildingName)) {
             return GameMenuMessages.LACK_OF_RESOURCES;
-        }
+        }*/
         if (!isAdmin) empire.buyBuilding(building);
         chosenCell.makeBuilding(buildingName, playerNumber);
         return GameMenuMessages.SUCCESS;

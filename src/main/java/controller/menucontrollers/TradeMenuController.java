@@ -13,20 +13,21 @@ public class TradeMenuController {
         int trueType = 0;
         Tradable tradable = null;
         for(Resource myResource: Resource.values()) {
-            if(myResource.name().equals(type)) {
+            if(myResource.getName().equals(type)) {
                 trueType = 1;
                 tradable = myResource;
                 break;
             }
         }
         for(Product myproduct: Product.values()) {
-            if(myproduct.name().equals(type)) {
+            if(myproduct.getName().equals(type)) {
                 trueType = 1;
                 tradable = myproduct;
                 break;
             }
         }
         if(trueType == 0) {
+            System.out.println(type);
             return "Invalid type of tradable!";
         }
         if (numberOfAnotherPlayer < 0 || numberOfAnotherPlayer > 7) {

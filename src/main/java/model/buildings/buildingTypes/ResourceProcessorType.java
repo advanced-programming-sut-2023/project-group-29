@@ -37,6 +37,7 @@ public enum ResourceProcessorType {
         this.resource = resource;
         this.buildingType = buildingType;
         this.product = product;
+        this.name = buildingName;
         Building.addToValidBuildingNames(buildingName, 7);
     }
 

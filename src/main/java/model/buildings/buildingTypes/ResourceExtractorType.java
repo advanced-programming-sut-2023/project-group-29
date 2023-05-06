@@ -37,6 +37,7 @@ public enum ResourceExtractorType {
         this.rate = rate;
         this.buildingType = buildingType;
         this.producingResource = producingResource;
+        this.name = buildingName;
         Building.addToValidBuildingNames(buildingName, 6);
     }
 

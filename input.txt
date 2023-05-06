@@ -14,6 +14,9 @@ add to game -u hossein3
 add to game -u hossein4
 choose map 1
 ready
+enter trade menu
+trade -t stone -a 1 -p 2000 -m bad trade -n 2
+
 next turn
 next turn
 .

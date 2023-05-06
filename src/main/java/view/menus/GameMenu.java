@@ -72,6 +72,7 @@ public class GameMenu {
         System.out.println("New Trade For You:");
         ArrayList<Trade> trades = gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn()).getNewTrades();
         for(int i = 0; i < trades.size(); i++) {
+            //TODO: exception catching!
             System.out.print((i + 1) + ") sender player: " + trades.get(i).getSenderPlayer().getNumber());
             System.out.print(" | receiver player: " + trades.get(i).getReceiverPlayer().getNumber());
             System.out.print(" | commodity: " + trades.get(i).getCommodity().getName());

@@ -32,6 +32,7 @@ public enum ProductProcessorType {
         this.consumingProduct = consumingProduct;
         this.producingProduct = producingProduct;
         this.buildingType = buildingType;
+        this.name = buildingName;
         Building.addToValidBuildingNames(buildingName, 5);
     }
 

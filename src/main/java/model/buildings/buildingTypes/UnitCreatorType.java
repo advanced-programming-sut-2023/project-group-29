@@ -25,6 +25,7 @@ public enum UnitCreatorType {
         this.name = buildingName;
         this.unitCost = unitCost;
         this.buildingType = buildingType;
+        this.name = buildingName;
         Building.addToValidBuildingNames(buildingName, 9);
     }
 

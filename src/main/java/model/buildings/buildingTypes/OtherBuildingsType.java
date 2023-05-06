@@ -38,6 +38,7 @@ public enum OtherBuildingsType {
 
     OtherBuildingsType(BuildingType buildingType, String buildingName) {
         this.buildingType = buildingType;
+        this.name = buildingName;
         Building.addToValidBuildingNames(buildingName, 3);
     }
 
