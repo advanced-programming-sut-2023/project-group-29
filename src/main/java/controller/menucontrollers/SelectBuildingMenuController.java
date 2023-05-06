@@ -13,17 +13,23 @@ import view.messages.SelectBuildingMenuMessages;
 import java.util.ArrayList;
 
 public class SelectBuildingMenuController {
+    private static Building selectedBuilding;
+
+    public static void setSelectedBuilding(Building selectedBuilding) {
+        SelectBuildingMenuController.selectedBuilding = selectedBuilding;
+    }
+
     public static void createUnit() {
     }
 
-    public static SelectBuildingMenuMessages repairBuilding(Building building) {
-        Empire ownerEmpire = building.getOwnerEmpire();
-        if (!hasEnoughStoneToRepair(ownerEmpire, building)) {
+    public static SelectBuildingMenuMessages repairBuilding() {
+        Empire ownerEmpire = selectedBuilding.getOwnerEmpire();
+        if (!hasEnoughStoneToRepair(ownerEmpire, selectedBuilding)) {
             return SelectBuildingMenuMessages.LACK_OF_STONE;
-        } else if (building.isEnemyNearIt()) {
+        } else if (selectedBuilding.isEnemyNearIt()) {
             return SelectBuildingMenuMessages.ENEMY_IS_NEAR;
         }
-        building.repair();
+        selectedBuilding.repair();
         return SelectBuildingMenuMessages.SUCCESS;
     }
 

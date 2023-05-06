@@ -2,13 +2,14 @@ package model.buildings;
 
 import model.Asset;
 import model.PlayerNumber;
+import model.buildings.buildingTypes.*;
 import model.dealing.Resource;
 
 import java.util.HashMap;
 
 public abstract class Building extends Asset {
 
-    //TODO: تعیین قیمت برای ساختمان های رایگان
+    //TODO JASBI: number of workers
     private static final HashMap<String, Integer> buildingNamesAndTheirGroup = new HashMap<>();
     protected int numberOfWorkers;
     protected int[] neededResources;
@@ -37,6 +38,28 @@ public abstract class Building extends Asset {
         return buildingNamesAndTheirGroup.get(buildingName);
     }
 
+    public static int getNeededResource(int i, String buildingName) {
+        for (AccommodationType type: AccommodationType.values())
+            if (type.getName().equals(buildingName)) return type.getNeededResources(i);
+        for (AttackingBuildingType type: AttackingBuildingType.values())
+            if (type.getName().equals(buildingName)) return type.getNeededResources(i);
+        for (OtherBuildingsType type: OtherBuildingsType.values())
+            if (type.getName().equals(buildingName)) return type.getNeededResources(i);
+        for (ProductProcessorType type: ProductProcessorType.values())
+            if (type.getName().equals(buildingName)) return type.getNeededResources(i);
+        for (ProductExtractorType type: ProductExtractorType.values())
+            if (type.getName().equals(buildingName)) return type.getNeededResources(i);
+        for (ResourceExtractorType type: ResourceExtractorType.values())
+            if (type.getName().equals(buildingName)) return type.getNeededResources(i);
+        for (ResourceProcessorType type: ResourceProcessorType.values())
+            if (type.getName().equals(buildingName)) return type.getNeededResources(i);
+        for (StoreType type: StoreType.values())
+            if (type.getName().equals(buildingName)) return type.getNeededResources(i);
+        for (UnitCreatorType type: UnitCreatorType.values())
+            if (type.getName().equals(buildingName)) return type.getNeededResources(i);
+        return 0;
+    }
+
     public boolean isEnemyNearIt() {
         //TODO: complete
         return false;
@@ -53,7 +76,6 @@ public abstract class Building extends Asset {
         return maxHp;
     }
 
-    public int getNeededResource(int i) {
-        return neededResources[i];
-    }
+    @Override
+    public abstract void setShowingSignInMap(String showingSignInMap);
 }

@@ -7,19 +7,19 @@ import model.dealing.Resource;
 
 public enum ResourceProcessorType {
     ARMOURER( // زره سازی
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{100, 0, 20, 0}),
+            new BuildingType(80, 1, new int[]{100, 0, 20, 0},"Armrr"),
             0, Resource.IRON, Product.ARMOUR, "Armourer"
     ),
     BLACK_SMITH( // ساختمان آهنگری
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{100, 0, 20, 0}),
+            new BuildingType(80, 1, new int[]{100, 0, 20, 0},"BSmth"),
             0, Resource.IRON, Product.SWORD, "blackSmith"
     ),
     FLETCHER( // کمان سازی
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{100, 0, 20, 0}),
+            new BuildingType(80, 1, new int[]{100, 0, 20, 0},"Fltch"),
             0, Resource.WOOD, Product.BOW, "fletcher"
     ),
     POLETURNER( // نیزه سازی
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{100, 0, 10, 0}),
+            new BuildingType(80, 1, new int[]{100, 0, 10, 0},"Ptrnr"),
             0, Resource.WOOD, Product.PIKE, "poleturner"
     ),
     ;
@@ -29,6 +29,7 @@ public enum ResourceProcessorType {
     private Product product;
     private final BuildingType buildingType;
     private String name;
+    private int[] neededResources;
 
 
     ResourceProcessorType(BuildingType buildingType, int rate,
@@ -38,6 +39,7 @@ public enum ResourceProcessorType {
         this.buildingType = buildingType;
         this.product = product;
         this.name = buildingName;
+        this.neededResources = buildingType.neededResources();
         Building.addToValidBuildingNames(buildingName, 7);
     }
 
@@ -69,5 +71,9 @@ public enum ResourceProcessorType {
 
     public String getName() {
         return name;
+    }
+
+    public int getNeededResources(int i) {
+        return neededResources[i];
     }
 }

@@ -6,27 +6,27 @@ import model.dealing.Product;
 
 public enum ProductExtractorType {
     STABLE(//اصطبل
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{400, 0, 20, 0}),
+            new BuildingType(100, 0, new int[]{400, 0, 20, 0},"Stble"),
             0, Product.HORSE,"stable"
     ),
     APPLE_GARDEN( //باغ سیب
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 5, 0}),
+            new BuildingType(30, 1, new int[]{0, 0, 5, 0},"ApGdn"),
             0, Product.APPLE, "appleGarden"
     ),
     DAIRY_PRODUCTS( //لبنیاتی
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 10, 0}),
+            new BuildingType(50, 1, new int[]{0, 0, 10, 0},"Dairy"),
             0,Product.CHEESE,"dairyProducts"
     ),
     GRAIN_FARM(// مزرعه جو
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 15, 0}),
+            new BuildingType(60, 1, new int[]{0, 0, 15, 0},"GFarm"),
             0,Product.GRAIN, "grainFarm"
     ),
     HUNTING_POST(// پست شکار
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 5, 0}),
+            new BuildingType(30, 1, new int[]{0, 0, 5, 0},"HPost"),
             0,Product.MEAT, "huntingPost"
     ),
     WHEAT_FARM( //مزرعه گندم
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 15, 0}),
+            new BuildingType(60, 1, new int[]{0, 0, 15, 0},"WFarm"),
             0, Product.WHEAT,"wheatFarm"
     ),
     ;
@@ -34,6 +34,7 @@ public enum ProductExtractorType {
     private int rate;
     private Product producingProduct;
     private BuildingType buildingType;
+    private int[] neededResources;
 
     ProductExtractorType(BuildingType buildingType, int rate,
                          Product producingProduct, String buildingName) {
@@ -41,6 +42,7 @@ public enum ProductExtractorType {
         this.rate = rate;
         this.producingProduct = producingProduct;
         this.buildingType = buildingType;
+        this.neededResources = buildingType.neededResources();
         Building.addToValidBuildingNames(buildingName, 4);
     }
 
@@ -68,5 +70,9 @@ public enum ProductExtractorType {
 
     public String getName() {
         return name;
+    }
+
+    public int getNeededResources(int i) {
+        return neededResources[i];
     }
 }

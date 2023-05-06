@@ -137,8 +137,7 @@ public class Empire {
     private void InitializeResourceAndProduct() {
         resourceAmounts = new HashMap<>();
         for (Resource resource : Resource.values()) {
-            resourceAmounts.put(resource, 0);
-            //TODO: initialize correctly!
+            resourceAmounts.put(resource, 50);
         }
         productAmounts = new HashMap<>();
         for (Product product : Product.values()) {
@@ -178,9 +177,9 @@ public class Empire {
             switch (buildings.get(building)) {
                 case 1:((Accommodation) building).update();
                     break;
-                case 2://TODO: functions for attackingBuilding type
+                case 2://TODO JASBI: functions for attackingBuilding type
                     break;
-                case 3://TODO: functions for other building type
+                case 3://TODO JASBI: functions for other building type
                     break;
                 case 4:
                     ((ProductExtractor) building).update();
@@ -196,7 +195,7 @@ public class Empire {
                     break;
                 case 8:((Store) building).update();
                     break;
-                case 9://TODO: functions for unit creator type
+                case 9://TODO JASBI: functions for unit creator type
                     //church and popularity
                     //dog cage
                     //draw bridge//siege tent
@@ -255,26 +254,25 @@ public class Empire {
     }
 
     public void affectDestructedStorerooms() {
-        //TODO: complete. somehow pointive
+        //TODO JASBI: complete. somehow pointive
     }
 
     public void affectDestructedAccommodations() {
-        //TODO: complete. somehow pointive
+        //TODO JASBI: complete. somehow pointive
     }
 
-    public void buyBuilding(Building building) {
-        changeResourceAmount(Resource.COINS,building.getNeededResource(0));
-        changeResourceAmount(Resource.STONE,building.getNeededResource(1));
-        changeResourceAmount(Resource.WOOD,building.getNeededResource(2));
-        changeResourceAmount(Resource.IRON,building.getNeededResource(3));
+    public void buyBuilding(String buildingName) {
+        changeResourceAmount(Resource.COINS,Building.getNeededResource(0, buildingName));
+        changeResourceAmount(Resource.STONE,Building.getNeededResource(1, buildingName));
+        changeResourceAmount(Resource.WOOD,Building.getNeededResource(2, buildingName));
+        changeResourceAmount(Resource.IRON,Building.getNeededResource(3, buildingName));
     }
 
-    public boolean canBuyBuilding(Building building) {
-        //TODO: JASBI
-        return building.getNeededResource(0) <= resourceAmounts.get(Resource.COINS)
-                && building.getNeededResource(1) <= resourceAmounts.get(Resource.STONE)
-                && building.getNeededResource(2) <= resourceAmounts.get(Resource.WOOD)
-                && building.getNeededResource(3) <= resourceAmounts.get(Resource.IRON);
+    public boolean canBuyBuilding(String buildingName) {
+        return Building.getNeededResource(0, buildingName) <= resourceAmounts.get(Resource.COINS)
+                && Building.getNeededResource(1, buildingName) <= resourceAmounts.get(Resource.STONE)
+                && Building.getNeededResource(2, buildingName) <= resourceAmounts.get(Resource.WOOD)
+                && Building.getNeededResource(3, buildingName) <= resourceAmounts.get(Resource.IRON);
     }
 
     public ArrayList<Trade> getTrades() {

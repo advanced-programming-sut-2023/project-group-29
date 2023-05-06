@@ -2,9 +2,9 @@ package model.dealing;
 
 public enum Product implements Tradable{
     ARMOUR("armour"),  //TODO: how we can use this??
-    SWORD("sword"),  //TODO: how we can use this??
-    BOW("bow"), //TODO: how we can use this??
-    PIKE("pike"), //TODO: how we can use this??
+    SWORD("sword"),
+    BOW("bow"),
+    PIKE("pike"),
     WHEAT("wheat"),
     APPLE("apple"),
     CHEESE("cheese"),

@@ -19,14 +19,18 @@ public class ProductExtractor extends Building {
         this.producingProduct = productExtractorType.getProducingProduct();
     }
 
+    @Override
+    public String getName() {
+        return productExtractorType.getName();
+    }
+    @Override
+    public void setShowingSignInMap(String showingSignInMap) {
+        showingSignInMap = productExtractorType.getBuildingType().abbreviation() + getOwnerNumber().getNumber();
+    }
+
     public void update() {
         int change = Math.min(ownerEmpire.getEmptySpace(1),rate);
         ownerEmpire.changeProduct(this.producingProduct, change);
         ownerEmpire.fillStorage(1,change);
-    }
-
-    @Override
-    public String getName() {
-        return productExtractorType.getName();
     }
 }

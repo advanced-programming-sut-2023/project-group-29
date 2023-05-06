@@ -20,6 +20,11 @@ public class Store extends Building {
         return storeType.getName();
     }
 
+    @Override
+    public void setShowingSignInMap(String showingSignInMap) {
+        showingSignInMap = storeType.getBuildingType().abbreviation() + getOwnerNumber().getNumber();
+    }
+
     public void update() {
         Empire empire = this.ownerEmpire;
         switch (this.getName()) {

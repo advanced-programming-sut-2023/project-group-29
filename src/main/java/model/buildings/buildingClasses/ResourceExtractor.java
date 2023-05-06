@@ -25,6 +25,11 @@ public class ResourceExtractor extends Building {
         return resourceExtractorType.getName();
     }
 
+    @Override
+    public void setShowingSignInMap(String showingSignInMap) {
+        showingSignInMap = resourceExtractorType.getBuildingType().abbreviation() + getOwnerNumber().getNumber();
+    }
+
     public void update() {
         int change = Math.min(ownerEmpire.getEmptySpace(1),rate);
         ownerEmpire.changeResourceAmount(this.producingResource, change);

@@ -6,15 +6,15 @@ import model.dealing.Product;
 
 public enum ProductProcessorType {
     MILL( //آسیاب
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 20, 0}),
+            new BuildingType(60, 3, new int[]{0, 0, 20, 0},"Mill_"),
             0, Product.WHEAT, Product.FLOUR, "mill"
     ),
     BAKERY( //نانوایی
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 10, 0}),
+            new BuildingType(40, 1, new int[]{0, 0, 10, 0},"Bkery"),
             0, Product.FLOUR, Product.BREAD, "bakery"
     ),
     BEER_BREWING(// آبجوسازی
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 10, 0}),
+            new BuildingType(40, 1, new int[]{0, 0, 10, 0},"BeerB"),
             0, Product.GRAIN, Product.BEER, "beerBrewing"
     ),
     ;
@@ -24,6 +24,8 @@ public enum ProductProcessorType {
     private Product consumingProduct;
     private Product producingProduct;
     private BuildingType buildingType;
+    private int[] neededResources;
+
 
     ProductProcessorType(BuildingType buildingType, int rate,
                          Product consumingProduct, Product producingProduct, String buildingName) {
@@ -33,6 +35,7 @@ public enum ProductProcessorType {
         this.producingProduct = producingProduct;
         this.buildingType = buildingType;
         this.name = buildingName;
+        this.neededResources = buildingType.neededResources();
         Building.addToValidBuildingNames(buildingName, 5);
     }
 
@@ -64,5 +67,9 @@ public enum ProductProcessorType {
 
     public String getName() {
         return name;
+    }
+
+    public int getNeededResources(int i) {
+        return neededResources[i];
     }
 }

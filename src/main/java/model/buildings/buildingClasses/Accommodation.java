@@ -20,8 +20,16 @@ public class Accommodation extends Building {
         return accommodationType.getName();
     }
 
+    @Override
+    public void setShowingSignInMap(String showingSignInMap) {
+        showingSignInMap = accommodationType.getBuildingType().abbreviation() + getOwnerNumber().getNumber();
+    }
+
     public void update() {
+        if (getName().equals("mainKeep")) return;
         Empire empire = this.ownerEmpire;
         empire.addPossiblePopulation(this.numberOfSettler);
     }
+
+
 }

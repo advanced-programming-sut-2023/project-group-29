@@ -22,4 +22,9 @@ public class AttackingBuilding extends Building {
     public String getName() {
         return attackingBuildingType.getName();
     }
+
+    @Override
+    public void setShowingSignInMap(String showingSignInMap) {
+        showingSignInMap = attackingBuildingType.getBuildingType().abbreviation() + getOwnerNumber().getNumber();
+    }
 }

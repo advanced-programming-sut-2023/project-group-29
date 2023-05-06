@@ -24,4 +24,9 @@ public class OtherBuildings extends Building {
     public String getName() {
         return otherBuildingsType.getName();
     }
+
+    @Override
+    public void setShowingSignInMap(String showingSignInMap) {
+        showingSignInMap = otherBuildingsType.getBuildingType().abbreviation() + getOwnerNumber().getNumber();
+    }
 }

@@ -5,28 +5,28 @@ import model.buildings.BuildingType;
 
 public enum AttackingBuildingType {
     LOOKOUT_TOWER( // برج دیدبانی
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 10, 0, 0}),
-            0, 0, "lookoutTower"
+            new BuildingType(70, 0, new int[]{0, 10, 0, 0},"LookT"),
+            30, 45, "lookoutTower"
     ),
     CIRCLE_TOWER( // برچ دایره‌ای
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 40, 0, 0}),
-            0, 0, "circleTower"
+            new BuildingType(150, 0, new int[]{0, 40, 0, 0},"CrclT"),
+            100, 150, "circleTower"
     ),
     PERIMETER_TOWER( // برج محیطی
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 10, 0, 0}),
-            0, 0, "perimeterTower"
+            new BuildingType(70, 0, new int[]{0, 10, 0, 0},"PeriT"),
+            30, 45, "perimeterTower"
     ),
     SQUARE_TOWER( // برج مربعی
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 35, 0, 0}),
-            0, 0, "squareTower"
+            new BuildingType(140, 0, new int[]{0, 35, 0, 0},"SqreT"),
+            90, 135, "squareTower"
     ),
     DEFENCE_TURRET( //برجک دفاعی
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 15, 0, 0}),
-            0, 0, "defenceTurret"
+            new BuildingType(90, 0, new int[]{0, 15, 0, 0},"DefTr"),
+            40, 60, "defenceTurret"
     ),
     KILLING_PIT( // گودال کشتار
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 6, 0}),
-            0, 0, "killingPit"
+            new BuildingType(30, 0, new int[]{0, 0, 6, 0},"KilPt"),
+            15, 120, "killingPit"
     ),
     ;
 
@@ -34,12 +34,15 @@ public enum AttackingBuildingType {
     private final int defendRange;
     private final BuildingType buildingType;
     private final String name;
+    private int[] neededResources;
+
 
     AttackingBuildingType(BuildingType buildingType, int fireRange, int defendRange, String buildingName) {
         this.fireRange = fireRange;
         this.defendRange = defendRange;
         this.buildingType = buildingType;
         this.name = buildingName;
+        this.neededResources = buildingType.neededResources();
         Building.addToValidBuildingNames(buildingName, 2);
     }
 
@@ -67,5 +70,9 @@ public enum AttackingBuildingType {
 
     public String getName() {
         return name;
+    }
+
+    public int getNeededResources(int i) {
+        return neededResources[i];
     }
 }

@@ -185,13 +185,11 @@ public class MapMenuController {
         if(!result.equals(MapMenuMessages.SUCCESSFUL))
             return result;
 
-        Building building=null;//todo jasbi handle
-
-        if (!empire.canBuyBuilding(building)) {
+        if (!empire.canBuyBuilding(buildingName)) {
             return MapMenuMessages.LACK_OF_RESOURCES;
         }
 
-        empire.buyBuilding(building);
+        empire.buyBuilding(buildingName);
         chosenCell.makeBuilding(buildingName, ownerPlayerNumber);
         return MapMenuMessages.SUCCESSFUL;
     }

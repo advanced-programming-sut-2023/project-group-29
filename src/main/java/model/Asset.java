@@ -8,8 +8,6 @@ public class Asset {
     private int positionY;
     protected String showingSignInMap;
 
-    //todo jasbi, handle this field in all classes and enums
-
     public Asset(PlayerNumber ownerNumber, int positionX, int positionY) {
         this.ownerNumber = ownerNumber;
     }
@@ -52,5 +50,9 @@ public class Asset {
 
     public String getShowingSignInMap() {
         return showingSignInMap;
+    }
+
+    public void setShowingSignInMap(String showingSignInMap) {
+        this.showingSignInMap = showingSignInMap;
     }
 }

@@ -5,40 +5,42 @@ import model.buildings.BuildingType;
 
 public enum OtherBuildingsType {
     DRAW_BRIDGE( // پل متحرک
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 10, 0}),
+            new BuildingType(50, 0, new int[]{0, 0, 10, 0},"DBrdg"),
             "drawBridge"
     ),
     MARKET( // فروشگاه
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 5, 0}),
+            new BuildingType(30, 1, new int[]{0, 0, 5, 0},"Mrket"),
             "market"
     ),
     CHURCH( // کلیسا
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{250, 0, 0, 0}),
+            new BuildingType(150, 0, new int[]{250, 0, 0, 0},"Chrch"),
             "church"
     ),
     CATHEDRAL( // کلیسای جامع
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{1000, 0, 0, 0}),
+            new BuildingType(300, 0, new int[]{1000, 0, 0, 0},"Ctdrl"),
             "cathedral"
     ),
     SIEGE_TENT( // چادر محاصره
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{25, 0, 0, 0}),
+            new BuildingType(75, /*TODO: JASBI: engineer and minimum*/1, new int[]{25, 0, 0, 0},"STent"),
             "siegeTent"
     ),
     CAGED_WAR_DOGS(//قفسه ی سگ های جنگی
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{100, 0, 10, 0}),
+            new BuildingType(30, 0, new int[]{100, 0, 10, 0},"CWDog"),
             "cagedWarDogs"
     ),
     INN( //مسافرخانه
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{100, 0, 20, 0}),
+            new BuildingType(120, 1, new int[]{100, 0, 20, 0},"Inn__"),
             "inn"
     ),
     ;
     private final BuildingType buildingType;
     private String name;
+    private int[] neededResources;
 
     OtherBuildingsType(BuildingType buildingType, String buildingName) {
         this.buildingType = buildingType;
         this.name = buildingName;
+        this.neededResources = buildingType.neededResources();
         Building.addToValidBuildingNames(buildingName, 3);
     }
 
@@ -58,5 +60,9 @@ public enum OtherBuildingsType {
 
     public String getName() {
         return name;
+    }
+
+    public int getNeededResources(int i) {
+        return neededResources[i];
     }
 }

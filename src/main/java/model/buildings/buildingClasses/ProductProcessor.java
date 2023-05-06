@@ -21,15 +21,21 @@ public class ProductProcessor extends Building {
         this.rate = productProcessorType.getRate();
     }
 
+    @Override
+    public String getName() {
+        return productProcessorType.getName();
+    }
+
+
+    @Override
+    public void setShowingSignInMap(String showingSignInMap) {
+        showingSignInMap = productProcessorType.getBuildingType().abbreviation() + getOwnerNumber().getNumber();
+    }
+
     public void update() {
         int availableConsumingProduct = ownerEmpire.getProductAmount(this.consumingProduct);
         int changeAmount = Math.min(availableConsumingProduct, rate);
         ownerEmpire.changeProduct(this.consumingProduct, -changeAmount);
         ownerEmpire.changeProduct(this.producingProduct, changeAmount);
-    }
-
-    @Override
-    public String getName() {
-        return productProcessorType.getName();
     }
 }

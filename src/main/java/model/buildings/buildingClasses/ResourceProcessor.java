@@ -27,6 +27,11 @@ public class ResourceProcessor extends Building {
         return resourceProcessorType.getName();
     }
 
+    @Override
+    public void setShowingSignInMap(String showingSignInMap) {
+            showingSignInMap = resourceProcessorType.getBuildingType().abbreviation() + getOwnerNumber().getNumber();
+    }
+
     public void update() {
         int availableResource = ownerEmpire.getResourceAmount(this.resource);
         int changeAmount = Math.min(availableResource, rate);

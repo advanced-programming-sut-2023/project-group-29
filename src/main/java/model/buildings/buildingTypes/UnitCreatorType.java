@@ -5,27 +5,30 @@ import model.buildings.BuildingType;
 
 public enum UnitCreatorType {
     BARRACK( //سربازخانه
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 15, 0, 0}),
+            new BuildingType(50, 0, new int[]{0, 15, 0, 0},"Brrck"),
             0, "barrack"
     ),
     MERCENARY_POST( // سربازخانه مزدوران
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 10, 0}),
+            new BuildingType(30, 0, new int[]{0, 0, 10, 0},"MPost"),
             0, "mercenaryPost"
     ),
     ENGINEER_GUILD( // صنف مهندسان
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{100, 0, 10, 0}),
+            new BuildingType(30, 0, new int[]{100, 0, 10, 0},"EngnG"),
             0, "engineerGuild"
     ),
     ;
     private String name;
     private int unitCost;
     private BuildingType buildingType;
+    private int[] neededResources;
+
 
     UnitCreatorType(BuildingType buildingType, int unitCost, String buildingName) {
         this.name = buildingName;
         this.unitCost = unitCost;
         this.buildingType = buildingType;
         this.name = buildingName;
+        this.neededResources = buildingType.neededResources();
         Building.addToValidBuildingNames(buildingName, 9);
     }
 
@@ -49,5 +52,9 @@ public enum UnitCreatorType {
 
     public String getName() {
         return name;
+    }
+
+    public int getNeededResources(int i) {
+        return neededResources[i];
     }
 }

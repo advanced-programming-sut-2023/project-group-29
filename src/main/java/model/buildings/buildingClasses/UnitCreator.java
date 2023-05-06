@@ -19,4 +19,9 @@ public class UnitCreator extends Building {
         return unitCreatorType.getName();
     }
 
+    @Override
+    public void setShowingSignInMap(String showingSignInMap) {
+        showingSignInMap = unitCreatorType.getBuildingType().abbreviation() + getOwnerNumber().getNumber();
+    }
+
 }

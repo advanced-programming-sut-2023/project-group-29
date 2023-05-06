@@ -1,12 +1,11 @@
 package model.dealing;
 
 public enum Resource implements Tradable{
-    //TODO: real numbers!!
-    COINS(50, 40, "coins"),
-    STONE(50, 40, "stone"),
-    WOOD(50, 40, "wood"),
-    IRON(50, 40, "iron"),
-    PITCH(0,0,"pitch"),
+    COINS(0, 0, "coins"),
+    STONE(30, 15, "stone"),
+    WOOD(20, 10, "wood"),
+    IRON(40, 20, "iron"),
+    PITCH(10,5,"pitch"),
     ;
     private final String name;
     private final int buyingPrice;

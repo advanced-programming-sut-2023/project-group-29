@@ -10,8 +10,6 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class SelectBuildingMenu {
-    //todo jasbi move filed below
-    private static Building selectedBuilding;
     public static MenuNames run(Scanner scanner) {
         System.out.println("You have entered select building menu");
         while (true) {
@@ -50,7 +48,7 @@ public class SelectBuildingMenu {
     }
 
     private static void repairBuilding() {
-        SelectBuildingMenuMessages result = SelectBuildingMenuController.repairBuilding(selectedBuilding);
+        SelectBuildingMenuMessages result = SelectBuildingMenuController.repairBuilding();
         switch (result){
             case LACK_OF_STONE -> System.out.println("You don't have enough stone to repair your building!");
             case ENEMY_IS_NEAR -> System.out.println("You can't repair your buildings while Enemies are near them!");

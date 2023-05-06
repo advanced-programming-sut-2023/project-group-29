@@ -4,31 +4,33 @@ import model.buildings.Building;
 import model.buildings.BuildingType;
 
 public enum AccommodationType {
+
     BIG_STONE_GATEHOUSE( // دروازه سنگی بزرگ
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 20, 0, 0}),
+            new BuildingType(200, 0, new int[]{0, 20, 0, 0}, "BSGat"),
             10, "bigStoneGatehouse"
     ),
     SMALL_STONE_GATEHOUSE( //دروازه سنگی کوچک
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 15, 0, 0}),
+            new BuildingType(150, 0, new int[]{0, 15, 0, 0},"SSGat"),
             8, "smallStoneGatehouse"
     ),
     HOVEL( // خانه
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 6, 0}),
+            new BuildingType(100, 0, new int[]{0, 0, 6, 0},"Hovel"),
             8, "hovel"
     ),
     MAIN_KEEP( // مقر اصلی
-            new BuildingType(/*correction*/0, /*correction*/0, new int[]{0, 0, 0, 0}),
-            /*correction*/8, "mainKeep"
+            new BuildingType(500, 0, new int[]{0, 0, 0, 0},"MKeep"),
+            /*my infinity:*/1000000 , "mainKeep"
     );
-
     private final int numberOfSettler;
     private final BuildingType buildingType;
     private final String name;
+    private int[] neededResources;
 
     AccommodationType(BuildingType buildingType, int numberOfSettler, String buildingName) {
         this.buildingType = buildingType;
         this.numberOfSettler = numberOfSettler;
         this.name = buildingName;
+        this.neededResources = buildingType.neededResources();
         Building.addToValidBuildingNames(buildingName, 1);
     }
 
@@ -52,5 +54,9 @@ public enum AccommodationType {
 
     public String getName() {
         return name;
+    }
+
+    public int getNeededResources(int i) {
+        return neededResources[i];
     }
 }

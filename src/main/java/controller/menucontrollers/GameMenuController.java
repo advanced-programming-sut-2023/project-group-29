@@ -97,6 +97,7 @@ public class GameMenuController {
         }
 
         gameData.setSelectedCell(xPosition,yPosition);
+        SelectBuildingMenuController.setSelectedBuilding(building);
         return GameMenuMessages.SUCCESS;
     }
 
@@ -120,6 +121,6 @@ public class GameMenuController {
         empire.updateBuildings();
         empire.affectDestructedStorerooms();
         empire.affectDestructedAccommodations();
-        //TODO: some functions. This function should be called in the beginning of the game
+        //TODO JASBI: some functions. This function should be called in the beginning of the game
     }
 }
