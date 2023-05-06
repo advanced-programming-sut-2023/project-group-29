@@ -75,16 +75,16 @@ public class LoginMenuController {
         //TODO faratin: split it to smaller functions
         String input = matcher.group(0);
         Pattern patternExistUsername = Pattern.compile("-u");
-        Pattern patternUsername = Pattern.compile("-u (?<username>\\w\\S+)");
+        Pattern patternUsername = Pattern.compile("-u\\s+(?<username>\\w\\S+)");
         Pattern patternExistPassword = Pattern.compile("-p");
-        Pattern patternPassword = Pattern.compile("-p (?<password>\\w\\S+) (?<passwordConfirmation>\\w\\S+)?");
+        Pattern patternPassword = Pattern.compile("-p\\s+(?<password>\\w\\S+)\\s+(?<passwordConfirmation>\\w\\S+)?");
         //TODO: it was not good
         Pattern patternExistNickname = Pattern.compile("-n");
-        Pattern patternNickname = Pattern.compile("-n (?<nickname>\\w\\S+)");
+        Pattern patternNickname = Pattern.compile("-n\\s+(?<nickname>\\w\\S+)");
         Pattern patternExistEmail = Pattern.compile("-email");
-        Pattern patternEmail = Pattern.compile("-email (?<email>\\w\\S+)");
+        Pattern patternEmail = Pattern.compile("-email\\s+(?<email>\\w\\S+)");
         Pattern patternExistSlogan = Pattern.compile(".+-s.+");
-        Pattern patternSlogan = Pattern.compile("-s (?<slogan>\\w.+)");
+        Pattern patternSlogan = Pattern.compile("-s\\s+(?<slogan>\\w[^-]+\\w)");
         //TODO: maybe some changes in merging
         Matcher matcherExistUsername = patternExistUsername.matcher(input);
         Matcher matcherExistPassword = patternExistPassword.matcher(input);
@@ -156,14 +156,9 @@ public class LoginMenuController {
         }
         String nickname = matcherNickname.group(1);
         String slogan = "";
-        String newSlogan = "";
         if (matcherExistSlogan.matches()) {
             if (!matcherSlogan.group(1).equals("random")) {
                 slogan = matcherSlogan.group(1);
-                for (int i = 0; i < slogan.length() - 1; i++) {
-                    newSlogan += slogan.charAt(i);
-                }
-                slogan = newSlogan;
             } else {
                 slogan = createRandomSlogan();
             }

@@ -6,15 +6,15 @@ public class Trade {
     private final PlayerNumber senderPlayer;
     private final PlayerNumber receiverPlayer;
     private final int price;
-    private final Resource resource;
+    private Tradable tradable;
     private final int count;
     private final String message;
 
-    public Trade(PlayerNumber senderPlayer, PlayerNumber receiverPlayer, int price, Resource resource, int count, String message) {
+    public Trade(PlayerNumber senderPlayer, PlayerNumber receiverPlayer, int price, Tradable tradable, int count, String message) {
         this.senderPlayer = senderPlayer;
         this.receiverPlayer = receiverPlayer;
         this.price = price;
-        this.resource = resource;
+        this.tradable = tradable;
         this.count = count;
         this.message = message;
     }
@@ -30,11 +30,6 @@ public class Trade {
     public int getPrice() {
         return price;
     }
-
-    public Resource getCommodity() {
-        return resource;
-    }
-
     public int getCount() {
         return count;
     }
@@ -43,7 +38,7 @@ public class Trade {
         return message;
     }
 
-    public Resource getResource() {
-        return resource;
+    public Tradable getCommodity() {
+        return tradable;
     }
 }

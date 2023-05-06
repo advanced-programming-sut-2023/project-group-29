@@ -21,7 +21,8 @@ public class GameMenuController {
         return gameData;
     }
 
-    public static String showPopularityFactors(PlayerNumber playerNumber) {
+    public static String showPopularityFactors() {
+        PlayerNumber playerNumber = gameData.getPlayerOfTurn();
         Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
         String output = "popularity factors:\n";
         output += "factor 1: religion -> " + empire.getPopularityChange("religion") + "\n";
@@ -31,12 +32,14 @@ public class GameMenuController {
         return output;
     }
 
-    public static String showPopularity(PlayerNumber playerNumber) {
+    public static String showPopularity() {
+        PlayerNumber playerNumber = gameData.getPlayerOfTurn();
         Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
         return "Your popularity: " + empire.getPopularity();
     }
 
-    public static String showFoodList(PlayerNumber playerNumber) {
+    public static String showFoodList() {
+        PlayerNumber playerNumber = gameData.getPlayerOfTurn();
         Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
         String output = "food list:\n";
         output += "food 1 -> count: " + empire.getFoodsCount(1) + "\n";
@@ -46,35 +49,41 @@ public class GameMenuController {
         return output;
     }
 
-    public static GameMenuMessages determinationOfFoodRate(PlayerNumber playerNumber, int foodRate) {
+    public static GameMenuMessages determinationOfFoodRate(int foodRate) {
+        PlayerNumber playerNumber = gameData.getPlayerOfTurn();
         Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
         empire.setFoodRate(foodRate);
         return GameMenuMessages.SUCCESS;
     }
 
-    public static String showFoodRate(PlayerNumber playerNumber) {
+    public static String showFoodRate() {
+        PlayerNumber playerNumber = gameData.getPlayerOfTurn();
         Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
         return "Your food rate: " + empire.getFoodRate();
     }
 
-    public static GameMenuMessages determinationOfTaxRate(PlayerNumber playerNumber, int taxRate) {
+    public static GameMenuMessages determinationOfTaxRate(int taxRate) {
+        PlayerNumber playerNumber = gameData.getPlayerOfTurn();
         Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
         empire.setTaxRate(taxRate);
         return GameMenuMessages.SUCCESS;
     }
 
-    public static String showTaxRate(PlayerNumber playerNumber) {
+    public static String showTaxRate() {
+        PlayerNumber playerNumber = gameData.getPlayerOfTurn();
         Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
         return "Your tax rate: " + empire.getTaxRate();
     }
 
-    public static GameMenuMessages determinationOfFearRate(PlayerNumber playerNumber, int fareRate) {
+    public static GameMenuMessages determinationOfFearRate(int fareRate) {
+        PlayerNumber playerNumber = gameData.getPlayerOfTurn();
         Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
         empire.setFearRate(fareRate);
         return GameMenuMessages.SUCCESS;
     }
 
-    public static GameMenuMessages dropBuilding(int x, int y, String buildingName, PlayerNumber playerNumber, int isAdmin) {
+    public static GameMenuMessages dropBuilding(int x, int y, String buildingName, boolean isAdmin) {
+        PlayerNumber playerNumber = gameData.getPlayerOfTurn();
         Building building;
         Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
         if (positionIsInvalid(x, y)) {
@@ -96,7 +105,7 @@ public class GameMenuController {
         } else if (!empire.canBuyBuilding(building)) {
             return GameMenuMessages.LACK_OF_RESOURCES;
         }
-        empire.buyBuilding(building);
+        if (!isAdmin) empire.buyBuilding(building);
         chosenCell.makeBuilding(buildingName, playerNumber);
         return GameMenuMessages.SUCCESS;
     }
@@ -130,8 +139,9 @@ public class GameMenuController {
         }
     }
 
-    public static GameMenuMessages selectBuilding(int x, int y, PlayerNumber playerNumber) {
+    public static GameMenuMessages selectBuilding(int x, int y) {
         Building building;
+        PlayerNumber playerNumber = gameData.getPlayerOfTurn();
         Empire currentPlayerEmpire = gameData.getEmpireByPlayerNumber(playerNumber);
         if (positionIsInvalid(x, y)) {
             return GameMenuMessages.INVALID_POSITION;
@@ -155,17 +165,6 @@ public class GameMenuController {
     public static void selectUnit() {
     }
 
-    public static void trade() {
-    }
-
-    public static void showTradeList() {
-    }
-
-    public static void tradeAccept() {
-    }
-
-    public static void tradeHistory() {
-    }
 
     public static void nextTurn() {
         gameData.changePlayingPlayer();

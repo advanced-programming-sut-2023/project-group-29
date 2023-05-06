@@ -1,6 +1,7 @@
 package controller.menucontrollers;
 
 import model.*;
+import view.menus.GameMenu;
 
 public class MainMenuController {
     public static void createGameData() {

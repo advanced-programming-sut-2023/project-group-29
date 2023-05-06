@@ -32,14 +32,14 @@ public class TradeMenu {
 
     private static void trade(Matcher matcher) {
         String input = matcher.group(0);
-        Matcher matcherExistType = Pattern.compile("-t (\\S+)").matcher(input);
-        Matcher matcherExistAmount = Pattern.compile("-a (\\S+)").matcher(input);
-        Matcher matcherExistPrice = Pattern.compile("-p (\\S+)").matcher(input);
-        Matcher matcherExistMessage = Pattern.compile("-m (\\S+)").matcher(input);
-        Matcher matcherExistNumberOfAnotherPlayer = Pattern.compile("-n (\\d)").matcher(input);
+        Matcher matcherExistType = Pattern.compile("-t\\s+(\\S+)").matcher(input);
+        Matcher matcherExistAmount = Pattern.compile("-a\\s+(\\d+)").matcher(input);
+        Matcher matcherExistPrice = Pattern.compile("-p\\s+(\\d+)").matcher(input);
+        Matcher matcherExistMessage = Pattern.compile("-m\\s+(\\S[^-]+\\w)").matcher(input);
+        Matcher matcherExistNumberOfAnotherPlayer = Pattern.compile("-n\\s+(\\d)").matcher(input);
         if(!(matcherExistType.find() && matcherExistAmount.find() &&
                 matcherExistPrice.find() && matcherExistMessage.find() && matcherExistNumberOfAnotherPlayer.find())) {
-            System.out.println("Invalid commanddd!");
+            System.out.println("Invalid command!");
             return;
         }
         System.out.println(TradeMenuController.trade(matcherExistType.group(1),

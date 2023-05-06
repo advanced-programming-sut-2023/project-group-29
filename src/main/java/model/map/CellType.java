@@ -9,6 +9,7 @@ public enum CellType {
     GRASS(ConsoleColors.YELLOW_BACKGROUND,true,true),
     MEADOW(ConsoleColors.YELLOW_BACKGROUND,true,true),
     DENSE_MEADOW(ConsoleColors.YELLOW_BACKGROUND,true,true),
+
     ;
     //page 27 of doc
     ;

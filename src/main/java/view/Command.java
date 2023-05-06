@@ -46,11 +46,11 @@ public enum Command {
     //TODO: جابجایی
     SELECT_BUILDING("\\s*select\\s+building\\s+-x\\s+(?<xPosition>\\d+)\\s+-y\\s+(?<yPosition>\\d+)\\s*"),
     SELECT_UNIT("\\s*select\\s+unit\\s+-x\\s+(?<xPosition>\\d+)\\s+-y\\s+(?<yPosition>\\d+)\\s*"),
-    TRADE(""),
-    SHOW_TRADE_LIST(""),
-    TRADE_ACCEPT(""),
-    TRADE_HISTORY(""),
-
+    TRADE("\\s*trade\\s+-[tapmn]\\s+([^-]*\\w)\\s+-[atpmn]\\s+([^-]*\\w)\\s+-[ptamn]\\s+"
+            + "([^-]*\\w)\\s+-[tapmn]\\s+([^-]*\\w)\\s+-[ntapm]\\s+([^-]*\\w)\\s*"),
+    SHOW_TRADE_LIST("\\s*trade\\s+list\\s*"),
+    TRADE_ACCEPT("\\s*trade\\s+accept\\s+-i\\s+(?<id>\\S+)\\s*"),
+    TRADE_HISTORY("\\s*trade\\s+history\\s*"),
     MOVE_MAP("\\s*move\\s+((up)|(down)|(right)|(left))"),  //TODO more than one
     SET_TEXTURE(""),
     CLEAR(""),

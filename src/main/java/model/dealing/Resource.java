@@ -1,6 +1,6 @@
 package model.dealing;
 
-public enum Resource {
+public enum Resource implements Tradable{
     //TODO: real numbers!!
     COINS(50, 40, "coins"),
     STONE(50, 40, "stone"),

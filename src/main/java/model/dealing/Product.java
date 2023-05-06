@@ -1,6 +1,6 @@
 package model.dealing;
 
-public enum Product {
+public enum Product implements Tradable{
     ARMOUR("armour"),  //TODO: how we can use this??
     SWORD("sword"),  //TODO: how we can use this??
     BOW("bow"), //TODO: how we can use this??
@@ -19,5 +19,9 @@ public enum Product {
 
     Product(String name) {
         this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 }

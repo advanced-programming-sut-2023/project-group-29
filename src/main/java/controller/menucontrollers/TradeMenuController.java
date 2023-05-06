@@ -1,8 +1,9 @@
 package controller.menucontrollers;
 
-import model.GameData;
 import model.PlayerNumber;
+import model.dealing.Product;
 import model.dealing.Resource;
+import model.dealing.Tradable;
 import model.dealing.Trade;
 
 import java.util.ArrayList;
@@ -10,16 +11,23 @@ import java.util.ArrayList;
 public class TradeMenuController {
     public static String trade(String type, String amount, String price, String message, int numberOfAnotherPlayer){
         int trueType = 0;
-        Resource resource = null;
+        Tradable tradable = null;
         for(Resource myResource: Resource.values()) {
             if(myResource.name().equals(type)) {
                 trueType = 1;
-                resource = myResource;
+                tradable = myResource;
+                break;
+            }
+        }
+        for(Product myproduct: Product.values()) {
+            if(myproduct.name().equals(type)) {
+                trueType = 1;
+                tradable = myproduct;
                 break;
             }
         }
         if(trueType == 0) {
-            return "Invalid type of resource!";
+            return "Invalid type of tradable!";
         }
         if (numberOfAnotherPlayer < 0 || numberOfAnotherPlayer > 7) {
             return "Invalid number of another player!";
@@ -33,7 +41,7 @@ public class TradeMenuController {
         Trade trade = new Trade(GameMenuController.getGameData().getPlayerOfTurn(),
                 PlayerNumber.getPlayerByIndex(numberOfAnotherPlayer),
                 Integer.parseInt(price),
-                resource,
+                tradable,
                 Integer.parseInt(amount),
                 message);
         GameMenuController.getGameData().getEmpireByPlayerNumber
@@ -51,7 +59,7 @@ public class TradeMenuController {
         for(int i = 0; i < trades.size(); i++) {
             output += (i + 1) + ") sender player: " + trades.get(i).getSenderPlayer().getNumber();
             output += " | receiver player: " + trades.get(i).getReceiverPlayer().getNumber();
-            output += " | receiver player: " + trades.get(i).getResource().getName();
+            output += " | commodity: " + trades.get(i).getCommodity().getName();
             output += " | amount: " + trades.get(i).getCount();
             output += " | price: " + trades.get(i).getPrice();
             output += " | message: " + trades.get(i).getMessage();
@@ -66,7 +74,7 @@ public class TradeMenuController {
         for(int i = 0; i < trades.size(); i++) {
             output += (i + 1) + ") sender player: " + trades.get(i).getSenderPlayer().getNumber();
             output += " | receiver player: " + trades.get(i).getReceiverPlayer().getNumber();
-            output += " | receiver player: " + trades.get(i).getResource().getName();
+            output += " | commodity: " + trades.get(i).getCommodity().getName();
             output += " | amount: " + trades.get(i).getCount();
             output += " | price: " + trades.get(i).getPrice();
             output += " | message: " + trades.get(i).getMessage();
