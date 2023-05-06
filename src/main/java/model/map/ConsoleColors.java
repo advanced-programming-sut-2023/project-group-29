@@ -1,13 +1,15 @@
 package model.map;
 
 public enum ConsoleColors {
+    RESET_COLOR("\u001B[0m"),
+    BLACK_BACKGROUND("\u001B[40m"),
     RED_BACKGROUND("\u001B[41m"),
-    BLUE_BACKGROUND("\u001B[44m"),
     GREEN_BACKGROUND("\u001B[42m"),
-    WHITE_BACKGROUND("\u001B[47m"),
     YELLOW_BACKGROUND("\u001B[43m"),
+    BLUE_BACKGROUND("\u001B[44m"),
+    PURPLE_BACKGROUND("\u001B[45m"),
     CYAN_BACKGROUND("\u001B[46m"),
-    RESET_COLOR("\u001B[0m");
+    WHITE_BACKGROUND("\u001B[47m");
 
     private final String stringCode;
 

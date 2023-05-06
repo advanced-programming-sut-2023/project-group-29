@@ -277,10 +277,6 @@ public class Empire {
                 && building.getNeededResource(3) <= resourceAmounts.get(Resource.IRON);
     }
 
-    public void affectDestructedStorages() {
-        //TODO: complete
-    }
-
     public ArrayList<Trade> getTrades() {
         return trades;
     }
