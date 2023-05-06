@@ -20,8 +20,8 @@ import java.util.ArrayList;
 public class MapMenuController {
     private static final int tileWidth = 6;
     private static final int tileHeight = 4;
-    private static final int maxNumberOfTilesShowingInRow = 14;
-    private static final int maxNumberOfTilesShowingInColumn = 4;
+    private static final int maxNumberOfTilesShowingInRow = 20;
+    private static final int maxNumberOfTilesShowingInColumn = 8;
     private static int showingMapIndexX=1;
     private static int showingMapIndexY=1;
 
@@ -165,6 +165,8 @@ public class MapMenuController {
 
         if(unit==null)
             return MapMenuMessages.INVALID_UNIT_NAME;
+        if(!map.isIndexValid(positionX,positionY))
+            return MapMenuMessages.INVALID_INDEX;
 
         for(int i=0;i<count;i++)
             map.getCells()[positionX][positionY].addMovingObject(unit);
@@ -172,13 +174,50 @@ public class MapMenuController {
         return MapMenuMessages.SUCCESSFUL;
     }
 
-    public static MapMenuMessages dropBuilding(int x, int y, String buildingName, boolean isAdmin) {
+    public static MapMenuMessages dropBuilding(int x, int y, String buildingName) { //todo change name to build building
 
         GameData gameData=GameMenuController.getGameData();
+        PlayerNumber ownerPlayerNumber=gameData.getPlayerOfTurn();
+        Cell chosenCell = gameData.getMap().getCells()[x][y];
+        Empire empire = gameData.getEmpireByPlayerNumber(ownerPlayerNumber);
 
-        PlayerNumber playerNumber = gameData.getPlayerOfTurn();
+        MapMenuMessages result=buildErrorCheck(x,y,buildingName,ownerPlayerNumber);
+        if(!result.equals(MapMenuMessages.SUCCESSFUL))
+            return result;
+
+        Building building=null;//todo jasbi handle
+
+        if (!empire.canBuyBuilding(building)) {
+            return MapMenuMessages.LACK_OF_RESOURCES;
+        }
+
+        empire.buyBuilding(building);
+        chosenCell.makeBuilding(buildingName, ownerPlayerNumber);
+        return MapMenuMessages.SUCCESSFUL;
+    }
+
+    public static MapMenuMessages dropBuildingAsAdmin(int x,int y,String buildingName,int ownerNumber)
+    {
+        GameData gameData=GameMenuController.getGameData();
+        Cell chosenCell = gameData.getMap().getCells()[x][y];
+        PlayerNumber ownerPlayerNumber=PlayerNumber.getPlayerByIndex(ownerNumber-1);
+
+        MapMenuMessages result=buildErrorCheck(x,y,buildingName,ownerPlayerNumber);
+        if(result.equals(MapMenuMessages.SUCCESSFUL))
+        {
+            chosenCell.makeBuilding(buildingName, ownerPlayerNumber);
+            return MapMenuMessages.SUCCESSFUL;
+        }
+        else
+            return result;
+    }
+
+    private static MapMenuMessages buildErrorCheck(int x,int y,String buildingName,PlayerNumber ownerPlayerNumber)
+    {
+        GameData gameData=GameMenuController.getGameData();
+
         Building building;
-        Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
+        Empire empire = gameData.getEmpireByPlayerNumber(ownerPlayerNumber);
         if (!gameData.getMap().isIndexValid(x,y)) {
             return MapMenuMessages.INVALID_INDEX;
         }
@@ -195,11 +234,8 @@ public class MapMenuController {
                 && IsAnotherStore(empire, buildingName)
                 && !isConnectedToOthers(x, y, buildingName, empire)) {
             return MapMenuMessages.UNCONNECTED_STOREROOMS;
-        } else if (!empire.canBuyBuilding(building)) {
-            return MapMenuMessages.LACK_OF_RESOURCES;
         }
-        if (!isAdmin) empire.buyBuilding(building);
-        chosenCell.makeBuilding(buildingName, playerNumber);
+
         return MapMenuMessages.SUCCESSFUL;
     }
 

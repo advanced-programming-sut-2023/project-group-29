@@ -89,7 +89,7 @@ public class MapMenu {
         String buildingName = matcher.group("type");
 
         //todo abbasfar handle isAdmin conditions
-        MapMenuMessages result = MapMenuController.dropBuilding(x, y, buildingName, true);
+        MapMenuMessages result = MapMenuController.dropBuilding(x, y, buildingName);
         switch (result) {
             case TWO_MAIN_KEEP -> System.out.println("You aren't allowed to have two main keeps!");
             case INVALID_INDEX -> System.out.println("You have chosen an Invalid amount of x or y!");

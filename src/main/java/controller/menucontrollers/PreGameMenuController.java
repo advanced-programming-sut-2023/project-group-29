@@ -25,7 +25,7 @@ public class PreGameMenuController {
     }
 
     public static PreGameMenuMessages chooseMap(int index) {
-        if (index >= MapInitializer.getDefaultMapCounts()) {
+        if (index > MapInitializer.getDefaultMapCounts()) {
             return PreGameMenuMessages.OUT_OF_RANGE;
         }
         GameData gameData = GameMenuController.getGameData();

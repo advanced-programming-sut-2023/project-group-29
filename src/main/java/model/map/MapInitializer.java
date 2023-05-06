@@ -1,5 +1,6 @@
 package model.map;
 
+import controller.menucontrollers.MapMenuController;
 import model.PlayerNumber;
 import model.buildings.buildingClasses.Accommodation;
 import model.buildings.buildingTypes.AccommodationType;
@@ -38,19 +39,13 @@ public class MapInitializer {
 
         for (int i = 1; i < cells.length; i++)
             for (int j = 1; j < cells.length; j++) {
-                if(i%3==0)cells[i][j] = new Cell(CellType.PLAIN_GROUND);
-                if(i%3==1)cells[i][j] = new Cell(CellType.MEADOW);
-                if(i%3==2)cells[i][j] = new Cell(CellType.RIVER);
-
+                cells[i][j] = new Cell(CellType.PLAIN_GROUND);
             }
 
-        secondMap.getCells()[5][5].setBuilding(new Accommodation(AccommodationType.MAIN_KEEP, PlayerNumber.FIRST,5,5));
-        secondMap.getCells()[100][5].setBuilding(new Accommodation(AccommodationType.MAIN_KEEP, PlayerNumber.SECOND,100,5));
-        secondMap.getCells()[185][5].setBuilding(new Accommodation(AccommodationType.MAIN_KEEP, PlayerNumber.THIRD,185,5));
+        MapMenuController.dropBuildingAsAdmin(5,5,AccommodationType.MAIN_KEEP.getName(), 1);
 
-        //secondMap.dropUnit(5,6, SoldierType.SWORDSMAN.getName(), 5,1);
+        MapMenuController.dropUnit(5,6,SoldierType.SWORDSMAN.getName(),3,1);
 
-        //todo map should be cloned before use
         return secondMap;
     }
 
