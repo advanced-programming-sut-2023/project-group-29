@@ -75,7 +75,7 @@ public class Cell {
     }
 
     public boolean hasTrap() {
-        return trap == null;
+        return trap != null;
     }
 
     public boolean hasFiringTrap() {

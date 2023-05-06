@@ -20,7 +20,7 @@ public class Controller {
                 case SHOP_MENU -> menuNames = ShopMenu.run(scanner);
                 case PRE_GAME_MENU -> menuNames = PreGameMenu.run(scanner);
                 case TRADE_MENU -> menuNames = TradeMenu.run(scanner);
-                case SELECT_MENU -> menuNames = SelectMenu.run(scanner);
+                case SELECT_MENU -> menuNames = SelectBuildingMenu.run(scanner);
                 case MAP_MENU -> menuNames = MapMenu.run(scanner);
                 case EXIT -> {
                     return;

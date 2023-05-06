@@ -1,7 +1,5 @@
 package controller;
 
-import view.menus.SelectMenu;
-
 public enum MenuNames {
     //app menus:
     LOGIN_MENU,

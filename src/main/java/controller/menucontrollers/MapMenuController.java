@@ -88,9 +88,9 @@ public class MapMenuController {
         //building or trap
         String showingSignOfBuilding = "";
         if (cell.hasBuilding())
-            showingSignOfBuilding ="buil"; //todo cell.getBuilding().getShowingSignInMap();
+            showingSignOfBuilding =cell.getBuilding().getShowingSignInMap();
         else if (cell.hasTrap())
-            showingSignOfBuilding ="kolang"; //todo cell.getTrap().getShowingSignInMap();
+            showingSignOfBuilding =cell.getTrap().getShowingSignInMap();
 
         showingSignOfBuilding = fitStringToTileWidthWithNumberSign(showingSignOfBuilding);
         showingSignOfBuilding = colorString(showingSignOfBuilding, cell.getShowingColor());

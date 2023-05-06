@@ -1,38 +1,15 @@
 package controller.menucontrollers;
 
 import model.*;
-import model.buildings.Building;
-import model.dealing.Resource;
 import model.map.Cell;
 import model.map.Map;
 import model.people.Human;
 import model.people.UnitState;
 import model.people.humanClasses.Soldier;
-import view.messages.SelectMenuMessages;
 
 import java.util.ArrayList;
 
-public class SelectMenuController {
-    public static void createUnit() {
-    }
-
-    public static SelectMenuMessages repairBuilding(Building building) {
-        Empire ownerEmpire = building.getOwnerEmpire();
-        if (!hasEnoughStoneToRepair(ownerEmpire, building)) {
-            return SelectMenuMessages.LACK_OF_STONE;
-        } else if (building.isEnemyNearIt()) {
-            return SelectMenuMessages.ENEMY_IS_NEAR;
-        }
-        building.repair();
-        return SelectMenuMessages.SUCCESS;
-    }
-
-    private static boolean hasEnoughStoneToRepair(Empire ownerEmpire, Building building) {
-        int needed = (building.getMaxHp() - building.getHp()); //TODO maybe * zarib
-        int valid = ownerEmpire.getResourceAmount(Resource.STONE);
-        return valid >= needed;
-    }
-
+public class SelectUnitMenuController {
     public static String moveUnit(int destinationX, int destinationY) {
         GameData gameData = GameMenuController.getGameData();
 
@@ -306,6 +283,4 @@ public class SelectMenuController {
             failures += secondDamageStruct.failures;
         }
     }
-
-
 }

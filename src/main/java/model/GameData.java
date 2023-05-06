@@ -17,6 +17,7 @@ public class GameData {
     private int selectedCellX;
     private int selectedCellY;
 
+
     public void addEmpire(Empire empire) {
         empires.add(empire);
     }
@@ -95,5 +96,11 @@ public class GameData {
         if (turnNumber > 5) System.out.println("finish");
         playerOfTurn = PlayerNumber.getPlayerByIndex(index);
         System.out.println("player number " + (index+1) + " is playing");
+    }
+
+    public void setSelectedCell(int selectedCellX,int selectedCellY)
+    {
+        this.selectedCellX=selectedCellX;
+        this.selectedCellY=selectedCellY;
     }
 }

@@ -61,7 +61,7 @@ public enum Command {
     DROP_UNIT("\\s*dropunit\\s+-x\\s+(?<xPosition>\\d+)\\s+-y\\s+(?<yPosition>\\d+)\\s+-t\\s+(?<type>\\S+)\\s+-c\\s+(?<count>\\d+)\\s*"),
     CREATE_UNIT("\\s*createUnit\\s+-t\\s+(?<type>\\S+)\\s+-c\\s+(?<count>\\d+)\\s*"), //TODO
     REPAIR_BUILDING("\\s*repair\\s*"),
-    MOVE_UNIT("\\s*move\\s+unit\\s+to\\s+-t\\s+(?<type>\\S+)\\s+-c\\s+(?<count>\\d+)\\s*"),
+    MOVE_UNIT("\\s*move\\s+unit\\s+to\\s+-x\\s+(?<xPosition>\\d+)\\s+-y\\s+(?<yPosition>\\d+)\\s*"),
     PATROL_UNIT(""),
     SET_STATE_OF_UNIT(""),
     MAKE_UNIT_ATTACKING("\\s*make\\s+unit\\s+attacking\\s*"), //TODO: HANDLE

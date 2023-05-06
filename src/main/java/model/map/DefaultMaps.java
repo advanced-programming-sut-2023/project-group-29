@@ -37,10 +37,11 @@ public enum DefaultMaps {
                 cells[i][j] = new Cell(CellType.PLAIN_GROUND);
             }
 
-        secondMap.getCells()[5][5].setBuilding(new Accommodation(AccommodationType.MAIN_KEEP, PlayerNumber.FIRST,5,5));
-        secondMap.getCells()[100][5].setBuilding(new Accommodation(AccommodationType.MAIN_KEEP, PlayerNumber.SECOND,100,5));
-        secondMap.getCells()[185][5].setBuilding(new Accommodation(AccommodationType.MAIN_KEEP, PlayerNumber.THIRD,185,5));
+//        secondMap.getCells()[5][5].setBuilding(new Accommodation(AccommodationType.MAIN_KEEP, PlayerNumber.FIRST,5,5));
+//        secondMap.getCells()[100][5].setBuilding(new Accommodation(AccommodationType.MAIN_KEEP, PlayerNumber.SECOND,100,5));
+//        secondMap.getCells()[185][5].setBuilding(new Accommodation(AccommodationType.MAIN_KEEP, PlayerNumber.THIRD,185,5));
 
+//        secondMap.dropBuilding(5,5,AccommodationType.MAIN_KEEP.getName(),1);
 //        secondMap.dropBuilding(5,5, AccommodationType.MAIN_KEEP.getName(),1);
 //        secondMap.dropBuilding(100,5, AccommodationType.MAIN_KEEP.getName(),2);
 //        secondMap.dropBuilding(185,5, AccommodationType.MAIN_KEEP.getName(),3);
@@ -69,8 +70,8 @@ public enum DefaultMaps {
     }
 
     public static Map getMapByIndex(int index) {
-        for (DefaultMaps dm : DefaultMaps.values()) {
-            if (dm.index == index) return dm.map;
+        for (DefaultMaps defaultMap : DefaultMaps.values()) {
+            if (defaultMap.index == index) return defaultMap.map;
         }
         return null;
     }
