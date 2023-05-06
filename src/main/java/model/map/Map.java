@@ -106,40 +106,4 @@ public class Map {
         return usersCount;
     }
 
-    //todo correct return type and other changes in function
-    public GameMenuMessages dropBuilding(int x, int y, String buildingName, int playerNumberInt) {
-
-        PlayerNumber ownerPlayerNumber=PlayerNumber.getPlayerByIndex(playerNumberInt-1);
-
-        if (!isIndexValid(x,y)) {
-            return GameMenuMessages.INVALID_POSITION;
-        }
-        Cell chosenCell = cells[x][y];
-        if (!Building.isBuildingNameValid(buildingName)) {
-            return GameMenuMessages.INVALID_TYPE;
-        }
-        else if (!chosenCell.isAbleToBuildOn(buildingName)) {
-            return GameMenuMessages.IMPROPER_CELL_TYPE;
-        }
-        else if (chosenCell.getBuilding() != null) {
-            return GameMenuMessages.FULL_CELL;
-        }
-
-        chosenCell.makeBuilding(buildingName, ownerPlayerNumber);
-        return GameMenuMessages.SUCCESS;
-    }
-    public String dropUnit(int positionX,int positionY,String type,int count,int ownerPlayerNumberInt) {
-
-        PlayerNumber ownerPlayerNumber=PlayerNumber.getPlayerByIndex(ownerPlayerNumberInt-1);
-        Human unit=Human.createUnitByName(type,ownerPlayerNumber,positionX,positionY);
-
-        if(unit==null)
-            return "Invalid unit name!";
-
-        for(int i=0;i<count;i++)
-            cells[positionX][positionY].addMovingObject(unit);
-
-        return "Unit was dropped successfully!";
-    }
-
 }

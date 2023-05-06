@@ -1,6 +1,13 @@
 package view.messages;
 
 public enum MapMenuMessages {
+    INVALID_UNIT_NAME,
+    TWO_MAIN_KEEP,
+    INVALID_TYPE,
     INVALID_INDEX,
+    IMPROPER_CELL_TYPE,
+    FULL_CELL,
+    UNCONNECTED_STOREROOMS,
+    LACK_OF_RESOURCES,
     SUCCESSFUL
 }

@@ -82,76 +82,21 @@ public class GameMenuController {
         return GameMenuMessages.SUCCESS;
     }
 
-    public static GameMenuMessages dropBuilding(int x, int y, String buildingName, boolean isAdmin) {
-        PlayerNumber playerNumber = gameData.getPlayerOfTurn();
-        Building building;
-        Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
-        if (positionIsInvalid(x, y)) {
-            return GameMenuMessages.INVALID_POSITION;
-        }
-        Cell chosenCell = gameData.getMap().getCells()[x][y];
-        if (buildingName.equals("mainKeep")) {
-            return GameMenuMessages.TWO_MAIN_KEEP;
-        } else if (!Building.isBuildingNameValid(buildingName)) {
-            return GameMenuMessages.INVALID_TYPE;
-        } else if (!chosenCell.isAbleToBuildOn(buildingName)) {
-            return GameMenuMessages.IMPROPER_CELL_TYPE;
-        } else if ((building = chosenCell.getBuilding()) != null) {
-            return GameMenuMessages.FULL_CELL;
-        } else if (buildingTypeIsStore(buildingName)
-                && IsAnotherStore(empire, buildingName)
-                && !isConnectedToOthers(x, y, buildingName, empire)) {
-            return GameMenuMessages.UNCONNECTED_STOREROOMS;
-        } /*else if (!empire.canBuyBuilding(buildingName)) {
-            return GameMenuMessages.LACK_OF_RESOURCES;
-        }*/
-        if (!isAdmin) empire.buyBuilding(building);
-        chosenCell.makeBuilding(buildingName, playerNumber);
-        return GameMenuMessages.SUCCESS;
-    }
-
-    private static boolean IsAnotherStore(Empire empire, String buildingName) {
-        return empire.getNumberOfBuildingType(buildingName) > 0;
-    }
-
-    private static boolean buildingTypeIsStore(String buildingName) {
-        for (StoreType storeType : StoreType.values()) {
-            if (storeType.getName().equals(buildingName)) return true;
-        }
-        return false;
-    }
-
-    private static boolean isConnectedToOthers(int x, int y, String buildingName, Empire empire) {
-        return thisTypeIsInThisCell(x - 1, y, buildingName, empire)
-                || thisTypeIsInThisCell(x + 1, y, buildingName, empire)
-                || thisTypeIsInThisCell(x, y - 1, buildingName, empire)
-                || thisTypeIsInThisCell(x, y + 1, buildingName, empire);
-    }
-
-    private static boolean thisTypeIsInThisCell(int x, int y, String buildingName, Empire empire) {
-        if (positionIsInvalid(x, y)) return false;
-        Cell chosenCell = gameData.getMap().getCells()[x][y];
-        if (chosenCell.getBuilding() == null) {
-            return false;
-        } else {
-            return chosenCell.getBuilding().getName().equals(buildingName)
-                    && chosenCell.getBuilding().getOwnerEmpire().equals(empire);
-        }
-    }
-
-    public static GameMenuMessages selectBuilding(int x, int y) {
+    public static GameMenuMessages selectBuilding(int xPosition, int yPosition) {
         Building building;
         PlayerNumber playerNumber = gameData.getPlayerOfTurn();
         Empire currentPlayerEmpire = gameData.getEmpireByPlayerNumber(playerNumber);
-        if (positionIsInvalid(x, y)) {
+        if (positionIsInvalid(xPosition, yPosition)) {
             return GameMenuMessages.INVALID_POSITION;
         }
-        Cell chosenCell = gameData.getMap().getCells()[x][y];
+        Cell chosenCell = gameData.getMap().getCells()[xPosition][yPosition];
         if ((building = chosenCell.getBuilding()) == null) {
             return GameMenuMessages.EMPTY_CELL;
         } else if (!building.getOwnerEmpire().equals(currentPlayerEmpire)) {
             return GameMenuMessages.OTHERS_BUILDINGS;
         }
+
+        gameData.setSelectedCell(xPosition,yPosition);
         return GameMenuMessages.SUCCESS;
     }
 
@@ -162,9 +107,12 @@ public class GameMenuController {
                 || y > map.getWidth();
     }
 
-    public static void selectUnit() {
-    }
+    public static GameMenuMessages selectUnit(int xPosition,int yPosition) {
 
+        //todo abbasfar error handle
+        gameData.setSelectedCell(xPosition,yPosition);
+        return GameMenuMessages.SUCCESS;
+    }
 
     public static void nextTurn() {
         gameData.changePlayingPlayer();

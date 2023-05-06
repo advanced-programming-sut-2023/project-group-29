@@ -4,8 +4,8 @@ import model.AppData;
 import model.Empire;
 import model.GameData;
 import model.User;
-import model.map.DefaultMaps;
 import model.map.Map;
+import model.map.MapInitializer;
 import view.messages.PreGameMenuMessages;
 
 public class PreGameMenuController {
@@ -25,11 +25,11 @@ public class PreGameMenuController {
     }
 
     public static PreGameMenuMessages chooseMap(int index) {
-        if (index >= DefaultMaps.getDefaultMapsCount()) {
+        if (index >= MapInitializer.getDefaultMapCounts()) {
             return PreGameMenuMessages.OUT_OF_RANGE;
         }
         GameData gameData = GameMenuController.getGameData();
-        Map map = DefaultMaps.getMapByIndex(index);
+        Map map = MapInitializer.initialize(index);
         gameData.setMap(map);
         return PreGameMenuMessages.SUCCESS;
     }

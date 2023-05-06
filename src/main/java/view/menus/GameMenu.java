@@ -2,6 +2,7 @@ package view.menus;
 
 import controller.MenuNames;
 import controller.menucontrollers.GameMenuController;
+import controller.menucontrollers.SelectUnitMenuController;
 import model.GameData;
 import model.dealing.Trade;
 import view.Command;
@@ -36,14 +37,12 @@ public class GameMenu {
                 setTaxRate(matcher);
             } else if ((matcher = Command.getMatcher(input, Command.SET_FEAR_RATE)) != null) {
                 setFearRate(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.DROP_BUILDING)) != null) {
-                dropBuilding(matcher, false);
             } else if ((matcher = Command.getMatcher(input, Command.SELECT_BUILDING)) != null) {
-                selectBuilding(matcher);
+                if(selectBuilding(matcher).equals(GameMenuMessages.SUCCESS))
+                    return MenuNames.SELECT_BUILDING_MENU;
             } else if ((matcher = Command.getMatcher(input, Command.SELECT_UNIT)) != null) {
-                selectUnit(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.ADMIN_DROP_BUILDING)) != null) {
-                dropBuilding(matcher, true);
+                if(selectUnit(matcher).equals(GameMenuMessages.SUCCESS))
+                    return MenuNames.SELECT_UNIT_MENU;
             } else if ((matcher = Command.getMatcher(input, Command.NEXT_TURN)) != null) {
                 GameMenuController.nextTurn();
             } else if (Command.getMatcher(input, Command.ENTER_TRADE_MENU) != null) {
@@ -51,8 +50,6 @@ public class GameMenu {
                 return MenuNames.TRADE_MENU;
             } else if (Command.getMatcher(input, Command.ENTER_SHOP_MENU) != null) {
                 return MenuNames.SHOP_MENU;
-            } else if (Command.getMatcher(input, Command.ENTER_SELECT_MENU) != null) {
-                return MenuNames.SELECT_MENU;
             } else if (Command.getMatcher(input, Command.BACK_MAIN_MENU) != null) {
                 return MenuNames.MAIN_MENU;
             } else {
@@ -132,24 +129,7 @@ public class GameMenu {
         }
     }
 
-    private static void dropBuilding(Matcher matcher, boolean isAdmin) {
-        int x = Integer.parseInt(matcher.group("xPosition"));
-        int y = Integer.parseInt(matcher.group("yPosition"));
-        String buildingName = matcher.group("type");
-        GameMenuMessages result = GameMenuController.dropBuilding(x, y, buildingName, isAdmin);
-        switch (result) {
-            case TWO_MAIN_KEEP -> System.out.println("You aren't allowed to have two main keeps!");
-            case INVALID_POSITION -> System.out.println("You have chosen an Invalid amount of x or y!");
-            case INVALID_TYPE -> System.out.println("This type of building doesn't exist!");
-            case UNCONNECTED_STOREROOMS -> System.out.println("Your storerooms must be connected to each other!");
-            case IMPROPER_CELL_TYPE -> System.out.println("This cell is improper for dropping this type of building!");
-            case FULL_CELL -> System.out.println("Another building has been already dropped here!");
-            case LACK_OF_RESOURCES -> System.out.println("You don't have enough resources to build this building!");
-            case SUCCESS -> System.out.println("The building was dropped successfully!");
-        }
-    }
-
-    private static void selectBuilding(Matcher matcher) {
+    private static GameMenuMessages selectBuilding(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("xPosition"));
         int y = Integer.parseInt(matcher.group("yPosition"));
         GameMenuMessages result = GameMenuController.selectBuilding(x, y);
@@ -159,12 +139,18 @@ public class GameMenu {
             case OTHERS_BUILDINGS -> System.out.println("This building belongs to others!");
             case SUCCESS -> {
                 System.out.println("The building is selected successfully!");
-                //enter select menu
             }
         }
+        return result;
     }
 
-    private static void selectUnit(Matcher matcher) {
-        //TODO: complete it
+    private static GameMenuMessages selectUnit(Matcher matcher) {
+
+        int xPosition = Integer.parseInt(matcher.group("xPosition"));
+        int yPosition = Integer.parseInt(matcher.group("yPosition"));
+
+        GameMenuMessages message=GameMenuController.selectUnit(xPosition,yPosition);
+
+        return message;
     }
 }

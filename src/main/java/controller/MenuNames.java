@@ -11,7 +11,8 @@ public enum MenuNames {
     //in game menus:
     MAP_MENU,
     SHOP_MENU,
-    SELECT_MENU,
+    SELECT_BUILDING_MENU,
+    SELECT_UNIT_MENU,
     TRADE_MENU,
     PRE_GAME_MENU;
 }

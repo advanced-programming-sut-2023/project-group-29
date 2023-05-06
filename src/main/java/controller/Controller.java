@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Controller {
     public static void run() {
-        buildEnums();
+        buildEnums();   //todo what is this
         Scanner scanner = new Scanner(System.in);
         MenuNames menuNames = MenuNames.LOGIN_MENU;
 
@@ -20,7 +20,8 @@ public class Controller {
                 case SHOP_MENU -> menuNames = ShopMenu.run(scanner);
                 case PRE_GAME_MENU -> menuNames = PreGameMenu.run(scanner);
                 case TRADE_MENU -> menuNames = TradeMenu.run(scanner);
-                case SELECT_MENU -> menuNames = SelectBuildingMenu.run(scanner);
+                case SELECT_BUILDING_MENU -> menuNames = SelectBuildingMenu.run(scanner);
+                case SELECT_UNIT_MENU -> menuNames = SelectUnitMenu.run(scanner);
                 case MAP_MENU -> menuNames = MapMenu.run(scanner);
                 case EXIT -> {
                     return;
