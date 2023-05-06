@@ -8,13 +8,15 @@ public class Trade {
     private final int price;
     private final Resource resource;
     private final int count;
+    private final String message;
 
-    public Trade(PlayerNumber senderPlayer, PlayerNumber receiverPlayer, int price, Resource resource, int count) {
+    public Trade(PlayerNumber senderPlayer, PlayerNumber receiverPlayer, int price, Resource resource, int count, String message) {
         this.senderPlayer = senderPlayer;
         this.receiverPlayer = receiverPlayer;
         this.price = price;
         this.resource = resource;
         this.count = count;
+        this.message = message;
     }
 
     public PlayerNumber getSenderPlayer() {
@@ -35,5 +37,13 @@ public class Trade {
 
     public int getCount() {
         return count;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public Resource getResource() {
+        return resource;
     }
 }
