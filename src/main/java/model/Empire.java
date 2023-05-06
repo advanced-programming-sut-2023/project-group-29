@@ -4,6 +4,7 @@ import model.buildings.Building;
 import model.buildings.buildingClasses.*;
 import model.dealing.Product;
 import model.dealing.Resource;
+import model.dealing.Trade;
 import model.people.humanClasses.Soldier;
 import model.people.humanClasses.Worker;
 
@@ -11,6 +12,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Empire {
+    private ArrayList<Trade> trades = new ArrayList<>();
+    private ArrayList<Trade> newTrades = new ArrayList<>();
+    private ArrayList<Trade> tradesHistory = new ArrayList<>();
     private final ArrayList<Soldier> soldiers = new ArrayList<>();
     private final ArrayList<Worker> workers = new ArrayList<>();
     private final HashMap<Building, Integer> buildings = new HashMap<>();//TODO expand this to its children
@@ -21,7 +25,6 @@ public class Empire {
     private HashMap<Product, Integer> productAmounts;
     private User user;
     private int population;
-    private int possiblePopulation;
     private int growthRate;
     private int wealth;
     private int taxRate;
@@ -169,14 +172,13 @@ public class Empire {
 
     public void updateBuildings() {
         makeCapacitiesZero();
-        makePossiblePopulationZero();
         for (Building building : buildings.keySet()) {
             switch (buildings.get(building)) {
-                case 1:((Accommodation) building).update();
+                case 1://TODO ME: functions for accommodation type
                     break;
-                case 2://TODO: functions for attackingBuilding type
+                case 2://TODO ME: functions for attackingBuilding type
                     break;
-                case 3://TODO: functions for other building type
+                case 3://TODO ME: functions for other building type
                     break;
                 case 4:
                     ((ProductExtractor) building).update();
@@ -192,7 +194,7 @@ public class Empire {
                     break;
                 case 8:((Store) building).update();
                     break;
-                case 9://TODO: functions for unit creator type
+                case 9://TODO ME: functions for unit creator type
                     //church and popularity
                     //dog cage
                     //draw bridge//siege tent
@@ -201,18 +203,10 @@ public class Empire {
         }
     }
 
-    private void makePossiblePopulationZero() {
-        possiblePopulation = 0;
-    }
-
     private void makeCapacitiesZero() {
         storage[1][0] = 0;
         storage[1][1] = 0;
         storage[1][2] = 0;
-    }
-
-    public void addPossiblePopulation(int possiblePopulation) {
-        this.possiblePopulation += possiblePopulation;
     }
 
     public void addStorage(int capacity, int switcher) {
@@ -250,25 +244,43 @@ public class Empire {
         return count;
     }
 
-    public void affectDestructedStorerooms() {
-        //TODO: complete. somehow pointive
+    public void affectDestructedStorages() {
+        //TODO: complete
     }
 
-    public void affectDestructedAccommodations() {
-        //TODO: complete. somehow pointive
+    public ArrayList<Trade> getTrades() {
+        return trades;
     }
 
-    public void buyBuilding(Building building) {
-        changeResourceAmount(Resource.COINS,building.getNeededResource(0));
-        changeResourceAmount(Resource.STONE,building.getNeededResource(1));
-        changeResourceAmount(Resource.WOOD,building.getNeededResource(2));
-        changeResourceAmount(Resource.IRON,building.getNeededResource(3));
+    public void setTrades(ArrayList<Trade> trades) {
+        this.trades = trades;
     }
 
-    public boolean canBuyBuilding(Building building) {
-        return building.getNeededResource(0) <= resourceAmounts.get(Resource.COINS)
-                && building.getNeededResource(1) <= resourceAmounts.get(Resource.STONE)
-                && building.getNeededResource(2) <= resourceAmounts.get(Resource.WOOD)
-                && building.getNeededResource(3) <= resourceAmounts.get(Resource.IRON);
+    public void addTrade(Trade trade) {
+        trades.add(trade);
+    }
+
+    public ArrayList<Trade> getNewTrades() {
+        return newTrades;
+    }
+
+    public void setNewTrades(ArrayList<Trade> trades) {
+        this.newTrades = trades;
+    }
+
+    public void addNewTrade(Trade trade) {
+        newTrades.add(trade);
+    }
+
+    public ArrayList<Trade> getTradesHistory() {
+        return tradesHistory;
+    }
+
+    public void setTradesHistory(ArrayList<Trade> trades) {
+        this.tradesHistory = trades;
+    }
+
+    public void addTradeHistory(Trade trade) {
+        tradesHistory.add(trade);
     }
 }

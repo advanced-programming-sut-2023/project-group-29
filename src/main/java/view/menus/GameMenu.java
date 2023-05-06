@@ -2,13 +2,13 @@ package view.menus;
 
 import controller.MenuNames;
 import controller.menucontrollers.GameMenuController;
-import controller.menucontrollers.MapMenuController;
 import model.AppData;
 import model.PlayerNumber;
+import model.dealing.Trade;
 import view.Command;
 import view.messages.GameMenuMessages;
-import view.messages.MapMenuMessages;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
@@ -21,8 +21,7 @@ public class GameMenu {
             Matcher matcher;
             String input = scanner.nextLine();
 
-            if ((matcher=Command.getMatcher(input, Command.SHOW_MAP)) != null) {
-                showMap(matcher);
+            if (Command.getMatcher(input, Command.SHOW_MAP) != null) {
                 return MenuNames.MAP_MENU;
             } else if (Command.getMatcher(input, Command.SHOW_POPULARITY_FACTORS) != null) {
                 showPopularityFactors();
@@ -41,18 +40,32 @@ public class GameMenu {
             } else if ((matcher = Command.getMatcher(input, Command.SET_FEAR_RATE)) != null) {
                 setFearRate(matcher);
             } else if ((matcher = Command.getMatcher(input, Command.DROP_BUILDING)) != null) {
-                dropBuilding(matcher, 0);
+                dropBuilding(matcher);
             } else if ((matcher = Command.getMatcher(input, Command.SELECT_BUILDING)) != null) {
                 selectBuilding(matcher);
             } else if ((matcher = Command.getMatcher(input, Command.SELECT_UNIT)) != null) {
                 selectUnit(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.ADMIN_DROP_BUILDING)) != null) {
-                dropBuilding(matcher, 1);
             } else if ((matcher = Command.getMatcher(input, Command.NEXT_TURN)) != null) {
                 GameMenuController.nextTurn();
             } else if (Command.getMatcher(input, Command.ENTER_TRADE_MENU) != null) {
-                for (int i = 0; i < AppData.getUsers().size(); i++)
-                    System.out.println("User" + (i + 1) + ": " + AppData.getUsers().get(i).getUsername());
+                System.out.println("You entered trade menu");
+                System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - -");
+                for(int i = 0; i < GameMenuController.getGameData().getEmpires().size(); i++) {
+                    System.out.println("User" + (i + 1) + ": " + GameMenuController.getGameData().getEmpires().get(i).getUser().getUsername());
+                }
+                System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - -");
+                System.out.println("New Trade For You:");
+                ArrayList<Trade> trades = GameMenuController.getGameData().getEmpireByPlayerNumber(GameMenuController.getGameData().getPlayerOfTurn()).getNewTrades();
+                for(int i = 0; i < trades.size(); i++) {
+                    System.out.print((i + 1) + ") sender player: " + trades.get(i).getSenderPlayer().getNumber());
+                    System.out.print(" | receiver player: " + trades.get(i).getReceiverPlayer().getNumber());
+                    System.out.print(" | receiver player: " + trades.get(i).getResource().getName());
+                    System.out.print(" | amount: " + trades.get(i).getCount());
+                    System.out.print(" | price: " + trades.get(i).getPrice());
+                    System.out.print(" | message: " + trades.get(i).getMessage());
+                    System.out.println("\n");
+                    GameMenuController.getGameData().getEmpireByPlayerNumber(GameMenuController.getGameData().getPlayerOfTurn()).getNewTrades().set(i, null);
+                }
                 return MenuNames.TRADE_MENU;
             } else if (Command.getMatcher(input, Command.ENTER_SHOP_MENU) != null) {
                 return MenuNames.SHOP_MENU;
@@ -114,11 +127,11 @@ public class GameMenu {
         }
     }
 
-    private static void dropBuilding(Matcher matcher, int isAdmin) {
+    private static void dropBuilding(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("xPosition"));
         int y = Integer.parseInt(matcher.group("yPosition"));
         String buildingName = matcher.group("type");
-        GameMenuMessages result = GameMenuController.dropBuilding(x, y, buildingName, playerNumber, isAdmin);
+        GameMenuMessages result = GameMenuController.dropBuilding(x, y, buildingName, playerNumber);
         switch (result) {
             case TWO_MAIN_KEEP -> System.out.println("You aren't allowed to have two main keeps!");
             case INVALID_POSITION -> System.out.println("You have chosen an Invalid amount of x or y!");
@@ -126,7 +139,6 @@ public class GameMenu {
             case UNCONNECTED_STOREROOMS -> System.out.println("Your storerooms must be connected to each other!");
             case IMPROPER_CELL_TYPE -> System.out.println("This cell is improper for dropping this type of building!");
             case FULL_CELL -> System.out.println("Another building has been already dropped here!");
-            case LACK_OF_RESOURCES -> System.out.println("You don't have enough resources to build this building!");
             case SUCCESS -> System.out.println("The building was dropped successfully!");
         }
     }
@@ -150,28 +162,5 @@ public class GameMenu {
         //TODO: complete it
     }
 
-    private static void trade(Matcher matcher) {
-        //TODO: complete it
-    }
 
-    private static void showTradeList() {
-        //TODO: complete it
-    }
-
-    private static void tradeAccept(Matcher matcher) {
-        //TODO: complete it
-    }
-
-    private static void tradeHistory(Matcher matcher) {
-        //TODO: complete it
-    }
-
-    private static void showMap(Matcher matcher) {
-
-        int positionX=Integer.parseInt(matcher.group("xAmount"));
-        int positionY=Integer.parseInt(matcher.group("yAmount"));
-
-        //todo isn't it bad if we call map menu controller in game menu like below?
-        MapMenuController.setShowingMapIndexes(positionX,positionY);
-    }
 }
