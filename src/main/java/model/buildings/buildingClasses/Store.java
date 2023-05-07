@@ -13,6 +13,7 @@ public class Store extends Building {
         super(storeType.getBuildingType(), playerNumber, positionX, positionY);
         this.storeType = storeType;
         this.capacity = storeType.getCapacity();
+        setShowingSignInMap();
     }
 
     @Override
@@ -21,8 +22,8 @@ public class Store extends Building {
     }
 
     @Override
-    public void setShowingSignInMap(String showingSignInMap) {
-        showingSignInMap = storeType.getBuildingType().abbreviation() + getOwnerNumber().getNumber();
+    public void setShowingSignInMap() {
+        showingSignInMap = storeType.getBuildingType().abbreviation() + (getOwnerNumber().getNumber() + 1);
     }
 
     public void update() {

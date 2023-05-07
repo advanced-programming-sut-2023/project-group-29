@@ -19,6 +19,7 @@ public class ResourceProcessor extends Building {
         this.rate = resourceProcessorType.getRate();
         this.resource = resourceProcessorType.getResource();
         this.product = resourceProcessorType.getProduct();
+        setShowingSignInMap();
     }
 
     @Override
@@ -27,8 +28,8 @@ public class ResourceProcessor extends Building {
     }
 
     @Override
-    public void setShowingSignInMap(String showingSignInMap) {
-            showingSignInMap = resourceProcessorType.getBuildingType().abbreviation() + getOwnerNumber().getNumber();
+    public void setShowingSignInMap() {
+            showingSignInMap = resourceProcessorType.getBuildingType().abbreviation() + (getOwnerNumber().getNumber() + 1);
     }
 
     public void update() {

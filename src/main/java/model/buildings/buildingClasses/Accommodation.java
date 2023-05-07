@@ -13,6 +13,7 @@ public class Accommodation extends Building {
         super(accommodationType.getBuildingType(), playerNumber, positionX, positionY);
         this.accommodationType = accommodationType;
         this.numberOfSettler = accommodationType.getNumberOfSettler();
+        setShowingSignInMap();
     }
 
     @Override
@@ -21,8 +22,8 @@ public class Accommodation extends Building {
     }
 
     @Override
-    public void setShowingSignInMap(String showingSignInMap) {
-        showingSignInMap = accommodationType.getBuildingType().abbreviation() + getOwnerNumber().getNumber();
+    public void setShowingSignInMap() {
+        showingSignInMap = accommodationType.getBuildingType().abbreviation() + (getOwnerNumber().getNumber()+1);
     }
 
     public void update() {

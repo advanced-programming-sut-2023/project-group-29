@@ -18,6 +18,7 @@ public class ProductExtractor extends Building {
         this.productExtractorType = productExtractorType;
         this.rate = productExtractorType.getRate();
         this.producingTradable = productExtractorType.getProducingTradable();
+        setShowingSignInMap();
     }
 
     @Override
@@ -26,8 +27,8 @@ public class ProductExtractor extends Building {
     }
 
     @Override
-    public void setShowingSignInMap(String showingSignInMap) {
-        showingSignInMap = productExtractorType.getBuildingType().abbreviation() + getOwnerNumber().getNumber();
+    public void setShowingSignInMap() {
+        showingSignInMap = productExtractorType.getBuildingType().abbreviation() + (getOwnerNumber().getNumber() + 1);
     }
 
     public void update() {

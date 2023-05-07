@@ -4,6 +4,7 @@ import model.Empire;
 import model.GameData;
 import model.PlayerNumber;
 import model.buildings.Building;
+import model.buildings.buildingTypes.AccommodationType;
 import model.buildings.buildingTypes.StoreType;
 import model.map.Cell;
 import model.map.ConsoleColors;
@@ -72,7 +73,6 @@ public class MapMenuController {
             for (int j = 0; j < tileHeight; j++) {
                 for (int k = 0; k < mapShowingWidth; k++) {
 
-                    //System.out.println("j: "+j+" k:" +k+" i: "+i);
                     tilesOfMap += "|";
                     tilesOfMap += tiles[k][i].get(j);
                 }
@@ -222,7 +222,9 @@ public class MapMenuController {
             return MapMenuMessages.INVALID_INDEX;
         }
         Cell chosenCell = gameData.getMap().getCells()[x][y];
-        if (buildingName.equals("mainKeep")) {
+        String mainKeepName=AccommodationType.MAIN_KEEP.getName();
+        if (buildingName.equals(mainKeepName)
+                && empire.getNumberOfBuildingType(mainKeepName)>0) {
             return MapMenuMessages.TWO_MAIN_KEEP;
         } else if (!Building.isBuildingNameValid(buildingName)) {
             return MapMenuMessages.INVALID_TYPE;

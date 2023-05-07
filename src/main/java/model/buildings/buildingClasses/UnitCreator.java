@@ -12,6 +12,7 @@ public class UnitCreator extends Building {
         super(unitCreatorType.getBuildingType(), playerNumber, positionX, positionY);
         this.unitCreatorType = unitCreatorType;
         this.unitCost = unitCreatorType.getUnitCost();
+        setShowingSignInMap();
     }
 
     @Override
@@ -20,8 +21,8 @@ public class UnitCreator extends Building {
     }
 
     @Override
-    public void setShowingSignInMap(String showingSignInMap) {
-        showingSignInMap = unitCreatorType.getBuildingType().abbreviation() + getOwnerNumber().getNumber();
+    public void setShowingSignInMap() {
+        showingSignInMap = unitCreatorType.getBuildingType().abbreviation() + (getOwnerNumber().getNumber() + 1);
     }
 
 }

@@ -17,6 +17,7 @@ public class ResourceExtractor extends Building {
         this.resourceExtractorType = resourceExtractorType;
         this.rate = resourceExtractorType.getRate();
         this.producingResource = resourceExtractorType.getProducingResource();
+        setShowingSignInMap();
     }
 
     @Override
@@ -25,8 +26,8 @@ public class ResourceExtractor extends Building {
     }
 
     @Override
-    public void setShowingSignInMap(String showingSignInMap) {
-        showingSignInMap = resourceExtractorType.getBuildingType().abbreviation() + getOwnerNumber().getNumber();
+    public void setShowingSignInMap() {
+        showingSignInMap = resourceExtractorType.getBuildingType().abbreviation() + (getOwnerNumber().getNumber() + 1);
     }
 
     public void update() {

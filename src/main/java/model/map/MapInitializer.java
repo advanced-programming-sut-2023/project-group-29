@@ -46,8 +46,13 @@ public class MapInitializer {
         gameData.setMap(secondMap);
 
         MapMenuController.dropBuildingAsAdmin(5,5,AccommodationType.MAIN_KEEP.getName(), 1);
+        MapMenuController.dropBuildingAsAdmin(100,5,AccommodationType.MAIN_KEEP.getName(), 2);
+        MapMenuController.dropBuildingAsAdmin(185,5,AccommodationType.MAIN_KEEP.getName(), 3);
 
         MapMenuController.dropUnit(5,6,SoldierType.SWORDSMAN.getName(),3,1);
+        MapMenuController.dropUnit(5,7,SoldierType.SWORDSMAN.getName(),3,2);
+        MapMenuController.dropUnit(5,8,SoldierType.SWORDSMAN.getName(),3,3);
+
 
         return secondMap;
     }

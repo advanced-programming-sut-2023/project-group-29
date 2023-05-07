@@ -76,6 +76,6 @@ public abstract class Building extends Asset {
         return maxHp;
     }
 
-    @Override
-    public abstract void setShowingSignInMap(String showingSignInMap);
+
+    public abstract void setShowingSignInMap();
 }

@@ -20,6 +20,7 @@ public class ProductProcessor extends Building {
         this.consumingProduct = productProcessorType.getConsumingProduct();
         this.producingTradable = productProcessorType.getProducingTradable();
         this.rate = productProcessorType.getRate();
+        setShowingSignInMap();
     }
 
     @Override
@@ -29,8 +30,8 @@ public class ProductProcessor extends Building {
 
 
     @Override
-    public void setShowingSignInMap(String showingSignInMap) {
-        showingSignInMap = productProcessorType.getBuildingType().abbreviation() + getOwnerNumber().getNumber();
+    public void setShowingSignInMap() {
+        showingSignInMap = productProcessorType.getBuildingType().abbreviation() + (getOwnerNumber().getNumber() + 1);
     }
 
     public void update() {

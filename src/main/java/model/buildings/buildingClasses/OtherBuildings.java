@@ -12,6 +12,7 @@ public class OtherBuildings extends Building {
         super(otherBuildingsType.getBuildingType(), playerNumber, positionX, positionY);
         this.otherBuildingsType = otherBuildingsType;
         setPopularity(otherBuildingsType);
+        setShowingSignInMap();
     }
 
     private void setPopularity(OtherBuildingsType otherBuildingsType) {
@@ -26,7 +27,7 @@ public class OtherBuildings extends Building {
     }
 
     @Override
-    public void setShowingSignInMap(String showingSignInMap) {
-        showingSignInMap = otherBuildingsType.getBuildingType().abbreviation() + getOwnerNumber().getNumber();
+    public void setShowingSignInMap() {
+        showingSignInMap = otherBuildingsType.getBuildingType().abbreviation() + (getOwnerNumber().getNumber() + 1);
     }
 }

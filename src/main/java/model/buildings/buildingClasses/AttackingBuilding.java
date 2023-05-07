@@ -16,6 +16,7 @@ public class AttackingBuilding extends Building {
         this.attackingBuildingType = attackingBuildingType;
         this.defendRange = attackingBuildingType.getDefendRange();
         this.fireRange = attackingBuildingType.getFireRange();
+        setShowingSignInMap();
     }
 
     @Override
@@ -24,7 +25,7 @@ public class AttackingBuilding extends Building {
     }
 
     @Override
-    public void setShowingSignInMap(String showingSignInMap) {
-        showingSignInMap = attackingBuildingType.getBuildingType().abbreviation() + getOwnerNumber().getNumber();
+    public void setShowingSignInMap() {
+        showingSignInMap = attackingBuildingType.getBuildingType().abbreviation() + (getOwnerNumber().getNumber() + 1);
     }
 }
