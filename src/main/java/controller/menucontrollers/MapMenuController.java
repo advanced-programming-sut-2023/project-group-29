@@ -168,8 +168,10 @@ public class MapMenuController {
         if(!map.isIndexValid(positionX,positionY))
             return MapMenuMessages.INVALID_INDEX;
 
-        for(int i=0;i<count;i++)
-            map.getCells()[positionX][positionY].addMovingObject(unit);
+        for(int i=0;i<count;i++) {
+            Human addingUnit=Human.createUnitByName(type,ownerPlayerNumber,positionX,positionY);
+            map.getCells()[positionX][positionY].addMovingObject(addingUnit);
+        }
 
         return MapMenuMessages.SUCCESSFUL;
     }

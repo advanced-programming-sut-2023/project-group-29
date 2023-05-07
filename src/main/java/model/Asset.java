@@ -10,6 +10,8 @@ public class Asset {
 
     public Asset(PlayerNumber ownerNumber, int positionX, int positionY) {
         this.ownerNumber = ownerNumber;
+        this.positionX=positionX;
+        this.positionY= positionY;
     }
 
     public Empire getOwnerEmpire() {

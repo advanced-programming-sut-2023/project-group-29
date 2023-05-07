@@ -30,9 +30,9 @@ public interface Movable {
             return MovingResult.HAS_MOVED;
 
         Cell destinationCell = map.getCells()[destinationX][destinationY];
-        if (destinationCell.isAbleToMoveOn())
+        if (!destinationCell.isAbleToMoveOn())
             return MovingResult.BAD_PLACE;
-        if (!destinationCell.getBuilding().getOwnerNumber().equals(asset.getOwnerNumber()))
+        if (destinationCell.hasBuilding() && !destinationCell.getBuilding().getOwnerNumber().equals(asset.getOwnerNumber()))
             return MovingResult.BAD_PLACE;
         if (destinationCell.getTrap() != null && destinationCell.getTrap().getOwnerNumber().equals(asset.getOwnerNumber()))
             return MovingResult.BAD_PLACE;
@@ -47,6 +47,7 @@ public interface Movable {
 
         if (destinationDistance > speed)
             return MovingResult.TOO_FAR;
+        //todo abbasfar if distance is -1 you cant go there
 
         return MovingResult.SUCCESSFUL;
     }

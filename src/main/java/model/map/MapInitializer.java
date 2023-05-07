@@ -1,6 +1,7 @@
 package model.map;
 
 import controller.menucontrollers.MapMenuController;
+import model.GameData;
 import model.PlayerNumber;
 import model.buildings.buildingClasses.Accommodation;
 import model.buildings.buildingTypes.AccommodationType;
@@ -8,17 +9,17 @@ import model.people.humanTypes.SoldierType;
 
 public class MapInitializer {
     private static final int DEFAULT_MAP_COUNTS = 2;
-    public static Map initialize(int mapIndex)
+    public static Map initialize(int mapIndex, GameData gameData)
     {
         return switch (mapIndex) {
-            case 1 -> initializeFirstMap();
-            case 2 -> initializeSecondMap();
+            case 1 -> initializeFirstMap(gameData);
+            case 2 -> initializeSecondMap(gameData);
             default -> null;
         };
     }
 
     //در داک گفته شده که یک انبار باید در کنار مقر اصلی به صورت پیش فرض ساخته شود.
-    private static Map initializeFirstMap() {
+    private static Map initializeFirstMap(GameData gameData) {
         Map firstMap = new Map(100, 8);
 
 //        secondMap.dropBuilding(5,5, AccommodationType.MAIN_KEEP.getName(),1);
@@ -32,7 +33,7 @@ public class MapInitializer {
         return null;
         //todo abbasfar
     }
-    private static Map initializeSecondMap()
+    private static Map initializeSecondMap(GameData gameData)
     {
         Map secondMap=new Map(200,3);
         Cell[][] cells=secondMap.getCells();
@@ -41,6 +42,8 @@ public class MapInitializer {
             for (int j = 1; j < cells.length; j++) {
                 cells[i][j] = new Cell(CellType.PLAIN_GROUND);
             }
+
+        gameData.setMap(secondMap);
 
         MapMenuController.dropBuildingAsAdmin(5,5,AccommodationType.MAIN_KEEP.getName(), 1);
 

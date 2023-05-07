@@ -29,8 +29,8 @@ public class PreGameMenuController {
             return PreGameMenuMessages.OUT_OF_RANGE;
         }
         GameData gameData = GameMenuController.getGameData();
-        Map map = MapInitializer.initialize(index);
-        gameData.setMap(map);
+        MapInitializer.initialize(index,gameData);
+
         return PreGameMenuMessages.SUCCESS;
     }
 

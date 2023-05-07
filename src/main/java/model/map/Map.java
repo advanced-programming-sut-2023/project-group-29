@@ -37,7 +37,6 @@ public class Map {
     private int BFS(int firstX, int firstY, int secondX, int secondY,boolean blockForbiddenCellTypes,boolean blockWallsAndTowers,boolean blockWallsNearLadder) {
 
         Queue<Pair> queue=new LinkedList<>();
-        int distance=infinity;
 
         int[][] distances=new int[width+1][width+1];
         for(int[] array:distances)
@@ -59,25 +58,22 @@ public class Map {
 
                 if(direction.equals(Direction.RIGHT) && thisCellCoordination.first<width)
                     addingCellCoordination=new Pair(thisCellCoordination.first+1,thisCellCoordination.second);
-
-                if(direction.equals(Direction.DOWN) && thisCellCoordination.second<width)
+                else if(direction.equals(Direction.DOWN) && thisCellCoordination.second<width)
                     addingCellCoordination=new Pair(thisCellCoordination.first,thisCellCoordination.second+1);
-
-                if(direction.equals(Direction.LEFT) && thisCellCoordination.first>1)
+                else if(direction.equals(Direction.LEFT) && thisCellCoordination.first>1)
                     addingCellCoordination=new Pair(thisCellCoordination.first-1,thisCellCoordination.second);
-
-                if(direction.equals(Direction.UP) && thisCellCoordination.second>1)
+                else if(direction.equals(Direction.UP) && thisCellCoordination.second>1)
                     addingCellCoordination=new Pair(thisCellCoordination.first,thisCellCoordination.second-1);
+                else
+                    continue;
 
+                if(distances[addingCellCoordination.first][addingCellCoordination.second]!=-1)  //has been marked
+                    continue;
 
-                //todo abbasfar complete below ifs
-                //if is null
-                //if distance== -1
+                Cell addingCell = cells[addingCellCoordination.first][addingCellCoordination.second];
 
-                Cell addingCell=cells[addingCellCoordination.first][addingCellCoordination.second];
-
-//                if(!skipForbiddenCellTypes && (addingCell.getCellType().equals()))
-//                    continue;
+                if(blockForbiddenCellTypes && !addingCell.getCellType().isAbleToMoveOn())
+                    continue;
 
                 queue.add(addingCellCoordination);
                 distances[addingCellCoordination.first][addingCellCoordination.second]=distances[thisCellCoordination.first][thisCellCoordination.second]+1;

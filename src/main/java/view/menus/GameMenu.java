@@ -2,6 +2,7 @@ package view.menus;
 
 import controller.MenuNames;
 import controller.menucontrollers.GameMenuController;
+import controller.menucontrollers.MapMenuController;
 import controller.menucontrollers.SelectUnitMenuController;
 import model.GameData;
 import model.dealing.Trade;
@@ -19,7 +20,8 @@ public class GameMenu {
             Matcher matcher;
             String input = scanner.nextLine();
 
-            if (Command.getMatcher(input, Command.SHOW_MAP) != null) {
+            if ((matcher=Command.getMatcher(input, Command.SHOW_MAP)) != null) {
+                showMap(matcher);
                 return MenuNames.MAP_MENU;
             } else if (Command.getMatcher(input, Command.SHOW_POPULARITY_FACTORS) != null) {
                 showPopularityFactors();
@@ -81,6 +83,14 @@ public class GameMenu {
         }
     }
 
+    private static void showMap(Matcher matcher) {
+        int positionX=Integer.parseInt(matcher.group("xAmount"));
+        int positionY=Integer.parseInt(matcher.group("yAmount"));
+
+        MapMenuController.setShowingMapIndexes(positionX,positionY);
+
+        //todo abbasfar handle messages and errors
+    }
 
     private static void showPopularityFactors() {
         System.out.println(GameMenuController.showPopularityFactors());
