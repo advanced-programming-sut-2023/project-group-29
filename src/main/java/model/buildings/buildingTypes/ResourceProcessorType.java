@@ -8,19 +8,19 @@ import model.dealing.Resource;
 public enum ResourceProcessorType {
     ARMOURER( // زره سازی
             new BuildingType(80, 1, new int[]{100, 0, 20, 0},"Armrr"),
-            0, Resource.IRON, Product.ARMOUR, "Armourer"
+            10, Resource.IRON, Product.ARMOUR, "Armourer"
     ),
     BLACK_SMITH( // ساختمان آهنگری
             new BuildingType(80, 1, new int[]{100, 0, 20, 0},"BSmth"),
-            0, Resource.IRON, Product.SWORD, "blackSmith"
+            10, Resource.IRON, Product.SWORD, "blackSmith"
     ),
     FLETCHER( // کمان سازی
             new BuildingType(80, 1, new int[]{100, 0, 20, 0},"Fltch"),
-            0, Resource.WOOD, Product.BOW, "fletcher"
+            10, Resource.WOOD, Product.BOW, "fletcher"
     ),
     POLETURNER( // نیزه سازی
             new BuildingType(80, 1, new int[]{100, 0, 10, 0},"Ptrnr"),
-            0, Resource.WOOD, Product.PIKE, "poleturner"
+            10, Resource.WOOD, Product.PIKE, "poleturner"
     ),
     ;
 

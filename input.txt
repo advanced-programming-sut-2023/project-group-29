@@ -16,10 +16,3 @@ choose map 1
 ready
 enter trade menu
 trade -t stone -a 1 -p 2000 -m bad trade -n 2
-
-next turn
-next turn
-.
-.
-.
-next turn

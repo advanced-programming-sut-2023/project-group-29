@@ -2,9 +2,7 @@ package model;
 
 import model.buildings.Building;
 import model.buildings.buildingClasses.*;
-import model.dealing.Product;
-import model.dealing.Resource;
-import model.dealing.Trade;
+import model.dealing.*;
 import model.people.humanClasses.Soldier;
 import model.people.humanClasses.Worker;
 
@@ -18,11 +16,9 @@ public class Empire {
     private final ArrayList<Soldier> soldiers = new ArrayList<>();
     private final ArrayList<Worker> workers = new ArrayList<>();
     private final HashMap<Building, Integer> buildings = new HashMap<>();//TODO expand this to its children
-    private final int[] foods = new int[4];
     private int[][] storage = new int[2][3]; //{food, productsAndResources, weapons} {0--> filled, 1--> capacity}
     private final HashMap<String, Integer> popularityChange = new HashMap<>();
-    private HashMap<Resource, Integer> resourceAmounts;
-    private HashMap<Product, Integer> productAmounts;
+    private HashMap<Tradable, Integer> tradableAmounts;
     private User user;
     private int possiblePopulation;
     private int population;
@@ -43,7 +39,7 @@ public class Empire {
         popularityChange.put("tax", 0);
         popularityChange.put("fear", 0);
         popularityChange.put("foodRate", 0);
-        InitializeResourceAndProduct();
+        InitializeTradables();
     }
 
     public Empire(User user) {
@@ -94,8 +90,8 @@ public class Empire {
         this.fearRate = fearRate;
     }
 
-    public int getFoodsCount(int type) {
-        return foods[type - 1];
+    public int getFoodsCount(Food food) {
+        return tradableAmounts.get(food);
     }
 
     public int getFoodRate() {
@@ -134,23 +130,25 @@ public class Empire {
         wealth += amount;
     }
 
-    private void InitializeResourceAndProduct() {
-        resourceAmounts = new HashMap<>();
+    private void InitializeTradables() {
+        tradableAmounts = new HashMap<>();
         for (Resource resource : Resource.values()) {
-            resourceAmounts.put(resource, 50);
+            tradableAmounts.put(resource, 50);
         }
-        productAmounts = new HashMap<>();
         for (Product product : Product.values()) {
-            productAmounts.put(product, 0);
+            tradableAmounts.put(product, 20);
+        }
+        for (Food food : Food.values()) {
+            tradableAmounts.put(food, 0);
         }
     }
 
-    public void changeResourceAmount(Resource resource, int amount) {
-        resourceAmounts.replace(resource, resourceAmounts.get(resource) + amount);
+    public void changeTradableAmount(Tradable tradable, int amount) {
+        tradableAmounts.replace(tradable, tradableAmounts.get(tradable) + amount);
     }
 
-    public int getResourceAmount(Resource resource) {
-        return resourceAmounts.get(resource);
+    public int getTradableAmount(Tradable tradable) {
+        return tradableAmounts.get(tradable);
     }
 
     public int getPopularityChange(String cause) {
@@ -225,14 +223,6 @@ public class Empire {
     public void fillStorage(int switcher, int change) {
         storage[0][switcher] += change;
     }
-    public void changeProduct(Product product, int amount) {
-        productAmounts.replace(product, productAmounts.get(product) + amount);
-    }
-
-    public int getProductAmount(Product product) {
-        return productAmounts.get(product);
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Empire) {
@@ -262,17 +252,17 @@ public class Empire {
     }
 
     public void buyBuilding(String buildingName) {
-        changeResourceAmount(Resource.COINS,Building.getNeededResource(0, buildingName));
-        changeResourceAmount(Resource.STONE,Building.getNeededResource(1, buildingName));
-        changeResourceAmount(Resource.WOOD,Building.getNeededResource(2, buildingName));
-        changeResourceAmount(Resource.IRON,Building.getNeededResource(3, buildingName));
+        changeTradableAmount(Resource.COINS,Building.getNeededResource(0, buildingName));
+        changeTradableAmount(Resource.STONE,Building.getNeededResource(1, buildingName));
+        changeTradableAmount(Resource.WOOD,Building.getNeededResource(2, buildingName));
+        changeTradableAmount(Resource.IRON,Building.getNeededResource(3, buildingName));
     }
 
     public boolean canBuyBuilding(String buildingName) {
-        return Building.getNeededResource(0, buildingName) <= resourceAmounts.get(Resource.COINS)
-                && Building.getNeededResource(1, buildingName) <= resourceAmounts.get(Resource.STONE)
-                && Building.getNeededResource(2, buildingName) <= resourceAmounts.get(Resource.WOOD)
-                && Building.getNeededResource(3, buildingName) <= resourceAmounts.get(Resource.IRON);
+        return Building.getNeededResource(0, buildingName) <= tradableAmounts.get(Resource.COINS)
+                && Building.getNeededResource(1, buildingName) <= tradableAmounts.get(Resource.STONE)
+                && Building.getNeededResource(2, buildingName) <= tradableAmounts.get(Resource.WOOD)
+                && Building.getNeededResource(3, buildingName) <= tradableAmounts.get(Resource.IRON);
     }
 
     public ArrayList<Trade> getTrades() {

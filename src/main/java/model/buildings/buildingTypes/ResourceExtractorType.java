@@ -7,7 +7,7 @@ import model.dealing.Resource;
 public enum ResourceExtractorType {
     PITCH_RIG( // دکل قیر
             new BuildingType(80, 1, new int[]{0, 0, 20, 0},"PtchR"),
-            0,Resource.PITCH, "pitchRig"
+            30,Resource.PITCH, "pitchRig"
     ),
     //    OX_TETHER( // افسار گاو
 //            new BuildingType(30, 1, new int[]{0, 0, 5, 0},"OxTtr),
@@ -15,15 +15,15 @@ public enum ResourceExtractorType {
 //    ),
     QUARRY( // معدن سنگ
             new BuildingType(80, 3, new int[]{0, 0, 20, 0},"Quary"),
-            0,Resource.STONE, "quarry"
+            20,Resource.STONE, "quarry"
     ),
     WOOD_CUTTER( //چوب بر
             new BuildingType(30, 1, new int[]{0, 0, 3, 0},"WdCut"),
-            0, Resource.WOOD,"woodCutter"
+            25, Resource.WOOD,"woodCutter"
     ),
     IRON_MINE(//معدن آهن
             new BuildingType(80, 2, new int[]{0, 0, 20, 0},"IrnMn"),
-            0, Resource.IRON,"ironMine"
+            15, Resource.IRON,"ironMine"
     );
     //کارخانه ذوب
 

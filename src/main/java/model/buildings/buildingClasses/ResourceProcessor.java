@@ -1,6 +1,5 @@
 package model.buildings.buildingClasses;
 
-import model.Empire;
 import model.PlayerNumber;
 import model.buildings.Building;
 import model.buildings.buildingTypes.ResourceProcessorType;
@@ -33,9 +32,9 @@ public class ResourceProcessor extends Building {
     }
 
     public void update() {
-        int availableResource = ownerEmpire.getResourceAmount(this.resource);
+        int availableResource = ownerEmpire.getTradableAmount(resource);
         int changeAmount = Math.min(availableResource, rate);
-        ownerEmpire.changeResourceAmount(this.resource, -changeAmount);
-        ownerEmpire.changeProduct(this.product, changeAmount);
+        ownerEmpire.changeTradableAmount(resource, -changeAmount);
+        ownerEmpire.changeTradableAmount(product, changeAmount);
     }
 }

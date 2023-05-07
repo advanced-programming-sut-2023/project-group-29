@@ -2,45 +2,47 @@ package model.buildings.buildingTypes;
 
 import model.buildings.Building;
 import model.buildings.BuildingType;
+import model.dealing.Food;
 import model.dealing.Product;
+import model.dealing.Tradable;
 
 public enum ProductExtractorType {
     STABLE(//اصطبل
             new BuildingType(100, 0, new int[]{400, 0, 20, 0},"Stble"),
-            0, Product.HORSE,"stable"
+            4, Product.HORSE,"stable"
     ),
     APPLE_GARDEN( //باغ سیب
             new BuildingType(30, 1, new int[]{0, 0, 5, 0},"ApGdn"),
-            0, Product.APPLE, "appleGarden"
+            12, Food.APPLE, "appleGarden"
     ),
     DAIRY_PRODUCTS( //لبنیاتی
             new BuildingType(50, 1, new int[]{0, 0, 10, 0},"Dairy"),
-            0,Product.CHEESE,"dairyProducts"
+            15,Food.CHEESE,"dairyProducts"
     ),
     GRAIN_FARM(// مزرعه جو
             new BuildingType(60, 1, new int[]{0, 0, 15, 0},"GFarm"),
-            0,Product.GRAIN, "grainFarm"
+            20,Product.GRAIN, "grainFarm"
     ),
     HUNTING_POST(// پست شکار
             new BuildingType(30, 1, new int[]{0, 0, 5, 0},"HPost"),
-            0,Product.MEAT, "huntingPost"
+            10,Food.MEAT, "huntingPost"
     ),
     WHEAT_FARM( //مزرعه گندم
             new BuildingType(60, 1, new int[]{0, 0, 15, 0},"WFarm"),
-            0, Product.WHEAT,"wheatFarm"
+            30, Product.WHEAT,"wheatFarm"
     ),
     ;
     private String name;
     private int rate;
-    private Product producingProduct;
+    private Tradable producingTradable;
     private BuildingType buildingType;
     private int[] neededResources;
 
     ProductExtractorType(BuildingType buildingType, int rate,
-                         Product producingProduct, String buildingName) {
+                         Tradable producingTradable, String buildingName) {
         this.name = buildingName;
         this.rate = rate;
-        this.producingProduct = producingProduct;
+        this.producingTradable = producingTradable;
         this.buildingType = buildingType;
         this.neededResources = buildingType.neededResources();
         Building.addToValidBuildingNames(buildingName, 4);
@@ -60,8 +62,8 @@ public enum ProductExtractorType {
         return rate;
     }
 
-    public Product getProducingProduct() {
-        return producingProduct;
+    public Tradable getProducingTradable() {
+        return producingTradable;
     }
 
     public BuildingType getBuildingType() {

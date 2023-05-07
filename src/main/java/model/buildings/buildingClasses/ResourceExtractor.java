@@ -1,6 +1,5 @@
 package model.buildings.buildingClasses;
 
-import model.Empire;
 import model.PlayerNumber;
 import model.buildings.Building;
 import model.buildings.buildingTypes.ResourceExtractorType;
@@ -32,7 +31,7 @@ public class ResourceExtractor extends Building {
 
     public void update() {
         int change = Math.min(ownerEmpire.getEmptySpace(1),rate);
-        ownerEmpire.changeResourceAmount(this.producingResource, change);
+        ownerEmpire.changeTradableAmount(this.producingResource, change);
         ownerEmpire.fillStorage(1,change);
     }
 }

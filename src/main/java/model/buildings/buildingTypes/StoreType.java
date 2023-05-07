@@ -6,15 +6,15 @@ import model.buildings.BuildingType;
 public enum StoreType {
     ARMOURY( //اسلحه خانه
             new BuildingType(60, 0, new int[]{0, 0, 5, 0},"Armry"),
-            1000, "armoury"
+            100, "armoury"
     ),
     FOOD_STORE( //انبار غذا
             new BuildingType(60, 0, new int[]{0, 0, 5, 0},"FStor"),
-            1000, "foodStore"
+            200, "foodStore"
     ),
     STOCK_PILE( //انبار
             new BuildingType(60, 0, new int[]{0, 0, 5, 0},"SPile"),
-            1000, "stockPile"
+            500, "stockPile"
     ),
     ;
     //TODO JASBI: By storages being destructed, additional materials should be gotten rid of.

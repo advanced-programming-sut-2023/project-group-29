@@ -6,13 +6,9 @@ public enum Product implements Tradable{
     BOW("bow"),
     PIKE("pike"),
     WHEAT("wheat"),
-    APPLE("apple"),
-    CHEESE("cheese"),
     HORSE("horse"),
     GRAIN("grain"),
-    MEAT("meat"),
     FLOUR("flour"),
-    BREAD("bread"),
     BEER("beer"),
     ;
     private final String name;

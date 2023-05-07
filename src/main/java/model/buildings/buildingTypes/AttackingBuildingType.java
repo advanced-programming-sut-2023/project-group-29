@@ -26,7 +26,7 @@ public enum AttackingBuildingType {
     ),
     KILLING_PIT( // گودال کشتار
             new BuildingType(30, 0, new int[]{0, 0, 6, 0},"KilPt"),
-            15, 120, "killingPit"
+            150, 100, "killingPit"
     ),
     ;
 

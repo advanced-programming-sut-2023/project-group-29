@@ -6,15 +6,15 @@ import model.buildings.BuildingType;
 public enum UnitCreatorType {
     BARRACK( //سربازخانه
             new BuildingType(50, 0, new int[]{0, 15, 0, 0},"Brrck"),
-            0, "barrack"
+            50, "barrack"
     ),
     MERCENARY_POST( // سربازخانه مزدوران
             new BuildingType(30, 0, new int[]{0, 0, 10, 0},"MPost"),
-            0, "mercenaryPost"
+            30, "mercenaryPost"
     ),
     ENGINEER_GUILD( // صنف مهندسان
             new BuildingType(30, 0, new int[]{100, 0, 10, 0},"EngnG"),
-            0, "engineerGuild"
+            60, "engineerGuild"
     ),
     ;
     private String name;

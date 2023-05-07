@@ -1,28 +1,24 @@
 package controller.menucontrollers;
 
 import model.PlayerNumber;
-import model.dealing.Product;
-import model.dealing.Resource;
-import model.dealing.Tradable;
-import model.dealing.Trade;
+import model.dealing.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TradeMenuController {
     public static String trade(String type, String amount, String price, String message, int numberOfAnotherPlayer){
         int trueType = 0;
         Tradable tradable = null;
-        for(Resource myResource: Resource.values()) {
-            if(myResource.getName().equals(type)) {
+        ArrayList<Tradable> tradableArrayList = new ArrayList<>();
+        tradableArrayList.addAll(List.of(Resource.values()));
+        tradableArrayList.addAll(List.of(Product.values()));
+        tradableArrayList.addAll(List.of(Food.values()));
+
+        for(Tradable myTradable: tradableArrayList) {
+            if(myTradable.getName().equals(type)) {
                 trueType = 1;
-                tradable = myResource;
-                break;
-            }
-        }
-        for(Product myproduct: Product.values()) {
-            if(myproduct.getName().equals(type)) {
-                trueType = 1;
-                tradable = myproduct;
+                tradable = myTradable;
                 break;
             }
         }

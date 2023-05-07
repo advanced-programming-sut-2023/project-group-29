@@ -5,6 +5,7 @@ import model.GameData;
 import model.PlayerNumber;
 import model.buildings.Building;
 import model.buildings.buildingTypes.StoreType;
+import model.dealing.Food;
 import model.map.Cell;
 import model.map.Map;
 import view.messages.GameMenuMessages;
@@ -42,11 +43,10 @@ public class GameMenuController {
         PlayerNumber playerNumber = gameData.getPlayerOfTurn();
         Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
         String output = "food list:\n";
-        output += "food 1 -> count: " + empire.getFoodsCount(1) + "\n";
-        output += "food 2 -> count: " + empire.getFoodsCount(2) + "\n";
-        output += "food 3 -> count: " + empire.getFoodsCount(3) + "\n";
-        output += "food 4 -> count: " + empire.getFoodsCount(4);
-        return output;
+        for (Food food: Food.values()) {
+            output += food.getName() + " -> count: " + empire.getFoodsCount(food) + "\n";
+        }
+        return output.trim();
     }
 
     public static GameMenuMessages determinationOfFoodRate(int foodRate) {

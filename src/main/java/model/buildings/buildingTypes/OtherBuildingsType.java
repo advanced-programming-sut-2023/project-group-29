@@ -21,7 +21,7 @@ public enum OtherBuildingsType {
             "cathedral"
     ),
     SIEGE_TENT( // چادر محاصره
-            new BuildingType(75, /*TODO: JASBI: engineer and minimum*/1, new int[]{25, 0, 0, 0},"STent"),
+            new BuildingType(10, /*TODO: JASBI: engineer and minimum*/1, new int[]{25, 0, 0, 0},"STent"),
             "siegeTent"
     ),
     CAGED_WAR_DOGS(//قفسه ی سگ های جنگی

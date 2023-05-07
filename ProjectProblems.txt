@@ -22,25 +22,24 @@ Faratin(){
 }
 
 jasbi(){
-    church and popularity --> done
-    complete enums in model;  --> somehow done
-    test for one of the procedures; --> faratin
-    add initialize menu for start game --> done
-    passing cell or x and y --> DONE
-    make popularity --> done
-    affect processors --> done
     attacking building --> with abbasfar's help
-    complete unique functions for each building type;
-    handle own todos;
-    affect resource extractor --> done
-    make transitions
-    capacity
-    population and accommodation
-    draw bridge
-    siege tent
-    dog cage
+    create unit creator building
     how to connect building to people?
-    کارخانه ذوب، افسار گاو
+    کارخانه ذوب
+    افسار گاو
+    قفسه ی سگ های جنگی
+    عوض شدن نرخ مالیات با انتخاب small gate house
+    draw bridge
+    قرار دادن تجهیزات سواره؟؟
+    نامرئی بودن گودار کشتار
+    wine usage and popularity rate برای مسافرخانه
+    معدن آهن برای استخراج آهن بکار می‌رود. فقط برروی زمین‌هایی از جنس آهن گذاشته می‌شود
+    دکل قیر باید روی جلگه باشد.
+    ظرفیت داخلی معدن سنگ
+    راهبان مبارز در کلیسا
+    ساختمان آهنگری دو محصول دارد
+    نیزه سازی دو محصول دارد
+    چادر محاصره مهندس می خواهد
 }
 
 abbasfar()

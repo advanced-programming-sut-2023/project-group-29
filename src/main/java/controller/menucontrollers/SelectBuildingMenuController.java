@@ -3,14 +3,7 @@ package controller.menucontrollers;
 import model.*;
 import model.buildings.Building;
 import model.dealing.Resource;
-import model.map.Cell;
-import model.map.Map;
-import model.people.Human;
-import model.people.UnitState;
-import model.people.humanClasses.Soldier;
 import view.messages.SelectBuildingMenuMessages;
-
-import java.util.ArrayList;
 
 public class SelectBuildingMenuController {
     private static Building selectedBuilding;
@@ -35,7 +28,7 @@ public class SelectBuildingMenuController {
 
     private static boolean hasEnoughStoneToRepair(Empire ownerEmpire, Building building) {
         int needed = (building.getMaxHp() - building.getHp()); //TODO maybe * zarib
-        int valid = ownerEmpire.getResourceAmount(Resource.STONE);
+        int valid = ownerEmpire.getTradableAmount(Resource.STONE);
         return valid >= needed;
     }
 }
