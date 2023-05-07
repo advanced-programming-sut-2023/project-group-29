@@ -1,5 +1,6 @@
 package controller.menucontrollers;
 
+import model.Empire;
 import model.PlayerNumber;
 import model.dealing.*;
 
@@ -26,7 +27,7 @@ public class TradeMenuController {
             System.out.println(type);
             return "Invalid type of tradable!";
         }
-        if (numberOfAnotherPlayer < 0 || numberOfAnotherPlayer > 7) {
+        if (numberOfAnotherPlayer < 1 || numberOfAnotherPlayer > GameMenuController.getGameData().getEmpires().size()) {
             return "Invalid number of another player!";
         }
         if(Integer.parseInt(amount) < 0) {
@@ -36,7 +37,7 @@ public class TradeMenuController {
             return "Invalid price!";
         }
         Trade trade = new Trade(GameMenuController.getGameData().getPlayerOfTurn(),
-                PlayerNumber.getPlayerByIndex(numberOfAnotherPlayer),
+                PlayerNumber.getPlayerByIndex(numberOfAnotherPlayer - 1),
                 Integer.parseInt(price),
                 tradable,
                 Integer.parseInt(amount),
@@ -44,9 +45,9 @@ public class TradeMenuController {
         GameMenuController.getGameData().getEmpireByPlayerNumber
                 (GameMenuController.getGameData().getPlayerOfTurn()).addTradeHistory(trade);
         GameMenuController.getGameData().getEmpireByPlayerNumber
-                (PlayerNumber.getPlayerByIndex(numberOfAnotherPlayer)).addTrade(trade);
+                (PlayerNumber.getPlayerByIndex(numberOfAnotherPlayer - 1)).addTrade(trade);
         GameMenuController.getGameData().getEmpireByPlayerNumber
-                (PlayerNumber.getPlayerByIndex(numberOfAnotherPlayer)).addNewTrade(trade);
+                (PlayerNumber.getPlayerByIndex(numberOfAnotherPlayer - 1)).addNewTrade(trade);
         return "Your trade was recorded";
     }
 
@@ -86,9 +87,14 @@ public class TradeMenuController {
         if(id < 1 || id > trades.size()) {
             return "Wrong id!";
         }
+        Trade trade = null;
         ArrayList<Trade> modernTrades = new ArrayList<>();
         for(int i = 0; i < trades.size(); i++) {
             if(i == id - 1) {
+                trade = trades.get(i);
+                if(trade.getCount() * trade.getPrice() > GameMenuController.getGameData().getEmpireByPlayerNumber(GameMenuController.getGameData().getPlayerOfTurn()).getWealth()) {
+                    return "Your wealth is less than the price of your dealing!";
+                }
                 GameMenuController.getGameData().getEmpireByPlayerNumber(GameMenuController.getGameData().getPlayerOfTurn()).
                         getTradesHistory().add(trades.get(i));
                 continue;
@@ -96,6 +102,12 @@ public class TradeMenuController {
             modernTrades.add(trades.get(i));
         }
         GameMenuController.getGameData().getEmpireByPlayerNumber(GameMenuController.getGameData().getPlayerOfTurn()).setTrades(modernTrades);
+        Empire reciverEmpire = GameMenuController.getGameData().getEmpireByPlayerNumber(trade.getReceiverPlayer());
+        Empire senderEmpire = GameMenuController.getGameData().getEmpireByPlayerNumber(trade.getSenderPlayer());
+        reciverEmpire.changeTradableAmount(trade.getCommodity(), trade.getCount());
+        senderEmpire.changeTradableAmount(trade.getCommodity(), -trade.getCount());
+        reciverEmpire.changeWealth(-(trade.getPrice() * trade.getCount()));
+        reciverEmpire.changeWealth(trade.getPrice() * trade.getCount());
         return "The trade was accepted";
     }
 }

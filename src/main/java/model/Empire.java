@@ -127,6 +127,7 @@ public class Empire {
     }
 
     public void changeWealth(int amount) {
+        //TODO JASBI: wealth or coin
         wealth += amount;
     }
 
