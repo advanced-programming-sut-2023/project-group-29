@@ -248,9 +248,15 @@ public class MapMenu {
     }
 
     private static void showMap(Matcher matcher) {
-
-        int positionX=Integer.parseInt(matcher.group("xAmount"));
-        int positionY=Integer.parseInt(matcher.group("yAmount"));
+        String input = matcher.group(0);
+        Matcher xAmount = Pattern.compile("-x\\s+(\\d+)").matcher(input);
+        Matcher yAmount = Pattern.compile("-y\\s+(\\d+)").matcher(input);
+        if(!(xAmount.find() && yAmount.find())) {
+            System.out.println("Invalid command!");
+            return;
+        }
+        int positionX=Integer.parseInt(xAmount.group(1));
+        int positionY=Integer.parseInt(yAmount.group(1));
 
         System.out.println(MapMenuController.showMap(positionX,positionY));
     }
@@ -260,9 +266,18 @@ public class MapMenu {
     }
 
     private static void dropBuilding(Matcher matcher) {
-        int x = Integer.parseInt(matcher.group("xPosition"));
-        int y = Integer.parseInt(matcher.group("yPosition"));
-        String buildingName = matcher.group("type");
+        String input = matcher.group(0);
+        Matcher xMatcher = Pattern.compile("-x\\s+(\\d+)").matcher(input);
+        Matcher yMatcher = Pattern.compile("-y\\s+(\\d+)").matcher(input);
+        Matcher tMatcher = Pattern.compile("-t\\s+(\\S+)").matcher(input);
+        if(!(xMatcher.find() && yMatcher.find() && tMatcher.find())) {
+            System.out.println("Invalid command!");
+            return;
+        }
+
+        int x = Integer.parseInt(xMatcher.group(1));
+        int y = Integer.parseInt(yMatcher.group(1));
+        String buildingName = tMatcher.group(1);
 
         //todo abbasfar handle isAdmin conditions
         MapMenuMessages result = MapMenuController.dropBuilding(x, y, buildingName);

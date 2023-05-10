@@ -8,6 +8,7 @@ import view.messages.ShopMenuMessages;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ShopMenu {
     public static MenuNames run(Scanner scanner) {
@@ -34,8 +35,15 @@ public class ShopMenu {
     }
 
     private static void buy(Matcher matcher) {
-        String resourceName = matcher.group("name");
-        int amount = Integer.parseInt(matcher.group("amount"));
+        String input = matcher.group(0);
+        Matcher amountMatcher = Pattern.compile("-a\\s+(\\d+)").matcher(input);
+        Matcher nameMatcher = Pattern.compile("-n\\s+(\\S+)").matcher(input);
+        if(!(amountMatcher.find() && nameMatcher.find())) {
+            System.out.println("Invalid command!");
+            return;
+        }
+        int amount = Integer.parseInt(amountMatcher.group(1));
+        String resourceName = nameMatcher.group(1);
         ShopMenuMessages result = ShopMenuController.buy(resourceName, amount);
         switch (result) {
             case INVALID_NAME -> System.out.println("We don't have any resource with this name!");
@@ -46,8 +54,15 @@ public class ShopMenu {
     }
 
     private static void sell(Matcher matcher) {
-        String resourceName = matcher.group("name");
-        int amount = Integer.parseInt(matcher.group("amount"));
+        String input = matcher.group(0);
+        Matcher amountMatcher = Pattern.compile("-a\\s+(\\d+)").matcher(input);
+        Matcher nameMatcher = Pattern.compile("-n\\s+(\\S+)").matcher(input);
+        if(!(amountMatcher.find() && nameMatcher.find())) {
+            System.out.println("Invalid command!");
+            return;
+        }
+        int amount = Integer.parseInt(amountMatcher.group(1));
+        String resourceName = nameMatcher.group(1);
         ShopMenuMessages result = ShopMenuController.sell(resourceName, amount);
         switch (result) {
             case INVALID_NAME -> System.out.println("We don't have any resource with this name!");

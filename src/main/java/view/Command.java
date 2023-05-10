@@ -32,7 +32,7 @@ public enum Command {
     BACK_MAIN_MENU("\\s*back\\s*"),
 
     NEXT_TURN("\\s*next\\s+turn\\s*"),
-    SHOW_MAP("show map -x (?<xAmount>\\d+) -y (?<yAmount>\\d+)\\s*"), //todo
+    SHOW_MAP("\\s*show\\s+map\\s+-[xy]\\s+(\\d+)\\s+-[yx]\\s+(\\d+)\\s*"), //todo
     SHOW_POPULARITY_FACTORS("\\s*show\\s+popularity\\s+factors\\s*"),
     SHOW_POPULARITY("\\s*show\\s+popularity\\s*"),
     SHOW_FOOD_LIST("\\s*show\\s+food\\s+list\\s*"),
@@ -41,8 +41,7 @@ public enum Command {
     SET_FOOD_RATE("\\s*food\\s+rate\\s+-r\\s+(?<rate>-?\\d+)\\s*"), //TODO: ERROr for big number
     SET_TAX_RATE("\\s*tax\\s+rate\\s+-r\\s+(?<rate>-?\\d+)\\s*"),
     SET_FEAR_RATE("\\s*fear\\s+rate\\s+-r\\s+(?<rate>-?\\d+)\\s*"),
-    DROP_BUILDING("\\s*dropbuilding\\s+-x\\s+(?<xPosition>\\d+)\\s+-y\\s+(?<yPosition>\\d+)\\s+" +
-            "-type\\s+(?<type>\\S+)\\s*"),
+    DROP_BUILDING("\\s*drop\\s+building\\s+-[xyt]\\s+(\\S+)\\s+-[yxt]\\s+(\\S+)\\s+-[txy]\\s+(\\S+)\\s*"),
     //TODO: جابجایی
     SELECT_BUILDING("\\s*select\\s+building\\s+-x\\s+(?<xPosition>\\d+)\\s+-y\\s+(?<yPosition>\\d+)\\s*"),
     SELECT_UNIT("\\s*select\\s+unit\\s+-x\\s+(?<xPosition>\\d+)\\s+-y\\s+(?<yPosition>\\d+)\\s*"),
@@ -72,8 +71,8 @@ public enum Command {
     BUILD_EQUIPMENT("\\s*build\\s+-q\\s+(?<equipmentName>\\S+)\\s*"),
     DISBAND_UNIT("\\s*disband\\s+unit\\s*"),
     SHOW_PRICE_LIST("\\s*show\\s+price\\s+list\\s*"),
-    BUY("\\s*buy\\s+-u\\s+(?<name>\\S+)\\s+-a\\s+(?<amount>\\d+)\\s*"),
-    SELL("\\s*sell\\s+-u\\s+(?<name>\\S+)\\s+-a\\s+(?<amount>\\d+)\\s*"),
+    BUY("\\s*buy\\s+-[ua]\\s+(\\S+)\\s+-[au]\\s+(\\S+)\\s*"),
+    SELL("\\s*sell\\s+-[au]\\s+(\\S+)\\s+-[au]\\s+(\\S+)\\s*"),
     ENTER_TRADE_MENU("\\s*enter\\s+trade\\s+menu\\s*"),
     ENTER_SHOP_MENU("\\s*enter\\s+shop\\s+menu\\s*"),
     ENTER_SELECT_MENU("\\s*enter\\s+select\\s+menu\\s*"),
