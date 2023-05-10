@@ -174,4 +174,8 @@ public class GameMenu {
     private static void showCommodity() {
         System.out.print(GameMenuController.showCommodity());
     }
+
+    public static void print(String message) {
+        System.out.println(message);
+    }
 }

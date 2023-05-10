@@ -4,11 +4,11 @@ import model.Empire;
 import model.GameData;
 import model.PlayerNumber;
 import model.buildings.Building;
-import model.buildings.buildingTypes.StoreType;
 import model.dealing.Food;
 import model.dealing.Tradable;
 import model.map.Cell;
 import model.map.Map;
+import view.menus.GameMenu;
 import view.messages.GameMenuMessages;
 
 public class GameMenuController {
@@ -119,10 +119,16 @@ public class GameMenuController {
     public static void nextTurn() {
         gameData.changePlayingPlayer();
         Empire empire = gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn());
+        empire.setFields();
         empire.updateBuildings();
         empire.affectDestructedStorerooms();
         empire.affectDestructedAccommodations();
-        //TODO JASBI: some functions. This function should be called in the beginning of the game
+        //TODO : growth of population
+        //TODO : some functions. This function should be called in the beginning of the game
+    }
+
+    public static void notify(String message) {
+        GameMenu.print(message);
     }
     public static int showWealth() {
         return GameMenuController.getGameData().getEmpireByPlayerNumber(GameMenuController.gameData.getPlayerOfTurn()).getWealth();

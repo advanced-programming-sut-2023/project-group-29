@@ -16,25 +16,9 @@ public class SelectBuildingMenu {
             Matcher matcher;
             String input = scanner.nextLine();
             if ((matcher = Command.getMatcher(input, Command.CREATE_UNIT)) != null) {
-                createUnit();
+                createUnit(matcher);
             } else if ((matcher = Command.getMatcher(input, Command.REPAIR_BUILDING)) != null) {
                 repairBuilding();
-            } else if ((matcher = Command.getMatcher(input, Command.MOVE_UNIT)) != null) {
-                moveUnit(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.PATROL_UNIT)) != null) {
-                patrolUnit(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.SET_STATE_OF_UNIT)) != null) {
-                setStateOfUnit(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.MAKE_UNIT_ATTACKING)) != null) {
-                makeUnitAttacking(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.POUR_OIL)) != null) {
-                pourOil(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.DIG_TUNNEL)) != null) {
-                digTunnel(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.BUILD_EQUIPMENT)) != null) {
-                buildEquipment(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.DISBAND_UNIT)) != null) {
-                disbandUnit(matcher);
             } else if ((matcher = Command.getMatcher(input, Command.BACK_GAME_MENU)) != null) {
                 return MenuNames.GAME_MENU;
             } else {
@@ -43,10 +27,20 @@ public class SelectBuildingMenu {
         }
     }
 
-    private static void createUnit() {
-        //TODO: abbasfar kamel kon
+    private static void createUnit(Matcher matcher) {
+        String unitType = matcher.group("type");
+        int count = Integer.parseInt(matcher.group("count"));
+        SelectBuildingMenuMessages result = SelectBuildingMenuController.createUnit(unitType, count);
+        switch (result){
+            case INVALID_TYPE -> System.out.println("We have no unit with this name!");
+            case LACK_OF_COINS -> System.out.println("You don't have enough coin to create this unit!");
+            case LACK_OF_WEAPON -> System.out.println("You don't have proper weapon to equip this unit!");
+            case LACK_OF_HUMAN -> System.out.println("There is no person to become your unit!");
+            case UNRELATED_TYPE -> System.out.println("You should try creating this unit in other buildings!");
+            case SUCCESS -> System.out.println("Your unit was successfully created!");
+        }
     }
-
+//TODO JASBI now show hp
     private static void repairBuilding() {
         SelectBuildingMenuMessages result = SelectBuildingMenuController.repairBuilding();
         switch (result){
@@ -54,36 +48,5 @@ public class SelectBuildingMenu {
             case ENEMY_IS_NEAR -> System.out.println("You can't repair your buildings while Enemies are near them!");
             case SUCCESS -> System.out.println("Your building was successfully repaired!");
         }
-
-    }
-
-    private static void moveUnit(Matcher matcher) {
-
-    }
-
-    private static void patrolUnit(Matcher matcher) {
-    }
-
-    private static void setStateOfUnit(Matcher matcher) {
-
-    }
-
-    private static void makeUnitAttacking(Matcher matcher) {
-
-    }
-
-    private static void pourOil(Matcher matcher) {
-
-    }
-
-    private static void digTunnel(Matcher matcher) {
-    }
-
-    private static void buildEquipment(Matcher matcher) {
-
-    }
-
-    private static void disbandUnit(Matcher matcher) {
-
     }
 }

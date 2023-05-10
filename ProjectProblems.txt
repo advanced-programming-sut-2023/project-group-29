@@ -22,16 +22,15 @@ Faratin(){
 }
 
 jasbi(){
+    handle TO DOs
     attacking building --> with abbasfar's help
-    create unit creator building
-    how to connect building to people?
     کارخانه ذوب
     افسار گاو
     قفسه ی سگ های جنگی
     عوض شدن نرخ مالیات با انتخاب small gate house
     draw bridge
     قرار دادن تجهیزات سواره؟؟
-    نامرئی بودن گودار کشتار
+    نامرئی بودن گودال کشتار
     wine usage and popularity rate برای مسافرخانه
     معدن آهن برای استخراج آهن بکار می‌رود. فقط برروی زمین‌هایی از جنس آهن گذاشته می‌شود
     دکل قیر باید روی جلگه باشد.

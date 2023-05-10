@@ -1,5 +1,6 @@
 package model;
 
+import controller.menucontrollers.GameMenuController;
 import model.buildings.Building;
 import model.buildings.buildingClasses.*;
 import model.dealing.*;
@@ -23,18 +24,15 @@ public class Empire {
     private int possiblePopulation;
     private int population;
     private int growthRate;
-    private int wealth = 1000000000;
-    private int taxRate;
-    private int fearRate;
-    private int foodRate;
-    private int popularity = 0;
+    private int wealth = 500;
+    private int taxRate = 0;
+    private int fearRate =0;
+    private int foodRate = -2;
+    private int popularity = 50;
 
     private int numberOfReligiousBuildings = 0;
 
-    //TODO: initialize correctly
-    //initialize popularity:
     {
-        //TODO: initialize correctly
         popularityChange.put("religion", 0);
         popularityChange.put("tax", 0);
         popularityChange.put("fear", 0);
@@ -58,8 +56,12 @@ public class Empire {
         return popularity;
     }
 
-    public void setPopularity(int popularity) {
-        this.popularity = popularity;
+    public void setPopularity() {
+        popularity += popularityChange.get("religion");
+        popularity += popularityChange.get("tax");
+        popularity += popularityChange.get("fear");
+        popularity += popularityChange.get("foodRate");
+        if (popularity < 0) popularity = 0;
     }
 
     public int getPopulation() {
@@ -127,7 +129,6 @@ public class Empire {
     }
 
     public void changeWealth(int amount) {
-        //TODO JASBI: wealth or coin
         wealth += amount;
     }
 
@@ -157,12 +158,10 @@ public class Empire {
     }
 
     public void adjustPopularity() {
-        //TODO: adjust numbers correctly:
         popularityChange.replace("religion", 0);
         popularityChange.replace("tax", 0);
         popularityChange.replace("fear", 0);
         popularityChange.replace("foodRate", foodRate * 4);
-        //TODO: affect it to real popularity.
     }
 
     public void addBuilding(Building building, int groupNumber) {
@@ -174,7 +173,8 @@ public class Empire {
         makePossiblePopulationZero();
         for (Building building : buildings.keySet()) {
             switch (buildings.get(building)) {
-                case 1:((Accommodation) building).update();
+                case 1:
+                    ((Accommodation) building).update();
                     break;
                 case 2://TODO JASBI: functions for attackingBuilding type
                     break;
@@ -192,12 +192,8 @@ public class Empire {
                 case 7:
                     ((ResourceProcessor) building).update();
                     break;
-                case 8:((Store) building).update();
-                    break;
-                case 9://TODO JASBI: functions for unit creator type
-                    //church and popularity
-                    //dog cage
-                    //draw bridge//siege tent
+                case 8:
+                    ((Store) building).update();
                     break;
             }
         }
@@ -224,6 +220,7 @@ public class Empire {
     public void fillStorage(int switcher, int change) {
         storage[0][switcher] += change;
     }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Empire) {
@@ -238,7 +235,7 @@ public class Empire {
 
     public int getNumberOfBuildingType(String buildingName) {
         int count = 0;
-        for (Building building: buildings.keySet()) {
+        for (Building building : buildings.keySet()) {
             if (building.getName().equals(buildingName)) count++;
         }
         return count;
@@ -253,14 +250,14 @@ public class Empire {
     }
 
     public void buyBuilding(String buildingName) {
-        changeTradableAmount(Resource.COINS,Building.getNeededResource(0, buildingName));
-        changeTradableAmount(Resource.STONE,Building.getNeededResource(1, buildingName));
-        changeTradableAmount(Resource.WOOD,Building.getNeededResource(2, buildingName));
-        changeTradableAmount(Resource.IRON,Building.getNeededResource(3, buildingName));
+        changeWealth(Building.getNeededResource(0, buildingName));
+        changeTradableAmount(Resource.STONE, Building.getNeededResource(1, buildingName));
+        changeTradableAmount(Resource.WOOD, Building.getNeededResource(2, buildingName));
+        changeTradableAmount(Resource.IRON, Building.getNeededResource(3, buildingName));
     }
 
     public boolean canBuyBuilding(String buildingName) {
-        return Building.getNeededResource(0, buildingName) <= tradableAmounts.get(Resource.COINS)
+        return Building.getNeededResource(0, buildingName) <= wealth
                 && Building.getNeededResource(1, buildingName) <= tradableAmounts.get(Resource.STONE)
                 && Building.getNeededResource(2, buildingName) <= tradableAmounts.get(Resource.WOOD)
                 && Building.getNeededResource(3, buildingName) <= tradableAmounts.get(Resource.IRON);
@@ -304,5 +301,88 @@ public class Empire {
 
     public HashMap<Tradable, Integer> getTradableAmounts() {
         return tradableAmounts;
+    }
+
+    public void setFields() {
+        setPopularityFactors();
+        setPopularity();
+    }
+
+    private void setPopularityFactors() {
+        int varietyOfFood = getVarietyOfFood();
+        wealth += getChangeWealthByTaxRate(taxRate);
+        removeEatenFood();
+        changePopularityFactor("religion", numberOfReligiousBuildings);
+        changePopularityFactor("food", foodRate * 4 + varietyOfFood -1);
+        changePopularityFactor("tax", getChangePopularityByTaxRate(taxRate));
+        changePopularityFactor("fear", -fearRate);
+    }
+
+    private int getVarietyOfFood() {
+        int variety = 0;
+        for (Food food: Food.values()) {
+            if (tradableAmounts.get(food) > 0) variety++;
+        }
+        return variety;
+    }
+
+    private void removeEatenFood() {
+        int numberOfFoodEaten = (int) ((foodRate + 2) / 2 * population);
+        if (numberOfFoodEaten > storage[0][0]) {
+            foodRate = -2;
+            GameMenuController.notify("Your food rate was automatically set on -2 because of lack of food!");
+        } else {
+            storage[0][0] -= numberOfFoodEaten;
+            int foods[] = new int[4];
+            int counter = 0;
+            for (Food food: Food.values()) {
+                foods[counter] = tradableAmounts.get(food);
+                counter++;
+            }
+            foodRemover(foods, numberOfFoodEaten);
+            counter = 0;
+            for (Food food: Food.values()) {
+                tradableAmounts.replace(food, foods[counter]);
+                counter++;
+            }
+        }
+    }
+
+    private void foodRemover(int[] foods, int remainedChange) {
+        for (int i = 0; remainedChange > 0; i++) {
+            if (foods[i] != 0) {
+                foods[i]--;
+                remainedChange--;
+            }
+            if (i == 3) i -= 4;
+        }
+    }
+
+    private void changePopularityFactor(String factor, int change) {
+        popularityChange.replace(factor, popularityChange.get(factor) + change);
+    }
+
+    private int getChangePopularityByTaxRate(int rate) {
+        int change = -rate * 2;
+        if (rate <= 0) change++;
+        if (rate > 4) change -= (rate - 4) * 2;
+        return change;
+    }
+
+    private int getChangeWealthByTaxRate(int rate) {
+        float changeByPerson;
+        if (rate < 0) {
+            changeByPerson = (float) (rate * 0.2 - 0.4);
+        } else if (rate == 0) {
+            changeByPerson = 0;
+        } else {
+            changeByPerson = (float) (rate * 0.2 + 0.4);
+        }
+        return (int) Math.floor(changeByPerson * population);
+    }
+
+    public int getWorklessPopulation() {
+        return 0;
+        //TODO complete
     }
 }

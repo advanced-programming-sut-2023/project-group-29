@@ -17,7 +17,6 @@ public enum StoreType {
             500, "stockPile"
     ),
     ;
-    //TODO JASBI: By storages being destructed, additional materials should be gotten rid of.
     private final int capacity;
     private final BuildingType buildingType;
     private String name;

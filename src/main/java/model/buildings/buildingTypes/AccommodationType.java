@@ -19,7 +19,7 @@ public enum AccommodationType {
     ),
     MAIN_KEEP( // مقر اصلی
             new BuildingType(500, 0, new int[]{0, 0, 0, 0},"MKeep"),
-            /*my infinity:*/1000000 , "mainKeep"
+            /*TODO should be valued when handling population:*/1000000 , "mainKeep"
     );
     private final int numberOfSettler;
     private final BuildingType buildingType;

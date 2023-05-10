@@ -61,7 +61,7 @@ public abstract class Building extends Asset {
     }
 
     public boolean isEnemyNearIt() {
-        //TODO: complete
+        //TODO JASBI: complete
         return false;
     }
 

@@ -31,7 +31,7 @@ public class ResourceExtractor extends Building {
     }
 
     public void update() {
-        int change = Math.min(ownerEmpire.getEmptySpace(1),rate);
+        int change = Math.min(ownerEmpire.getEmptySpace(1),rate + ownerEmpire.getFearRate());
         ownerEmpire.changeTradableAmount(this.producingResource, change);
         ownerEmpire.fillStorage(1,change);
     }

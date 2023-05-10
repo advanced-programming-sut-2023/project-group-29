@@ -1,7 +1,6 @@
 package model.dealing;
 
 public enum Resource implements Tradable{
-    COINS(0, 0, "coins"),
     STONE(30, 15, "stone"),
     WOOD(20, 10, "wood"),
     IRON(40, 20, "iron"),

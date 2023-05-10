@@ -1,6 +1,5 @@
 package model;
 
-import model.dealing.Shop;
 import model.dealing.Trade;
 import model.map.Map;
 
@@ -10,7 +9,6 @@ public class GameData {
     private final ArrayList<Trade> trades = new ArrayList<>();
     private final ArrayList<Empire> empires = new ArrayList<>();
     private Map map;
-    private Shop shop;
     private int turnNumber = 1;
     private PlayerNumber playerOfTurn = PlayerNumber.FIRST;
     private final PlayerNumber ownerOfGame = PlayerNumber.FIRST;
@@ -29,11 +27,6 @@ public class GameData {
     public Map getMap() {
         return map;
     }
-
-    public Shop getShop() {
-        return shop;
-    }
-
     public int getTurnNumber() {
         return turnNumber;
     }
