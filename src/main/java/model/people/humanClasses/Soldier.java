@@ -4,12 +4,14 @@ import model.Offensive;
 import model.PlayerNumber;
 import model.map.Map;
 import model.people.Human;
+import model.people.UnitState;
 import model.people.humanTypes.SoldierType;
 
 public class Soldier extends Human implements Offensive {
     private final SoldierType soldierType;
     private final int damage;
     private final int aimRange;
+    private UnitState unitState = UnitState.STANDING;
 
     //TODO reasonable value below
     private final int decreasingFactorOfShieldForArchers = 4;
@@ -49,6 +51,14 @@ public class Soldier extends Human implements Offensive {
     public boolean hasAttackedThisTurn()
     {
         return attackedThisTurn;
+    }
+
+    public UnitState getUnitState() {
+        return unitState;
+    }
+
+    public void setUnitState(UnitState unitState) {
+        this.unitState = unitState;
     }
 
     public void setAttackedThisTurn(boolean attackedThisTurn) {

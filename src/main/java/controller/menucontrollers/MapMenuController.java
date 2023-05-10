@@ -140,9 +140,6 @@ public class MapMenuController {
         return showMap(newShowingMapIndexX, newShowingMapIndexY);
     }
 
-    //TODO below functions should probably move to another menu
-
-
     public static void setTexture() {
     }
 

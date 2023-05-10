@@ -6,7 +6,11 @@ import model.buildings.Building;
 import model.buildings.buildingClasses.*;
 import model.buildings.buildingTypes.*;
 import model.weapons.weaponClasses.Equipments;
+import model.weapons.weaponClasses.OffensiveWeapons;
 import model.weapons.weaponClasses.Trap;
+import model.weapons.weaponTypes.EquipmentsType;
+import org.checkerframework.checker.units.qual.A;
+
 import java.util.ArrayList;
 
 
@@ -16,6 +20,7 @@ public class Cell {
     private Building building = null;
     //    private int speed;
     private final CellType cellType;
+    private boolean hasTunnel=false;
 
     //    private boolean ableToBuildOn;
 //    private boolean ableToMoveOn;
@@ -185,4 +190,25 @@ public class Cell {
         movingObjects.add(asset);
     }
 
+    public boolean hasTunnel() {
+        return hasTunnel;
+    }
+
+    public void setHasTunnel(boolean hasTunnel) {
+        this.hasTunnel = hasTunnel;
+    }
+
+    public Equipments getSiegeTowerInMovingUnits()
+    {
+        for(Asset asset:movingObjects)
+        {
+            if(asset instanceof Equipments equipment)
+            {
+                if(equipment.getEquipmentsType().equals(EquipmentsType.SIEGE_TOWER))
+                    return equipment;
+            }
+        }
+        return null;
+    }
 }
+

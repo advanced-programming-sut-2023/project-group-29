@@ -1,15 +1,26 @@
 package controller.menucontrollers;
 
 import model.*;
+import model.buildings.Building;
+import model.buildings.buildingClasses.AttackingBuilding;
+import model.buildings.buildingClasses.OtherBuildings;
+import model.buildings.buildingTypes.OtherBuildingsType;
 import model.map.Cell;
 import model.map.Map;
 import model.people.Human;
 import model.people.UnitState;
 import model.people.humanClasses.Soldier;
+import model.people.humanTypes.SoldierType;
+import org.checkerframework.checker.units.qual.A;
+import view.menus.GameMenu;
+import view.menus.SelectUnitMenu;
+import view.messages.SelectUnitMenuMessages;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class SelectUnitMenuController {
+    private static final int maximumLengthOfTunnel=3;
     public static String moveUnit(int destinationX, int destinationY) {
         GameData gameData = GameMenuController.getGameData();
 
@@ -55,7 +66,6 @@ public class SelectUnitMenuController {
         return (totalObjectCount - failuresCount) + " troop(s) out of " + totalObjectCount + " moved successfully!";
     }
 
-    //todo abbasfar where is ordoogah??? disband unit
 
     public static String patrolUnit(int firstX, int firstY, int secondX, int secondY) {
 
@@ -93,28 +103,25 @@ public class SelectUnitMenuController {
         return (movingObjects.size() - failures) + " unit(s) out of " + movingObjects.size() + " has been set successfully!";
     }
 
-    public static String setStateOfUnit(int cellX, int cellY, String stateOfUnitString) {
+    public static SelectUnitMenuMessages setStateOfUnit(int cellX, int cellY, String stateOfUnitString) {
 
         GameData gameData = GameMenuController.getGameData();
         Map map = gameData.getMap();
 
         if (!map.isIndexValid(cellX, cellY))
-            return "The index is invalid!";
+            return SelectUnitMenuMessages.INVALID_INDEX;
         Cell cell = map.getCells()[cellX][cellY];
 
         UnitState unitState = UnitState.getUnitStateByString(stateOfUnitString);
         if (unitState == null)
-            return "Enter a valid state";
+            return SelectUnitMenuMessages.INVALID_STATE;
 
-        ArrayList<Movable> assetsInCell = cell.getMovingObjectsOfPlayer(gameData.getPlayerOfTurn());
+        ArrayList<Offensive> attackingUnits=cell.getAttackingListOfPlayerNumber(gameData.getPlayerOfTurn());
 
-        //todo change below to offensive and add the setState function to interface
-        for (Movable movable : assetsInCell) {
-            if (movable instanceof Human)
-                ((Human) movable).setState(unitState);
-        }
+        for (Offensive attacker: attackingUnits)
+            attacker.setUnitState(unitState);
 
-        return "State successfully set!";
+        return SelectUnitMenuMessages.SUCCESSFUL;
     }
 
     public static String makeUnitAttacking(int targetX, int targetY) {
@@ -255,17 +262,175 @@ public class SelectUnitMenuController {
         return attacker.getDamage();
     }
 
-    public static void pourOil() {
+    public SelectUnitMenuMessages pourOil(String direction) {
+        int deltaX=0,deltaY=0;
+        if(direction.equals("right"))
+            deltaX=1;
+        else if(direction.equals("down"))
+            deltaY=1;
+        else if(direction.equals("left"))
+            deltaX=-1;
+        else if(direction.equals("up"))
+            deltaY=-1;
+        else
+            return SelectUnitMenuMessages.INVALID_DIRECTION;
+
+        GameData gameData= GameMenuController.getGameData();
+        Map map=gameData.getMap();
+
+        int currentX=gameData.getSelectedCellX();
+        int currentY=gameData.getSelectedCellY();
+        Cell currentCell=map.getCells()[currentX][currentY];
+
+        ArrayList<Offensive> attackingUnits=currentCell.getAttackingListOfPlayerNumber(gameData.getPlayerOfTurn());
+        Soldier engineerWithOil=null;
+        for(Offensive attacker:attackingUnits)
+            if(attacker instanceof Soldier soldier && soldier.getSoldierType().equals(SoldierType.ENGINEER_WITH_OIL))
+            {
+                engineerWithOil=soldier;
+                break;
+            }
+
+        if(engineerWithOil==null)
+            return SelectUnitMenuMessages.NO_PROPER_UNIT;
+
+        for(int i=1;i<=SoldierType.ENGINEER_WITH_OIL.getAimRange();i++) {
+            if(!map.isIndexValid(currentX+deltaX*i,currentY+deltaY*i))
+                return SelectUnitMenuMessages.INVALID_INDEX;
+
+            Cell targetedCell=map.getCells()[currentX+deltaX*i][currentY+deltaY*i];
+            ArrayList<Asset> enemies=targetedCell.getEnemiesOfPlayerInCell(gameData.getPlayerOfTurn());
+
+            Offensive.AttackingResult attackingResult=engineerWithOil.canAttack(map,currentX+deltaX*i,currentY+deltaY*i);
+            switch (attackingResult)
+            {
+                case TOO_FAR:
+                    return SelectUnitMenuMessages.TOO_FAR;
+                case HAS_ATTACKED:
+                    return SelectUnitMenuMessages.HAS_ATTACKED;
+                case NO_ENEMY_THERE:
+                    break;
+                case SUCCESSFUL:
+                    DamageStruct damageStruct=new DamageStruct();
+                    damageStruct.groundDamage=formulatedDamage(engineerWithOil);
+
+                    applyAttackDamage(enemies,damageStruct,targetedCell);
+                    return SelectUnitMenuMessages.SUCCESSFUL;
+            }
+        }
+
+        return SelectUnitMenuMessages.NO_ENEMY_THERE;
     }
 
-    public static void digTunnel() {
+    public static SelectUnitMenuMessages digTunnel(int x, int y) {
+
+        GameData gameData= GameMenuController.getGameData();
+        Map map=gameData.getMap();
+
+        if(!map.isIndexValid(x,y))
+            return SelectUnitMenuMessages.INVALID_INDEX;
+
+        Cell currentCell=map.getCells()[gameData.getSelectedCellX()][gameData.getSelectedCellY()];
+
+        ArrayList<Offensive> attackingUnits=currentCell.getAttackingListOfPlayerNumber(gameData.getPlayerOfTurn());
+        Soldier tunneler=null;
+        for(Offensive attacker:attackingUnits)
+            if(attacker instanceof Soldier soldier && soldier.getSoldierType().equals(SoldierType.TUNNELER))
+            {
+                tunneler=soldier;
+                break;
+            }
+
+        if(tunneler==null)
+            return SelectUnitMenuMessages.NO_PROPER_UNIT;
+
+        Offensive.AttackingResult attackingResult=tunneler.canAttack(map,x,y);
+        if(attackingResult.equals(Offensive.AttackingResult.TOO_FAR))
+            return SelectUnitMenuMessages.TOO_FAR;
+        else if(attackingResult.equals(Offensive.AttackingResult.HAS_ATTACKED))
+            return SelectUnitMenuMessages.HAS_ATTACKED;
+
+
+        if(currentCell.hasBuilding())
+        {
+            Building building=currentCell.getBuilding();
+            if(building instanceof OtherBuildings otherBuildings)
+                if(otherBuildings.getOtherBuildingsType().equals(OtherBuildingsType.MOAT))
+                    return SelectUnitMenuMessages.INVALID_PLACE_FOR_DIGGING_TUNNEL;
+
+            if(building instanceof AttackingBuilding)
+                return SelectUnitMenuMessages.INVALID_PLACE_FOR_DIGGING_TUNNEL;
+        }
+
+        currentCell.setHasTunnel(true);
+
+        boolean[][] mark=new boolean[map.getWidth()+1][map.getWidth()+1];
+        for(boolean[] array:mark)
+            Arrays.fill(array,false);
+
+        int numberOfAdjacentTunnelsPlusNewTunnel=dfs(map,new Pair(x,y),mark);
+
+        if(numberOfAdjacentTunnelsPlusNewTunnel>=maximumLengthOfTunnel ||
+                currentCell.hasBuilding() ||
+                currentCell.getSiegeTowerInMovingUnits()!=null)
+            destroyTunnels(map,new Pair(x,y));
+
+        return SelectUnitMenuMessages.SUCCESSFUL;
+    }
+    private static void destroyTunnels(Map map,Pair thisCellCoordination)
+    {
+        Cell currentCell=map.getCells()[thisCellCoordination.first][thisCellCoordination.second];
+
+        //destroy tunnel
+        currentCell.setHasTunnel(false);
+        currentCell.setBuilding(null);
+        Asset siegeTower;
+        while((siegeTower=currentCell.getSiegeTowerInMovingUnits())!=null)
+            currentCell.getMovingObjects().remove(siegeTower);
+
+        //destroy other tunnels
+        if(thisCellCoordination.first< map.getWidth() && map.getCells()[thisCellCoordination.first+1][thisCellCoordination.second].hasTunnel())
+            destroyTunnels(map,new Pair(thisCellCoordination.first+1,thisCellCoordination.second));
+        if(thisCellCoordination.second< map.getWidth() && map.getCells()[thisCellCoordination.first][thisCellCoordination.second+1].hasTunnel())
+            destroyTunnels(map,new Pair(thisCellCoordination.first,thisCellCoordination.second+1));
+        if(thisCellCoordination.first>1 && map.getCells()[thisCellCoordination.first-1][thisCellCoordination.second].hasTunnel())
+            destroyTunnels(map,new Pair(thisCellCoordination.first-1,thisCellCoordination.second));
+        if(thisCellCoordination.second>1 && map.getCells()[thisCellCoordination.first][thisCellCoordination.second-1].hasTunnel())
+            destroyTunnels(map,new Pair(thisCellCoordination.first,thisCellCoordination.second-1));
+    }
+    private static int dfs(Map map,Pair thisCellCoordination,boolean[][] mark)
+    {
+        int numberOfAdjacentTunnels=1;
+        mark[thisCellCoordination.first][thisCellCoordination.second]=true;
+
+        if(thisCellCoordination.first< map.getWidth() &&
+                map.getCells()[thisCellCoordination.first+1][thisCellCoordination.second].hasTunnel() &&
+                !mark[thisCellCoordination.first+1][thisCellCoordination.second])
+            numberOfAdjacentTunnels+=dfs(map,new Pair(thisCellCoordination.first+1,thisCellCoordination.second),mark);
+
+        if(thisCellCoordination.second< map.getWidth() &&
+                map.getCells()[thisCellCoordination.first][thisCellCoordination.second+1].hasTunnel() &&
+                !mark[thisCellCoordination.first][thisCellCoordination.second+1])
+            numberOfAdjacentTunnels+=dfs(map,new Pair(thisCellCoordination.first,thisCellCoordination.second+1),mark);
+
+        if(thisCellCoordination.first>1 &&
+                map.getCells()[thisCellCoordination.first-1][thisCellCoordination.second].hasTunnel() &&
+                !mark[thisCellCoordination.first-1][thisCellCoordination.second])
+            numberOfAdjacentTunnels+=dfs(map,new Pair(thisCellCoordination.first-1,thisCellCoordination.second),mark);
+
+        if(thisCellCoordination.second>1 &&
+                map.getCells()[thisCellCoordination.first][thisCellCoordination.second-1].hasTunnel() &&
+                !mark[thisCellCoordination.first][thisCellCoordination.second-1])
+            numberOfAdjacentTunnels+=dfs(map,new Pair(thisCellCoordination.first,thisCellCoordination.second-1),mark);
+
+        return numberOfAdjacentTunnels;
     }
 
     public static void buildEquipment() {
     }
 
     public static void disbandUnit() {
-        //todo for later
+        //todo abbasfar where is ordoogah??? disband unit
     }
 
     static class DamageStruct {

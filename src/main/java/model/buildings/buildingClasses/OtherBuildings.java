@@ -30,4 +30,8 @@ public class OtherBuildings extends Building {
     public void setShowingSignInMap() {
         showingSignInMap = otherBuildingsType.getBuildingType().abbreviation() + (getOwnerNumber().getNumber() + 1);
     }
+
+    public OtherBuildingsType getOtherBuildingsType() {
+        return otherBuildingsType;
+    }
 }

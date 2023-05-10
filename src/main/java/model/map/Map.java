@@ -82,7 +82,7 @@ public class Map {
 
         return distances[secondX][secondY];
     }
-    private enum Direction
+    public enum Direction
     {
         RIGHT,
         DOWN,

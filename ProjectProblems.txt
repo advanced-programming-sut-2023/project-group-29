@@ -44,23 +44,19 @@ jasbi(){
 
 abbasfar()
 {
-    create default maps;
-    add dropUnit function to maps;
-    get unit by string name;
-    pour oil, dig tunnel;
-    state is not for human. change and use it for all units;
-
-
-
     handle trap; //it can even be not weapon;
+    create weapons
+
+    end turn(attack maintenance)
+    movable climb ladder exception
+    stairs exception
+
+    create default maps;
     handle not deep water decrease speed;
     handle some units can pass khandagh;
+    some unit only damage building and vice versa
 
-
-
-    end turn:
-        patrol apply
-        aggressive,defending apply
+    build khandagh by user. should create building near user?
 }
 
 

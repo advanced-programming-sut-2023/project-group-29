@@ -23,7 +23,9 @@ public enum SoldierType {
     ASSASSIN(new HumanType("assassin",20, true, SpeedEnum.NORMAL, "ASN"), DamageEnum.NORMAL, DamageEnum.NORMAL, AimRangeEnum.NON_ARCHER),
     HORSE_ARCHER(new HumanType("horseArcher",35, false, SpeedEnum.TOO_FAST, "HRC"), DamageEnum.WEAK, DamageEnum.NORMAL, AimRangeEnum.LONG_RANGE_ARCHER),
     ARABIAN_SWORDSMAN(new HumanType("arabianSwordsman",30, true, SpeedEnum.TOO_FAST, "RSW"), DamageEnum.STRONG, DamageEnum.STRONG, AimRangeEnum.NON_ARCHER),
-    FIRE_THROWER(new HumanType("fireThrower",15, true, SpeedEnum.TOO_FAST, "FTR"), DamageEnum.STRONG, DamageEnum.WEAK, AimRangeEnum.SHORT_RANGE_ARCHER);
+    FIRE_THROWER(new HumanType("fireThrower",15, true, SpeedEnum.TOO_FAST, "FTR"), DamageEnum.STRONG, DamageEnum.WEAK, AimRangeEnum.SHORT_RANGE_ARCHER),
+    ENGINEER_WITH_OIL(new HumanType("engineerWithOil",10, false, SpeedEnum.SLOW, "ENO"), DamageEnum.STRONG, DamageEnum.STRONG, AimRangeEnum.SHORT_RANGE_ARCHER);
+
     private final int attackDamage;
     private final int defenseDamage;
     private final int aimRange;

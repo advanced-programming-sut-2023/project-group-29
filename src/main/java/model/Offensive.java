@@ -2,6 +2,7 @@ package model;
 
 import model.map.Cell;
 import model.map.Map;
+import model.people.UnitState;
 import model.weapons.weaponClasses.OffensiveWeapons;
 import model.weapons.weaponClasses.StaticOffensiveWeapons;
 import model.weapons.weaponTypes.StaticOffensiveWeaponsType;
@@ -31,6 +32,9 @@ public interface Offensive {
 
         if (destinationDistance > aimRange)
             return AttackingResult.TOO_FAR;
+        if(targetCell.getEnemiesOfPlayerInCell(asset.getOwnerNumber()).size()==0 &&
+                (!targetCell.hasBuilding() || targetCell.getBuilding().getOwnerNumber().equals(asset.getOwnerNumber())))
+            return AttackingResult.NO_ENEMY_THERE;
 
         ((Offensive)asset).setAttackedThisTurn(true);
         return AttackingResult.SUCCESSFUL;
@@ -40,14 +44,19 @@ public interface Offensive {
     boolean hasAttackedThisTurn();
     void setAttackedThisTurn(boolean attackedThisTurn);
 
-        int getDamage();
+    int getDamage();
+
+    void setUnitState(UnitState unitState);
+    UnitState getUnitState();
 
     boolean isArcherType();
+    int getAimRange();
 
     enum AttackingResult {
         SUCCESSFUL,
         INVALID_INDEX,
         HAS_ATTACKED,
+        NO_ENEMY_THERE,
         TOO_FAR
     }
 }

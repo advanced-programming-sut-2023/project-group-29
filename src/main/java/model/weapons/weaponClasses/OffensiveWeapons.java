@@ -2,6 +2,7 @@ package model.weapons.weaponClasses;
 
 import model.*;
 import model.map.Map;
+import model.people.UnitState;
 import model.weapons.Weapon;
 import model.weapons.weaponTypes.OffensiveWeaponsType;
 
@@ -13,6 +14,8 @@ public class OffensiveWeapons extends Weapon implements Movable, Offensive {
     private boolean movedThisTurn=false;
     private boolean attackedThisTurn=false;
     private final Patrol patrol=new Patrol();
+    private UnitState unitState = UnitState.STANDING;
+
 
     public OffensiveWeapons(OffensiveWeaponsType offensiveWeaponsType, PlayerNumber playerNumber, int positionX, int positionY) {
         super(offensiveWeaponsType.getWeaponTypes(), playerNumber, positionX, positionY);
@@ -77,5 +80,15 @@ public class OffensiveWeapons extends Weapon implements Movable, Offensive {
     @Override
     public Patrol getPatrol() {
         return patrol;
+    }
+
+    @Override
+    public UnitState getUnitState() {
+        return unitState;
+    }
+
+    @Override
+    public void setUnitState(UnitState unitState) {
+        this.unitState = unitState;
     }
 }

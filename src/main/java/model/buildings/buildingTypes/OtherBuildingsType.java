@@ -32,6 +32,10 @@ public enum OtherBuildingsType {
             new BuildingType(120, 1, new int[]{100, 0, 20, 0},"Inn__"),
             "inn"
     ),
+    MOAT( //خندق
+            new BuildingType(120, 0, new int[]{0, 0, 0, 0},"Moat"),
+            "moat"
+    ),
     ;
     private final BuildingType buildingType;
     private String name;

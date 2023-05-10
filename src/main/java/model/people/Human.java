@@ -11,10 +11,6 @@ import model.people.humanTypes.SoldierType;
 import model.people.humanTypes.WorkerType;
 
 public class Human extends Asset implements Movable {
-    //TODO speed type slow, middle, fast and convert to number
-
-    //todo defense damage should differ
-    protected UnitState unitState = UnitState.STANDING;
     protected boolean ableToClimbLadder;
     protected int speed;
     private boolean movedThisTurn=false;
@@ -41,14 +37,6 @@ public class Human extends Asset implements Movable {
         return ableToClimbLadder;
     }
 
-    public UnitState getState() {
-        return unitState;
-    }
-
-    public void setState(UnitState unitState) {
-        this.unitState = unitState;
-    }
-
     public boolean isAlive() {
         return hp > 0;
     }
@@ -69,10 +57,6 @@ public class Human extends Asset implements Movable {
     @Override
     public Patrol getPatrol() {
         return patrol;
-    }
-
-    public UnitState getHumanState() {
-        return unitState;
     }
 
     public String getName() {

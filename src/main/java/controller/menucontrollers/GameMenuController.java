@@ -1,13 +1,12 @@
 package controller.menucontrollers;
 
-import model.Empire;
-import model.GameData;
-import model.PlayerNumber;
+import model.*;
 import model.buildings.Building;
 import model.buildings.buildingTypes.StoreType;
 import model.dealing.Food;
 import model.map.Cell;
 import model.map.Map;
+import model.people.UnitState;
 import view.messages.GameMenuMessages;
 
 public class GameMenuController {
@@ -122,5 +121,58 @@ public class GameMenuController {
         empire.affectDestructedStorerooms();
         empire.affectDestructedAccommodations();
         //TODO JASBI: some functions. This function should be called in the beginning of the game
+
+        Map map=gameData.getMap();
+
+        //patrol apply
+        for(int i=1;i<= map.getWidth();i++)
+            for(int j=1;j<=map.getWidth();j++)
+                for(Asset movingUnit:map.getCells()[i][j].getMovingObjects())
+                    if(movingUnit instanceof Movable movable && movable.getPatrol().isPatrolling())
+                        movable.getPatrol().patrol(movable,map);
+
+        //reset hasAttacked and hasMoved
+        resetActsOfUnits();
+
+        //act according to unit state
+        for(int i=1;i<= map.getWidth();i++)
+            for(int j=1;j<=map.getWidth();j++)
+                for(Asset movingUnit:map.getCells()[i][j].getMovingObjects()) {
+                    if (movingUnit instanceof Offensive attacker &&
+                            attacker.getUnitState().equals(UnitState.DEFENSIVE))
+                        attackNearestUnit(attacker,i,j);
+
+                    else if (movingUnit instanceof Offensive attacker &&
+                            attacker.getUnitState().equals(UnitState.OFFENSIVE))
+                        moveAndAttackNearestUnit(attacker,i,j);
+
+                }
+    }
+    private static boolean moveAndAttackNearestUnit(Offensive attacker,int x,int y)
+    {
+        return false;
+        //todo attack maintain: if no enemy there still attack and say successful
+    }
+    private static boolean attackNearestUnit(Offensive attacker, int x, int y)
+    {
+        for(int i=0;i<=attacker.getAimRange();i++)
+            for(int j=0;j<=attacker.getAimRange();j++)
+            {
+                //Offensive.AttackingResult attackingResult=attacker.ca
+            }
+
+        return false;
+    }
+    private static void resetActsOfUnits()
+    {
+        Map map=gameData.getMap();
+        for(int i=1;i<= map.getWidth();i++)
+            for(int j=1;j<=map.getWidth();j++)
+                for(Asset movingUnit:map.getCells()[i][j].getMovingObjects()) {
+                    if (movingUnit instanceof Movable movable)
+                        movable.setMovedThisTurn(false);
+                    if (movingUnit instanceof Offensive attacker)
+                        attacker.setAttackedThisTurn(false);
+                }
     }
 }
