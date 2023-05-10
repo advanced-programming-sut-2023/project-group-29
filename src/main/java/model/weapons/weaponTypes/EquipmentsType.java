@@ -5,8 +5,8 @@ import model.weapons.Weapon;
 import model.weapons.WeaponTypes;
 
 public enum EquipmentsType {
-    //todo jasbi ladder is a building
-    //todo jasbi khandagh is a building
+    //todo ladder is a building
+    //todo khandagh is a building
     PORTABLE_SHIELD(new WeaponTypes("portableShield",Weapon.BuilderType.ENGINEER, 100, 1),SpeedEnum.NORMAL),
     SIEGE_TOWER(new WeaponTypes("siegeTower",Weapon.BuilderType.ENGINEER, 50, 4),SpeedEnum.TOO_SLOW);
 

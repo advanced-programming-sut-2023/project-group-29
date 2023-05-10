@@ -2,11 +2,12 @@ package controller.menucontrollers;
 
 import model.*;
 import model.buildings.Building;
-import model.buildings.buildingTypes.StoreType;
 import model.dealing.Food;
+import model.dealing.Tradable;
 import model.map.Cell;
 import model.map.Map;
 import model.people.UnitState;
+import view.menus.GameMenu;
 import view.messages.GameMenuMessages;
 
 public class GameMenuController {
@@ -117,7 +118,9 @@ public class GameMenuController {
     public static void nextTurn() {
         gameData.changePlayingPlayer();
         Empire empire = gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn());
+        empire.setFields();
         empire.updateBuildings();
+        empire.growPopulation();
         empire.affectDestructedStorerooms();
         empire.affectDestructedAccommodations();
         //TODO JASBI: some functions. This function should be called in the beginning of the game
@@ -174,5 +177,20 @@ public class GameMenuController {
                     if (movingUnit instanceof Offensive attacker)
                         attacker.setAttackedThisTurn(false);
                 }
+    }
+    public static void notify(String message) {
+        GameMenu.print(message);
+    }
+    public static int showWealth() {
+        return GameMenuController.getGameData().getEmpireByPlayerNumber(GameMenuController.gameData.getPlayerOfTurn()).getWealth();
+    }
+    public static String showCommodity() {
+        String output = "Your recourse: \n";
+        Empire empire = GameMenuController.getGameData().getEmpireByPlayerNumber(GameMenuController.gameData.getPlayerOfTurn());
+        for(Tradable tradable: empire.getTradableAmounts().keySet()) {
+            int amount = empire.getTradableAmount(tradable);
+            output += tradable.getName() + ": " + amount + "\n";
+        }
+        return output;
     }
 }

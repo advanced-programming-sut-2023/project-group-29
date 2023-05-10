@@ -60,13 +60,8 @@ public abstract class Building extends Asset {
         return 0;
     }
 
-    public boolean isEnemyNearIt() {
-        //TODO: complete
-        return false;
-    }
-
     public void repair() {
-        ownerEmpire.changeTradableAmount(Resource.STONE, maxHp - hp);
+        ownerEmpire.changeTradableAmount(Resource.STONE, (maxHp - hp)/10);
         hp = maxHp;
     }
 

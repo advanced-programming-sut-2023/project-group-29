@@ -107,7 +107,7 @@ public class TradeMenuController {
         reciverEmpire.changeTradableAmount(trade.getCommodity(), trade.getCount());
         senderEmpire.changeTradableAmount(trade.getCommodity(), -trade.getCount());
         reciverEmpire.changeWealth(-(trade.getPrice() * trade.getCount()));
-        reciverEmpire.changeWealth(trade.getPrice() * trade.getCount());
+        senderEmpire.changeWealth(trade.getPrice() * trade.getCount());
         return "The trade was accepted";
     }
 }

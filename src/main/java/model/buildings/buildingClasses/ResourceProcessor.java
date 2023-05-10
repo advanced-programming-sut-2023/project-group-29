@@ -34,7 +34,7 @@ public class ResourceProcessor extends Building {
 
     public void update() {
         int availableResource = ownerEmpire.getTradableAmount(resource);
-        int changeAmount = Math.min(availableResource, rate);
+        int changeAmount = Math.min(availableResource, rate + ownerEmpire.getFearRate());
         ownerEmpire.changeTradableAmount(resource, -changeAmount);
         ownerEmpire.changeTradableAmount(product, changeAmount);
     }

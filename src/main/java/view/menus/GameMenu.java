@@ -39,7 +39,11 @@ public class GameMenu {
                 setTaxRate(matcher);
             } else if ((matcher = Command.getMatcher(input, Command.SET_FEAR_RATE)) != null) {
                 setFearRate(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.SELECT_BUILDING)) != null) {
+            } else if ((matcher = Command.getMatcher(input, Command.SHOW_WEALTH)) != null) {
+                showWealth();
+            } else if ((matcher = Command.getMatcher(input, Command.SHOW_COMMODITY)) != null) {
+                showCommodity();
+            }else if ((matcher = Command.getMatcher(input, Command.SELECT_BUILDING)) != null) {
                 if(selectBuilding(matcher).equals(GameMenuMessages.SUCCESS))
                     return MenuNames.SELECT_BUILDING_MENU;
             } else if ((matcher = Command.getMatcher(input, Command.SELECT_UNIT)) != null) {
@@ -162,5 +166,16 @@ public class GameMenu {
         GameMenuMessages message=GameMenuController.selectUnit(xPosition,yPosition);
 
         return message;
+    }
+    private static void showWealth() {
+        System.out.println(GameMenuController.showWealth());
+    }
+
+    private static void showCommodity() {
+        System.out.print(GameMenuController.showCommodity());
+    }
+
+    public static void print(String message) {
+        System.out.println(message);
     }
 }

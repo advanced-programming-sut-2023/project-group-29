@@ -39,7 +39,6 @@ public enum SoldierType {
         this.aimRange = aimRange.getRange();
         this.name= humanType.name();
     }
-
     public int getAttackDamage() {
         return attackDamage;
     }
@@ -59,5 +58,13 @@ public enum SoldierType {
     public String getName() {
         return name;
     }
+
+    public static SoldierType getSoldierTypeByName(String unitType) {
+        for (SoldierType soldierType: SoldierType.values()) {
+            if (soldierType.name.equals(unitType)) return soldierType;
+        }
+        return null;
+    }
+
 }
 

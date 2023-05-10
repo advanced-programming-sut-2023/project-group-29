@@ -15,6 +15,14 @@ public class UnitCreator extends Building {
         setShowingSignInMap();
     }
 
+    public int getUnitCost() {
+        return unitCost;
+    }
+
+    public UnitCreatorType getUnitCreatorType() {
+        return unitCreatorType;
+    }
+
     @Override
     public String getName() {
         return unitCreatorType.getName();

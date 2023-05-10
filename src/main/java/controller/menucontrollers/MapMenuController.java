@@ -6,9 +6,7 @@ import model.PlayerNumber;
 import model.buildings.Building;
 import model.buildings.buildingTypes.AccommodationType;
 import model.buildings.buildingTypes.StoreType;
-import model.map.Cell;
-import model.map.ConsoleColors;
-import model.map.Map;
+import model.map.*;
 import model.people.Human;
 import model.people.humanClasses.Soldier;
 import model.people.humanTypes.SoldierType;
@@ -140,16 +138,22 @@ public class MapMenuController {
         return showMap(newShowingMapIndexX, newShowingMapIndexY);
     }
 
-    public static void setTexture() {
+    //TODO below functions should probably move to another menu
+
+
+    public static void setBlockTexture(CellType cellType, int x, int y) {
     }
 
-    public static void clear() {
+    public static void setPartOfBlockTexture(CellType cellType, int x1, int y1, int x2, int y2) {
     }
 
-    public static void dropRock() {
+    public static void clear(int xPosition, int yPosition) {
     }
 
-    public static void dropTree() {
+    public static void dropRock(int xPosition, int yPosition, String direction) {
+    }
+
+    public static void dropTree(int xPosition, int yPosition, TreeType treeType) {
     }
 
 

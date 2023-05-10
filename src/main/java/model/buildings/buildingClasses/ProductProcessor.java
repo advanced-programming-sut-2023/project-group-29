@@ -36,7 +36,7 @@ public class ProductProcessor extends Building {
 
     public void update() {
         int availableConsumingProduct = ownerEmpire.getTradableAmount(consumingProduct);
-        int changeAmount = Math.min(availableConsumingProduct, rate);
+        int changeAmount = Math.min(availableConsumingProduct, rate + ownerEmpire.getFearRate());
         if (producingTradable instanceof Food) {
             changeAmount = Math.min(changeAmount, ownerEmpire.getEmptySpace(0));
         }

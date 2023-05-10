@@ -12,7 +12,9 @@ add to game -u hossein1
 add to game -u hossein2
 add to game -u hossein3
 add to game -u hossein4
-choose map 1
+choose map 2
 ready
-enter trade menu
-trade -t stone -a 1 -p 2000 -m bad trade -n 2
+show map -x 1 -y 1
+drop unit -t ARCHER -y 2 -x 1 -c 2
+
+

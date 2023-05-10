@@ -1,7 +1,7 @@
 package model.dealing;
 
 public enum Product implements Tradable{
-    ARMOUR("armour"),  //TODO: how we can use this??
+    ARMOUR("armour"),
     SWORD("sword"),
     BOW("bow"),
     PIKE("pike"),
