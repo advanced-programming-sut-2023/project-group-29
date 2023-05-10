@@ -8,6 +8,7 @@ import view.messages.SelectBuildingMenuMessages;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SelectBuildingMenu {
     public static MenuNames run(Scanner scanner) {
@@ -29,8 +30,15 @@ public class SelectBuildingMenu {
     }
 
     private static void createUnit(Matcher matcher) {
-        String unitType = matcher.group("type");
-        int count = Integer.parseInt(matcher.group("count"));
+        String input = matcher.group(0);
+        Matcher typeMatcher = Pattern.compile("-t\\s+(\\S+)").matcher(input);
+        Matcher countMatcher = Pattern.compile("-c\\s+(\\d+)").matcher(input);
+        if(!(typeMatcher.find() && countMatcher.find())) {
+            System.out.println("Invalid command!");
+            return;
+        }
+        String unitType = typeMatcher.group(1);
+        int count = Integer.parseInt(countMatcher.group(1));
         SelectBuildingMenuMessages result = SelectBuildingMenuController.createUnit(unitType, count);
         switch (result){
             case INVALID_TYPE -> System.out.println("We have no unit with this name!");

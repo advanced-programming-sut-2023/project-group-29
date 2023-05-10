@@ -12,6 +12,7 @@ import view.messages.GameMenuMessages;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GameMenu {
     public static MenuNames run(Scanner scanner) {
@@ -88,8 +89,15 @@ public class GameMenu {
     }
 
     private static void showMap(Matcher matcher) {
-        int positionX=Integer.parseInt(matcher.group("xAmount"));
-        int positionY=Integer.parseInt(matcher.group("yAmount"));
+        String input = matcher.group(0);
+        Matcher xMatcher = Pattern.compile("-x\\s+(\\d+)").matcher(input);
+        Matcher yMatcher = Pattern.compile("-y\\s+(\\d+)").matcher(input);
+        if(!(xMatcher.find() && yMatcher.find())) {
+            System.out.println("Invalid command!");
+            return;
+        }
+        int positionX=Integer.parseInt(xMatcher.group(1));
+        int positionY=Integer.parseInt(yMatcher.group(1));
 
         MapMenuController.setShowingMapIndexes(positionX,positionY);
 
@@ -144,8 +152,14 @@ public class GameMenu {
     }
 
     private static GameMenuMessages selectBuilding(Matcher matcher) {
-        int x = Integer.parseInt(matcher.group("xPosition"));
-        int y = Integer.parseInt(matcher.group("yPosition"));
+        String input = matcher.group(0);
+        Matcher xMatcher = Pattern.compile("-x\\s+(\\d+)").matcher(input);
+        Matcher yMatcher = Pattern.compile("-y\\s+(\\d+)").matcher(input);
+        if(!(xMatcher.find() && yMatcher.find())) {
+            return GameMenuMessages.INVALID_COMMAND;
+        }
+        int x = Integer.parseInt(xMatcher.group(1));
+        int y = Integer.parseInt(yMatcher.group(1));
         GameMenuMessages result = GameMenuController.selectBuilding(x, y);
         switch (result) {
             case INVALID_POSITION -> System.out.println("You have chosen an Invalid amount of x or y!");
@@ -159,9 +173,14 @@ public class GameMenu {
     }
 
     private static GameMenuMessages selectUnit(Matcher matcher) {
-
-        int xPosition = Integer.parseInt(matcher.group("xPosition"));
-        int yPosition = Integer.parseInt(matcher.group("yPosition"));
+        String input = matcher.group(0);
+        Matcher xMatcher = Pattern.compile("-x\\s+(\\d+)").matcher(input);
+        Matcher yMatcher = Pattern.compile("-y\\s+(\\d+)").matcher(input);
+        if(!(xMatcher.find() && yMatcher.find())) {
+            return GameMenuMessages.INVALID_COMMAND;
+        }
+        int xPosition = Integer.parseInt(xMatcher.group(1));
+        int yPosition = Integer.parseInt(yMatcher.group(1));
 
         GameMenuMessages message=GameMenuController.selectUnit(xPosition,yPosition);
 

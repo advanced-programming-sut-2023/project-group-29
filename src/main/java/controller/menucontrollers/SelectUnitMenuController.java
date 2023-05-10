@@ -255,17 +255,21 @@ public class SelectUnitMenuController {
         return attacker.getDamage();
     }
 
-    public static void pourOil() {
+    public static String pourOil(String direction) {
+        return null;
     }
 
-    public static void digTunnel() {
+    public static String digTunnel(int x, int y) {
+        return null;
     }
 
-    public static void buildEquipment() {
+    public static String buildEquipment(String equipmentName) {
+        return null;
     }
 
-    public static void disbandUnit() {
+    public static String disbandUnit() {
         //todo for later
+        return null;
     }
 
     static class DamageStruct {
