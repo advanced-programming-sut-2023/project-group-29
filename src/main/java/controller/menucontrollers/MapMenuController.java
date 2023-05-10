@@ -6,9 +6,7 @@ import model.PlayerNumber;
 import model.buildings.Building;
 import model.buildings.buildingTypes.AccommodationType;
 import model.buildings.buildingTypes.StoreType;
-import model.map.Cell;
-import model.map.ConsoleColors;
-import model.map.Map;
+import model.map.*;
 import model.people.Human;
 import model.people.humanClasses.Soldier;
 import model.people.humanTypes.SoldierType;
@@ -136,23 +134,25 @@ public class MapMenuController {
         //TODO change string below or delete it because it can be handled in show map
         if (!map.isIndexValid(newShowingMapIndexX, newShowingMapIndexY))
             return "The index is invalid";
-
         return showMap(newShowingMapIndexX, newShowingMapIndexY);
     }
 
     //TODO below functions should probably move to another menu
 
 
-    public static void setTexture() {
+    public static void setBlockTexture(CellType cellType, int x, int y) {
     }
 
-    public static void clear() {
+    public static void setPartOfBlockTexture(CellType cellType, int x1, int y1, int x2, int y2) {
     }
 
-    public static void dropRock() {
+    public static void clear(int xPosition, int yPosition) {
     }
 
-    public static void dropTree() {
+    public static void dropRock(int xPosition, int yPosition, String direction) {
+    }
+
+    public static void dropTree(int xPosition, int yPosition, TreeType treeType) {
     }
 
 

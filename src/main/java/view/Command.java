@@ -6,7 +6,6 @@ import java.util.regex.Pattern;
 public enum Command {
     //TODO check option duplication
     //TODO complete regex
-    FIND_USER(""),
     USER_CREATE("\\s*user\\s+create.+"),
     EXIT("\\s*exit\\s*"),
     PICK_QUESTION(""),
@@ -42,7 +41,8 @@ public enum Command {
     SET_FOOD_RATE("\\s*food\\s+rate\\s+-r\\s+(?<rate>-?\\d+)\\s*"), //TODO: ERROr for big number
     SET_TAX_RATE("\\s*tax\\s+rate\\s+-r\\s+(?<rate>-?\\d+)\\s*"),
     SET_FEAR_RATE("\\s*fear\\s+rate\\s+-r\\s+(?<rate>-?\\d+)\\s*"),
-    DROP_BUILDING("\\s*dropbuilding\\s+-x\\s+(?<xPosition>\\d+)\\s+-y\\s+(?<yPosition>\\d+)\\s+-type\\s+(?<type>\\S+)\\s*"),
+    DROP_BUILDING("\\s*dropbuilding\\s+-x\\s+(?<xPosition>\\d+)\\s+-y\\s+(?<yPosition>\\d+)\\s+" +
+            "-type\\s+(?<type>\\S+)\\s*"),
     //TODO: جابجایی
     SELECT_BUILDING("\\s*select\\s+building\\s+-x\\s+(?<xPosition>\\d+)\\s+-y\\s+(?<yPosition>\\d+)\\s*"),
     SELECT_UNIT("\\s*select\\s+unit\\s+-x\\s+(?<xPosition>\\d+)\\s+-y\\s+(?<yPosition>\\d+)\\s*"),
@@ -51,24 +51,26 @@ public enum Command {
     SHOW_TRADE_LIST("\\s*trade\\s+list\\s*"),
     TRADE_ACCEPT("\\s*trade\\s+accept\\s+-i\\s+(?<id>\\S+)\\s*"),
     TRADE_HISTORY("\\s*trade\\s+history\\s*"),
-    MOVE_MAP("\\s*move\\s+((up)|(down)|(right)|(left))"),  //TODO more than one
-    SET_TEXTURE(""),
-    CLEAR(""),
-    DROP_ROCK(""),
-    DROP_TREE(""),
+    MOVE_MAP("\\s*move(\\s+(up)|\\s+(down)|\\s+(right)|\\s+(left))+\\s*"),  //TODO more than one
+    SET_BLOCK_TEXTURE("\\s*set\\s+texture\\s+-[xyt]\\s+(\\S+)\\s+-[yxt]\\s+(\\S+)\\s+-[txy]\\s+(\\S+)\\s*"),
+    SET_PART_OF_BLOCK_TEXTURE("\\s*set\\s+texture\\s+-(x1|y1|x2|y2|t)\\s+(\\S+)\\s+-(x1|y1|x2|y2|t)\\s+(\\S+)\\s+-(x1|y1|x2|y2|t)\\s+(\\S+)\\s+-(x1|y1|x2|y2|t)\\s+(\\S+)\\s+-(x1|y1|x2|y2|t)\\s+(\\S+)"),
+    CLEAR("\\s*clear\\s+-[xy]\\s+(\\d+)\\s+-[yx]\\s+(\\d+)\\s*"),
+    DROP_ROCK("\\s*drop\\s+rock\\s+-[xyd]\\s+(\\S+)\\s+-[yxd]\\s+(\\S+)\\s+-[dxy]\\s+(\\S+)\\s*"),
+    DROP_TREE("\\s*drop\\s+tree\\s+-[xyt]\\s+(\\S+)\\s+-[yxt]\\s+(\\S+)\\s+-[txy]\\s+(\\S+)\\s*"),
     ADMIN_DROP_BUILDING("\\s*admin\\s+dropbuilding\\s+-x\\s+" +
             "(?<xPosition>\\d+)\\s+-y\\s+(?<yPosition>\\d+)\\s+-type\\s+(?<type>\\S+)\\s*"),
-    DROP_UNIT("\\s*dropunit\\s+-x\\s+(?<xPosition>\\d+)\\s+-y\\s+(?<yPosition>\\d+)\\s+-t\\s+(?<type>\\S+)\\s+-c\\s+(?<count>\\d+)\\s*"),
+    DROP_UNIT("\\s*drop\\s+unit\\s+-[xytc]\\s+(\\S+)\\s+-[xytc]\\s+(\\S+)\\s+" +
+            "-[xytc]\\s+(\\S+)\\s+-[xytc]\\s+(\\S+)\\s*"),
     CREATE_UNIT("\\s*createUnit\\s+-t\\s+(?<type>\\S+)\\s+-c\\s+(?<count>\\d+)\\s*"), //TODO
     REPAIR_BUILDING("\\s*repair\\s*"),
     MOVE_UNIT("\\s*move\\s+unit\\s+to\\s+-x\\s+(?<xPosition>\\d+)\\s+-y\\s+(?<yPosition>\\d+)\\s*"),
-    PATROL_UNIT(""),
-    SET_STATE_OF_UNIT(""),
+    PATROL_UNIT("\\s*patrol\\s+unit\\s+-[(x1)(x2)(y1)(y2)]\\s+(\\d+)\\s+-[(x1)(x2)(y1)(y2)]\\s+(\\d+)\\s+-[(x1)(x2)(y1)(y2)]\\s+(\\d+)\\s+-[(x1)(x2)(y1)(y2)]\\s+(\\d+)\\s*"),
+    SET_STATE_OF_UNIT("\\s*set\\s+-[xys]\\s+(\\S+)\\s+-[yxs]\\s+(\\S+)\\+-[sxy]\\s+(\\S+)\\s*"),
     MAKE_UNIT_ATTACKING("\\s*make\\s+unit\\s+attacking\\s*"), //TODO: HANDLE
-    POUR_OIL(""),
-    DIG_TUNNEL(""),
-    BUILD_EQUIPMENT(""),
-    DISBAND_UNIT(""),
+    POUR_OIL("\\s*pour\\s+oil\\s+-d\\s+(?<direction>\\S+)\\s*"),
+    DIG_TUNNEL("\\s*dig\\s+tunnel\\s+-[xy]\\s+(\\d+)\\s+-[yx]\\s+(\\d+)\\s*"),
+    BUILD_EQUIPMENT("\\s*build\\s+-q\\s+(?<equipmentName>\\S+)\\s*"),
+    DISBAND_UNIT("\\s*disband\\s+unit\\s*"),
     SHOW_PRICE_LIST("\\s*show\\s+price\\s+list\\s*"),
     BUY("\\s*buy\\s+-u\\s+(?<name>\\S+)\\s+-a\\s+(?<amount>\\d+)\\s*"),
     SELL("\\s*sell\\s+-u\\s+(?<name>\\S+)\\s+-a\\s+(?<amount>\\d+)\\s*"),
@@ -76,7 +78,9 @@ public enum Command {
     ENTER_SHOP_MENU("\\s*enter\\s+shop\\s+menu\\s*"),
     ENTER_SELECT_MENU("\\s*enter\\s+select\\s+menu\\s*"),
     ENTER_MAP_MENU("\\s*enter\\s+map\\s+menu\\s*"),
-    BACK_GAME_MENU("\\s*back\\s*")
+    BACK_GAME_MENU("\\s*back\\s*"),
+    SHOW_WEALTH("\\s*show\\s+wealth\\s*"),
+    SHOW_COMMODITY("\\s*show\\s+commodity\\s*"),
     ;
     private final String regex;
 

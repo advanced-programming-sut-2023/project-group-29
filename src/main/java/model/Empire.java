@@ -23,7 +23,7 @@ public class Empire {
     private int possiblePopulation;
     private int population;
     private int growthRate;
-    private int wealth;
+    private int wealth = 1000000000;
     private int taxRate;
     private int fearRate;
     private int foodRate;
@@ -300,5 +300,9 @@ public class Empire {
 
     public void addTradeHistory(Trade trade) {
         tradesHistory.add(trade);
+    }
+
+    public HashMap<Tradable, Integer> getTradableAmounts() {
+        return tradableAmounts;
     }
 }

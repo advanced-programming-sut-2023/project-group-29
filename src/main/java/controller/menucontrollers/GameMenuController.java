@@ -6,6 +6,7 @@ import model.PlayerNumber;
 import model.buildings.Building;
 import model.buildings.buildingTypes.StoreType;
 import model.dealing.Food;
+import model.dealing.Tradable;
 import model.map.Cell;
 import model.map.Map;
 import view.messages.GameMenuMessages;
@@ -122,5 +123,17 @@ public class GameMenuController {
         empire.affectDestructedStorerooms();
         empire.affectDestructedAccommodations();
         //TODO JASBI: some functions. This function should be called in the beginning of the game
+    }
+    public static int showWealth() {
+        return GameMenuController.getGameData().getEmpireByPlayerNumber(GameMenuController.gameData.getPlayerOfTurn()).getWealth();
+    }
+    public static String showCommodity() {
+        String output = "Your recourse: \n";
+        Empire empire = GameMenuController.getGameData().getEmpireByPlayerNumber(GameMenuController.gameData.getPlayerOfTurn());
+        for(Tradable tradable: empire.getTradableAmounts().keySet()) {
+            int amount = empire.getTradableAmount(tradable);
+            output += tradable.getName() + ": " + amount + "\n";
+        }
+        return output;
     }
 }
