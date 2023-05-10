@@ -22,15 +22,15 @@ public class Empire {
     private HashMap<Tradable, Integer> tradableAmounts;
     private User user;
     private int possiblePopulation;
-    private int population;
-    private int growthRate;
+    private int population = 20;
     private int wealth = 500;
     private int taxRate = 0;
-    private int fearRate =0;
+    private int fearRate = 0;
     private int foodRate = -2;
     private int popularity = 50;
 
     private int numberOfReligiousBuildings = 0;
+    private int worklessPopulation = 20; //TODO we should be aware of it when a troop is killed!!!!
 
     {
         popularityChange.put("religion", 0);
@@ -68,10 +68,6 @@ public class Empire {
         return population;
     }
 
-    public void setPopulation(int population) {
-        this.population = population;
-    }
-
     public int getWealth() {
         return wealth;
     }
@@ -102,14 +98,6 @@ public class Empire {
 
     public void setFoodRate(int foodRate) {
         this.foodRate = foodRate;
-    }
-
-    public int getGrowthRate() {
-        return growthRate;
-    }
-
-    public void setGrowthRate(int growthRate) {
-        this.growthRate = growthRate;
     }
 
     public ArrayList<Soldier> getSoldiers() {
@@ -313,14 +301,14 @@ public class Empire {
         wealth += getChangeWealthByTaxRate(taxRate);
         removeEatenFood();
         changePopularityFactor("religion", numberOfReligiousBuildings);
-        changePopularityFactor("food", foodRate * 4 + varietyOfFood -1);
+        changePopularityFactor("food", foodRate * 4 + varietyOfFood - 1);
         changePopularityFactor("tax", getChangePopularityByTaxRate(taxRate));
         changePopularityFactor("fear", -fearRate);
     }
 
     private int getVarietyOfFood() {
         int variety = 0;
-        for (Food food: Food.values()) {
+        for (Food food : Food.values()) {
             if (tradableAmounts.get(food) > 0) variety++;
         }
         return variety;
@@ -335,13 +323,13 @@ public class Empire {
             storage[0][0] -= numberOfFoodEaten;
             int foods[] = new int[4];
             int counter = 0;
-            for (Food food: Food.values()) {
+            for (Food food : Food.values()) {
                 foods[counter] = tradableAmounts.get(food);
                 counter++;
             }
             foodRemover(foods, numberOfFoodEaten);
             counter = 0;
-            for (Food food: Food.values()) {
+            for (Food food : Food.values()) {
                 tradableAmounts.replace(food, foods[counter]);
                 counter++;
             }
@@ -382,7 +370,24 @@ public class Empire {
     }
 
     public int getWorklessPopulation() {
-        return 0;
-        //TODO complete
+        return worklessPopulation;
+    }
+
+    public void growPopulation() {
+        int growAccordingToFood, growAccordingToSpace;
+        if (storage[0][0] * 2 >= population) {
+            growAccordingToFood = storage[0][0] * 2 - population;
+        } else {
+            growAccordingToFood = 0;
+        }
+        growAccordingToSpace = possiblePopulation - population;
+        int growthRate = Math.min(growAccordingToFood, growAccordingToSpace);
+        if (growthRate > 10) growthRate = 10;
+        addPopulation(growthRate);
+    }
+
+    private void addPopulation(int growthRate) {
+        population += growthRate;
+        worklessPopulation += growthRate;
     }
 }

@@ -12,6 +12,7 @@ import java.util.regex.Matcher;
 public class SelectBuildingMenu {
     public static MenuNames run(Scanner scanner) {
         System.out.println("You have entered select building menu");
+        System.out.println(SelectBuildingMenuController.getBuildingHp());
         while (true) {
             Matcher matcher;
             String input = scanner.nextLine();
@@ -40,7 +41,7 @@ public class SelectBuildingMenu {
             case SUCCESS -> System.out.println("Your unit was successfully created!");
         }
     }
-//TODO JASBI now show hp
+
     private static void repairBuilding() {
         SelectBuildingMenuMessages result = SelectBuildingMenuController.repairBuilding();
         switch (result){

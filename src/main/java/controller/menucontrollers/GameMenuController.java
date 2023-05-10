@@ -121,9 +121,9 @@ public class GameMenuController {
         Empire empire = gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn());
         empire.setFields();
         empire.updateBuildings();
+        empire.growPopulation();
         empire.affectDestructedStorerooms();
         empire.affectDestructedAccommodations();
-        //TODO : growth of population
         //TODO : some functions. This function should be called in the beginning of the game
     }
 

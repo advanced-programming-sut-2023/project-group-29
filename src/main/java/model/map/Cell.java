@@ -185,4 +185,13 @@ public class Cell {
         movingObjects.add(asset);
     }
 
+    public int getNumberOfStrangeUnits(PlayerNumber myPlayerNumber) {
+        int count = 0;
+        for (Asset moving : movingObjects) {
+            if (!moving.getOwnerNumber().equals(myPlayerNumber)) {
+                count++;
+            }
+        }
+        return count;
+    }
 }

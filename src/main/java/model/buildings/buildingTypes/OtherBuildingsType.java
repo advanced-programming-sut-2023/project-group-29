@@ -8,6 +8,7 @@ public enum OtherBuildingsType {
             new BuildingType(50, 0, new int[]{0, 0, 10, 0},"DBrdg"),
             "drawBridge"
     ),
+    //TODO: I think it should be connected to shop menu!!
     MARKET( // فروشگاه
             new BuildingType(30, 1, new int[]{0, 0, 5, 0},"Mrket"),
             "market"

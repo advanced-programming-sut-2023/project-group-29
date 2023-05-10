@@ -7,6 +7,8 @@ import model.buildings.buildingClasses.UnitCreator;
 import model.buildings.buildingTypes.UnitCreatorType;
 import model.dealing.Product;
 import model.dealing.Resource;
+import model.map.Cell;
+import model.map.Map;
 import model.people.Human;
 import model.people.humanTypes.SoldierType;
 import view.messages.SelectBuildingMenuMessages;
@@ -24,7 +26,7 @@ public class SelectBuildingMenuController {
         if (soldierType == null) {
             return SelectBuildingMenuMessages.INVALID_TYPE;
         } else if (!(selectedBuilding instanceof UnitCreator
-        && buildingAndTroopMatch((UnitCreator) selectedBuilding, soldierType))) {
+                && buildingAndTroopMatch((UnitCreator) selectedBuilding, soldierType))) {
             return SelectBuildingMenuMessages.UNRELATED_TYPE;
         }
         UnitCreator building = (UnitCreator) selectedBuilding;
@@ -36,8 +38,8 @@ public class SelectBuildingMenuController {
             return SelectBuildingMenuMessages.LACK_OF_HUMAN;
         }
         PlayerNumber playerNumber = GameMenuController.getGameData().getPlayerOfTurn();
-        for (int i = 0; i< count; i++)
-            Human.createUnitByName(unitType,playerNumber, building.getPositionX(), building.getPositionY());
+        for (int i = 0; i < count; i++)
+            Human.createUnitByName(unitType, playerNumber, building.getPositionX(), building.getPositionY());
         return SelectBuildingMenuMessages.SUCCESS;
     }
 
@@ -59,16 +61,36 @@ public class SelectBuildingMenuController {
         Empire ownerEmpire = selectedBuilding.getOwnerEmpire();
         if (!hasEnoughStoneToRepair(ownerEmpire, selectedBuilding)) {
             return SelectBuildingMenuMessages.LACK_OF_STONE;
-        } else if (selectedBuilding.isEnemyNearIt()) {
+        } else if (isEnemyNearIt(selectedBuilding)) {
             return SelectBuildingMenuMessages.ENEMY_IS_NEAR;
         }
         selectedBuilding.repair();
         return SelectBuildingMenuMessages.SUCCESS;
     }
 
+    private static boolean isEnemyNearIt(Building building) {
+        int x = building.getPositionX(), y = building.getPositionY();
+        Map map = GameMenuController.getGameData().getMap();
+        return  isEnemyInThisCell(map, x + 1, y) ||
+                isEnemyInThisCell(map, x - 1, y) ||
+                isEnemyInThisCell(map, x, y + 1) ||
+                isEnemyInThisCell(map, x, y - 1);
+    }
+
+    private static boolean isEnemyInThisCell(Map map, int x, int y) {
+        if (!map.isIndexValid(x, y)) return false;
+        Cell cell = map.getCells()[x][y]; //TODO x or x-1
+        PlayerNumber myPlayerNumber = GameMenuController.getGameData().getPlayerOfTurn();
+        return (cell.getNumberOfStrangeUnits(myPlayerNumber) > 0);
+    }
+
     private static boolean hasEnoughStoneToRepair(Empire ownerEmpire, Building building) {
-        int needed = (building.getMaxHp() - building.getHp()); //TODO JASBI now maybe * zarib
+        int needed = (building.getMaxHp() - building.getHp()) / 10;
         int valid = ownerEmpire.getTradableAmount(Resource.STONE);
         return valid >= needed;
+    }
+
+    public static String getBuildingHp() {
+        return "Your building hp: " + selectedBuilding.getHp() + " / " + selectedBuilding.getMaxHp();
     }
 }
