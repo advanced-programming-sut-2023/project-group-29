@@ -27,7 +27,7 @@ public class Store extends Building {
     }
 
     public void update() {
-        Empire empire = this.ownerEmpire;
+        Empire empire = this.getOwnerEmpire();
         switch (this.getName()) {
             case "foodStore" -> empire.addStorage(capacity, 0);
             case "stockPile" -> empire.addStorage(capacity, 1);

@@ -1,5 +1,6 @@
 package model.buildings.buildingClasses;
 
+import model.Empire;
 import model.PlayerNumber;
 import model.buildings.Building;
 import model.buildings.buildingTypes.ProductProcessorType;
@@ -35,6 +36,8 @@ public class ProductProcessor extends Building {
     }
 
     public void update() {
+        Empire ownerEmpire=this.getOwnerEmpire();
+
         int availableConsumingProduct = ownerEmpire.getTradableAmount(consumingProduct);
         int changeAmount = Math.min(availableConsumingProduct, rate + ownerEmpire.getFearRate());
         if (producingTradable instanceof Food) {

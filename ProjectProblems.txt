@@ -43,19 +43,26 @@ jasbi(){
 
 abbasfar()
 {
-    handle trap; //it can even be not weapon;
+    handle trap and batlagh
     create weapons
+    map show details
 
     end turn(attack maintenance)
     movable climb ladder exception
     stairs exception
 
-    create default maps;
     handle not deep water decrease speed;
     handle some units can pass khandagh;
     some unit only damage building and vice versa
+    how engineer with oil is made
+
+
+    create default maps;
+    handle settexture;
 
     build khandagh by user. should create building near user?
+    first initialize factors at model.Empire.changePopularityFactor(Empire.java:350)
+    drop unit makes for third person
 }
 
 

@@ -22,6 +22,8 @@ public class SelectUnitMenu {
                 setStateOfUnit(matcher);
             } else if ((matcher = Command.getMatcher(input, Command.MAKE_UNIT_ATTACKING)) != null) {
                 makeUnitAttacking(matcher);
+            } else if ((matcher = Command.getMatcher(input, Command.ATTACK)) != null) {
+                makeUnitAttacking(matcher);
             } else if ((matcher = Command.getMatcher(input, Command.POUR_OIL)) != null) {
                 pourOil(matcher);
             } else if ((matcher = Command.getMatcher(input, Command.DIG_TUNNEL)) != null) {
@@ -88,7 +90,10 @@ public class SelectUnitMenu {
     }
 
     private static void makeUnitAttacking(Matcher matcher) {
+        int x=Integer.parseInt(matcher.group("x"));
+        int y=Integer.parseInt(matcher.group("y"));
 
+        System.out.println(SelectUnitMenuController.makeUnitAttacking(x,y));
     }
 
     private static void pourOil(Matcher matcher) {

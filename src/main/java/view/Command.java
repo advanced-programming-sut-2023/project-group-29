@@ -66,6 +66,7 @@ public enum Command {
     PATROL_UNIT("\\s*patrol\\s+unit\\s+-(x1|x2|y1|y2)\\s+(\\d+)\\s+-(x1|x2|y1|y2)\\s+(\\d+)\\s+-(x1|x2|y1|y2)\\s+(\\d+)\\s+-(x1|x2|y1|y2)\\s+(\\d+)\\s*"),
     SET_STATE_OF_UNIT("\\s*set\\s+-[xys]\\s+(\\S+)\\s+-[yxs]\\s+(\\S+)\\+-[sxy]\\s+(\\S+)\\s*"),
     MAKE_UNIT_ATTACKING("\\s*make\\s+unit\\s+attacking\\s*"), //TODO: HANDLE
+    ATTACK("\\s*attack\\s+-x\\s+(?<x>\\d+)\\s+-y\\s+(?<y>\\d+)\\s*"),//todo temporary for debugging
     POUR_OIL("\\s*pour\\s+oil\\s+-d\\s+(?<direction>\\S+)\\s*"),
     DIG_TUNNEL("\\s*dig\\s+tunnel\\s+-[xy]\\s+(\\d+)\\s+-[yx]\\s+(\\d+)\\s*"),
     BUILD_EQUIPMENT("\\s*build\\s+-q\\s+(?<equipmentName>\\S+)\\s*"),

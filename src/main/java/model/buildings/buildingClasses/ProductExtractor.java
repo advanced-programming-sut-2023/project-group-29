@@ -1,5 +1,6 @@
 package model.buildings.buildingClasses;
 
+import model.Empire;
 import model.PlayerNumber;
 import model.buildings.Building;
 import model.buildings.buildingTypes.ProductExtractorType;
@@ -38,6 +39,8 @@ public class ProductExtractor extends Building {
         } else if (producingTradable instanceof Food) {
             switcher = 0;
         }
+
+        Empire ownerEmpire=this.getOwnerEmpire();
         int change = Math.min(ownerEmpire.getEmptySpace(0), rate + ownerEmpire.getFearRate());
         ownerEmpire.changeTradableAmount(producingTradable, change);
         ownerEmpire.fillStorage(0, change);

@@ -61,7 +61,7 @@ public abstract class Building extends Asset {
     }
 
     public void repair() {
-        ownerEmpire.changeTradableAmount(Resource.STONE, (maxHp - hp)/10);
+        this.getOwnerEmpire().changeTradableAmount(Resource.STONE, (maxHp - hp)/10);
         hp = maxHp;
     }
 

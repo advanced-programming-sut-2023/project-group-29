@@ -19,8 +19,8 @@ import java.util.ArrayList;
 public class MapMenuController {
     private static final int tileWidth = 6;
     private static final int tileHeight = 4;
-    private static final int maxNumberOfTilesShowingInRow = 20;
-    private static final int maxNumberOfTilesShowingInColumn = 8;
+    private static final int maxNumberOfTilesShowingInRow = 5; //should be 20
+    private static final int maxNumberOfTilesShowingInColumn = 2; //should be 8
     private static int showingMapIndexX=1;
     private static int showingMapIndexY=1;
 

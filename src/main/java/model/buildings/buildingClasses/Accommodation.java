@@ -27,7 +27,7 @@ public class Accommodation extends Building {
     }
 
     public void update() {
-        Empire empire = this.ownerEmpire;
+        Empire empire = this.getOwnerEmpire();
         empire.addPossiblePopulation(this.numberOfSettler);
     }
 

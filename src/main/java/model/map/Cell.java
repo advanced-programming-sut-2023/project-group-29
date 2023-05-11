@@ -42,7 +42,7 @@ public class Cell {
     public HeightOfAsset heightOfUnitsOfPlayer(PlayerNumber playerNumber)
     {
         //todo define height enum for buildings
-        return null;
+        return HeightOfAsset.GROUND;
     }
 
     public ArrayList<Movable> getMovingObjectsOfPlayer(PlayerNumber playerNumber) {
@@ -199,7 +199,7 @@ public class Cell {
         }
         return count;
     }
-}
+
     public boolean hasTunnel() {
         return hasTunnel;
     }

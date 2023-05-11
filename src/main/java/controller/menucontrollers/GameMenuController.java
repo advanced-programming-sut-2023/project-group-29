@@ -141,30 +141,31 @@ public class GameMenuController {
         for(int i=1;i<= map.getWidth();i++)
             for(int j=1;j<=map.getWidth();j++)
                 for(Asset movingUnit:map.getCells()[i][j].getMovingObjects()) {
-                    if (movingUnit instanceof Offensive attacker &&
-                            attacker.getUnitState().equals(UnitState.DEFENSIVE))
-                        attackNearestUnit(attacker,i,j);
+                    if (movingUnit instanceof Offensive defensiveAttacker &&
+                            defensiveAttacker.getUnitState().equals(UnitState.DEFENSIVE))
+                        attackNearestUnit(defensiveAttacker, i, j);
 
-                    else if (movingUnit instanceof Offensive attacker &&
-                            attacker.getUnitState().equals(UnitState.OFFENSIVE))
-                        moveAndAttackNearestUnit(attacker,i,j);
+                    else if (movingUnit instanceof Offensive offensiveAttacker &&
+                            offensiveAttacker.getUnitState().equals(UnitState.OFFENSIVE))
+                        moveAndAttackNearestUnit(offensiveAttacker,i,j);
 
                 }
     }
     private static boolean moveAndAttackNearestUnit(Offensive attacker,int x,int y)
     {
-        return false;
+        return true;
         //todo attack maintain: if no enemy there still attack and say successful
     }
     private static boolean attackNearestUnit(Offensive attacker, int x, int y)
     {
-        for(int i=0;i<=attacker.getAimRange();i++)
-            for(int j=0;j<=attacker.getAimRange();j++)
-            {
-                //Offensive.AttackingResult attackingResult=attacker.ca
-            }
-
-        return false;
+        return true;
+//        for(int i=0;i<=attacker.getAimRange();i++)
+//            for(int j=0;j<=attacker.getAimRange();j++)
+//            {
+//                //Offensive.AttackingResult attackingResult=attacker.ca
+//            }
+//
+//        return false;
     }
     private static void resetActsOfUnits()
     {

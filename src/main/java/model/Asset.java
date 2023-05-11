@@ -1,8 +1,9 @@
 package model;
 
+import controller.menucontrollers.GameMenuController;
+
 public class Asset {
     private final PlayerNumber ownerNumber;
-    protected Empire ownerEmpire;
     protected int hp;
     private int positionX;
     private int positionY;
@@ -15,7 +16,7 @@ public class Asset {
     }
 
     public Empire getOwnerEmpire() {
-        return ownerEmpire;
+        return GameMenuController.getGameData().getEmpireByPlayerNumber(ownerNumber);
     }
 
     public PlayerNumber getOwnerNumber() {
