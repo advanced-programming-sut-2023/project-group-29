@@ -1,10 +1,6 @@
 package controller.menucontrollers;
 
 import model.*;
-import model.buildings.Building;
-import model.buildings.buildingClasses.AttackingBuilding;
-import model.buildings.buildingClasses.OtherBuildings;
-import model.buildings.buildingTypes.OtherBuildingsType;
 import model.map.Cell;
 import model.map.Map;
 import model.people.Human;
@@ -318,6 +314,9 @@ public class SelectUnitMenuController {
                     return SelectUnitMenuMessages.SUCCESSFUL;
             }
         }
+    public static String pourOil(String direction) {
+        return null;
+    }
 
         return SelectUnitMenuMessages.NO_ENEMY_THERE;
     }
@@ -424,13 +423,17 @@ public class SelectUnitMenuController {
             numberOfAdjacentTunnels+=dfs(map,new Pair(thisCellCoordination.first,thisCellCoordination.second-1),mark);
 
         return numberOfAdjacentTunnels;
+    public static String digTunnel(int x, int y) {
+        return null;
     }
 
-    public static void buildEquipment() {
+    public static String buildEquipment(String equipmentName) {
+        return null;
     }
 
-    public static void disbandUnit() {
-        //todo abbasfar where is ordoogah??? disband unit
+    public static String disbandUnit() {
+        //todo abbasfar for later
+        return null;
     }
 
     static class DamageStruct {

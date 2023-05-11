@@ -43,8 +43,8 @@ public enum Command {
     SET_FEAR_RATE("\\s*fear\\s+rate\\s+-r\\s+(?<rate>-?\\d+)\\s*"),
     DROP_BUILDING("\\s*drop\\s+building\\s+-[xyt]\\s+(\\S+)\\s+-[yxt]\\s+(\\S+)\\s+-[txy]\\s+(\\S+)\\s*"),
     //TODO: جابجایی
-    SELECT_BUILDING("\\s*select\\s+building\\s+-x\\s+(?<xPosition>\\d+)\\s+-y\\s+(?<yPosition>\\d+)\\s*"),
-    SELECT_UNIT("\\s*select\\s+unit\\s+-x\\s+(?<xPosition>\\d+)\\s+-y\\s+(?<yPosition>\\d+)\\s*"),
+    SELECT_BUILDING("\\s*select\\s+building\\s+-[xy]\\s+(\\d+)\\s+-[yx]\\s+(\\d+)\\s*"),
+    SELECT_UNIT("\\s*select\\s+unit\\s+-[xy]\\s+(\\d+)\\s+-[yx]\\s+(\\d+)\\s*"),
     TRADE("\\s*trade\\s+-[tapmn]\\s+([^-]*\\w)\\s+-[atpmn]\\s+([^-]*\\w)\\s+-[ptamn]\\s+"
             + "([^-]*\\w)\\s+-[tapmn]\\s+([^-]*\\w)\\s+-[ntapm]\\s+([^-]*\\w)\\s*"),
     SHOW_TRADE_LIST("\\s*trade\\s+list\\s*"),
@@ -60,10 +60,10 @@ public enum Command {
             "(?<xPosition>\\d+)\\s+-y\\s+(?<yPosition>\\d+)\\s+-type\\s+(?<type>\\S+)\\s*"),
     DROP_UNIT("\\s*drop\\s+unit\\s+-[xytc]\\s+(\\S+)\\s+-[xytc]\\s+(\\S+)\\s+" +
             "-[xytc]\\s+(\\S+)\\s+-[xytc]\\s+(\\S+)\\s*"),
-    CREATE_UNIT("\\s*createUnit\\s+-t\\s+(?<type>\\S+)\\s+-c\\s+(?<count>\\d+)\\s*"), //TODO
+    CREATE_UNIT("\\s*create\\s+unit\\s+-[tc]\\s+(\\S+)\\s+-[ct]\\s+(\\S+)\\s*"), //TODO
     REPAIR_BUILDING("\\s*repair\\s*"),
-    MOVE_UNIT("\\s*move\\s+unit\\s+to\\s+-x\\s+(?<xPosition>\\d+)\\s+-y\\s+(?<yPosition>\\d+)\\s*"),
-    PATROL_UNIT("\\s*patrol\\s+unit\\s+-[(x1)(x2)(y1)(y2)]\\s+(\\d+)\\s+-[(x1)(x2)(y1)(y2)]\\s+(\\d+)\\s+-[(x1)(x2)(y1)(y2)]\\s+(\\d+)\\s+-[(x1)(x2)(y1)(y2)]\\s+(\\d+)\\s*"),
+    MOVE_UNIT("\\s*move\\s+unit\\s+to\\s+-[xy]\\s+(\\d+)\\s+-[xy]\\s+(\\d+)\\s*"),
+    PATROL_UNIT("\\s*patrol\\s+unit\\s+-(x1|x2|y1|y2)\\s+(\\d+)\\s+-(x1|x2|y1|y2)\\s+(\\d+)\\s+-(x1|x2|y1|y2)\\s+(\\d+)\\s+-(x1|x2|y1|y2)\\s+(\\d+)\\s*"),
     SET_STATE_OF_UNIT("\\s*set\\s+-[xys]\\s+(\\S+)\\s+-[yxs]\\s+(\\S+)\\+-[sxy]\\s+(\\S+)\\s*"),
     MAKE_UNIT_ATTACKING("\\s*make\\s+unit\\s+attacking\\s*"), //TODO: HANDLE
     POUR_OIL("\\s*pour\\s+oil\\s+-d\\s+(?<direction>\\S+)\\s*"),
