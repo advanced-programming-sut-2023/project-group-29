@@ -36,14 +36,21 @@ public class ProductProcessor extends Building {
     }
 
     public void update() {
-        Empire ownerEmpire=this.getOwnerEmpire();
-
+        Empire ownerEmpire = this.getOwnerEmpire();
         int availableConsumingProduct = ownerEmpire.getTradableAmount(consumingProduct);
         int changeAmount = Math.min(availableConsumingProduct, rate + ownerEmpire.getFearRate());
-        if (producingTradable instanceof Food) {
-            changeAmount = Math.min(changeAmount, ownerEmpire.getEmptySpace(0));
+        if (producingTradable != null) {
+            if (producingTradable instanceof Food) {
+                changeAmount = Math.min(changeAmount, ownerEmpire.getEmptySpace(0));
+            }
+            ownerEmpire.changeTradableAmount(consumingProduct, -changeAmount);
+            ownerEmpire.changeTradableAmount(producingTradable, changeAmount);
         }
-        ownerEmpire.changeTradableAmount(consumingProduct, -changeAmount);
-        ownerEmpire.changeTradableAmount(producingTradable, changeAmount);
+        else {
+            //just for inn:
+            ownerEmpire.changeTradableAmount(consumingProduct, -changeAmount);
+            int BEER_PRICE = 10;
+            ownerEmpire.changeWealth(changeAmount * BEER_PRICE);
+        }
     }
 }

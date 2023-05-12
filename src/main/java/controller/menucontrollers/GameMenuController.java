@@ -50,6 +50,7 @@ public class GameMenuController {
     }
 
     public static GameMenuMessages determinationOfFoodRate(int foodRate) {
+        if (foodRate < -2 || foodRate > 2) return GameMenuMessages.RATE_OUT_OF_RANGE;
         PlayerNumber playerNumber = gameData.getPlayerOfTurn();
         Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
         empire.setFoodRate(foodRate);
@@ -63,6 +64,7 @@ public class GameMenuController {
     }
 
     public static GameMenuMessages determinationOfTaxRate(int taxRate) {
+        if (taxRate < -3 || taxRate > 8) return GameMenuMessages.RATE_OUT_OF_RANGE;
         PlayerNumber playerNumber = gameData.getPlayerOfTurn();
         Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
         empire.setTaxRate(taxRate);
@@ -75,10 +77,11 @@ public class GameMenuController {
         return "Your tax rate: " + empire.getTaxRate();
     }
 
-    public static GameMenuMessages determinationOfFearRate(int fareRate) {
+    public static GameMenuMessages determinationOfFearRate(int fearRate) {
+        if (fearRate < -5 || fearRate > 5) return GameMenuMessages.RATE_OUT_OF_RANGE;
         PlayerNumber playerNumber = gameData.getPlayerOfTurn();
         Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
-        empire.setFearRate(fareRate);
+        empire.setFearRate(fearRate);
         return GameMenuMessages.SUCCESS;
     }
 
@@ -117,13 +120,7 @@ public class GameMenuController {
 
     public static void nextTurn() {
         gameData.changePlayingPlayer();
-        Empire empire = gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn());
-        empire.setFields();
-        empire.updateBuildings();
-        empire.growPopulation();
-        empire.affectDestructedStorerooms();
-        empire.affectDestructedAccommodations();
-        //TODO JASBI: This function should be called in the beginning of the game
+        updateEmpire(gameData.getPlayerOfTurn());
 
         Map map=gameData.getMap();
 
@@ -151,6 +148,17 @@ public class GameMenuController {
 
                 }
     }
+    //todo jasbi : قفسه‌ی سگ های جنگی
+    //todo jasbi : draw bridge
+    public static void updateEmpire(PlayerNumber playerNumber) {
+        Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
+        empire.setFields();
+        empire.updateBuildings();
+        empire.growPopulation();
+        empire.affectDestructedStorerooms();
+        empire.affectDestructedAccommodations();
+    }
+
     private static boolean moveAndAttackNearestUnit(Offensive attacker,int x,int y)
     {
         return true;

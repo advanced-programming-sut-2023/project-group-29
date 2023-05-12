@@ -1,5 +1,6 @@
 package model;
 
+import controller.menucontrollers.GameMenuController;
 import model.dealing.Trade;
 import model.map.Map;
 
@@ -79,7 +80,6 @@ public class GameData {
     }
 
     public void changePlayingPlayer() {
-        //todo jasbi it prints sth!!!!!!
         int index = playerOfTurn.getNumber();
         index++;
         if (index >= empires.size()) {
@@ -87,9 +87,9 @@ public class GameData {
             index -= empires.size();
         }
         //TODO: game finish
-        if (turnNumber > 5) System.out.println("finish");
+        if (turnNumber > 5) GameMenuController.notify("finish");
         playerOfTurn = PlayerNumber.getPlayerByIndex(index);
-        System.out.println("player number " + (index+1) + " is playing");
+        GameMenuController.notify("player number " + (index+1) + " is playing");
     }
 
     public void setSelectedCell(int selectedCellX,int selectedCellY)

@@ -28,11 +28,15 @@ public abstract class Building extends Asset {
     }
 
     public static boolean isBuildingNameValid(String buildingName) {
+        if (buildingName.equals("wallWithStair") || buildingName.equals("ladder")) return false;
         for (String name : buildingNamesAndTheirGroup.keySet()) {
             if (name.equals(buildingName)) return true;
         }
         return false;
     }
+
+    //todo faratin:     دکل قیر باید روی جلگه باشد.
+    //TODO FARATIN:     معدن آهن فقط برروی زمین‌هایی از جنس آهن گذاشته می‌شود.
 
     public static int getGroupNumberByBuildingName(String buildingName) {
         return buildingNamesAndTheirGroup.get(buildingName);

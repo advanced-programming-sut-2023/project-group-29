@@ -9,10 +9,6 @@ public enum ResourceExtractorType {
             new BuildingType(80, 1, new int[]{0, 0, 20, 0},"PtchR"),
             30,Resource.PITCH, "pitchRig"
     ),
-    //    OX_TETHER( // افسار گاو
-//            new BuildingType(30, 1, new int[]{0, 0, 5, 0},"OxTtr),
-//            0, "oxTether"
-//    ),
     QUARRY( // معدن سنگ
             new BuildingType(80, 3, new int[]{0, 0, 20, 0},"Quary"),
             20,Resource.STONE, "quarry"

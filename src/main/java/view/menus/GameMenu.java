@@ -3,8 +3,8 @@ package view.menus;
 import controller.MenuNames;
 import controller.menucontrollers.GameMenuController;
 import controller.menucontrollers.MapMenuController;
-import controller.menucontrollers.SelectUnitMenuController;
 import model.GameData;
+import model.PlayerNumber;
 import model.dealing.Trade;
 import view.Command;
 import view.messages.GameMenuMessages;
@@ -17,10 +17,11 @@ import java.util.regex.Pattern;
 public class GameMenu {
     public static MenuNames run(Scanner scanner) {
         System.out.println("You have entered game menu");
+        GameMenuController.updateEmpire(PlayerNumber.FIRST);
+
         while (true) {
             Matcher matcher;
             String input = scanner.nextLine();
-
             if ((matcher=Command.getMatcher(input, Command.SHOW_MAP)) != null) {
                 showMap(matcher);
                 return MenuNames.MAP_MENU;
@@ -128,7 +129,7 @@ public class GameMenu {
         GameMenuMessages result = GameMenuController.determinationOfFoodRate(foodRate);
         switch (result) {
             case SUCCESS -> System.out.println("Food rate has been set successfully!");
-            case UNSUCCESS -> System.out.println("There was an error in the process!");
+            case RATE_OUT_OF_RANGE -> System.out.println("The chosen rate is out of range");
         }
     }
 
@@ -137,7 +138,7 @@ public class GameMenu {
         GameMenuMessages result = GameMenuController.determinationOfTaxRate(taxRate);
         switch (result) {
             case SUCCESS -> System.out.println("Tax rate has been set successfully!");
-            case UNSUCCESS -> System.out.println("There was an error in the process!");
+            case RATE_OUT_OF_RANGE -> System.out.println("The chosen rate is out of range");
         }
     }
 
@@ -146,7 +147,7 @@ public class GameMenu {
         GameMenuMessages result = GameMenuController.determinationOfFearRate(fearRate);
         switch (result) {
             case SUCCESS -> System.out.println("Fear rate has been set successfully!");
-            case UNSUCCESS -> System.out.println("There was an error in the process!");
+            case RATE_OUT_OF_RANGE -> System.out.println("The chosen rate is out of range");
         }
     }
 

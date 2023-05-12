@@ -2,7 +2,8 @@ package view.messages;
 
 public enum GameMenuMessages {
     SUCCESS,
-    UNSUCCESS,
+
+    RATE_OUT_OF_RANGE,
     INVALID_POSITION,
     INVALID_TYPE,
     FULL_CELL,

@@ -21,25 +21,6 @@ Faratin(){
     write test
 }
 
-jasbi(){
-    handle TO DOs
-    کارخانه ذوب
-    افسار گاو
-    قفسه ی سگ های جنگی
-    عوض شدن نرخ مالیات با انتخاب small gate house
-    draw bridge
-    قرار دادن تجهیزات سواره؟؟
-    نامرئی بودن گودال کشتار
-    wine usage and popularity rate برای مسافرخانه
-    معدن آهن برای استخراج آهن بکار می‌رود. فقط برروی زمین‌هایی از جنس آهن گذاشته می‌شود
-    دکل قیر باید روی جلگه باشد.
-    ظرفیت داخلی معدن سنگ
-    راهبان مبارز در کلیسا
-    ساختمان آهنگری دو محصول دارد
-    نیزه سازی دو محصول دارد
-    چادر محاصره مهندس می خواهد
-}
-
 abbasfar()
 {
     movable climb ladder exception
@@ -65,9 +46,6 @@ abbasfar()
     how engineer with oil is made
     build khandagh by user. should create building near user?
 }
-
-jasbi:
-handle engineer and worker
 
 
 faratin:

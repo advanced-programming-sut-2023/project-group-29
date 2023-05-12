@@ -19,6 +19,10 @@ public enum ProductProcessorType {
             new BuildingType(40, 1, new int[]{0, 0, 10, 0},"BeerB"),
             10, Product.GRAIN, Product.BEER, "beerBrewing"
     ),
+    INN( //مسافرخانه
+            new BuildingType(60, 1, new int[]{100, 0, 20, 0},"Inn__"),
+            10, Product.BEER, null,"inn"
+    ),
     ;
 
     private String name;

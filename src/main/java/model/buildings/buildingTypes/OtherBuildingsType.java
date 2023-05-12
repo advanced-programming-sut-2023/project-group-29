@@ -5,60 +5,51 @@ import model.buildings.BuildingType;
 
 public enum OtherBuildingsType {
     DRAW_BRIDGE( // پل متحرک
-            new BuildingType(50, 0, new int[]{0, 0, 10, 0},"DBrdg"),
+            new BuildingType(50, 0, new int[]{0, 0, 10, 0}, "DBrdg"),
             "drawBridge"
     ),
     //TODO: I think it should be connected to shop menu!!
     MARKET( // فروشگاه
-            new BuildingType(30, 1, new int[]{0, 0, 5, 0},"Mrket"),
+            new BuildingType(30, 1, new int[]{0, 0, 5, 0}, "Mrket"),
             "market"
     ),
-    CHURCH( // کلیسا
-            new BuildingType(150, 0, new int[]{250, 0, 0, 0},"Chrch"),
-            "church"
-    ),
-    CATHEDRAL( // کلیسای جامع
-            new BuildingType(300, 0, new int[]{1000, 0, 0, 0},"Ctdrl"),
-            "cathedral"
-    ),
     SIEGE_TENT( // چادر محاصره
-            new BuildingType(10, /*TODO JASBI: engineer and minimum*/1, new int[]{25, 0, 0, 0},"STent"),
+            new BuildingType(10, 0, new int[]{25, 0, 0, 0}, "STent"),
             "siegeTent"
     ),
     CAGED_WAR_DOGS(//قفسه ی سگ های جنگی
-            new BuildingType(30, 0, new int[]{100, 0, 10, 0},"CWDog"),
+            new BuildingType(30, 0, new int[]{100, 0, 10, 0}, "CWDog"),
             "cagedWarDogs"
     ),
-    INN( //مسافرخانه
-            new BuildingType(120, 1, new int[]{100, 0, 20, 0},"Inn__"),
-            "inn"
+    OX_TETHER( // افسار گاو
+            new BuildingType(30, 1, new int[]{0, 0, 5, 0}, "OxTtr"),
+            "oxTether"
     ),
     MOAT( //خندق
-            new BuildingType(40, 0, new int[]{50, 0, 0, 0},"Moat_"),
+            new BuildingType(40, 0, new int[]{50, 0, 0, 0}, "Moat_"),
             "moat"
     ),
     LADDER( //نردبان
-            new BuildingType(30, 0, new int[]{0, 0, 10, 0},"Lader"),
+            new BuildingType(30, 0, new int[]{0, 0, 10, 0}, "Lader"),
             "ladder"
     ),
     STAIR( //پله
-            new BuildingType(30, 0, new int[]{0, 20, 0, 0},"Stair"),
+            new BuildingType(30, 0, new int[]{0, 20, 0, 0}, "Stair"),
             "stair"
     ),
     SHORT_WALL( //دیوار
-            new BuildingType(70, 0, new int[]{70, 0, 0, 0},"SWall_"),
+            new BuildingType(70, 0, new int[]{70, 0, 0, 0}, "SWall_"),
             "shortWall"
     ),
     TALL_WALL( //دیوار
-            new BuildingType(100, 0, new int[]{100, 0, 0, 0},"TWall_"),
+            new BuildingType(100, 0, new int[]{100, 0, 0, 0}, "TWall_"),
             "tallWall"
     ),
     WALL_WITH_STAIR( //دیوار با پله
-            new BuildingType(130, 0, new int[]{100, 20, 0, 0},"WlWSr"),
+            new BuildingType(130, 0, new int[]{100, 20, 0, 0}, "WlWSr"),
             "wallWithStair"
     ),
     ;
-    //TODO JASBI no one should build wall with stair
 
     private final BuildingType buildingType;
     private String name;

@@ -3,6 +3,8 @@ package model;
 import controller.menucontrollers.GameMenuController;
 import model.buildings.Building;
 import model.buildings.buildingClasses.*;
+import model.buildings.buildingTypes.OtherBuildingsType;
+import model.buildings.buildingTypes.UnitCreatorType;
 import model.dealing.*;
 import model.people.humanClasses.Soldier;
 import model.people.humanClasses.Worker;
@@ -28,8 +30,6 @@ public class Empire {
     private int fearRate = 0;
     private int foodRate = -2;
     private int popularity = 50;
-
-    private int numberOfReligiousBuildings = 0;
     private int worklessPopulation = 20; //TODO jasbi we should be aware of it when a troop is killed!!!!
 
     {
@@ -44,9 +44,6 @@ public class Empire {
         this.user = user;
     }
 
-    public void changeNumberOfReligiousBuildings(int change) {
-        numberOfReligiousBuildings += change;
-    }
 
     public User getUser() {
         return user;
@@ -145,13 +142,6 @@ public class Empire {
         return popularityChange.get(cause);
     }
 
-    public void adjustPopularity() {
-        popularityChange.replace("religion", 0);
-        popularityChange.replace("tax", 0);
-        popularityChange.replace("fear", 0);
-        popularityChange.replace("food", foodRate * 4);
-    }
-
     public void addBuilding(Building building, int groupNumber) {
         buildings.put(building, groupNumber);
     }
@@ -161,26 +151,13 @@ public class Empire {
         makePossiblePopulationZero();
         for (Building building : buildings.keySet()) {
             switch (buildings.get(building)) {
-                case 1:
-                    ((Accommodation) building).update();
-                    break;
-                case 3://TODO JASBI: functions for other building type
-                    break;
-                case 4:
-                    ((ProductExtractor) building).update();
-                    break;
-                case 5:
-                    ((ProductProcessor) building).update();
-                    break;
-                case 6:
-                    ((ResourceExtractor) building).update();
-                    break;
-                case 7:
-                    ((ResourceProcessor) building).update();
-                    break;
-                case 8:
-                    ((Store) building).update();
-                    break;
+                case 1 -> ((Accommodation) building).update();
+                case 3 -> ((OtherBuildings) building).update();
+                case 4 -> ((ProductExtractor) building).update();
+                case 5 -> ((ProductProcessor) building).update();
+                case 6 -> ((ResourceExtractor) building).update();
+                case 7 -> ((ResourceProcessor) building).update();
+                case 8 -> ((Store) building).update();
             }
         }
     }
@@ -298,10 +275,22 @@ public class Empire {
         int varietyOfFood = getVarietyOfFood();
         wealth += getChangeWealthByTaxRate(taxRate);
         removeEatenFood();
-        changePopularityFactor("religion", numberOfReligiousBuildings);
+        changePopularityFactor("religion", this.getEffectOfReligiousBuildings());
         changePopularityFactor("food", foodRate * 4 + varietyOfFood - 1);
         changePopularityFactor("tax", getChangePopularityByTaxRate(taxRate));
         changePopularityFactor("fear", -fearRate);
+    }
+
+    private int getEffectOfReligiousBuildings() {
+        int effect = 0;
+        for (Building building : buildings.keySet()) {
+            if (buildings.get(building) == 9) {
+                switch (((UnitCreator) building).getUnitCreatorType()) {
+                    case CATHEDRAL,CHURCH -> effect += 2;
+                }
+            }
+        }
+        return effect;
     }
 
     private int getVarietyOfFood() {

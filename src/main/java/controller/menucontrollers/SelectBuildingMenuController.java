@@ -23,6 +23,8 @@ public class SelectBuildingMenuController {
     public static SelectBuildingMenuMessages createUnit(String unitType, int count) {
         Empire ownerEmpire = selectedBuilding.getOwnerEmpire();
         SoldierType soldierType = SoldierType.getSoldierTypeByName(unitType);
+        if (soldierType == SoldierType.ENGINEER_WITH_OIL) soldierType = null;
+
         if (soldierType == null) {
             return SelectBuildingMenuMessages.INVALID_TYPE;
         } else if (!(selectedBuilding instanceof UnitCreator
@@ -37,17 +39,21 @@ public class SelectBuildingMenuController {
         } else if (ownerEmpire.getWorklessPopulation() < count) {
             return SelectBuildingMenuMessages.LACK_OF_HUMAN;
         }
+        createUnitsAndDecreaseCoinAndWeapon(unitType, count, ownerEmpire, soldierType, building);
+        return SelectBuildingMenuMessages.SUCCESS;
+    }
+
+    private static void createUnitsAndDecreaseCoinAndWeapon(String unitType, int count, Empire ownerEmpire, SoldierType soldierType, UnitCreator building) {
         PlayerNumber playerNumber = GameMenuController.getGameData().getPlayerOfTurn();
         for (int i = 0; i < count; i++) {
             Human.createUnitByName(unitType, playerNumber, building.getPositionX(), building.getPositionY());
-            ownerEmpire.changeWealth(-building.getUnitCost() * count);
-            Tradable weapon1 = SoldierType.getTradableFromSoldierType(soldierType)[0];
-            Tradable weapon2 = SoldierType.getTradableFromSoldierType(soldierType)[1];
-            if (weapon1 != null) ownerEmpire.changeTradableAmount(weapon1,-count);
-            if (weapon2!= null) ownerEmpire.changeTradableAmount(weapon2,-count);
-            //todo jasbi reduce number of workless
         }
-        return SelectBuildingMenuMessages.SUCCESS;
+        ownerEmpire.changeWealth(-building.getUnitCost() * count);
+        Tradable weapon1 = SoldierType.getTradableFromSoldierType(soldierType)[0];
+        Tradable weapon2 = SoldierType.getTradableFromSoldierType(soldierType)[1];
+        if (weapon1 != null) ownerEmpire.changeTradableAmount(weapon1, -count);
+        if (weapon2 != null) ownerEmpire.changeTradableAmount(weapon2, -count);
+        //todo jasbi reduce number of workless
     }
 
     private static boolean buildingAndTroopMatch(UnitCreator building, SoldierType soldierType) {
@@ -55,8 +61,9 @@ public class SelectBuildingMenuController {
             case ARABIAN_SWORDSMAN, ARCHER_BOW, SLINGER, ASSASSIN, HORSE_ARCHER, FIRE_THROWER ->
                     (building.getUnitCreatorType().equals(UnitCreatorType.MERCENARY_POST));
             case ENGINEER -> (building.getUnitCreatorType().equals(UnitCreatorType.ENGINEER_GUILD));
+            case BLACK_MONK -> (building.getUnitCreatorType().equals(UnitCreatorType.CATHEDRAL))||
+                    (building.getUnitCreatorType().equals(UnitCreatorType.CHURCH));
             default -> (building.getUnitCreatorType().equals(UnitCreatorType.BARRACK));
-            //TODO JASBI CAN we really build all units here??
         };
     }
 
@@ -84,6 +91,7 @@ public class SelectBuildingMenuController {
         int x = building.getPositionX(), y = building.getPositionY();
         Map map = GameMenuController.getGameData().getMap();
         return isEnemyInThisCell(map, x + 1, y) ||
+                isEnemyInThisCell(map, x + 1, y) ||
                 isEnemyInThisCell(map, x - 1, y) ||
                 isEnemyInThisCell(map, x, y + 1) ||
                 isEnemyInThisCell(map, x, y - 1);

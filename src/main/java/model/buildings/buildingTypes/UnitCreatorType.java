@@ -16,6 +16,14 @@ public enum UnitCreatorType {
             new BuildingType(30, 0, new int[]{100, 0, 10, 0},"EngnG"),
             60, "engineerGuild"
     ),
+    CHURCH( // کلیسا
+            new BuildingType(150, 0, new int[]{250, 0, 0, 0},"Chrch"),
+            30,"church"
+    ),
+    CATHEDRAL( // کلیسای جامع
+            new BuildingType(300, 0, new int[]{1000, 0, 0, 0},"Ctdrl"),
+            30,"cathedral"
+    ),
     ;
     private String name;
     private int unitCost;

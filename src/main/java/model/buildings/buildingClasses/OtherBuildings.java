@@ -11,15 +11,10 @@ public class OtherBuildings extends Building {
             (OtherBuildingsType otherBuildingsType, PlayerNumber playerNumber, int positionX, int positionY) {
         super(otherBuildingsType.getBuildingType(), playerNumber, positionX, positionY);
         this.otherBuildingsType = otherBuildingsType;
-        setPopularity(otherBuildingsType);
         setShowingSignInMap();
     }
 
-    private void setPopularity(OtherBuildingsType otherBuildingsType) {
-        switch (otherBuildingsType) {
-            case CHURCH, CATHEDRAL -> this.getOwnerEmpire().changeNumberOfReligiousBuildings(1);
-        }
-    }
+
 
     @Override
     public String getName() {
@@ -33,5 +28,9 @@ public class OtherBuildings extends Building {
 
     public OtherBuildingsType getOtherBuildingsType() {
         return otherBuildingsType;
+    }
+
+    public void update() {
+        //todo jasbi: کارخانه ذوب مهندس خالی بگیرد و مهندس با نفت بدهد
     }
 }

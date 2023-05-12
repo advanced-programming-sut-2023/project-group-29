@@ -2,6 +2,7 @@ package model.buildings.buildingClasses;
 
 import model.PlayerNumber;
 import model.buildings.Building;
+import model.buildings.buildingTypes.OtherBuildingsType;
 import model.buildings.buildingTypes.UnitCreatorType;
 
 public class UnitCreator extends Building {
@@ -18,7 +19,6 @@ public class UnitCreator extends Building {
     public int getUnitCost() {
         return unitCost;
     }
-
     public UnitCreatorType getUnitCreatorType() {
         return unitCreatorType;
     }
