@@ -22,6 +22,9 @@ public class MapMenu {
             if ((matcher=Command.getMatcher(input, Command.SHOW_MAP)) != null) {
                 showMap(matcher);
             }
+            else if ((matcher=Command.getMatcher(input, Command.SHOW_DETAILS)) != null) {
+                showDetails(matcher);
+            }
             else if ((matcher = Command.getMatcher(input, Command.MOVE_MAP)) != null) {
                 moveMap(matcher);
             }
@@ -261,6 +264,19 @@ public class MapMenu {
         int positionY=Integer.parseInt(yAmount.group(1));
 
         System.out.println(MapMenuController.showMap(positionX,positionY));
+    }
+    private static void showDetails(Matcher matcher) {
+        String input = matcher.group(0);
+        Matcher xAmount = Pattern.compile("-x\\s+(\\d+)").matcher(input);
+        Matcher yAmount = Pattern.compile("-y\\s+(\\d+)").matcher(input);
+        if(!(xAmount.find() && yAmount.find())) {
+            System.out.println("Invalid command!");
+            return;
+        }
+        int positionX=Integer.parseInt(xAmount.group(1));
+        int positionY=Integer.parseInt(yAmount.group(1));
+
+        System.out.print(MapMenuController.showDetails(positionX,positionY));
     }
 
     private static void showMap(){

@@ -33,6 +33,7 @@ public enum Command {
 
     NEXT_TURN("\\s*next\\s+turn\\s*"),
     SHOW_MAP("\\s*show\\s+map\\s+-[xy]\\s+(\\d+)\\s+-[yx]\\s+(\\d+)\\s*"), //todo
+    SHOW_DETAILS("\\s*show\\s+details\\s+-[xy]\\s+(\\d+)\\s+-[yx]\\s+(\\d+)\\s*"),
     SHOW_POPULARITY_FACTORS("\\s*show\\s+popularity\\s+factors\\s*"),
     SHOW_POPULARITY("\\s*show\\s+popularity\\s*"),
     SHOW_FOOD_LIST("\\s*show\\s+food\\s+list\\s*"),

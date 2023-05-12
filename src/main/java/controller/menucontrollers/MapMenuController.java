@@ -1,5 +1,6 @@
 package controller.menucontrollers;
 
+import model.Asset;
 import model.Empire;
 import model.GameData;
 import model.PlayerNumber;
@@ -8,6 +9,11 @@ import model.buildings.buildingTypes.AccommodationType;
 import model.buildings.buildingTypes.StoreType;
 import model.map.*;
 import model.people.Human;
+import model.people.humanClasses.Soldier;
+import model.weapons.Weapon;
+import model.weapons.weaponClasses.Equipments;
+import model.weapons.weaponClasses.OffensiveWeapons;
+import model.weapons.weaponClasses.StaticOffensiveWeapons;
 import view.messages.MapMenuMessages;
 
 import java.util.ArrayList;
@@ -20,6 +26,59 @@ public class MapMenuController {
     private static int showingMapIndexX=1;
     private static int showingMapIndexY=1;
 
+    public static String showDetails(int indexX,int indexY)
+    {
+        Map map = GameMenuController.getGameData().getMap();
+        PlayerNumber currentPlayer=GameMenuController.getGameData().getPlayerOfTurn();
+
+        if (!map.isIndexValid(indexX, indexY))
+            return "Index is invalid!\n";
+
+        Cell showingCell=map.getCells()[indexX][indexY];
+        String output="";
+
+        output+="Building: ";
+        output+= showingCell.hasBuilding() ? showingCell.getBuilding().getName() : "";
+        output+="\n";
+
+        output+="Trap: ";
+        output+= (showingCell.hasTrap() && showingCell.getTrap().getOwnerNumber().equals(currentPlayer)) ? showingCell.getTrap().getName() : "";
+        output+="\n";
+
+        output+= showingCell.hasTunnel() ? "There is a tunnel under this cell." : "There are no tunnels under this cell.";
+        output+="\n";
+
+        output+="Units and Weapons: \n";
+        for(Asset asset:showingCell.getMovingObjects())
+        {
+            output+="    ";
+            if(asset instanceof Soldier soldier)
+            {
+                output+="name: "+soldier.getName()+". owner: "+soldier.getOwnerNumber()+" PLAYER. "+"hp: "+soldier.getHp()+". ";
+                output+= soldier.hasAttackedThisTurn() ? " attacked. " : "not attacked. ";
+                output+= soldier.hasMovedThisTurn() ? " moved. " : "not moved. ";
+            }
+            else if(asset instanceof Weapon weapon)
+            {
+                output+="name: "+weapon.getName()+". owner: "+weapon.getOwnerNumber()+" PLAYER. "+"hp: "+weapon.getHp()+". ";
+
+                if(weapon instanceof Equipments equipments){
+                    output+= equipments.hasMovedThisTurn() ? " moved. " : "not moved. ";
+                }
+                if(weapon instanceof OffensiveWeapons offensiveWeapons){
+                    output+= offensiveWeapons.hasAttackedThisTurn() ? " attacked. " : "not attacked. ";
+                    output+= offensiveWeapons.hasMovedThisTurn() ? " moved. " : "not moved. ";
+
+                }
+                if(weapon instanceof StaticOffensiveWeapons staticOffensiveWeapons){
+                    output+= staticOffensiveWeapons.hasAttackedThisTurn() ? " attacked. " : "not attacked. ";
+                }
+            }
+            output+="\n";
+        }
+
+        return output;
+    }
     public static MapMenuMessages setShowingMapIndexes(int indexX, int indexY)
     {
         Map map = GameMenuController.getGameData().getMap();

@@ -42,26 +42,28 @@ jasbi(){
 
 abbasfar()
 {
-    handle trap and batlagh
-    create weapons
-    map show details
-
-    end turn(attack maintenance)
     movable climb ladder exception
     stairs exception
-    fire range for attack
-
     handle not deep water decrease speed;
     handle some units can pass khandagh;
+    handle trap and batlagh
+
+    end turn(attack maintenance)
+    fire range for attack
+    not attacked flag for attacking function
     some unit only damage building and vice versa
-    how engineer with oil is made
+    height function
+    todos
 
+    assasine handle showing
+    create weapons
 
+    others:
     create default maps;
     handle settexture;
 
+    how engineer with oil is made
     build khandagh by user. should create building near user?
-    drop unit makes for third person
 }
 
 jasbi:

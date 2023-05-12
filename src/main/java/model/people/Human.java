@@ -24,6 +24,7 @@ public class Human extends Asset implements Movable {
         this.ableToClimbLadder = humanType.ableToClimbLadder();
         this.speed = humanType.speed().getSpeedValue();
         this.showingSignInMap=humanType.showingSignInMap();
+        this.name=humanType.name();
     }
 
     public MovingResult move(Map map, int destinationX, int destinationY) {

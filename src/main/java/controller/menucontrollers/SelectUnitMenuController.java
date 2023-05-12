@@ -136,9 +136,6 @@ public class SelectUnitMenuController {
         Cell currentCell = map.getCells()[currentX][currentY];
         ArrayList<Offensive> currentPlayerAttackers = currentCell.getAttackingListOfPlayerNumber(currentPlayer);
 
-        for(Asset asset: currentCell.getMovingObjects())
-            System.out.println(asset.getOwnerNumber());
-
         //create enemy objects list
         Cell targetCell = map.getCells()[targetX][targetY];
         ArrayList<Asset> enemies = targetCell.getEnemiesOfPlayerInCell(gameData.getPlayerOfTurn());
