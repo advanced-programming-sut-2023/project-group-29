@@ -79,6 +79,7 @@ public class GameData {
     }
 
     public void changePlayingPlayer() {
+        //todo jasbi it prints sth!!!!!!
         int index = playerOfTurn.getNumber();
         index++;
         if (index >= empires.size()) {

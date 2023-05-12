@@ -8,10 +8,6 @@ import model.buildings.buildingTypes.AccommodationType;
 import model.buildings.buildingTypes.StoreType;
 import model.map.*;
 import model.people.Human;
-import model.people.humanClasses.Soldier;
-import model.people.humanTypes.SoldierType;
-import view.menus.GameMenu;
-import view.messages.GameMenuMessages;
 import view.messages.MapMenuMessages;
 
 import java.util.ArrayList;
@@ -107,9 +103,7 @@ public class MapMenuController {
             tile.add(showingSignOfOtherUnits);
         }
 
-        //TODO extra point defined by us:maybe show ... for more units
-        //TODO extra point defined by us:maybe count number of each soldier
-
+        //todo pointive: show number of owner on map
         return tile;
     }
 
@@ -131,15 +125,11 @@ public class MapMenuController {
         int newShowingMapIndexX = showingMapIndexX + rightMovements - leftMovements;
         int newShowingMapIndexY = showingMapIndexY + downMovements - upMovements;
 
-        //TODO change string below or delete it because it can be handled in show map
         if (!map.isIndexValid(newShowingMapIndexX, newShowingMapIndexY))
             return "The index is invalid";
 
         return showMap(newShowingMapIndexX, newShowingMapIndexY);
     }
-
-    //TODO below functions should probably move to another menu
-
 
     public static void setBlockTexture(CellType cellType, int x, int y) {
     }
@@ -174,10 +164,12 @@ public class MapMenuController {
             map.getCells()[positionX][positionY].addMovingObject(addingUnit);
         }
 
+        System.out.println();
+
         return MapMenuMessages.SUCCESSFUL;
     }
 
-    public static MapMenuMessages dropBuilding(int x, int y, String buildingName) { //todo change name to build building
+    public static MapMenuMessages buildBuilding(int x, int y, String buildingName) {
 
         GameData gameData=GameMenuController.getGameData();
         PlayerNumber ownerPlayerNumber=gameData.getPlayerOfTurn();

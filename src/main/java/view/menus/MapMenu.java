@@ -1,13 +1,11 @@
 package view.menus;
 
 import controller.MenuNames;
-import controller.menucontrollers.GameMenuController;
 import controller.menucontrollers.MapMenuController;
 import model.map.CellType;
 import model.map.TreeType;
 import model.people.humanTypes.SoldierType;
 import view.Command;
-import view.messages.GameMenuMessages;
 import view.messages.MapMenuMessages;
 
 import java.util.Random;
@@ -222,7 +220,9 @@ public class MapMenu {
         Matcher yMatcher = Pattern.compile("-y\\s+(\\d+)").matcher(input);
         Matcher cMatcher = Pattern.compile("-c\\s+(\\d+)").matcher(input);
         Matcher tMatcher = Pattern.compile("-t\\s+(\\S+)").matcher(input);
-        if (!(xMatcher.find() && yMatcher.find() && cMatcher.find() && tMatcher.find())) {
+        Matcher nMatcher = Pattern.compile("-n\\s+(\\d+)").matcher(input);
+
+        if (!(xMatcher.find() && yMatcher.find() && cMatcher.find() && tMatcher.find() && nMatcher.find())) {
             System.out.println("Invalid command!");
             return;
         }
@@ -230,6 +230,7 @@ public class MapMenu {
         int y = Integer.parseInt(yMatcher.group(1));
         int count = Integer.parseInt(cMatcher.group(1));
         String type = tMatcher.group(1);
+        int playerNumberInt=Integer.parseInt(nMatcher.group(1));
         if (count < 1) {
             System.out.println("Invalid count!");
             return;
@@ -245,7 +246,7 @@ public class MapMenu {
             System.out.println("Invalid type of soldier!");
             return;
         }
-        System.out.println(MapMenuController.dropUnit(x, y, type, count, GameMenuController.getGameData().getNumberOfPlayers()));
+        System.out.println(MapMenuController.dropUnit(x, y, type, count, playerNumberInt));
     }
 
     private static void showMap(Matcher matcher) {
@@ -281,7 +282,7 @@ public class MapMenu {
         String buildingName = tMatcher.group(1);
 
         //todo abbasfar handle isAdmin conditions
-        MapMenuMessages result = MapMenuController.dropBuilding(x, y, buildingName);
+        MapMenuMessages result = MapMenuController.buildBuilding(x, y, buildingName);
         switch (result) {
             case TWO_MAIN_KEEP -> System.out.println("You aren't allowed to have two main keeps!");
             case INVALID_INDEX -> System.out.println("You have chosen an Invalid amount of x or y!");

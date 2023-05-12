@@ -7,13 +7,9 @@ import model.buildings.buildingClasses.OtherBuildings;
 import model.buildings.buildingTypes.OtherBuildingsType;
 import model.map.Cell;
 import model.map.Map;
-import model.people.Human;
-import model.people.UnitState;
+import model.UnitState;
 import model.people.humanClasses.Soldier;
 import model.people.humanTypes.SoldierType;
-import org.checkerframework.checker.units.qual.A;
-import view.menus.GameMenu;
-import view.menus.SelectUnitMenu;
 import view.messages.SelectUnitMenuMessages;
 
 import java.util.ArrayList;
@@ -139,6 +135,9 @@ public class SelectUnitMenuController {
         //create attacking objects list
         Cell currentCell = map.getCells()[currentX][currentY];
         ArrayList<Offensive> currentPlayerAttackers = currentCell.getAttackingListOfPlayerNumber(currentPlayer);
+
+        for(Asset asset: currentCell.getMovingObjects())
+            System.out.println(asset.getOwnerNumber());
 
         //create enemy objects list
         Cell targetCell = map.getCells()[targetX][targetY];
@@ -427,7 +426,7 @@ public class SelectUnitMenuController {
     }
 
     public static String disbandUnit() {
-        //todo abbasfar for later
+        //todo pointive abbasfar for later
         return null;
     }
 

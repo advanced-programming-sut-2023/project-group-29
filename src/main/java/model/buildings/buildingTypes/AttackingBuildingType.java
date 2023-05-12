@@ -24,10 +24,6 @@ public enum AttackingBuildingType {
             new BuildingType(90, 0, new int[]{0, 15, 0, 0},"DefTr"),
             40, 60, "defenceTurret"
     ),
-    KILLING_PIT( // گودال کشتار
-            new BuildingType(30, 0, new int[]{0, 0, 6, 0},"KilPt"),
-            150, 100, "killingPit"
-    ),
     ;
 
     private final int fireRange;

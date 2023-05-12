@@ -38,11 +38,10 @@ public enum Command {
     SHOW_FOOD_LIST("\\s*show\\s+food\\s+list\\s*"),
     SHOW_FOOD_RATE("\\s*food\\s+rate\\s+show\\s*"),
     SHOW_TAX_RATE("\\s*tax\\s+rate\\s+show\\s*"),
-    SET_FOOD_RATE("\\s*food\\s+rate\\s+-r\\s+(?<rate>-?\\d+)\\s*"), //TODO: ERROr for big number
+    SET_FOOD_RATE("\\s*food\\s+rate\\s+-r\\s+(?<rate>-?\\d+)\\s*"), //TODO: ERROr for big number jasbi
     SET_TAX_RATE("\\s*tax\\s+rate\\s+-r\\s+(?<rate>-?\\d+)\\s*"),
     SET_FEAR_RATE("\\s*fear\\s+rate\\s+-r\\s+(?<rate>-?\\d+)\\s*"),
     DROP_BUILDING("\\s*drop\\s+building\\s+-[xyt]\\s+(\\S+)\\s+-[yxt]\\s+(\\S+)\\s+-[txy]\\s+(\\S+)\\s*"),
-    //TODO: جابجایی
     SELECT_BUILDING("\\s*select\\s+building\\s+-[xy]\\s+(\\d+)\\s+-[yx]\\s+(\\d+)\\s*"),
     SELECT_UNIT("\\s*select\\s+unit\\s+-[xy]\\s+(\\d+)\\s+-[yx]\\s+(\\d+)\\s*"),
     TRADE("\\s*trade\\s+-[tapmn]\\s+([^-]*\\w)\\s+-[atpmn]\\s+([^-]*\\w)\\s+-[ptamn]\\s+"
@@ -50,7 +49,7 @@ public enum Command {
     SHOW_TRADE_LIST("\\s*trade\\s+list\\s*"),
     TRADE_ACCEPT("\\s*trade\\s+accept\\s+-i\\s+(?<id>\\S+)\\s*"),
     TRADE_HISTORY("\\s*trade\\s+history\\s*"),
-    MOVE_MAP("\\s*move(\\s+(up)|\\s+(down)|\\s+(right)|\\s+(left))+\\s*"),  //TODO more than one
+    MOVE_MAP("\\s*move(\\s+(up)|\\s+(down)|\\s+(right)|\\s+(left))+\\s*"),
     SET_BLOCK_TEXTURE("\\s*set\\s+texture\\s+-[xyt]\\s+(\\S+)\\s+-[yxt]\\s+(\\S+)\\s+-[txy]\\s+(\\S+)\\s*"),
     SET_PART_OF_BLOCK_TEXTURE("\\s*set\\s+texture\\s+-(x1|y1|x2|y2|t)\\s+(\\S+)\\s+-(x1|y1|x2|y2|t)\\s+(\\S+)\\s+-(x1|y1|x2|y2|t)\\s+(\\S+)\\s+-(x1|y1|x2|y2|t)\\s+(\\S+)\\s+-(x1|y1|x2|y2|t)\\s+(\\S+)"),
     CLEAR("\\s*clear\\s+-[xy]\\s+(\\d+)\\s+-[yx]\\s+(\\d+)\\s*"),
@@ -58,8 +57,8 @@ public enum Command {
     DROP_TREE("\\s*drop\\s+tree\\s+-[xyt]\\s+(\\S+)\\s+-[yxt]\\s+(\\S+)\\s+-[txy]\\s+(\\S+)\\s*"),
     ADMIN_DROP_BUILDING("\\s*admin\\s+dropbuilding\\s+-x\\s+" +
             "(?<xPosition>\\d+)\\s+-y\\s+(?<yPosition>\\d+)\\s+-type\\s+(?<type>\\S+)\\s*"),
-    DROP_UNIT("\\s*drop\\s+unit\\s+-[xytc]\\s+(\\S+)\\s+-[xytc]\\s+(\\S+)\\s+" +
-            "-[xytc]\\s+(\\S+)\\s+-[xytc]\\s+(\\S+)\\s*"),
+    DROP_UNIT("\\s*drop\\s+unit\\s+-[xytcn]\\s+(\\S+)\\s+-[xytcn]\\s+(\\S+)\\s+" +
+            "-[xytcn]\\s+(\\S+)\\s+-[xytcn]\\s+(\\S+)\\s+-[xytcn]\\s+(\\S+)\\s*"),
     CREATE_UNIT("\\s*create\\s+unit\\s+-[tc]\\s+(\\S+)\\s+-[ct]\\s+(\\S+)\\s*"), //TODO
     REPAIR_BUILDING("\\s*repair\\s*"),
     MOVE_UNIT("\\s*move\\s+unit\\s+to\\s+-[xy]\\s+(\\d+)\\s+-[xy]\\s+(\\d+)\\s*"),

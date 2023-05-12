@@ -34,7 +34,7 @@ public enum OtherBuildingsType {
             "inn"
     ),
     MOAT( //خندق
-            new BuildingType(120, 0, new int[]{0, 0, 0, 0},"Moat"),
+            new BuildingType(120, 0, new int[]{50, 0, 0, 0},"Moat"),
             "moat"
     ),
     ;

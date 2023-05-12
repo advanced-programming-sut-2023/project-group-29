@@ -1,7 +1,6 @@
-package model.people;
+package model;
 
 public enum UnitState {
-    //todo move outside the folder
     STANDING("standing"),
     DEFENSIVE("defensive"),
     OFFENSIVE("offensive");

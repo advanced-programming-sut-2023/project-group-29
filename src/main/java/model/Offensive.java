@@ -2,13 +2,11 @@ package model;
 
 import model.map.Cell;
 import model.map.Map;
-import model.people.UnitState;
-import model.weapons.weaponClasses.OffensiveWeapons;
 import model.weapons.weaponClasses.StaticOffensiveWeapons;
 import model.weapons.weaponTypes.StaticOffensiveWeaponsType;
 
 public interface Offensive {
-    int decreasingFactorForAirDamageDueToShield = 1;  //TODO reasonable value
+    int decreasingFactorForAirDamageDueToShield = 2;
 
     static AttackingResult canAttack(Map map, Asset asset, int aimRange, int targetX, int targetY) {
         int currentX = asset.getPositionX();

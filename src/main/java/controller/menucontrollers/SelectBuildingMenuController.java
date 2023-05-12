@@ -52,7 +52,7 @@ public class SelectBuildingMenuController {
     }
 
     private static boolean isWeaponEnough(Empire ownerEmpire, SoldierType soldierType, int count) {
-        Product weapon = null; // = getProductFromSoldierType TODO complete;
+        Product weapon = null; //todo jasbi = getProductFromSoldierType complete;
         if (weapon == null) return true;
         return ownerEmpire.getTradableAmount(weapon) >= count;
     }
@@ -79,7 +79,7 @@ public class SelectBuildingMenuController {
 
     private static boolean isEnemyInThisCell(Map map, int x, int y) {
         if (!map.isIndexValid(x, y)) return false;
-        Cell cell = map.getCells()[x][y]; //TODO x or x-1
+        Cell cell = map.getCells()[x][y];
         PlayerNumber myPlayerNumber = GameMenuController.getGameData().getPlayerOfTurn();
         return (cell.getNumberOfStrangeUnits(myPlayerNumber) > 0);
     }

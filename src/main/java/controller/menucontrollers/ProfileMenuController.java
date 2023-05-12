@@ -31,7 +31,7 @@ public class ProfileMenuController {
         }
         String oldPass = oldPassMatcher.group(1);
         String newPass = newPassMatcher.group(1);
-        //TODO faratin:CAPTCHA
+        //TODO faratin: pointive CAPTCHA
         if (!AppData.getCurrentUser().getPassword().equals(oldPass)) {
             return "Enter your old password correctly!";
         }

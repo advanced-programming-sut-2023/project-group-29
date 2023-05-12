@@ -18,7 +18,7 @@ public class MapInitializer {
         };
     }
 
-    //در داک گفته شده که یک انبار باید در کنار مقر اصلی به صورت پیش فرض ساخته شود.
+    //در داک گفته شده که یک انبار باید در کنار مقر اصلی به صورت پیش فرض ساخته شود.todo
     private static Map initializeFirstMap(GameData gameData) {
         Map firstMap = new Map(100, 8);
 

@@ -6,7 +6,7 @@ import model.dealing.Food;
 import model.dealing.Tradable;
 import model.map.Cell;
 import model.map.Map;
-import model.people.UnitState;
+import model.UnitState;
 import view.menus.GameMenu;
 import view.messages.GameMenuMessages;
 
@@ -154,7 +154,7 @@ public class GameMenuController {
     private static boolean moveAndAttackNearestUnit(Offensive attacker,int x,int y)
     {
         return true;
-        //todo attack maintain: if no enemy there still attack and say successful
+        //todo abbasfar attack maintain: if no enemy there still attack and say successful
     }
     private static boolean attackNearestUnit(Offensive attacker, int x, int y)
     {
@@ -166,6 +166,7 @@ public class GameMenuController {
 //            }
 //
 //        return false;
+        //todo abbasfar
     }
     private static void resetActsOfUnits()
     {

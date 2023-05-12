@@ -7,7 +7,6 @@ import model.people.humanTypes.SoldierType;
 import org.checkerframework.checker.units.qual.A;
 
 public interface Movable {
-    //todo go into darvaze in what direction
     static MovingResult move(Map map, Asset asset, int speed, boolean ableToClimbLadder, int destinationX, int destinationY) {
 
         MovingResult movingResult=checkForMoveErrors(map,asset,speed,ableToClimbLadder,destinationX,destinationY);

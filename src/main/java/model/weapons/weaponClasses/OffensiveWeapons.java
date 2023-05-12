@@ -2,7 +2,7 @@ package model.weapons.weaponClasses;
 
 import model.*;
 import model.map.Map;
-import model.people.UnitState;
+import model.UnitState;
 import model.weapons.Weapon;
 import model.weapons.weaponTypes.OffensiveWeaponsType;
 
@@ -48,7 +48,7 @@ public class OffensiveWeapons extends Weapon implements Movable, Offensive {
     }
 
     public boolean isArcherType() {
-        //TODO
+        //TODO abbasfar
         return true;
     }
 

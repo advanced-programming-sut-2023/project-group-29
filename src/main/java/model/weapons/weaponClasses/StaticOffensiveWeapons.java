@@ -1,12 +1,10 @@
 package model.weapons.weaponClasses;
 
-import model.Movable;
 import model.Offensive;
 import model.PlayerNumber;
 import model.map.Map;
-import model.people.UnitState;
+import model.UnitState;
 import model.weapons.Weapon;
-import model.weapons.weaponTypes.OffensiveWeaponsType;
 import model.weapons.weaponTypes.StaticOffensiveWeaponsType;
 
 public class StaticOffensiveWeapons extends Weapon implements Offensive {

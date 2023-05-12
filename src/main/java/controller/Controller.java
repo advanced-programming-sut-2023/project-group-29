@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Controller {
     public static void run() {
-        buildEnums();   //todo what is this
+        buildEnums();
         Scanner scanner = new Scanner(System.in);
         MenuNames menuNames = MenuNames.LOGIN_MENU;
 

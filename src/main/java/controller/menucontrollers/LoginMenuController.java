@@ -78,14 +78,14 @@ public class LoginMenuController {
         Pattern patternUsername = Pattern.compile("-u\\s+(?<username>\\w\\S+)");
         Pattern patternExistPassword = Pattern.compile("-p");
         Pattern patternPassword = Pattern.compile("-p\\s+(?<password>\\w\\S+)\\s+(?<passwordConfirmation>\\w\\S+)?");
-        //TODO: it was not good
+        //TODO: faratin it was not good @ at the beginning of password
         Pattern patternExistNickname = Pattern.compile("-n");
         Pattern patternNickname = Pattern.compile("-n\\s+(?<nickname>\\w\\S+)");
         Pattern patternExistEmail = Pattern.compile("-email");
         Pattern patternEmail = Pattern.compile("-email\\s+(?<email>\\w\\S+)");
         Pattern patternExistSlogan = Pattern.compile(".+-s.+");
         Pattern patternSlogan = Pattern.compile("-s\\s+(?<slogan>\\w[^-]+\\w)");
-        //TODO: maybe some changes in merging
+
         Matcher matcherExistUsername = patternExistUsername.matcher(input);
         Matcher matcherExistPassword = patternExistPassword.matcher(input);
         Matcher matcherExistNickname = patternExistNickname.matcher(input);
@@ -192,7 +192,6 @@ public class LoginMenuController {
     }
 
     public static String forgottenPassword(Matcher matcher) {
-        //todo faratin transfer
         String username = matcher.group(1);
         if (AppData.getUserByUsername(username) == null) {
             return "User with this username doesn't exist!";

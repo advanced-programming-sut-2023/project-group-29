@@ -7,10 +7,6 @@ import java.util.ArrayList;
 public class User {
     private static ArrayList<String> questions = new ArrayList<>();
 
-    static {    //question initialize
-        //TODO complete
-    }
-
     private String username;
     private String password;
     private String nickname;

@@ -23,7 +23,6 @@ Faratin(){
 
 jasbi(){
     handle TO DOs
-    attacking building --> with abbasfar's help
     کارخانه ذوب
     افسار گاو
     قفسه ی سگ های جنگی
@@ -50,6 +49,7 @@ abbasfar()
     end turn(attack maintenance)
     movable climb ladder exception
     stairs exception
+    fire range for attack
 
     handle not deep water decrease speed;
     handle some units can pass khandagh;
@@ -61,8 +61,20 @@ abbasfar()
     handle settexture;
 
     build khandagh by user. should create building near user?
-    first initialize factors at model.Empire.changePopularityFactor(Empire.java:350)
     drop unit makes for third person
 }
+
+jasbi:
+handle engineer and worker
+
+
+faratin:
+todos
+save
+settexture and drop tree
+unit test(debug)
+confirmation for exit from game
+default map
+
 
 

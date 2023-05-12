@@ -16,7 +16,7 @@ public class Empire {
     private ArrayList<Trade> tradesHistory = new ArrayList<>();
     private final ArrayList<Soldier> soldiers = new ArrayList<>();
     private final ArrayList<Worker> workers = new ArrayList<>();
-    private final HashMap<Building, Integer> buildings = new HashMap<>();//TODO expand this to its children
+    private final HashMap<Building, Integer> buildings = new HashMap<>();
     private int[][] storage = new int[2][3]; //{food, productsAndResources, weapons} {0--> filled, 1--> capacity}
     private final HashMap<String, Integer> popularityChange = new HashMap<>();
     private HashMap<Tradable, Integer> tradableAmounts;
@@ -30,13 +30,13 @@ public class Empire {
     private int popularity = 50;
 
     private int numberOfReligiousBuildings = 0;
-    private int worklessPopulation = 20; //TODO we should be aware of it when a troop is killed!!!!
+    private int worklessPopulation = 20; //TODO jasbi we should be aware of it when a troop is killed!!!!
 
     {
         popularityChange.put("religion", 0);
         popularityChange.put("tax", 0);
         popularityChange.put("fear", 0);
-        popularityChange.put("foodRate", 0);
+        popularityChange.put("food", 0);
         InitializeTradables();
     }
 
@@ -60,7 +60,7 @@ public class Empire {
         popularity += popularityChange.get("religion");
         popularity += popularityChange.get("tax");
         popularity += popularityChange.get("fear");
-        popularity += popularityChange.get("foodRate");
+        popularity += popularityChange.get("food");
         if (popularity < 0) popularity = 0;
     }
 
@@ -149,7 +149,7 @@ public class Empire {
         popularityChange.replace("religion", 0);
         popularityChange.replace("tax", 0);
         popularityChange.replace("fear", 0);
-        popularityChange.replace("foodRate", foodRate * 4);
+        popularityChange.replace("food", foodRate * 4);
     }
 
     public void addBuilding(Building building, int groupNumber) {
@@ -163,8 +163,6 @@ public class Empire {
             switch (buildings.get(building)) {
                 case 1:
                     ((Accommodation) building).update();
-                    break;
-                case 2://TODO JASBI: functions for attackingBuilding type
                     break;
                 case 3://TODO JASBI: functions for other building type
                     break;
