@@ -40,7 +40,7 @@ public class MapInitializer {
 
         for (int i = 1; i < cells.length; i++)
             for (int j = 1; j < cells.length; j++) {
-                cells[i][j] = new Cell(CellType.PLAIN_GROUND);
+                cells[i][j] = new Cell(CellType.PLAIN_GROUND, i, j);
             }
 
         gameData.setMap(secondMap);

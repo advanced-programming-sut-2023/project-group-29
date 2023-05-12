@@ -6,7 +6,7 @@ import model.dealing.Food;
 import model.dealing.Product;
 import model.dealing.Tradable;
 
-public enum ProductExtractorType {
+public enum ProductExtractorType implements BuildType{
     STABLE(//اصطبل
             new BuildingType(100, 0, new int[]{400, 0, 20, 0},"Stble"),
             4, Product.HORSE,"stable"
@@ -45,7 +45,7 @@ public enum ProductExtractorType {
         this.producingTradable = producingTradable;
         this.buildingType = buildingType;
         this.neededResources = buildingType.neededResources();
-        Building.addToValidBuildingNames(buildingName, 4);
+        Building.addToValidBuildingNames(this, 4);
     }
 
     public static void enumBuilder() {

@@ -3,7 +3,9 @@ package controller.menucontrollers;
 import model.Empire;
 import model.PlayerNumber;
 import model.buildings.Building;
+import model.buildings.buildingClasses.OtherBuildings;
 import model.buildings.buildingClasses.UnitCreator;
+import model.buildings.buildingTypes.OtherBuildingsType;
 import model.buildings.buildingTypes.UnitCreatorType;
 import model.dealing.Resource;
 import model.dealing.Tradable;
@@ -20,6 +22,17 @@ public class SelectBuildingMenuController {
         SelectBuildingMenuController.selectedBuilding = selectedBuilding;
     }
 
+
+    public static SelectBuildingMenuMessages changeBridgeState() {
+        if (!(selectedBuilding instanceof OtherBuildings building)) {
+            return SelectBuildingMenuMessages.UNRELATED;
+        }
+        if (!building.getOtherBuildingsType().equals(OtherBuildingsType.DRAW_BRIDGE)) {
+            return SelectBuildingMenuMessages.UNRELATED;
+        }
+        building.changeState();
+        return SelectBuildingMenuMessages.SUCCESS;
+    }
     public static SelectBuildingMenuMessages createUnit(String unitType, int count) {
         Empire ownerEmpire = selectedBuilding.getOwnerEmpire();
         SoldierType soldierType = SoldierType.getSoldierTypeByName(unitType);
@@ -29,7 +42,7 @@ public class SelectBuildingMenuController {
             return SelectBuildingMenuMessages.INVALID_TYPE;
         } else if (!(selectedBuilding instanceof UnitCreator
                 && buildingAndTroopMatch((UnitCreator) selectedBuilding, soldierType))) {
-            return SelectBuildingMenuMessages.UNRELATED_TYPE;
+            return SelectBuildingMenuMessages.UNRELATED;
         }
         UnitCreator building = (UnitCreator) selectedBuilding;
         if (building.getUnitCost() * count > ownerEmpire.getWealth()) {
@@ -53,7 +66,6 @@ public class SelectBuildingMenuController {
         Tradable weapon2 = SoldierType.getTradableFromSoldierType(soldierType)[1];
         if (weapon1 != null) ownerEmpire.changeTradableAmount(weapon1, -count);
         if (weapon2 != null) ownerEmpire.changeTradableAmount(weapon2, -count);
-        //todo jasbi reduce number of workless
     }
 
     private static boolean buildingAndTroopMatch(UnitCreator building, SoldierType soldierType) {
@@ -113,4 +125,5 @@ public class SelectBuildingMenuController {
     public static String getBuildingHp() {
         return "Your building hp: " + selectedBuilding.getHp() + " / " + selectedBuilding.getMaxHp();
     }
+
 }

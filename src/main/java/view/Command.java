@@ -61,6 +61,7 @@ public enum Command {
     DROP_UNIT("\\s*drop\\s+unit\\s+-[xytcn]\\s+(\\S+)\\s+-[xytcn]\\s+(\\S+)\\s+" +
             "-[xytcn]\\s+(\\S+)\\s+-[xytcn]\\s+(\\S+)\\s+-[xytcn]\\s+(\\S+)\\s*"),
     CREATE_UNIT("\\s*create\\s+unit\\s+-[tc]\\s+(\\S+)\\s+-[ct]\\s+(\\S+)\\s*"), //TODO
+    CHANGE_BRIDGE_STATE("\\s*change\\s+state\\s+of\\s+this\\s+bridge\\s*"),
     REPAIR_BUILDING("\\s*repair\\s*"),
     MOVE_UNIT("\\s*move\\s+unit\\s+to\\s+-[xy]\\s+(\\d+)\\s+-[xy]\\s+(\\d+)\\s*"),
     PATROL_UNIT("\\s*patrol\\s+unit\\s+-(x1|x2|y1|y2)\\s+(\\d+)\\s+-(x1|x2|y1|y2)\\s+(\\d+)\\s+-(x1|x2|y1|y2)\\s+(\\d+)\\s+-(x1|x2|y1|y2)\\s+(\\d+)\\s*"),

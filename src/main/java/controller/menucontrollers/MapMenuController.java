@@ -236,9 +236,12 @@ public class MapMenuController {
 
         if (!empire.canBuyBuilding(buildingName)) {
             return MapMenuMessages.LACK_OF_RESOURCES;
+        } else if (empire.getWorklessPopulation() < Building.getNumberOfWorkers(buildingName)) {
+            return MapMenuMessages.LACK_OF_HUMAN;
         }
 
         empire.buyBuilding(buildingName);
+        empire.changeWorklessPopulation(-Building.getNumberOfWorkers(buildingName));
         chosenCell.makeBuilding(buildingName, ownerPlayerNumber);
         return MapMenuMessages.SUCCESSFUL;
     }
@@ -258,8 +261,6 @@ public class MapMenuController {
 
     private static MapMenuMessages buildErrorCheck(int x, int y, String buildingName, PlayerNumber ownerPlayerNumber) {
         GameData gameData = GameMenuController.getGameData();
-
-        Building building;
         Empire empire = gameData.getEmpireByPlayerNumber(ownerPlayerNumber);
         if (!gameData.getMap().isIndexValid(x, y)) {
             return MapMenuMessages.INVALID_INDEX;
@@ -273,7 +274,7 @@ public class MapMenuController {
             return MapMenuMessages.INVALID_TYPE;
         } else if (!chosenCell.isAbleToBuildOn(buildingName)) {
             return MapMenuMessages.IMPROPER_CELL_TYPE;
-        } else if ((building = chosenCell.getBuilding()) != null) {
+        } else if (chosenCell.getBuilding() != null) {
             return MapMenuMessages.FULL_CELL;
         } else if (buildingTypeIsStore(buildingName)
                 && IsAnotherStore(empire, buildingName)

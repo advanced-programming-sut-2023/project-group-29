@@ -7,6 +7,6 @@ public enum SelectBuildingMenuMessages {
     LACK_OF_COINS,
     LACK_OF_WEAPON,
     LACK_OF_HUMAN,
-    UNRELATED_TYPE,
+    UNRELATED,
     INVALID_TYPE,
 }

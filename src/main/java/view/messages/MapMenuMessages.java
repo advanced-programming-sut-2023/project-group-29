@@ -9,5 +9,6 @@ public enum MapMenuMessages {
     FULL_CELL,
     UNCONNECTED_STOREROOMS,
     LACK_OF_RESOURCES,
+    LACK_OF_HUMAN,
     SUCCESSFUL
 }

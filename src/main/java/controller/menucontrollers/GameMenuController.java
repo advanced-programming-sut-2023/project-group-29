@@ -2,6 +2,7 @@ package controller.menucontrollers;
 
 import model.*;
 import model.buildings.Building;
+import model.buildings.buildingTypes.OtherBuildingsType;
 import model.dealing.Food;
 import model.dealing.Tradable;
 import model.map.Cell;
@@ -148,8 +149,7 @@ public class GameMenuController {
 
                 }
     }
-    //todo jasbi : قفسه‌ی سگ های جنگی
-    //todo jasbi : draw bridge
+
     public static void updateEmpire(PlayerNumber playerNumber) {
         Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
         empire.setFields();
@@ -202,5 +202,10 @@ public class GameMenuController {
             output += tradable.getName() + ": " + amount + "\n";
         }
         return output;
+    }
+
+    public static boolean isAnyMarket() {
+        Empire empire = gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn());
+        return empire.getNumberOfBuildingType(OtherBuildingsType.MARKET.getName()) > 0;
     }
 }

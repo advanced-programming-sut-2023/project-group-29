@@ -1,9 +1,7 @@
 package model.people;
 
-import model.Asset;
-import model.Movable;
-import model.Patrol;
-import model.PlayerNumber;
+import controller.menucontrollers.GameMenuController;
+import model.*;
 import model.map.Map;
 import model.people.humanClasses.Soldier;
 import model.people.humanClasses.Worker;

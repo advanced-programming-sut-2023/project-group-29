@@ -3,7 +3,7 @@ package model.buildings.buildingTypes;
 import model.buildings.Building;
 import model.buildings.BuildingType;
 
-public enum AttackingBuildingType {
+public enum AttackingBuildingType implements BuildType {
     LOOKOUT_TOWER( // برج دیدبانی
             new BuildingType(70, 0, new int[]{0, 10, 0, 0},"LookT"),
             30, 45, "lookoutTower"
@@ -39,7 +39,7 @@ public enum AttackingBuildingType {
         this.buildingType = buildingType;
         this.name = buildingName;
         this.neededResources = buildingType.neededResources();
-        Building.addToValidBuildingNames(buildingName, 2);
+        Building.addToValidBuildingNames(this, 2);
     }
 
     public static void enumBuilder() {

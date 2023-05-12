@@ -3,7 +3,7 @@ package model.buildings.buildingTypes;
 import model.buildings.Building;
 import model.buildings.BuildingType;
 
-public enum StoreType {
+public enum StoreType implements BuildType {
     ARMOURY( //اسلحه خانه
             new BuildingType(60, 0, new int[]{0, 0, 5, 0},"Armry"),
             100, "armoury"
@@ -28,7 +28,7 @@ public enum StoreType {
         this.buildingType = buildingType;
         this.name = buildingName;
         this.neededResources = buildingType.neededResources();
-        Building.addToValidBuildingNames(buildingName, 8);
+        Building.addToValidBuildingNames(this, 8);
     }
 
     public static void enumBuilder() {

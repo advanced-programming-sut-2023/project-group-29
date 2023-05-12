@@ -24,13 +24,13 @@ public class Empire {
     private HashMap<Tradable, Integer> tradableAmounts;
     private User user;
     private int possiblePopulation;
-    private int population = 20;
     private int wealth = 500;
     private int taxRate = 0;
     private int fearRate = 0;
     private int foodRate = -2;
     private int popularity = 50;
-    private int worklessPopulation = 20; //TODO jasbi we should be aware of it when a troop is killed!!!!
+    private int worklessPopulation = 20; //TODO jasbi we should be aware of it when a troop is built!
+    private int numberOfUnits = 0; //TODO jasbi this field should be set when creating unit and when a troop is killed
 
     {
         popularityChange.put("religion", 0);
@@ -62,7 +62,19 @@ public class Empire {
     }
 
     public int getPopulation() {
-        return population;
+        return worklessPopulation + getNumberOfWorkers() + getNumberOfUnits();
+    }
+
+    private int getNumberOfWorkers() {
+        int workers = 0;
+        for (Building building: buildings.keySet()) {
+            workers += building.getNumberOfWorkers();
+        }
+        return workers;
+    }
+
+    private int getNumberOfUnits() {
+        return numberOfUnits;
     }
 
     public int getWealth() {
@@ -150,15 +162,7 @@ public class Empire {
         makeCapacitiesZero();
         makePossiblePopulationZero();
         for (Building building : buildings.keySet()) {
-            switch (buildings.get(building)) {
-                case 1 -> ((Accommodation) building).update();
-                case 3 -> ((OtherBuildings) building).update();
-                case 4 -> ((ProductExtractor) building).update();
-                case 5 -> ((ProductProcessor) building).update();
-                case 6 -> ((ResourceExtractor) building).update();
-                case 7 -> ((ResourceProcessor) building).update();
-                case 8 -> ((Store) building).update();
-            }
+            building.update();
         }
     }
 
@@ -302,7 +306,7 @@ public class Empire {
     }
 
     private void removeEatenFood() {
-        int numberOfFoodEaten = (int) ((foodRate + 2) / 2 * population);
+        int numberOfFoodEaten = (int) ((foodRate + 2) / 2 * getPopulation());
         if (numberOfFoodEaten > storage[0][0]) {
             foodRate = -2;
             GameMenuController.notify("Your food rate was automatically set on -2 because of lack of food!");
@@ -353,7 +357,7 @@ public class Empire {
         } else {
             changeByPerson = (float) (rate * 0.2 + 0.4);
         }
-        return (int) Math.floor(changeByPerson * population);
+        return (int) Math.floor(changeByPerson * getPopulation());
     }
 
     public int getWorklessPopulation() {
@@ -362,19 +366,22 @@ public class Empire {
 
     public void growPopulation() {
         int growAccordingToFood, growAccordingToSpace;
-        if (storage[0][0] * 2 >= population) {
-            growAccordingToFood = storage[0][0] * 2 - population;
+        if (storage[0][0] * 2 >= getPopulation()) {
+            growAccordingToFood = storage[0][0] * 2 - getPopulation();
         } else {
             growAccordingToFood = 0;
         }
-        growAccordingToSpace = possiblePopulation - population;
+        growAccordingToSpace = possiblePopulation - worklessPopulation;
         int growthRate = Math.min(growAccordingToFood, growAccordingToSpace);
         if (growthRate > 10) growthRate = 10;
         addPopulation(growthRate);
     }
 
     private void addPopulation(int growthRate) {
-        population += growthRate;
         worklessPopulation += growthRate;
+    }
+
+    public void changeWorklessPopulation(int change) {
+        worklessPopulation += change;
     }
 }

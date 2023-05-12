@@ -3,7 +3,7 @@ package model.buildings.buildingTypes;
 import model.buildings.Building;
 import model.buildings.BuildingType;
 
-public enum UnitCreatorType {
+public enum UnitCreatorType implements BuildType {
     BARRACK( //سربازخانه
             new BuildingType(50, 0, new int[]{0, 15, 0, 0},"Brrck"),
             50, "barrack"
@@ -37,7 +37,7 @@ public enum UnitCreatorType {
         this.buildingType = buildingType;
         this.name = buildingName;
         this.neededResources = buildingType.neededResources();
-        Building.addToValidBuildingNames(buildingName, 9);
+        Building.addToValidBuildingNames(this, 9);
     }
 
     public static void enumBuilder() {

@@ -4,7 +4,7 @@ import model.buildings.Building;
 import model.buildings.BuildingType;
 import model.dealing.Resource;
 
-public enum ResourceExtractorType {
+public enum ResourceExtractorType implements BuildType {
     PITCH_RIG( // دکل قیر
             new BuildingType(80, 1, new int[]{0, 0, 20, 0},"PtchR"),
             30,Resource.PITCH, "pitchRig"
@@ -36,7 +36,7 @@ public enum ResourceExtractorType {
         this.producingResource = producingResource;
         this.name = buildingName;
         this.neededResources = buildingType.neededResources();
-        Building.addToValidBuildingNames(buildingName, 6);
+        Building.addToValidBuildingNames(this, 6);
     }
 
     public static void enumBuilder() {

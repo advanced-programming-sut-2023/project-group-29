@@ -5,7 +5,7 @@ import model.buildings.BuildingType;
 import model.dealing.Product;
 import model.dealing.Resource;
 
-public enum ResourceProcessorType {
+public enum ResourceProcessorType implements BuildType {
     ARMOURER( // زره سازی
             new BuildingType(80, 1, new int[]{100, 0, 20, 0},"Armrr"),
             10, Resource.IRON, Product.ARMOUR, "Armourer"
@@ -40,7 +40,7 @@ public enum ResourceProcessorType {
         this.product = product;
         this.name = buildingName;
         this.neededResources = buildingType.neededResources();
-        Building.addToValidBuildingNames(buildingName, 7);
+        Building.addToValidBuildingNames(this, 7);
     }
 
     public static void enumBuilder() {

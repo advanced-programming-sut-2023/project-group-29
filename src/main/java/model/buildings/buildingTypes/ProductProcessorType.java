@@ -6,7 +6,7 @@ import model.dealing.Food;
 import model.dealing.Product;
 import model.dealing.Tradable;
 
-public enum ProductProcessorType {
+public enum ProductProcessorType implements BuildType {
     MILL( //آسیاب
             new BuildingType(60, 3, new int[]{0, 0, 20, 0},"Mill_"),
             10, Product.WHEAT, Product.FLOUR, "mill"
@@ -42,7 +42,7 @@ public enum ProductProcessorType {
         this.buildingType = buildingType;
         this.name = buildingName;
         this.neededResources = buildingType.neededResources();
-        Building.addToValidBuildingNames(buildingName, 5);
+        Building.addToValidBuildingNames(this, 5);
     }
 
     public static void enumBuilder() {

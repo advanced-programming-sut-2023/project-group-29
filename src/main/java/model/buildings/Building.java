@@ -9,8 +9,7 @@ import java.util.HashMap;
 
 public abstract class Building extends Asset {
 
-    //TODO JASBI: number of workers
-    private static final HashMap<String, Integer> buildingNamesAndTheirGroup = new HashMap<>();
+    private static final HashMap<BuildType, Integer> buildingTypesAndTheirGroup = new HashMap<>();
     protected int numberOfWorkers;
     protected int[] neededResources;
     protected int maxHp;
@@ -23,14 +22,18 @@ public abstract class Building extends Asset {
         this.maxHp = hp;
     }
 
-    public static void addToValidBuildingNames(String buildingName, int groupNumber) {
-        buildingNamesAndTheirGroup.put(buildingName, groupNumber);
+    public int getNumberOfWorkers() {
+        return numberOfWorkers;
+    }
+
+    public static void addToValidBuildingNames(BuildType buildType, int groupNumber) {
+        buildingTypesAndTheirGroup.put(buildType, groupNumber);
     }
 
     public static boolean isBuildingNameValid(String buildingName) {
         if (buildingName.equals("wallWithStair") || buildingName.equals("ladder")) return false;
-        for (String name : buildingNamesAndTheirGroup.keySet()) {
-            if (name.equals(buildingName)) return true;
+        for (BuildType buildType : buildingTypesAndTheirGroup.keySet()) {
+            if (buildType.getName().equals(buildingName)) return true;
         }
         return false;
     }
@@ -39,28 +42,24 @@ public abstract class Building extends Asset {
     //TODO FARATIN:     معدن آهن فقط برروی زمین‌هایی از جنس آهن گذاشته می‌شود.
 
     public static int getGroupNumberByBuildingName(String buildingName) {
-        return buildingNamesAndTheirGroup.get(buildingName);
+        for (BuildType buildType : buildingTypesAndTheirGroup.keySet()) {
+            if (buildType.getName().equals(buildingName)) {
+                return buildingTypesAndTheirGroup.get(buildType);
+            }
+        }
+        return 0;
     }
 
     public static int getNeededResource(int i, String buildingName) {
-        for (AccommodationType type: AccommodationType.values())
-            if (type.getName().equals(buildingName)) return type.getNeededResources(i);
-        for (AttackingBuildingType type: AttackingBuildingType.values())
-            if (type.getName().equals(buildingName)) return type.getNeededResources(i);
-        for (OtherBuildingsType type: OtherBuildingsType.values())
-            if (type.getName().equals(buildingName)) return type.getNeededResources(i);
-        for (ProductProcessorType type: ProductProcessorType.values())
-            if (type.getName().equals(buildingName)) return type.getNeededResources(i);
-        for (ProductExtractorType type: ProductExtractorType.values())
-            if (type.getName().equals(buildingName)) return type.getNeededResources(i);
-        for (ResourceExtractorType type: ResourceExtractorType.values())
-            if (type.getName().equals(buildingName)) return type.getNeededResources(i);
-        for (ResourceProcessorType type: ResourceProcessorType.values())
-            if (type.getName().equals(buildingName)) return type.getNeededResources(i);
-        for (StoreType type: StoreType.values())
-            if (type.getName().equals(buildingName)) return type.getNeededResources(i);
-        for (UnitCreatorType type: UnitCreatorType.values())
-            if (type.getName().equals(buildingName)) return type.getNeededResources(i);
+       for (BuildType buildType : buildingTypesAndTheirGroup.keySet()) {
+           if (buildType.getName().equals(buildingName)) return buildType.getNeededResources(i);
+       }
+       return 0;
+    }
+    public static int getNumberOfWorkers(String buildingName) {
+        for (BuildType buildType : buildingTypesAndTheirGroup.keySet()) {
+            if (buildType.getName().equals(buildingName)) return buildType.getBuildingType().numberOfWorkers();
+        }
         return 0;
     }
 
@@ -77,4 +76,6 @@ public abstract class Building extends Asset {
 
 
     public abstract void setShowingSignInMap();
+
+    public void update() {}
 }

@@ -3,7 +3,7 @@ package model.buildings.buildingTypes;
 import model.buildings.Building;
 import model.buildings.BuildingType;
 
-public enum AccommodationType {
+public enum AccommodationType implements BuildType{
 
     BIG_STONE_GATEHOUSE( // دروازه سنگی بزرگ
             new BuildingType(200, 0, new int[]{0, 20, 0, 0}, "BSGat"),
@@ -31,7 +31,7 @@ public enum AccommodationType {
         this.numberOfSettler = numberOfSettler;
         this.name = buildingName;
         this.neededResources = buildingType.neededResources();
-        Building.addToValidBuildingNames(buildingName, 1);
+        Building.addToValidBuildingNames(this, 1);
     }
 
     public static void enumBuilder() {

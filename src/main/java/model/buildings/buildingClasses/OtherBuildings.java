@@ -1,8 +1,14 @@
 package model.buildings.buildingClasses;
 
+import controller.menucontrollers.GameMenuController;
+import model.Asset;
 import model.PlayerNumber;
 import model.buildings.Building;
 import model.buildings.buildingTypes.OtherBuildingsType;
+import model.map.Cell;
+import model.people.Human;
+import model.people.humanClasses.Soldier;
+import model.people.humanTypes.SoldierType;
 
 public class OtherBuildings extends Building {
     private final OtherBuildingsType otherBuildingsType;
@@ -31,6 +37,35 @@ public class OtherBuildings extends Building {
     }
 
     public void update() {
-        //todo jasbi: کارخانه ذوب مهندس خالی بگیرد و مهندس با نفت بدهد
+        Cell currentCell = GameMenuController.getGameData().getMap().getCells()[getPositionX()][getPositionY()];
+        if (otherBuildingsType.equals(OtherBuildingsType.OIL_SMELTER)) {
+            Soldier engineer = findEngineer(currentCell);
+            if (engineer != null) {
+                convertEngineerToEngineerWithOil(engineer,currentCell);
+            }
+        }
+    }
+
+    private void convertEngineerToEngineerWithOil(Soldier soldier, Cell currentCell) {
+        PlayerNumber playerNumber = GameMenuController.getGameData().getPlayerOfTurn();
+        currentCell.getMovingObjects().remove(soldier);
+        Human.createUnitByName("engineerWithOil", playerNumber, getPositionX(), getPositionY());
+    }
+
+    private Soldier findEngineer(Cell currentCell) {
+        for (Asset asset: currentCell.getMovingObjects()) {
+            if (asset instanceof Soldier soldier){
+                if (soldier.getSoldierType().equals(SoldierType.ENGINEER)) return soldier;
+            }
+        }
+        return null;
+    }
+
+    public void changeState() {
+        if (showingSignInMap.charAt(4) == 'D') {
+            showingSignInMap = showingSignInMap.substring(0,4) + "U" + showingSignInMap.substring(5,6) ;
+        } else if (showingSignInMap.charAt(4) == 'U') {
+            showingSignInMap = showingSignInMap.substring(0,4) + "D" + showingSignInMap.substring(5,6) ;
+        }
     }
 }

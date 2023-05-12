@@ -3,12 +3,11 @@ package model.buildings.buildingTypes;
 import model.buildings.Building;
 import model.buildings.BuildingType;
 
-public enum OtherBuildingsType {
+public enum OtherBuildingsType implements BuildType{
     DRAW_BRIDGE( // پل متحرک
-            new BuildingType(50, 0, new int[]{0, 0, 10, 0}, "DBrdg"),
+            new BuildingType(50, 0, new int[]{0, 0, 10, 0}, "DBrgD"),
             "drawBridge"
     ),
-    //TODO: I think it should be connected to shop menu!!
     MARKET( // فروشگاه
             new BuildingType(30, 1, new int[]{0, 0, 5, 0}, "Mrket"),
             "market"
@@ -24,6 +23,10 @@ public enum OtherBuildingsType {
     OX_TETHER( // افسار گاو
             new BuildingType(30, 1, new int[]{0, 0, 5, 0}, "OxTtr"),
             "oxTether"
+    ),
+    OIL_SMELTER( //کارخانه ذوب
+            new BuildingType(60, 0, new int[]{0, 20, 0, 0}, "OlSml"),
+            "oilSmelter"
     ),
     MOAT( //خندق
             new BuildingType(40, 0, new int[]{50, 0, 0, 0}, "Moat_"),
@@ -59,7 +62,7 @@ public enum OtherBuildingsType {
         this.buildingType = buildingType;
         this.name = buildingName;
         this.neededResources = buildingType.neededResources();
-        Building.addToValidBuildingNames(buildingName, 3);
+        Building.addToValidBuildingNames(this, 3);
     }
 
     public static void enumBuilder() {

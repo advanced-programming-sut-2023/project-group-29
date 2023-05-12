@@ -21,11 +21,15 @@ public class Cell {
     //    private int speed;
     private final CellType cellType;
     private boolean hasTunnel=false;
+    private int xPosition;
+    private int yPosition;
 
     //    private boolean ableToBuildOn;
 //    private boolean ableToMoveOn;
-    public Cell(CellType cellType) {
+    public Cell(CellType cellType, int xPosition, int yPosition) {
         this.cellType = cellType;
+        this.xPosition = xPosition;
+        this.yPosition = yPosition;
 //        this.speed=cellType.getSpeed();
 //        this.ableToBuildOn=cellType.isAbleToBuildOn();
 //        this.ableToMoveOn= cellType.isAbleToMoveOn();
@@ -160,7 +164,6 @@ public class Cell {
     public void setBuilding(Building building) {
         this.building = building;
     }
-
 //    public int getSpeed() {
 //        return speed;
 //    }
@@ -213,13 +216,12 @@ public class Cell {
         empire.addBuilding(building, buildingGroupNumber);
     }
 
-    //TODO complete two functions below
     private int getXPosition() {
-        return 1;
+        return xPosition;
     }
 
     private int getYPosition() {
-        return 1;
+        return yPosition;
     }
 
     public ConsoleColors getShowingColor() {
