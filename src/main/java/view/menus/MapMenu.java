@@ -97,7 +97,7 @@ public class MapMenu {
         int trueType = 0;
         CellType cellType = null;
         for(CellType myCellType: CellType.values()) {
-            if(myCellType.name().equals(type)) {
+            if(myCellType.getName().equals(type)) {
                 trueType = 1;
                 cellType = myCellType;
                 break;
@@ -127,7 +127,7 @@ public class MapMenu {
         int trueType = 0;
         CellType cellType = null;
         for(CellType myCellType: CellType.values()) {
-            if(myCellType.name().equals(type)) {
+            if(myCellType.getName().equals(type)) {
                 trueType = 1;
                 cellType = myCellType;
                 break;

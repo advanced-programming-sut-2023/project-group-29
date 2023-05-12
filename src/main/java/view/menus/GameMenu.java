@@ -8,6 +8,7 @@ import model.PlayerNumber;
 import model.dealing.Trade;
 import view.Command;
 import view.messages.GameMenuMessages;
+import view.messages.MapMenuMessages;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -25,7 +26,13 @@ public class GameMenu {
             Matcher matcher;
             String input = scanner.nextLine();
             if ((matcher=Command.getMatcher(input, Command.SHOW_MAP)) != null) {
-                if(showMap(matcher)) return MenuNames.MAP_MENU;
+                int checkCorrectCommand = showMap(matcher);
+                if(checkCorrectCommand == 1) {
+
+                }
+                else {
+                    return MenuNames.MAP_MENU;
+                }
             } else if (Command.getMatcher(input, Command.SHOW_POPULARITY_FACTORS) != null) {
                 showPopularityFactors();
             } else if (Command.getMatcher(input, Command.SHOW_POPULARITY) != null) {
@@ -58,10 +65,7 @@ public class GameMenu {
                 enterTradeMenu();
                 return MenuNames.TRADE_MENU;
             } else if (Command.getMatcher(input, Command.ENTER_SHOP_MENU) != null) {
-                if (!GameMenuController.isAnyMarket()) {
-                    System.out.println("You don't have any markets!");
-                    continue;
-                }
+                if (!GameMenuController.isAnyMarket()) continue;
                 return MenuNames.SHOP_MENU;
             } else if (Command.getMatcher(input, Command.BACK_MAIN_MENU) != null) {
                 if (confirmationOfExist() == 1) {
@@ -92,30 +96,34 @@ public class GameMenu {
         System.out.println("New Trade For You:");
         ArrayList<Trade> trades = gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn()).getNewTrades();
         for(int i = 0; i < trades.size(); i++) {
-            System.out.print((i + 1) + ") sender player: " + trades.get(i).getSenderPlayer().getNumber());
-            System.out.print(" | receiver player: " + trades.get(i).getReceiverPlayer().getNumber());
+            System.out.print((i + 1) + ") sender player: " + (trades.get(i).getSenderPlayer().getNumber() + 1));
             System.out.print(" | commodity: " + trades.get(i).getCommodity().getName());
             System.out.print(" | amount: " + trades.get(i).getCount());
             System.out.print(" | price: " + trades.get(i).getPrice());
             System.out.print(" | message: " + trades.get(i).getMessage());
             System.out.println("\n");
-            gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn()).getNewTrades().set(i, null);
         }
+        ArrayList<Trade> myTrades = new ArrayList<>();
+        gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn()).setNewTrades(myTrades);
     }
 
-    private static boolean showMap(Matcher matcher) {
+    private static int showMap(Matcher matcher) {
         String input = matcher.group(0);
         Matcher xMatcher = Pattern.compile("-x\\s+(\\d+)").matcher(input);
         Matcher yMatcher = Pattern.compile("-y\\s+(\\d+)").matcher(input);
         if(!(xMatcher.find() && yMatcher.find())) {
             System.out.println("Invalid command!");
-            return false;
+            return 1;
         }
         int positionX=Integer.parseInt(xMatcher.group(1));
         int positionY=Integer.parseInt(yMatcher.group(1));
 
-        MapMenuController.setShowingMapIndexes(positionX,positionY);
-        return true;
+        MapMenuMessages result = MapMenuController.setShowingMapIndexes(positionX,positionY);
+        switch (result) {
+            case INVALID_INDEX -> System.out.println("Invalid index!");
+            case SUCCESSFUL -> System.out.println("Successful");
+        }
+        return 0;
     }
 
     private static void showPopularityFactors() {
