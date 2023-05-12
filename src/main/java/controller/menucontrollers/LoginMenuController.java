@@ -1,6 +1,7 @@
 package controller.menucontrollers;
 
 import model.AppData;
+import model.SaveAndLoad;
 import model.User;
 import view.menus.LoginMenu;
 
@@ -71,57 +72,70 @@ public class LoginMenuController {
         }
         return "Us against whole of the world!";
     }
-    public static String createUser(Matcher matcher) {
-        //TODO faratin: split it to smaller functions
-        String input = matcher.group(0);
-        Pattern patternExistUsername = Pattern.compile("-u");
-        Pattern patternUsername = Pattern.compile("-u\\s+(?<username>\\w\\S+)");
-        Pattern patternExistPassword = Pattern.compile("-p");
-        Pattern patternPassword = Pattern.compile("-p\\s+(?<password>\\w\\S+)\\s+(?<passwordConfirmation>\\w\\S+)?");
-        //TODO: faratin it was not good @ at the beginning of password
-        Pattern patternExistNickname = Pattern.compile("-n");
-        Pattern patternNickname = Pattern.compile("-n\\s+(?<nickname>\\w\\S+)");
-        Pattern patternExistEmail = Pattern.compile("-email");
-        Pattern patternEmail = Pattern.compile("-email\\s+(?<email>\\w\\S+)");
-        Pattern patternExistSlogan = Pattern.compile(".+-s.+");
-        Pattern patternSlogan = Pattern.compile("-s\\s+(?<slogan>\\w[^-]+\\w)");
 
-        Matcher matcherExistUsername = patternExistUsername.matcher(input);
-        Matcher matcherExistPassword = patternExistPassword.matcher(input);
-        Matcher matcherExistNickname = patternExistNickname.matcher(input);
-        Matcher matcherExistEmail = patternExistEmail.matcher(input);
+    private static int checkEmptyFilled(Matcher matcherExistSlogan, Matcher matcherUsername, Matcher matcherPassword, Matcher matcherNickname, Matcher matcherEmail, Matcher matcherSlogan) {
+        if (!matcherUsername.find()) {
+            return 1;
+        }
+        if (!matcherPassword.find()) {
+            return 2;
+        }
+        if (!matcherNickname.find()) {
+            return 3;
+        }
+        if (!matcherEmail.find()) {
+            return 4;
+        }
+        if (matcherExistSlogan.find() && !matcherSlogan.find()) {
+            return 5;
+        }
+        return 0;
+    }
+
+    private static String getSlogan(Matcher matcherExistSlogan, Matcher matcherSlogan) {
+        String slogan = "";
+        if (matcherExistSlogan.matches()) {
+            if (!matcherSlogan.group(1).equals("random")) {
+                slogan = matcherSlogan.group(1);
+            } else {
+                slogan = createRandomSlogan();
+            }
+        }
+        return slogan;
+    }
+
+    private static int checkInvalidCommand(String input) {
+        Matcher matcherExistUsername = Pattern.compile("-u").matcher(input);
+        Matcher matcherExistPassword = Pattern.compile("-p").matcher(input);
+        Matcher matcherExistNickname = Pattern.compile("-n").matcher(input);
+        Matcher matcherExistEmail = Pattern.compile("-email").matcher(input);
         if (!(matcherExistUsername.find() && matcherExistPassword.find() &&
                 matcherExistNickname.find() && matcherExistEmail.find())) {
-            return "Invalid command!";
+            return 1;
         }
-        Matcher matcherUsername = patternUsername.matcher(input);
-        if (!matcherUsername.find()) {
-            return "Fill your username";
-        }
-        Matcher matcherPassword = patternPassword.matcher(input);
-        if (!matcherPassword.find()) {
-            return "Fill your password";
-        }
-        Matcher matcherNickname = patternNickname.matcher(input);
-        if (!matcherNickname.find()) {
-            return "Fill your nickname";
-        }
-        Matcher matcherEmail = patternEmail.matcher(input);
-        if (!matcherEmail.find()) {
-            return "Fill your email";
-        }
-        Matcher matcherExistSlogan = patternExistSlogan.matcher(input);
-        Matcher matcherSlogan = patternSlogan.matcher(input);
-        if (matcherExistSlogan.find() && !matcherSlogan.find()) {
-            return "Fill your slogan";
-        }
+        return 0;
+    }
+
+    public static String createUser(Matcher matcher) {
+        String input = matcher.group(0);
+        if(checkInvalidCommand(input) == 1) return "Invalid command!";
+        Matcher matcherUsername = Pattern.compile("-u\\s+(?<username>\\w[^-&^\\s]+\\S)").matcher(input);
+        Matcher matcherPassword = Pattern.compile("-p\\s+(?<password>\\S[^-&^\\s]+\\S)\\s+(?<passwordConfirmation>\\S[^-&^\\s]+\\S+)?").matcher(input);
+        Matcher matcherNickname = Pattern.compile("-n\\s+(?<nickname>\\w[^-&^\\s]+\\S)").matcher(input);
+        Matcher matcherEmail = Pattern.compile("-email\\s+(?<email>\\w[^-&^\\s]+\\S)").matcher(input);
+        Matcher matcherExistSlogan = Pattern.compile(".+-s.+").matcher(input);
+        Matcher matcherSlogan = Pattern.compile("-s\\s+(?<slogan>\\w[^-]+\\w)").matcher(input);
+        int checkFilled = checkEmptyFilled(matcherExistSlogan, matcherUsername, matcherPassword, matcherNickname, matcherEmail, matcherSlogan);
+        if(checkFilled == 1) return "Fill your username";
+        if(checkFilled == 2) return "Fill your password";
+        if(checkFilled == 3) return "Fill your nickname";
+        if(checkFilled == 4) return "Fill your email";
+        if(checkFilled == 5) return "Fill your slogan";
         String username = matcherUsername.group(1);
-        Pattern patternCheckUsername = Pattern.compile("\\w+");
-        Matcher matcherCheckUsername = patternCheckUsername.matcher(username);
+        Matcher matcherCheckUsername = Pattern.compile("\\w+").matcher(username);
         if (!matcherCheckUsername.matches()) {
             return "Check format of your username";
         }
-
         if (AppData.getUserByUsername(username) != null) {
             String newInput = LoginMenu.suggestUsername(username);
             if (!(newInput.equals("Yes") || newInput.equals("yes"))) {
@@ -147,24 +161,15 @@ public class LoginMenuController {
                 return "Incorrect password!";
             }
         }
-        String email = matcherEmail.group(1);
-        if (AppData.getUserByEmail(email) != null) {
+        if (AppData.getUserByEmail(matcherEmail.group(1)) != null) {
             return "This email is already exist!";
         }
-        if (checkEmailFormat(email) == 0) {
+        if (checkEmailFormat(matcherEmail.group(1)) == 0) {
             return "Check format of your email";
         }
-        String nickname = matcherNickname.group(1);
-        String slogan = "";
-        if (matcherExistSlogan.matches()) {
-            if (!matcherSlogan.group(1).equals("random")) {
-                slogan = matcherSlogan.group(1);
-            } else {
-                slogan = createRandomSlogan();
-            }
-        }
-        User user = new User(username, password, nickname, email, slogan, LoginMenu.checkSecurityQuestion());
+        User user = new User(username, password, matcherNickname.group(1), matcherEmail.group(1), getSlogan(matcherExistSlogan, matcherSlogan), LoginMenu.checkSecurityQuestion());
         AppData.addUser(user);
+        SaveAndLoad.saveData(AppData.getUsers(), AppData.getUsersDataBaseFilePath());
         return "user created successfully";
     }
 

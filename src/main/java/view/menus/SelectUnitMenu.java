@@ -20,10 +20,8 @@ public class SelectUnitMenu {
                 patrolUnit(matcher);
             } else if ((matcher = Command.getMatcher(input, Command.SET_STATE_OF_UNIT)) != null) {
                 setStateOfUnit(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.MAKE_UNIT_ATTACKING)) != null) {
-                makeUnitAttacking(matcher);
             } else if ((matcher = Command.getMatcher(input, Command.ATTACK)) != null) {
-                makeUnitAttacking(matcher);
+                Attack(matcher);
             } else if ((matcher = Command.getMatcher(input, Command.POUR_OIL)) != null) {
                 pourOil(matcher);
             } else if ((matcher = Command.getMatcher(input, Command.DIG_TUNNEL)) != null) {
@@ -89,9 +87,16 @@ public class SelectUnitMenu {
         System.out.println(SelectUnitMenuController.setStateOfUnit(x, y, state));
     }
 
-    private static void makeUnitAttacking(Matcher matcher) {
-        int x=Integer.parseInt(matcher.group("x"));
-        int y=Integer.parseInt(matcher.group("y"));
+    private static void Attack(Matcher matcher) {
+        String input = matcher.group(0);
+        Matcher xMatcher = Pattern.compile("-x\\s+(\\d+)").matcher(input);
+        Matcher yMatcher = Pattern.compile("-y\\s+(\\d+)").matcher(input);
+        if(!(xMatcher.find() && yMatcher.matches())) {
+            System.out.println("Invalid command!");
+            return;
+        }
+        int x=Integer.parseInt(xMatcher.group(1));
+        int y=Integer.parseInt(yMatcher.group(1));
 
         System.out.println(SelectUnitMenuController.makeUnitAttacking(x,y));
     }

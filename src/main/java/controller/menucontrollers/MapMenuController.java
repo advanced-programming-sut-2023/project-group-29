@@ -185,10 +185,18 @@ public class MapMenuController {
         return showMap(newShowingMapIndexX, newShowingMapIndexY);
     }
 
-    public static void setBlockTexture(CellType cellType, int x, int y) {
+    public static String setBlockTexture(CellType cellType, int x, int y) {
+        GameMenuController.getGameData().getMap().getCells()[x][y].setCellType(cellType);
+        return "Type of the cell was successfully change";
     }
 
-    public static void setPartOfBlockTexture(CellType cellType, int x1, int y1, int x2, int y2) {
+    public static String setPartOfBlockTexture(CellType cellType, int x1, int y1, int x2, int y2) {
+        for(int i = x1; i <= x2; i++) {
+            for(int j = y1; j < y2; j++) {
+                GameMenuController.getGameData().getMap().getCells()[i][j].setCellType(cellType);
+            }
+        }
+        return "Type of the cells were successfully change";
     }
 
     public static void clear(int xPosition, int yPosition) {
@@ -197,7 +205,9 @@ public class MapMenuController {
     public static void dropRock(int xPosition, int yPosition, String direction) {
     }
 
-    public static void dropTree(int xPosition, int yPosition, TreeType treeType) {
+    public static String dropTree(int xPosition, int yPosition, TreeType treeType) {
+        GameMenuController.getGameData().getMap().getCells()[xPosition][yPosition].setTree(treeType);
+        return "Tree was successfully added";
     }
 
 

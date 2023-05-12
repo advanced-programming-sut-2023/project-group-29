@@ -16,10 +16,11 @@ import java.util.ArrayList;
 
 public class Cell {
     private final ArrayList<Asset> movingObjects = new ArrayList<>();
+    private TreeType treeTypes;
     private Trap trap = null;
     private Building building = null;
     //    private int speed;
-    private final CellType cellType;
+    private CellType cellType;
     private boolean hasTunnel=false;
     private int xPosition;
     private int yPosition;
@@ -261,6 +262,14 @@ public class Cell {
             }
         }
         return null;
+    }
+
+    public void setCellType(CellType cellType) {
+        this.cellType = cellType;
+    }
+
+    public void setTree(TreeType treeType) {
+        treeTypes = treeType;
     }
 }
 

@@ -109,7 +109,7 @@ public class MapMenu {
         }
         int x = Integer.parseInt(xMatcher.group(1));
         int y = Integer.parseInt(yMatcher.group(1));
-        MapMenuController.setBlockTexture(cellType, x, y);
+        System.out.println(MapMenuController.setBlockTexture(cellType, x, y));
     }
 
     private static void setPartOfBlockTexture(Matcher matcher) {
@@ -141,7 +141,10 @@ public class MapMenu {
         int y1 = Integer.parseInt(y1Matcher.group(1));
         int x2 = Integer.parseInt(x2Matcher.group(1));
         int y2 = Integer.parseInt(y2Matcher.group(1));
-        MapMenuController.setPartOfBlockTexture(cellType, x1, y1, x2, y2);
+        if (x2 <= x1 || y2 <= y1) {
+            System.out.println("Please enter your coordinates correctly!");
+        }
+        System.out.println(MapMenuController.setPartOfBlockTexture(cellType, x1, y1, x2, y2));
     }
 
     private static void clear(Matcher matcher) {
@@ -214,7 +217,7 @@ public class MapMenu {
             System.out.println("Invalid type of tree!");
             return;
         }
-        MapMenuController.dropTree(x, y, myTreeType);
+        System.out.println(MapMenuController.dropTree(x, y, myTreeType));
     }
 
     private static void dropUnit(Matcher matcher) {

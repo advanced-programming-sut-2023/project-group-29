@@ -15,7 +15,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GameMenu {
+    static Scanner myScanner;
     public static MenuNames run(Scanner scanner) {
+        myScanner = scanner;
         System.out.println("You have entered game menu");
         GameMenuController.updateEmpire(PlayerNumber.FIRST);
 
@@ -23,8 +25,13 @@ public class GameMenu {
             Matcher matcher;
             String input = scanner.nextLine();
             if ((matcher=Command.getMatcher(input, Command.SHOW_MAP)) != null) {
-                showMap(matcher);
-                return MenuNames.MAP_MENU;
+                int checkCorrectCommand = showMap(matcher);
+                if(checkCorrectCommand == 1) {
+
+                }
+                else {
+                    return MenuNames.MAP_MENU;
+                }
             } else if (Command.getMatcher(input, Command.SHOW_POPULARITY_FACTORS) != null) {
                 showPopularityFactors();
             } else if (Command.getMatcher(input, Command.SHOW_POPULARITY) != null) {
@@ -60,13 +67,23 @@ public class GameMenu {
                 if (!GameMenuController.isAnyMarket()) continue;
                 return MenuNames.SHOP_MENU;
             } else if (Command.getMatcher(input, Command.BACK_MAIN_MENU) != null) {
-                return MenuNames.MAIN_MENU;
+                if (confirmationOfExist() == 1) {
+                    return MenuNames.MAIN_MENU;
+                }
             } else {
                 System.out.println("Invalid command!");
             }
         }
     }
 
+    private static int confirmationOfExist() {
+        System.out.println("Are you sure that you want to quite this game?");
+        String answer = myScanner.nextLine();
+        if (answer.equals("YES") || answer.equals("yes") || answer.equals("Yes")) {
+            return 1;
+        }
+        return 0;
+    }
     private static void enterTradeMenu() {
         GameData gameData = GameMenuController.getGameData();
         System.out.println("You entered trade menu");
@@ -89,19 +106,19 @@ public class GameMenu {
         }
     }
 
-    private static void showMap(Matcher matcher) {
+    private static int showMap(Matcher matcher) {
         String input = matcher.group(0);
         Matcher xMatcher = Pattern.compile("-x\\s+(\\d+)").matcher(input);
         Matcher yMatcher = Pattern.compile("-y\\s+(\\d+)").matcher(input);
         if(!(xMatcher.find() && yMatcher.find())) {
             System.out.println("Invalid command!");
-            return;
+            return 1;
         }
         int positionX=Integer.parseInt(xMatcher.group(1));
         int positionY=Integer.parseInt(yMatcher.group(1));
 
         MapMenuController.setShowingMapIndexes(positionX,positionY);
-
+            return 0;
         //todo faratin handle messages and errors
     }
 
