@@ -145,7 +145,7 @@ public class SelectUnitMenuController {
         //apply attack
         //if a unit is near to death or not, makes no change for others
 
-        HeightOfAsset heightOfAttackers = currentCell.heightOfUnitsOfPlayer(currentPlayer);
+        HeightOfAsset heightOfAttackers = currentCell.heightOfUnitsOfPlayer();
         DamageStruct totalDamage = findTotalDamage(heightOfAttackers, currentPlayerAttackers, map, targetX, targetY);
         applyAttackDamage(enemies, totalDamage, targetCell);
         int currentPlayerFailures = totalDamage.failures;
@@ -160,7 +160,7 @@ public class SelectUnitMenuController {
 
             ArrayList<Offensive> playerAttackers = targetCell.getAttackingListOfPlayerNumber(playerNumber);
 
-            heightOfAttackers = currentCell.heightOfUnitsOfPlayer(playerNumber);
+            heightOfAttackers = currentCell.heightOfUnitsOfPlayer();
             partialDamage = findTotalDamage(heightOfAttackers, playerAttackers, map, currentX, currentY);
             counterAttackTotalDamage.add(partialDamage);
         }
@@ -195,11 +195,11 @@ public class SelectUnitMenuController {
         ArrayList<Asset> groundHeightTargets = new ArrayList<>();
 
         for (Asset asset : targetedAssets) {
-            if (damagedCell.heightOfUnitsOfPlayer(asset.getOwnerNumber()).equals(HeightOfAsset.UP))
+            if (damagedCell.heightOfUnitsOfPlayer().equals(HeightOfAsset.UP))
                 upHeightTargets.add(asset);
-            else if (damagedCell.heightOfUnitsOfPlayer(asset.getOwnerNumber()).equals(HeightOfAsset.MIDDLE))
+            else if (damagedCell.heightOfUnitsOfPlayer().equals(HeightOfAsset.MIDDLE))
                 middleHeightTargets.add(asset);
-            else if (damagedCell.heightOfUnitsOfPlayer(asset.getOwnerNumber()).equals(HeightOfAsset.GROUND))
+            else if (damagedCell.heightOfUnitsOfPlayer().equals(HeightOfAsset.GROUND))
                 groundHeightTargets.add(asset);
         }
 

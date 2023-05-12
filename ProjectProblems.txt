@@ -23,21 +23,20 @@ Faratin(){
 
 abbasfar()
 {
-    movable climb ladder exception
-    stairs exception
-    handle not deep water decrease speed;
-    handle some units can pass khandagh;
     handle trap and batlagh
+    units handle can go upstairs;
 
     end turn(attack maintenance)
     fire range for attack
     not attacked flag for attacking function
     some unit only damage building and vice versa
-    height function
     todos
+    bfs for attacking
 
     assasine handle showing
     create weapons
+
+
 
     others:
     create default maps;

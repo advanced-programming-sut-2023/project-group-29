@@ -297,8 +297,7 @@ public class MapMenu {
         int y = Integer.parseInt(yMatcher.group(1));
         String buildingName = tMatcher.group(1);
 
-        //todo abbasfar handle isAdmin conditions
-        MapMenuMessages result = MapMenuController.buildBuilding(x, y, buildingName);
+        MapMenuMessages result = MapMenuController.dropBuildingAsAdmin(x, y, buildingName,1);   //todo abbasfar like unit handle owner regex
         switch (result) {
             case TWO_MAIN_KEEP -> System.out.println("You aren't allowed to have two main keeps!");
             case INVALID_INDEX -> System.out.println("You have chosen an Invalid amount of x or y!");

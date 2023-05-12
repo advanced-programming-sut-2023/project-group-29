@@ -224,7 +224,7 @@ public class MapMenuController {
     }
 
     public static MapMenuMessages buildBuilding(int x, int y, String buildingName) {
-
+        //todo difference between build and below decrease coin
         GameData gameData = GameMenuController.getGameData();
         PlayerNumber ownerPlayerNumber = gameData.getPlayerOfTurn();
         Cell chosenCell = gameData.getMap().getCells()[x][y];

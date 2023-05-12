@@ -39,10 +39,50 @@ public class Cell {
             building = null;
     }
 
-    public HeightOfAsset heightOfUnitsOfPlayer(PlayerNumber playerNumber)
+    public HeightOfAsset heightOfUnitsOfPlayer()
     {
-        //todo define height enum for buildings
+        if(hasBuilding())
+        {
+            if(building instanceof AttackingBuilding)
+                return HeightOfAsset.UP;
+
+            if(getSiegeTowerInMovingUnits()!=null)
+                return HeightOfAsset.UP;
+
+            if(building instanceof OtherBuildings otherBuildings)
+            {
+                OtherBuildingsType type=otherBuildings.getOtherBuildingsType();
+                if(type.equals(OtherBuildingsType.SHORT_WALL))
+                    return HeightOfAsset.MIDDLE;
+                if(type.equals(OtherBuildingsType.TALL_WALL))
+                    return HeightOfAsset.UP;
+                if(type.equals(OtherBuildingsType.WALL_WITH_STAIR))
+                    return HeightOfAsset.MIDDLE;
+            }
+        }
+
         return HeightOfAsset.GROUND;
+    }
+    public LevelChanger goHigherLevel()
+    {
+        if(!hasBuilding())
+            return LevelChanger.NON;
+
+        if(building instanceof OtherBuildings otherBuilding)
+        {
+            OtherBuildingsType type=otherBuilding.getOtherBuildingsType();
+            if(type.equals(OtherBuildingsType.LADDER))
+                return LevelChanger.LADDER;
+            if(type.equals(OtherBuildingsType.STAIR) || type.equals(OtherBuildingsType.WALL_WITH_STAIR))
+                return LevelChanger.STAIRS;
+        }
+        return LevelChanger.NON;
+    }
+
+    public enum LevelChanger{
+        LADDER,
+        STAIRS,
+        NON
     }
 
     public ArrayList<Movable> getMovingObjectsOfPlayer(PlayerNumber playerNumber) {

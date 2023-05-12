@@ -12,6 +12,7 @@ import model.people.humanTypes.WorkerType;
 
 public class Human extends Asset implements Movable {
     protected boolean ableToClimbLadder;
+    protected boolean ableToClimbStairs;
     protected int speed;
     private boolean movedThisTurn=false;
     private String name;
@@ -28,10 +29,10 @@ public class Human extends Asset implements Movable {
     }
 
     public MovingResult move(Map map, int destinationX, int destinationY) {
-        return Movable.move(map, this, speed, ableToClimbLadder, destinationX, destinationY);
+        return Movable.move(map, this, destinationX, destinationY);
     }
     public MovingResult checkForMoveErrors(Map map, int destinationX, int destinationY) {
-        return Movable.checkForMoveErrors(map, this, speed, ableToClimbLadder, destinationX, destinationY);
+        return Movable.checkForMoveErrors(map, this, destinationX, destinationY);
     }
 
     public boolean isAbleToClimbLadder() {
@@ -77,5 +78,10 @@ public class Human extends Asset implements Movable {
                 return new Worker(workerType,ownerNumber,positionX,positionY);
 
         return null;
+    }
+
+    @Override
+    public boolean isAbleToClimbStairs() {
+        return ableToClimbStairs;
     }
 }

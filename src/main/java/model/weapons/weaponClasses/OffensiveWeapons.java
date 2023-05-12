@@ -27,11 +27,11 @@ public class OffensiveWeapons extends Weapon implements Movable, Offensive {
     }
 
     public MovingResult move(Map map, int destinationX, int destinationY) {
-        return Movable.move(map, this, speed, false, destinationX, destinationY);
+        return Movable.move(map, this, destinationX, destinationY);
     }
 
     public MovingResult checkForMoveErrors(Map map, int destinationX, int destinationY) {
-        return Movable.checkForMoveErrors(map, this, speed, false, destinationX, destinationY);
+        return Movable.checkForMoveErrors(map, this, destinationX, destinationY);
     }
 
     public AttackingResult canAttack(Map map, int targetX, int targetY) {
@@ -91,4 +91,11 @@ public class OffensiveWeapons extends Weapon implements Movable, Offensive {
     public void setUnitState(UnitState unitState) {
         this.unitState = unitState;
     }
+    public boolean isAbleToClimbStairs() {
+        return false;
+    }
+    public boolean isAbleToClimbLadder() {
+        return false;
+    }
+
 }

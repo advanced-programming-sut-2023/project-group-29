@@ -23,10 +23,10 @@ public class Equipments extends Weapon implements Movable {
     }
 
     public MovingResult move(Map map, int destinationX, int destinationY) {
-        return Movable.move(map, this, speed, false, destinationX, destinationY);
+        return Movable.move(map, this, destinationX, destinationY);
     }
     public MovingResult checkForMoveErrors(Map map, int destinationX, int destinationY) {
-        return Movable.checkForMoveErrors(map, this, speed, false, destinationX, destinationY);
+        return Movable.checkForMoveErrors(map, this, destinationX, destinationY);
     }
 
     public EquipmentsType getEquipmentsType() {
@@ -49,5 +49,11 @@ public class Equipments extends Weapon implements Movable {
     @Override
     public Patrol getPatrol() {
         return patrol;
+    }
+    public boolean isAbleToClimbStairs() {
+        return false;
+    }
+    public boolean isAbleToClimbLadder() {
+        return false;
     }
 }

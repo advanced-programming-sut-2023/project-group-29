@@ -1,10 +1,11 @@
 package model.weapons.weaponTypes;
 
+import model.Movable;
 import model.speedanddamageenums.SpeedEnum;
 import model.weapons.Weapon;
 import model.weapons.WeaponTypes;
 
-public enum EquipmentsType {
+public enum EquipmentsType{
     PORTABLE_SHIELD(new WeaponTypes("portableShield",Weapon.BuilderType.ENGINEER, 100, 1),SpeedEnum.NORMAL),
     SIEGE_TOWER(new WeaponTypes("siegeTower",Weapon.BuilderType.ENGINEER, 50, 4),SpeedEnum.TOO_SLOW);
 

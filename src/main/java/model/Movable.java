@@ -1,15 +1,19 @@
 package model;
 
+import model.buildings.buildingClasses.AttackingBuilding;
+import model.buildings.buildingClasses.OtherBuildings;
+import model.buildings.buildingTypes.OtherBuildingsType;
 import model.map.Cell;
+import model.map.CellType;
 import model.map.Map;
 import model.people.humanClasses.Soldier;
 import model.people.humanTypes.SoldierType;
 import org.checkerframework.checker.units.qual.A;
 
 public interface Movable {
-    static MovingResult move(Map map, Asset asset, int speed, boolean ableToClimbLadder, int destinationX, int destinationY) {
+    static MovingResult move(Map map, Asset asset, int destinationX, int destinationY) {
 
-        MovingResult movingResult=checkForMoveErrors(map,asset,speed,ableToClimbLadder,destinationX,destinationY);
+        MovingResult movingResult=checkForMoveErrors(map,asset,destinationX,destinationY);
 
         if(movingResult.equals(MovingResult.SUCCESSFUL))
             finalTransfer(asset,destinationX,destinationY);
@@ -17,36 +21,32 @@ public interface Movable {
         return movingResult;
     }
 
-    public static MovingResult checkForMoveErrors(Map map, Asset asset, int speed, boolean ableToClimbLadder, int destinationX, int destinationY)
+    static MovingResult checkForMoveErrors(Map map, Asset asset, int destinationX, int destinationY)
     {
         int currentX = asset.getPositionX();
         int currentY = asset.getPositionY();
 
+        Movable movableUnit=(Movable) asset;
+
         if (!map.isIndexValid(destinationX, destinationY))
             return MovingResult.INVALID_INDEX;
 
-        if(((Movable)asset).hasMovedThisTurn())
+        if(movableUnit.hasMovedThisTurn())
             return MovingResult.HAS_MOVED;
 
-        Cell destinationCell = map.getCells()[destinationX][destinationY];
-        if (!destinationCell.isAbleToMoveOn())
-            return MovingResult.BAD_PLACE;
-        if (destinationCell.hasBuilding() && !destinationCell.getBuilding().getOwnerNumber().equals(asset.getOwnerNumber()))
-            return MovingResult.BAD_PLACE;
-        if (destinationCell.getTrap() != null && destinationCell.getTrap().getOwnerNumber().equals(asset.getOwnerNumber()))
-            return MovingResult.BAD_PLACE;
+        Cell currentCell=map.getCells()[currentX][currentY];
 
         int destinationDistance;
-        if(asset instanceof Soldier &&
-                ((Soldier)asset).getSoldierType().equals(SoldierType.ASSASSIN))
-            destinationDistance = map.distanceOfTwoCellsForMoving(currentX, currentY, destinationX, destinationY, ableToClimbLadder,true);
-        else
-            destinationDistance = map.distanceOfTwoCellsForMoving(currentX, currentY, destinationX, destinationY, ableToClimbLadder,false);
 
+        destinationDistance = map.distanceOfTwoCellsForMoving(((Movable)asset),currentX, currentY, destinationX, destinationY);
 
-        if (destinationDistance > speed)
+        if(destinationDistance==-1)
+            return MovingResult.BAD_PLACE;
+
+        int formulatedSpeedBecauseOfWaterInCell= currentCell.getCellType().equals(CellType.SMALL_POND) ? movableUnit.getSpeed() / 2 + 1 : movableUnit.getSpeed();
+
+        if (destinationDistance > formulatedSpeedBecauseOfWaterInCell)
             return MovingResult.TOO_FAR;
-        //todo abbasfar if distance is -1 you cant go there
 
         return MovingResult.SUCCESSFUL;
     }
@@ -62,9 +62,12 @@ public interface Movable {
     MovingResult checkForMoveErrors(Map map, int destinationX, int destinationY);
 
     void setMovedThisTurn(boolean movedThisTurn);
-
     boolean hasMovedThisTurn();
     Patrol getPatrol();
+    boolean isAbleToClimbStairs();
+    boolean isAbleToClimbLadder();
+    int getSpeed();
+
     enum MovingResult {
         SUCCESSFUL,
         INVALID_INDEX,
