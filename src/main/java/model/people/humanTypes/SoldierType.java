@@ -1,5 +1,8 @@
 package model.people.humanTypes;
 
+import model.dealing.Product;
+import model.dealing.Resource;
+import model.dealing.Tradable;
 import model.people.HumanType;
 import model.speedanddamageenums.AimRangeEnum;
 import model.speedanddamageenums.DamageEnum;
@@ -66,5 +69,17 @@ public enum SoldierType {
         return null;
     }
 
+    public static Tradable[] getTradableFromSoldierType(SoldierType soldierType) {
+        return switch (soldierType) {
+            case ARCHER, CROSSBOWMAN, ARCHER_BOW -> new Tradable[]{Product.BOW,null};
+            case SPEARMAN, PIKEMAN -> new Tradable[]{Product.PIKE,null};
+            case MACEMAN, ARABIAN_SWORDSMAN, BLACK_MONK -> new Tradable[]{Product.SWORD,null};
+            case SWORDSMAN -> new Tradable[]{Product.ARMOUR,Product.SWORD};
+            case KNIGHT -> new Tradable[]{Product.HORSE,null};
+            case HORSE_ARCHER -> new Tradable[]{Product.HORSE,Product.BOW};
+            case SLINGER -> new Tradable[]{Resource.STONE,null};
+            default -> new Tradable[]{null,null};
+        };
+    }
 }
 

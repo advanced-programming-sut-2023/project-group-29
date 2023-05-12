@@ -45,9 +45,13 @@ public enum OtherBuildingsType {
             new BuildingType(30, 0, new int[]{0, 20, 0, 0},"Stair"),
             "stair"
     ),
-    WALL( //دیوار
-            new BuildingType(100, 0, new int[]{100, 0, 0, 0},"Wall_"),
-            "wall"
+    SHORT_WALL( //دیوار
+            new BuildingType(70, 0, new int[]{70, 0, 0, 0},"SWall_"),
+            "shortWall"
+    ),
+    TALL_WALL( //دیوار
+            new BuildingType(100, 0, new int[]{100, 0, 0, 0},"TWall_"),
+            "tallWall"
     ),
     WALL_WITH_STAIR( //دیوار با پله
             new BuildingType(130, 0, new int[]{100, 20, 0, 0},"WlWSr"),

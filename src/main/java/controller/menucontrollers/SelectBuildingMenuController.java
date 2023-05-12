@@ -5,8 +5,8 @@ import model.PlayerNumber;
 import model.buildings.Building;
 import model.buildings.buildingClasses.UnitCreator;
 import model.buildings.buildingTypes.UnitCreatorType;
-import model.dealing.Product;
 import model.dealing.Resource;
+import model.dealing.Tradable;
 import model.map.Cell;
 import model.map.Map;
 import model.people.Human;
@@ -40,23 +40,33 @@ public class SelectBuildingMenuController {
         PlayerNumber playerNumber = GameMenuController.getGameData().getPlayerOfTurn();
         for (int i = 0; i < count; i++) {
             Human.createUnitByName(unitType, playerNumber, building.getPositionX(), building.getPositionY());
-            //todo jasbi reduce resource and human and coin
+            ownerEmpire.changeWealth(-building.getUnitCost() * count);
+            Tradable weapon1 = SoldierType.getTradableFromSoldierType(soldierType)[0];
+            Tradable weapon2 = SoldierType.getTradableFromSoldierType(soldierType)[1];
+            if (weapon1 != null) ownerEmpire.changeTradableAmount(weapon1,-count);
+            if (weapon2!= null) ownerEmpire.changeTradableAmount(weapon2,-count);
+            //todo jasbi reduce number of workless
         }
         return SelectBuildingMenuMessages.SUCCESS;
     }
 
     private static boolean buildingAndTroopMatch(UnitCreator building, SoldierType soldierType) {
         return switch (soldierType) {
-            case ARABIAN_SWORDSMAN -> (building.getUnitCreatorType().equals(UnitCreatorType.MERCENARY_POST));
-            case ENGINEER, LADDER_MAN -> (building.getUnitCreatorType().equals(UnitCreatorType.ENGINEER_GUILD));
+            case ARABIAN_SWORDSMAN, ARCHER_BOW, SLINGER, ASSASSIN, HORSE_ARCHER, FIRE_THROWER ->
+                    (building.getUnitCreatorType().equals(UnitCreatorType.MERCENARY_POST));
+            case ENGINEER -> (building.getUnitCreatorType().equals(UnitCreatorType.ENGINEER_GUILD));
             default -> (building.getUnitCreatorType().equals(UnitCreatorType.BARRACK));
+            //TODO JASBI CAN we really build all units here??
         };
     }
 
     private static boolean isWeaponEnough(Empire ownerEmpire, SoldierType soldierType, int count) {
-        Product weapon = null; //todo jasbi = getProductFromSoldierType complete;
-        if (weapon == null) return true;
-        return ownerEmpire.getTradableAmount(weapon) >= count;
+        Tradable weapon1 = SoldierType.getTradableFromSoldierType(soldierType)[0];
+        Tradable weapon2 = SoldierType.getTradableFromSoldierType(soldierType)[1];
+        if (weapon1 == null) return true;
+        if (weapon2 == null) return ownerEmpire.getTradableAmount(weapon1) >= count;
+        return ownerEmpire.getTradableAmount(weapon1) >= count &&
+                ownerEmpire.getTradableAmount(weapon2) >= count;
     }
 
     public static SelectBuildingMenuMessages repairBuilding() {
@@ -73,7 +83,7 @@ public class SelectBuildingMenuController {
     private static boolean isEnemyNearIt(Building building) {
         int x = building.getPositionX(), y = building.getPositionY();
         Map map = GameMenuController.getGameData().getMap();
-        return  isEnemyInThisCell(map, x + 1, y) ||
+        return isEnemyInThisCell(map, x + 1, y) ||
                 isEnemyInThisCell(map, x - 1, y) ||
                 isEnemyInThisCell(map, x, y + 1) ||
                 isEnemyInThisCell(map, x, y - 1);
