@@ -25,13 +25,7 @@ public class GameMenu {
             Matcher matcher;
             String input = scanner.nextLine();
             if ((matcher=Command.getMatcher(input, Command.SHOW_MAP)) != null) {
-                int checkCorrectCommand = showMap(matcher);
-                if(checkCorrectCommand == 1) {
-
-                }
-                else {
-                    return MenuNames.MAP_MENU;
-                }
+                if(showMap(matcher)) return MenuNames.MAP_MENU;
             } else if (Command.getMatcher(input, Command.SHOW_POPULARITY_FACTORS) != null) {
                 showPopularityFactors();
             } else if (Command.getMatcher(input, Command.SHOW_POPULARITY) != null) {
@@ -64,7 +58,10 @@ public class GameMenu {
                 enterTradeMenu();
                 return MenuNames.TRADE_MENU;
             } else if (Command.getMatcher(input, Command.ENTER_SHOP_MENU) != null) {
-                if (!GameMenuController.isAnyMarket()) continue;
+                if (!GameMenuController.isAnyMarket()) {
+                    System.out.println("You don't have any markets!");
+                    continue;
+                }
                 return MenuNames.SHOP_MENU;
             } else if (Command.getMatcher(input, Command.BACK_MAIN_MENU) != null) {
                 if (confirmationOfExist() == 1) {
@@ -106,20 +103,19 @@ public class GameMenu {
         }
     }
 
-    private static int showMap(Matcher matcher) {
+    private static boolean showMap(Matcher matcher) {
         String input = matcher.group(0);
         Matcher xMatcher = Pattern.compile("-x\\s+(\\d+)").matcher(input);
         Matcher yMatcher = Pattern.compile("-y\\s+(\\d+)").matcher(input);
         if(!(xMatcher.find() && yMatcher.find())) {
             System.out.println("Invalid command!");
-            return 1;
+            return false;
         }
         int positionX=Integer.parseInt(xMatcher.group(1));
         int positionY=Integer.parseInt(yMatcher.group(1));
 
         MapMenuController.setShowingMapIndexes(positionX,positionY);
-            return 0;
-        //todo faratin handle messages and errors
+        return true;
     }
 
     private static void showPopularityFactors() {

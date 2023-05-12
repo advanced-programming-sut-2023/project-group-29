@@ -28,4 +28,7 @@ public class AttackingBuilding extends Building {
     public void setShowingSignInMap() {
         showingSignInMap = attackingBuildingType.getBuildingType().abbreviation() + (getOwnerNumber().getNumber() + 1);
     }
+    public int getFireRange() {
+        return fireRange;
+    }
 }

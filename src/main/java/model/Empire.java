@@ -20,7 +20,7 @@ public class Empire {
     private final ArrayList<Worker> workers = new ArrayList<>();
     private final HashMap<Building, Integer> buildings = new HashMap<>();
     private int[][] storage = new int[2][3]; //{food, productsAndResources, weapons} {0--> filled, 1--> capacity}
-    private final HashMap<String, Integer> popularityChange = new HashMap<>();
+    private final HashMap<PopularityFactors, Integer> popularityChange = new HashMap<>();
     private HashMap<Tradable, Integer> tradableAmounts;
     private User user;
     private int possiblePopulation;
@@ -29,16 +29,17 @@ public class Empire {
     private int fearRate = 0;
     private int foodRate = -2;
     private int popularity = 50;
-    private int worklessPopulation = 20; //TODO jasbi we should be aware of it when a troop is built!
-    private int numberOfUnits = 0; //TODO jasbi this field should be set when creating unit and when a troop is killed
+    private int worklessPopulation = 20;
+    private int numberOfUnits = 0;
 
     {
-        popularityChange.put("religion", 0);
-        popularityChange.put("tax", 0);
-        popularityChange.put("fear", 0);
-        popularityChange.put("food", 0);
+        popularityChange.put(PopularityFactors.RELIGION, 0);
+        popularityChange.put(PopularityFactors.TAX, 0);
+        popularityChange.put(PopularityFactors.FEAR, 0);
+        popularityChange.put(PopularityFactors.FOOD, 0);
         InitializeTradables();
     }
+    //todo jasbi food variation -18 bug
 
     public Empire(User user) {
         this.user = user;
@@ -54,11 +55,18 @@ public class Empire {
     }
 
     public void setPopularity() {
-        popularity += popularityChange.get("religion");
-        popularity += popularityChange.get("tax");
-        popularity += popularityChange.get("fear");
-        popularity += popularityChange.get("food");
+        popularity += popularityChange.get(PopularityFactors.RELIGION);
+        popularity += popularityChange.get(PopularityFactors.TAX);
+        popularity += popularityChange.get(PopularityFactors.FEAR);
+        popularity += popularityChange.get(PopularityFactors.FOOD);
         if (popularity < 0) popularity = 0;
+    }
+
+    public enum PopularityFactors{
+        RELIGION,
+        TAX,
+        FEAR,
+        FOOD
     }
 
     public int getPopulation() {
@@ -150,7 +158,7 @@ public class Empire {
         return tradableAmounts.get(tradable);
     }
 
-    public int getPopularityChange(String cause) {
+    public int getPopularityChange(PopularityFactors cause) {
         return popularityChange.get(cause);
     }
 
@@ -279,10 +287,10 @@ public class Empire {
         int varietyOfFood = getVarietyOfFood();
         wealth += getChangeWealthByTaxRate(taxRate);
         removeEatenFood();
-        changePopularityFactor("religion", this.getEffectOfReligiousBuildings());
-        changePopularityFactor("food", foodRate * 4 + varietyOfFood - 1);
-        changePopularityFactor("tax", getChangePopularityByTaxRate(taxRate));
-        changePopularityFactor("fear", -fearRate);
+        changePopularityFactor(PopularityFactors.RELIGION, this.getEffectOfReligiousBuildings());
+        changePopularityFactor(PopularityFactors.FOOD, foodRate * 4 + varietyOfFood - 1);
+        changePopularityFactor(PopularityFactors.TAX, getChangePopularityByTaxRate(taxRate));
+        changePopularityFactor(PopularityFactors.FEAR, -fearRate);
     }
 
     private int getEffectOfReligiousBuildings() {
@@ -337,7 +345,7 @@ public class Empire {
         }
     }
 
-    private void changePopularityFactor(String factor, int change) {
+    private void changePopularityFactor(PopularityFactors factor, int change) {
         popularityChange.replace(factor, popularityChange.get(factor) + change);
     }
 

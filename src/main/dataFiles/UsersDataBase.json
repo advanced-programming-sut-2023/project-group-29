@@ -1,9 +1,29 @@
-{
-  "username": "us",
-  "password": "pa",
-  "nickname": "sa",
-  "email": "ka",
-  "slogan": "na",
-  "securityQuestion": "oa",
-  "highScore": 0
-}
+[
+  {
+    "username": "abbasfar",
+    "password": "Aa@11111",
+    "nickname": "nick",
+    "email": "m@m.m",
+    "slogan": "",
+    "securityQuestion": "2 faratin",
+    "highScore": 0
+  },
+  {
+    "username": "jasbi",
+    "password": "Aa@11111",
+    "nickname": "nick",
+    "email": "j@m.m",
+    "slogan": "",
+    "securityQuestion": "2 faratin",
+    "highScore": 0
+  },
+  {
+    "username": "faratin",
+    "password": "Aa@11111",
+    "nickname": "nick",
+    "email": "f@m.m",
+    "slogan": "",
+    "securityQuestion": "2 faratin",
+    "highScore": 0
+  }
+]

@@ -7,8 +7,7 @@ import model.weapons.weaponTypes.StaticOffensiveWeaponsType;
 
 public interface Offensive {
     int decreasingFactorForAirDamageDueToShield = 2;
-
-    static AttackingResult canAttack(Map map, Asset asset, int aimRange, int targetX, int targetY) {
+    static AttackingResult canAttack(Map map, Asset asset, int targetX, int targetY,boolean setHasAttacked) {
         int currentX = asset.getPositionX();
         int currentY = asset.getPositionY();
 
@@ -28,17 +27,18 @@ public interface Offensive {
             destinationDistance = map.distanceOfTwoCellsForAttacking(currentX, currentY, targetX, targetY,false);
 
 
-        if (destinationDistance > aimRange)
+        if (destinationDistance > ((Offensive)asset).getAimRange() || destinationDistance==-1)
             return AttackingResult.TOO_FAR;
         if(targetCell.getEnemiesOfPlayerInCell(asset.getOwnerNumber()).size()==0 &&
                 (!targetCell.hasBuilding() || targetCell.getBuilding().getOwnerNumber().equals(asset.getOwnerNumber())))
             return AttackingResult.NO_ENEMY_THERE;
 
-        ((Offensive)asset).setAttackedThisTurn(true);
+        if(setHasAttacked)
+            ((Offensive)asset).setAttackedThisTurn(true);
+
         return AttackingResult.SUCCESSFUL;
     }
-
-    AttackingResult canAttack(Map map, int targetX, int targetY);
+    AttackingResult canAttack(Map map, int targetX, int targetY,boolean setHasAttacked);
     boolean hasAttackedThisTurn();
     void setAttackedThisTurn(boolean attackedThisTurn);
 

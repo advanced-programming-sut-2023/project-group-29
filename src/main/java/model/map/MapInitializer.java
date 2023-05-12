@@ -18,7 +18,7 @@ public class MapInitializer {
         };
     }
 
-    //در داک گفته شده که یک انبار باید در کنار مقر اصلی به صورت پیش فرض ساخته شود.todo
+    //در داک گفته شده که یک انبار باید در کنار مقر اصلی به صورت پیش فرض ساخته شود. faratin todo
     private static Map initializeFirstMap(GameData gameData) {
         Map firstMap = new Map(100, 8);
 
@@ -31,7 +31,6 @@ public class MapInitializer {
 //        secondMap.dropBuilding(5,185, AccommodationType.MAIN_KEEP.getName(),7);
 //        secondMap.dropBuilding(5,100, AccommodationType.MAIN_KEEP.getName(),8);
         return null;
-        //todo abbasfar
     }
     private static Map initializeSecondMap(GameData gameData)
     {

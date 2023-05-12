@@ -23,37 +23,35 @@ Faratin(){
 
 abbasfar()
 {
-    handle trap and batlagh
-    units handle can go upstairs;
-
     end turn(attack maintenance)
-    fire range for attack
-    not attacked flag for attacking function
-    some unit only damage building and vice versa
-    todos
-    bfs for attacking
-
-    assasine handle showing
     create weapons
+    handle trap and batlagh
+    assassin handle showing
+    todos
 
 
+    pour oil vs simple attack
+    climb stair maybe not considered when near to big
 
-    others:
-    create default maps;
-    handle settexture;
+    bugs:
+    drop unit in water
+    show details show another cell
+    move more than allowed
 
-    how engineer with oil is made
+
     build khandagh by user. should create building near user?
+    showing sign of tree
+
+    update number of unit of player field
 }
 
 
 faratin:
 todos
 save
-settexture and drop tree
 unit test(debug)
-confirmation for exit from game
 default map
+showing message is enum : SUCCESSFUL
 
 
 

@@ -17,7 +17,7 @@ import view.messages.SelectBuildingMenuMessages;
 
 public class SelectBuildingMenuController {
     private static Building selectedBuilding;
-
+    //todo jasbi your factories eat our units
     public static void setSelectedBuilding(Building selectedBuilding) {
         SelectBuildingMenuController.selectedBuilding = selectedBuilding;
     }
@@ -66,6 +66,7 @@ public class SelectBuildingMenuController {
         Tradable weapon2 = SoldierType.getTradableFromSoldierType(soldierType)[1];
         if (weapon1 != null) ownerEmpire.changeTradableAmount(weapon1, -count);
         if (weapon2 != null) ownerEmpire.changeTradableAmount(weapon2, -count);
+        ownerEmpire.changeWorklessPopulation(-count);
     }
 
     private static boolean buildingAndTroopMatch(UnitCreator building, SoldierType soldierType) {

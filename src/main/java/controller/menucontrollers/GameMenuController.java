@@ -27,10 +27,10 @@ public class GameMenuController {
         PlayerNumber playerNumber = gameData.getPlayerOfTurn();
         Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
         String output = "popularity factors:\n";
-        output += "factor 1: religion -> " + empire.getPopularityChange("religion") + "\n";
-        output += "factor 2: tax rate -> " + empire.getPopularityChange("tax") + "\n";
-        output += "factor 3: fear rate -> " + empire.getPopularityChange("fear") + "\n";
-        output += "factor 4: food variation -> " + empire.getPopularityChange("foodRate");
+        output += "factor 1: religion -> " + empire.getPopularityChange(Empire.PopularityFactors.RELIGION) + "\n";
+        output += "factor 2: tax rate -> " + empire.getPopularityChange(Empire.PopularityFactors.TAX) + "\n";
+        output += "factor 3: fear rate -> " + empire.getPopularityChange(Empire.PopularityFactors.FEAR) + "\n";
+        output += "factor 4: food variation -> " + empire.getPopularityChange(Empire.PopularityFactors.FOOD);
         return output;
     }
 
@@ -114,7 +114,7 @@ public class GameMenuController {
 
     public static GameMenuMessages selectUnit(int xPosition,int yPosition) {
 
-        //todo abbasfar error handle
+        //todo jasbi error handle
         gameData.setSelectedCell(xPosition,yPosition);
         return GameMenuMessages.SUCCESS;
     }

@@ -1,7 +1,10 @@
 package model.weapons.weaponClasses;
 
+import controller.menucontrollers.GameMenuController;
 import model.Offensive;
 import model.PlayerNumber;
+import model.buildings.buildingClasses.AttackingBuilding;
+import model.map.Cell;
 import model.map.Map;
 import model.UnitState;
 import model.weapons.Weapon;
@@ -22,8 +25,8 @@ public class StaticOffensiveWeapons extends Weapon implements Offensive {
         this.aimRange = staticOffensiveWeaponsType.getAimRange();
     }
 
-    public Offensive.AttackingResult canAttack(Map map, int targetX, int targetY) {
-        return Offensive.canAttack(map, this, aimRange, targetX, targetY);
+    public Offensive.AttackingResult canAttack(Map map, int targetX, int targetY,boolean setHasAttacked) {
+        return Offensive.canAttack(map, this, targetX, targetY,setHasAttacked);
     }
 
     @Override
@@ -32,6 +35,11 @@ public class StaticOffensiveWeapons extends Weapon implements Offensive {
     }
 
     public int getAimRange() {
+        if(isArcherType()) {
+            Cell currentCell= GameMenuController.getGameData().getMap().getCells()[getPositionX()][getPositionY()];
+            if(currentCell.hasBuilding() && currentCell.getBuilding() instanceof AttackingBuilding attackingBuilding)
+                return Math.max(aimRange, attackingBuilding.getFireRange());
+        }
         return aimRange;
     }
 

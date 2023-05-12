@@ -10,7 +10,6 @@ public class AppData {
     private static User currentUser;
     private static int delayInLogin = 0;
 
-    //todo faratin handle stay logged in
     private static int stayLoggedIn = 0;
 
     public static User getUserByUsername(String username) {

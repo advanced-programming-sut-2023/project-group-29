@@ -1,21 +1,23 @@
 package model.people.humanClasses;
 
+import controller.menucontrollers.GameMenuController;
+import model.GameData;
 import model.Offensive;
 import model.PlayerNumber;
+import model.buildings.buildingClasses.AttackingBuilding;
+import model.map.Cell;
 import model.map.Map;
 import model.people.Human;
 import model.UnitState;
 import model.people.humanTypes.SoldierType;
+
+import java.util.regex.Matcher;
 
 public class Soldier extends Human implements Offensive {
     private final SoldierType soldierType;
     private final int damage;
     private final int aimRange;
     private UnitState unitState = UnitState.STANDING;
-
-    //TODO reasonable value below abbasfar
-    //todo other factor
-    private final int decreasingFactorOfShieldForArchers = 4;
     private boolean attackedThisTurn=false;
 
 
@@ -27,8 +29,8 @@ public class Soldier extends Human implements Offensive {
         this.aimRange = soldierType.getAimRange();
     }
 
-    public AttackingResult canAttack(Map map, int targetX, int targetY) {
-        return Offensive.canAttack(map, this, aimRange, targetX, targetY);
+    public AttackingResult canAttack(Map map, int targetX, int targetY,boolean setHasAttacked) {
+        return Offensive.canAttack(map, this, targetX, targetY,setHasAttacked);
     }
 
     public boolean isArcherType() {
@@ -43,6 +45,11 @@ public class Soldier extends Human implements Offensive {
     }
 
     public int getAimRange() {
+        if(isArcherType()) {
+            Cell currentCell=GameMenuController.getGameData().getMap().getCells()[getPositionX()][getPositionY()];
+            if(currentCell.hasBuilding() && currentCell.getBuilding() instanceof AttackingBuilding attackingBuilding)
+                return Math.max(aimRange, attackingBuilding.getFireRange());
+        }
         return aimRange;
     }
 

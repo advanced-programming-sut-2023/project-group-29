@@ -228,13 +228,11 @@ public class MapMenuController {
             map.getCells()[positionX][positionY].addMovingObject(addingUnit);
         }
 
-        System.out.println();
-
         return MapMenuMessages.SUCCESSFUL;
     }
 
     public static MapMenuMessages buildBuilding(int x, int y, String buildingName) {
-        //todo difference between build and below decrease coin
+        //todo jasbi difference between build and below decrease coin
         GameData gameData = GameMenuController.getGameData();
         PlayerNumber ownerPlayerNumber = gameData.getPlayerOfTurn();
         Cell chosenCell = gameData.getMap().getCells()[x][y];

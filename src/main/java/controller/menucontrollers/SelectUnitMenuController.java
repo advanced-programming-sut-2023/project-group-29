@@ -10,6 +10,9 @@ import model.map.Map;
 import model.UnitState;
 import model.people.humanClasses.Soldier;
 import model.people.humanTypes.SoldierType;
+import model.weapons.weaponClasses.OffensiveWeapons;
+import model.weapons.weaponTypes.OffensiveWeaponsType;
+import org.checkerframework.checker.units.qual.A;
 import view.messages.SelectUnitMenuMessages;
 
 import java.util.ArrayList;
@@ -136,17 +139,23 @@ public class SelectUnitMenuController {
         Cell currentCell = map.getCells()[currentX][currentY];
         ArrayList<Offensive> currentPlayerAttackers = currentCell.getAttackingListOfPlayerNumber(currentPlayer);
 
+        if(currentPlayerAttackers.size()==0)
+            return "You have no attacking unit here!";
+
         //create enemy objects list
         Cell targetCell = map.getCells()[targetX][targetY];
         ArrayList<Asset> enemies = targetCell.getEnemiesOfPlayerInCell(gameData.getPlayerOfTurn());
         if (targetCell.hasBuilding())
             enemies.add(targetCell.getBuilding());
 
+        if(enemies.size()==0)
+            return "You have no enemies here!";
+
         //apply attack
         //if a unit is near to death or not, makes no change for others
 
         HeightOfAsset heightOfAttackers = currentCell.heightOfUnitsOfPlayer();
-        DamageStruct totalDamage = findTotalDamage(heightOfAttackers, currentPlayerAttackers, map, targetX, targetY);
+        DamageStruct totalDamage = findTotalDamage(heightOfAttackers, currentPlayerAttackers, map, targetX, targetY,true);
         applyAttackDamage(enemies, totalDamage, targetCell);
         int currentPlayerFailures = totalDamage.failures;
 
@@ -161,7 +170,7 @@ public class SelectUnitMenuController {
             ArrayList<Offensive> playerAttackers = targetCell.getAttackingListOfPlayerNumber(playerNumber);
 
             heightOfAttackers = currentCell.heightOfUnitsOfPlayer();
-            partialDamage = findTotalDamage(heightOfAttackers, playerAttackers, map, currentX, currentY);
+            partialDamage = findTotalDamage(heightOfAttackers, playerAttackers, map, currentX, currentY,false);
             counterAttackTotalDamage.add(partialDamage);
         }
 
@@ -214,6 +223,21 @@ public class SelectUnitMenuController {
 
         int dividedGroundDamage = groundHeightTargets.size()==0 ? 0 : damageStruct.groundDamage / groundHeightTargets.size();
         applyAttackDamageOnLevel(groundHeightTargets, dividedGroundDamage, dividedAirDamage, playerHasShieldInCell);
+
+        Building building=null;
+        for(Asset asset:targetedAssets)
+            if(asset instanceof Building)
+                building=(Building) asset;
+
+        ArrayList<Asset> nonBuildings = new ArrayList<>(targetedAssets);
+        if(building!=null)
+            nonBuildings.remove(building);
+
+        int dividedNonBuildingDamage=nonBuildings.size()==0 ? 0:damageStruct.nonBuildingDamage / nonBuildings.size();
+        applyAttackDamageOnLevel(nonBuildings,0,dividedNonBuildingDamage,playerHasShieldInCell);
+
+        if(building!=null)
+            applyAttackDamageOnLevel(new ArrayList<Asset>(Arrays.asList(building)),damageStruct.onlyBuildingDamage,0,playerHasShieldInCell);
     }
 
     private static void applyAttackDamageOnLevel(ArrayList<Asset> targetedAssets, int sameHeightDamageDividedToTargets, int airDamageDividedToTargets, boolean[] playerHasShieldInCell) {
@@ -225,14 +249,27 @@ public class SelectUnitMenuController {
         }
     }
 
-    private static DamageStruct findTotalDamage(HeightOfAsset heightOfAttackers, ArrayList<Offensive> attackers, Map map, int targetX, int targetY) {
+    private static DamageStruct findTotalDamage(HeightOfAsset heightOfAttackers, ArrayList<Offensive> attackers, Map map, int targetX, int targetY,boolean setHasAttacked) {
         DamageStruct damageStruct = new DamageStruct();
 
         for (Offensive attacker : attackers) {
-            Offensive.AttackingResult attackingResult = attacker.canAttack(map, targetX, targetY);
+            Offensive.AttackingResult attackingResult = attacker.canAttack(map, targetX, targetY,setHasAttacked);
 
             switch (attackingResult) {
                 case SUCCESSFUL:
+                    if(attacker instanceof OffensiveWeapons offensiveWeapons)
+                    {
+                        OffensiveWeaponsType type=offensiveWeapons.getOffensiveWeaponsType();
+                        if(type.equals(OffensiveWeaponsType.GATE_DESTROYER)) {
+                            damageStruct.onlyBuildingDamage += formulatedDamage(attacker);
+                            break;
+                        }
+                        else if(type.equals(OffensiveWeaponsType.FIRE_STONE_THROWER)) {
+                            damageStruct.nonBuildingDamage += formulatedDamage(attacker);
+                            break;
+                        }
+                    }
+
                     if (attacker.isArcherType())
                         damageStruct.airDamage += formulatedDamage(attacker);
                     else if (heightOfAttackers.equals(HeightOfAsset.UP))
@@ -296,7 +333,7 @@ public class SelectUnitMenuController {
             Cell targetedCell = map.getCells()[currentX + deltaX * i][currentY + deltaY * i];
             ArrayList<Asset> enemies = targetedCell.getEnemiesOfPlayerInCell(gameData.getPlayerOfTurn());
 
-            Offensive.AttackingResult attackingResult = engineerWithOil.canAttack(map, currentX + deltaX * i, currentY + deltaY * i);
+            Offensive.AttackingResult attackingResult = engineerWithOil.canAttack(map, currentX + deltaX * i, currentY + deltaY * i,true);
             switch (attackingResult) {
                 case TOO_FAR:
                     return SelectUnitMenuMessages.TOO_FAR;
@@ -337,7 +374,7 @@ public class SelectUnitMenuController {
         if(tunneler==null)
             return SelectUnitMenuMessages.NO_PROPER_UNIT;
 
-        Offensive.AttackingResult attackingResult=tunneler.canAttack(map,x,y);
+        Offensive.AttackingResult attackingResult=tunneler.canAttack(map,x,y,true);
         if(attackingResult.equals(Offensive.AttackingResult.TOO_FAR))
             return SelectUnitMenuMessages.TOO_FAR;
         else if(attackingResult.equals(Offensive.AttackingResult.HAS_ATTACKED))
@@ -432,6 +469,8 @@ public class SelectUnitMenuController {
         public int middleDamage = 0;
         public int upDamage = 0;
         public int airDamage = 0;
+        public int onlyBuildingDamage=0;
+        public int nonBuildingDamage=0;
         public int failures = 0;
 
         public void add(DamageStruct secondDamageStruct) {
@@ -440,6 +479,8 @@ public class SelectUnitMenuController {
             upDamage += secondDamageStruct.upDamage;
             airDamage += secondDamageStruct.airDamage;
             failures += secondDamageStruct.failures;
+            onlyBuildingDamage+=secondDamageStruct.onlyBuildingDamage;
+            nonBuildingDamage+=secondDamageStruct.nonBuildingDamage;
         }
     }
 }

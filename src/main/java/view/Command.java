@@ -4,8 +4,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum Command {
-    //TODO check option duplication
-    //TODO complete regex
     USER_CREATE("\\s*user\\s+create.+"),
     EXIT("\\s*exit\\s*"),
     PICK_QUESTION(""),
@@ -56,24 +54,24 @@ public enum Command {
     CLEAR("\\s*clear\\s+-[xy]\\s+(\\d+)\\s+-[yx]\\s+(\\d+)\\s*"),
     DROP_ROCK("\\s*drop\\s+rock\\s+-[xyd]\\s+(\\S+)\\s+-[yxd]\\s+(\\S+)\\s+-[dxy]\\s+(\\S+)\\s*"),
     DROP_TREE("\\s*drop\\s+tree\\s+-[xyt]\\s+(\\S+)\\s+-[yxt]\\s+(\\S+)\\s+-[txy]\\s+(\\S+)\\s*"),
-    ADMIN_DROP_BUILDING("\\s*admin\\s+dropbuilding\\s+-x\\s+" +
-            "(?<xPosition>\\d+)\\s+-y\\s+(?<yPosition>\\d+)\\s+-type\\s+(?<type>\\S+)\\s*"),
+    CREATE_BUILDING("\\s*admin\\s+dropbuilding\\s+-x\\s+" +
+            "(?<xPosition>\\d+)\\s+-y\\s+(?<yPosition>\\d+)\\s+-type\\s+(?<type>\\S+)\\s*"),    //todo jasbi
     DROP_UNIT("\\s*drop\\s+unit\\s+-[xytcn]\\s+(\\S+)\\s+-[xytcn]\\s+(\\S+)\\s+" +
             "-[xytcn]\\s+(\\S+)\\s+-[xytcn]\\s+(\\S+)\\s+-[xytcn]\\s+(\\S+)\\s*"),
-    CREATE_UNIT("\\s*create\\s+unit\\s+-[tc]\\s+(\\S+)\\s+-[ct]\\s+(\\S+)\\s*"), //TODO
+    CREATE_UNIT("\\s*create\\s+unit\\s+-[tc]\\s+(\\S+)\\s+-[ct]\\s+(\\S+)\\s*"),
     CHANGE_BRIDGE_STATE("\\s*change\\s+state\\s+of\\s+this\\s+bridge\\s*"),
     REPAIR_BUILDING("\\s*repair\\s*"),
     MOVE_UNIT("\\s*move\\s+unit\\s+to\\s+-[xy]\\s+(\\d+)\\s+-[xy]\\s+(\\d+)\\s*"),
     PATROL_UNIT("\\s*patrol\\s+unit\\s+-(x1|x2|y1|y2)\\s+(\\d+)\\s+-(x1|x2|y1|y2)\\s+(\\d+)\\s+-(x1|x2|y1|y2)\\s+(\\d+)\\s+-(x1|x2|y1|y2)\\s+(\\d+)\\s*"),
     SET_STATE_OF_UNIT("\\s*set\\s+-[xys]\\s+(\\S+)\\s+-[yxs]\\s+(\\S+)\\+-[sxy]\\s+(\\S+)\\s*"),
-    ATTACK("\\s*attack\\s+-[xy]\\s+(\\d+)\\s+-[yx]\\s+(\\d+)\\s*"),//todo temporary for debugging
+    ATTACK("\\s*attack\\s+-[xy]\\s+(\\d+)\\s+-[yx]\\s+(\\d+)\\s*"),
     POUR_OIL("\\s*pour\\s+oil\\s+-d\\s+(?<direction>\\S+)\\s*"),
     DIG_TUNNEL("\\s*dig\\s+tunnel\\s+-[xy]\\s+(\\d+)\\s+-[yx]\\s+(\\d+)\\s*"),
     BUILD_EQUIPMENT("\\s*build\\s+-q\\s+(?<equipmentName>\\S+)\\s*"),
     DISBAND_UNIT("\\s*disband\\s+unit\\s*"),
     SHOW_PRICE_LIST("\\s*show\\s+price\\s+list\\s*"),
-    BUY("\\s*buy\\s+-[ua]\\s+(\\S+)\\s+-[au]\\s+(\\S+)\\s*"),
-    SELL("\\s*sell\\s+-[au]\\s+(\\S+)\\s+-[au]\\s+(\\S+)\\s*"),
+    BUY("\\s*buy\\s+-[na]\\s+(\\S+)\\s+-[an]\\s+(\\S+)\\s*"),
+    SELL("\\s*sell\\s+-[an]\\s+(\\S+)\\s+-[an]\\s+(\\S+)\\s*"),
     ENTER_TRADE_MENU("\\s*enter\\s+trade\\s+menu\\s*"),
     ENTER_SHOP_MENU("\\s*enter\\s+shop\\s+menu\\s*"),
     ENTER_SELECT_MENU("\\s*enter\\s+select\\s+menu\\s*"),

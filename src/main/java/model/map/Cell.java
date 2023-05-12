@@ -129,7 +129,7 @@ public class Cell {
     }
 
     public boolean hasFiringTrap() {
-        //TODO has firing trap
+        //TODO abbasfar has firing trap
         return true;
     }
 
@@ -137,7 +137,7 @@ public class Cell {
         for (Asset movingObject : movingObjects) {
             if (movingObject instanceof Equipments equipment && movingObject.getOwnerNumber().equals(playerNumber)) {
 
-                //TODO complete if below for type portable shield
+                //TODO abbasfar complete if below for type portable shield
                 //if(equipment.getEquipmentsType().equals())
                 //return true
             }
@@ -182,7 +182,7 @@ public class Cell {
     }
 
     public boolean isAbleToBuildOn(String type) {
-        //TODO: complete this function
+        //TODO jasbi: complete this function
         return isAbleToBuildOn();
     }
 
@@ -269,7 +269,7 @@ public class Cell {
     }
 
     public void setTree(TreeType treeType) {
-        treeTypes = treeType;
+        this.treeTypes = treeType;
     }
 }
 

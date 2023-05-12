@@ -40,7 +40,7 @@ public abstract class Building extends Asset {
 
     //todo faratin:     دکل قیر باید روی جلگه باشد.
     //TODO FARATIN:     معدن آهن فقط برروی زمین‌هایی از جنس آهن گذاشته می‌شود.
-
+    //todo jasbi bad building on texture and vice versa
     public static int getGroupNumberByBuildingName(String buildingName) {
         for (BuildType buildType : buildingTypesAndTheirGroup.keySet()) {
             if (buildType.getName().equals(buildingName)) {

@@ -91,7 +91,7 @@ public class SelectUnitMenu {
         String input = matcher.group(0);
         Matcher xMatcher = Pattern.compile("-x\\s+(\\d+)").matcher(input);
         Matcher yMatcher = Pattern.compile("-y\\s+(\\d+)").matcher(input);
-        if(!(xMatcher.find() && yMatcher.matches())) {
+        if(!(xMatcher.find() && yMatcher.find())) {
             System.out.println("Invalid command!");
             return;
         }

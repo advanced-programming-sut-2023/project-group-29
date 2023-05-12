@@ -6,6 +6,7 @@ public record HumanType(
         String name,
         int hp,
         boolean ableToClimbLadder,
+        boolean ableToClimbStairs,
         SpeedEnum speed,
         String showingSignInMap)
 {}

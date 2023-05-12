@@ -124,7 +124,6 @@ public class Map {
 
     private int BFSForAttacking(int firstX, int firstY, int secondX, int secondY,boolean overWallAllowed) {
 
-        //todo
         Queue<Pair> queue=new LinkedList<>();
 
         int[][] distances=new int[width+1][width+1];
@@ -160,10 +159,17 @@ public class Map {
                     continue;
 
                 Cell addingCell = cells[addingCellCoordination.first][addingCellCoordination.second];
-
-                boolean blockForbiddenCellTypes=true;//todo
-                if(blockForbiddenCellTypes && !addingCell.getCellType().isAbleToMoveOn())
-                    continue;
+                if(!overWallAllowed && addingCell.hasBuilding()) {
+                    if (addingCell.getBuilding() instanceof OtherBuildings otherBuildings) {
+                        OtherBuildingsType type = otherBuildings.getOtherBuildingsType();
+                        if (type.equals(OtherBuildingsType.TALL_WALL) ||
+                                type.equals(OtherBuildingsType.SHORT_WALL) ||
+                                type.equals(OtherBuildingsType.WALL_WITH_STAIR))
+                            continue;
+                    }
+                    else if(addingCell.getBuilding() instanceof AttackingBuilding)
+                        continue;
+                }
 
                 queue.add(addingCellCoordination);
                 distances[addingCellCoordination.first][addingCellCoordination.second]=distances[thisCellCoordination.first][thisCellCoordination.second]+1;
