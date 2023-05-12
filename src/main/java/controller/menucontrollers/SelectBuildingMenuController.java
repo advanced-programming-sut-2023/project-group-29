@@ -38,8 +38,10 @@ public class SelectBuildingMenuController {
             return SelectBuildingMenuMessages.LACK_OF_HUMAN;
         }
         PlayerNumber playerNumber = GameMenuController.getGameData().getPlayerOfTurn();
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < count; i++) {
             Human.createUnitByName(unitType, playerNumber, building.getPositionX(), building.getPositionY());
+            //todo jasbi reduce resource and human and coin
+        }
         return SelectBuildingMenuMessages.SUCCESS;
     }
 

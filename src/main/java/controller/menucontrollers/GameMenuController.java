@@ -123,7 +123,7 @@ public class GameMenuController {
         empire.growPopulation();
         empire.affectDestructedStorerooms();
         empire.affectDestructedAccommodations();
-        //TODO JASBI: some functions. This function should be called in the beginning of the game
+        //TODO JASBI: This function should be called in the beginning of the game
 
         Map map=gameData.getMap();
 

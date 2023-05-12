@@ -22,7 +22,7 @@ public enum OtherBuildingsType {
             "cathedral"
     ),
     SIEGE_TENT( // چادر محاصره
-            new BuildingType(10, /*TODO: JASBI: engineer and minimum*/1, new int[]{25, 0, 0, 0},"STent"),
+            new BuildingType(10, /*TODO JASBI: engineer and minimum*/1, new int[]{25, 0, 0, 0},"STent"),
             "siegeTent"
     ),
     CAGED_WAR_DOGS(//قفسه ی سگ های جنگی
@@ -34,10 +34,28 @@ public enum OtherBuildingsType {
             "inn"
     ),
     MOAT( //خندق
-            new BuildingType(120, 0, new int[]{50, 0, 0, 0},"Moat"),
+            new BuildingType(40, 0, new int[]{50, 0, 0, 0},"Moat_"),
             "moat"
     ),
+    LADDER( //نردبان
+            new BuildingType(30, 0, new int[]{0, 0, 10, 0},"Lader"),
+            "ladder"
+    ),
+    STAIR( //پله
+            new BuildingType(30, 0, new int[]{0, 20, 0, 0},"Stair"),
+            "stair"
+    ),
+    WALL( //دیوار
+            new BuildingType(100, 0, new int[]{100, 0, 0, 0},"Wall_"),
+            "wall"
+    ),
+    WALL_WITH_STAIR( //دیوار با پله
+            new BuildingType(130, 0, new int[]{100, 20, 0, 0},"WlWSr"),
+            "wallWithStair"
+    ),
     ;
+    //TODO JASBI no one should build wall with stair
+
     private final BuildingType buildingType;
     private String name;
     private int[] neededResources;

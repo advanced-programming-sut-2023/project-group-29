@@ -38,7 +38,7 @@ public enum Command {
     SHOW_FOOD_LIST("\\s*show\\s+food\\s+list\\s*"),
     SHOW_FOOD_RATE("\\s*food\\s+rate\\s+show\\s*"),
     SHOW_TAX_RATE("\\s*tax\\s+rate\\s+show\\s*"),
-    SET_FOOD_RATE("\\s*food\\s+rate\\s+-r\\s+(?<rate>-?\\d+)\\s*"), //TODO: ERROr for big number jasbi
+    SET_FOOD_RATE("\\s*food\\s+rate\\s+-r\\s+(?<rate>-?\\d+)\\s*"), //TODO jasbi: ERROr for big number jasbi
     SET_TAX_RATE("\\s*tax\\s+rate\\s+-r\\s+(?<rate>-?\\d+)\\s*"),
     SET_FEAR_RATE("\\s*fear\\s+rate\\s+-r\\s+(?<rate>-?\\d+)\\s*"),
     DROP_BUILDING("\\s*drop\\s+building\\s+-[xyt]\\s+(\\S+)\\s+-[yxt]\\s+(\\S+)\\s+-[txy]\\s+(\\S+)\\s*"),
