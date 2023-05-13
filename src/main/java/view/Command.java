@@ -28,7 +28,6 @@ public enum Command {
     DISPLAY_RANK("\\s*profile\\s+display\\s+rank\\s*"),
     DISPLAY_PROFILE("\\s*profile\\s+display\\s*"),
     BACK_MAIN_MENU("\\s*back\\s*"),
-
     NEXT_TURN("\\s*next\\s+turn\\s*"),
     SHOW_MAP("\\s*show\\s+map\\s+-[xy]\\s+(\\d+)\\s+-[yx]\\s+(\\d+)\\s*"), //todo
     SHOW_DETAILS("\\s*show\\s+details\\s+-[xy]\\s+(\\d+)\\s+-[yx]\\s+(\\d+)\\s*"),
@@ -51,7 +50,7 @@ public enum Command {
     TRADE_HISTORY("\\s*trade\\s+history\\s*"),
     MOVE_MAP("\\s*move(\\s+(up)|\\s+(down)|\\s+(right)|\\s+(left))+\\s*"),
     SET_BLOCK_TEXTURE("\\s*set\\s+texture\\s+-[xyt]\\s+(\\S+)\\s+-[yxt]\\s+(\\S+)\\s+-[txy]\\s+(\\S+)\\s*"),
-    SET_PART_OF_BLOCK_TEXTURE("\\s*set\\s+texture\\s+-(x1|y1|x2|y2|t)\\s+(\\S+)\\s+-(x1|y1|x2|y2|t)\\s+(\\S+)\\s+-(x1|y1|x2|y2|t)\\s+(\\S+)\\s+-(x1|y1|x2|y2|t)\\s+(\\S+)\\s+-(x1|y1|x2|y2|t)\\s+(\\S+)"),
+    SET_PART_OF_BLOCK_TEXTURE("\\s*set\\s+texture\\s+-(x1|y1|x2|y2|t)\\s+(\\S+)\\s+-(x1|y1|x2|y2|t)\\s+(\\S+)\\s+-(x1|y1|x2|y2|t)\\s+(\\S+)\\s+-(x1|y1|x2|y2|t)\\s+(\\S+)\\s+-(x1|y1|x2|y2|t)\\s+(\\S+)\\s*"),
     CLEAR("\\s*clear\\s+-[xy]\\s+(\\d+)\\s+-[yx]\\s+(\\d+)\\s*"),
     DROP_ROCK("\\s*drop\\s+rock\\s+-[xyd]\\s+(\\S+)\\s+-[yxd]\\s+(\\S+)\\s+-[dxy]\\s+(\\S+)\\s*"),
     DROP_TREE("\\s*drop\\s+tree\\s+-[xyt]\\s+(\\S+)\\s+-[yxt]\\s+(\\S+)\\s+-[txy]\\s+(\\S+)\\s*"),
