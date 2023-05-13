@@ -14,18 +14,8 @@ import java.util.List;
 
 public class SaveAndLoad {
 
-    //sample code:
-
-//    SaveAndLoad.saveData(user, AppData.usersDataBaseFilePath);
-//
-//    user=(User) SaveAndLoad.loadData(AppData.usersDataBaseFilePath,User.class);
-//    if(user!=null)
-//        System.out.println(user.getSlogan());
-
-
     public static void saveData(Object object, String filePath) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        // or     new Gson()     for ordinary saving
 
         try (FileWriter fileWriter = new FileWriter(filePath)) {
             gson.toJson(object, fileWriter);

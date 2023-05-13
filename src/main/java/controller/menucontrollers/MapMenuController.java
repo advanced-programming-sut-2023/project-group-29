@@ -10,6 +10,7 @@ import model.buildings.buildingTypes.StoreType;
 import model.map.*;
 import model.people.Human;
 import model.people.humanClasses.Soldier;
+import model.people.humanTypes.SoldierType;
 import model.weapons.Weapon;
 import model.weapons.weaponClasses.Equipments;
 import model.weapons.weaponClasses.OffensiveWeapons;
@@ -22,8 +23,8 @@ import java.util.ArrayList;
 public class MapMenuController {
     private static final int tileWidth = 6;
     private static final int tileHeight = 4;
-    private static final int maxNumberOfTilesShowingInRow = 5; //should be 20
-    private static final int maxNumberOfTilesShowingInColumn = 2; //should be 8
+    private static final int maxNumberOfTilesShowingInRow = 20;
+    private static final int maxNumberOfTilesShowingInColumn = 8;
     private static int showingMapIndexX = 1;
     private static int showingMapIndexY = 1;
 
@@ -144,21 +145,37 @@ public class MapMenuController {
             showingSignOfBuilding = cell.getTrap().getShowingSignInMap();
 
         showingSignOfBuilding = fitStringToTileWidthWithNumberSign(showingSignOfBuilding);
-        showingSignOfBuilding = colorString(showingSignOfBuilding, cell.getShowingColor());
+        if(cell.getTreeTypes()!=null)
+            showingSignOfBuilding = colorString(showingSignOfBuilding, cell.getTreeTypes().getShowingColor());
+        else showingSignOfBuilding = colorString(showingSignOfBuilding, cell.getShowingColor());
+
         tile.add(showingSignOfBuilding);
 
         //other units
+        int index=0;
         for (int i = 0; i < tileHeight - 1; i++) {
             String showingSignOfOtherUnits = "";
-            if (i < cell.getMovingObjects().size())
-                showingSignOfOtherUnits = cell.getMovingObjects().get(i).getShowingSignInMap();
+            while (index < cell.getMovingObjects().size()) {
+                showingSignOfOtherUnits = cell.getMovingObjects().get(index).getShowingSignInMap();
+
+                //hide assassin
+                if(cell.getMovingObjects().get(index) instanceof Soldier soldier &&
+                        soldier.getSoldierType().equals(SoldierType.ASSASSIN) &&
+                        !soldier.getOwnerNumber().equals(GameMenuController.getGameData().getPlayerOfTurn()) &&
+                        !GameMenuController.getGameData().getMap().isAssassinSeen(cell.getXPosition(), cell.getYPosition(),GameMenuController.getGameData().getPlayerOfTurn()))
+                    index++;
+                else {
+                    break;
+                }
+            }
 
             showingSignOfOtherUnits = fitStringToTileWidthWithNumberSign(showingSignOfOtherUnits);
             showingSignOfOtherUnits = colorString(showingSignOfOtherUnits, cell.getShowingColor());
             tile.add(showingSignOfOtherUnits);
+
+            index++;
         }
 
-        //todo pointive: show number of owner on map
         return tile;
     }
 

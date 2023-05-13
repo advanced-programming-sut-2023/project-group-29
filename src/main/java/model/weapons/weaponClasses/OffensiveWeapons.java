@@ -56,8 +56,9 @@ public class OffensiveWeapons extends Weapon implements Movable, Offensive {
     }
 
     public boolean isArcherType() {
-        //TODO abbasfar
-        return true;
+        if(offensiveWeaponsType.equals(OffensiveWeaponsType.CATAPULT) || offensiveWeaponsType.equals(OffensiveWeaponsType.FIRE_STONE_THROWER))
+            return true;
+        return false;
     }
 
     public OffensiveWeaponsType getOffensiveWeaponsType() {

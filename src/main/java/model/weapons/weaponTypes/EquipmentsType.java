@@ -24,4 +24,8 @@ public enum EquipmentsType{
     public int getSpeed() {
         return speed;
     }
+
+    public String getName() {
+        return weaponTypes.name();
+    }
 }

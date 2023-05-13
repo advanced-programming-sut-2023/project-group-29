@@ -21,7 +21,7 @@ public class Map {
     private final Cell[][] cells;
     private final int width;
     private final int usersCount;
-    private final int infinity=10000000;
+    private final int assassinVisibilityRadius=10;
 
     public Map(int width,int usersCount) {
         this.width = width;
@@ -50,6 +50,7 @@ public class Map {
             Arrays.fill(array,-1);
 
         queue.add(new Pair(firstX,firstY));
+        distances[firstX][firstY]=0;
 
         while (!queue.isEmpty())
         {
@@ -177,6 +178,16 @@ public class Map {
         }
 
         return distances[secondX][secondY];
+    }
+    public boolean isAssassinSeen(int assassinCellX,int assassinCellY,PlayerNumber playerNumber)
+    {
+        for(int i=-assassinVisibilityRadius;i<=assassinVisibilityRadius;i++)
+            for(int j=-assassinVisibilityRadius;j<=assassinVisibilityRadius;j++)
+                if(isIndexValid(assassinCellX+i,assassinCellY+j) &&
+                        (i+j)<=assassinVisibilityRadius &&
+                        cells[assassinCellX+i][assassinCellY+j].getMovingObjectsOfPlayer(playerNumber).size()>0)
+                    return true;
+        return false;
     }
     public enum Direction
     {

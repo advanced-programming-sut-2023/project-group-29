@@ -33,8 +33,7 @@ public enum CellType {
     SEA(ConsoleColors.BLUE_BACKGROUND, false, false, "sea"),
 
     ;
-    //page 27 of doc
-    ;
+
     private final ConsoleColors showingColor;
     private final boolean ableToBuildOn;
     private final boolean ableToMoveOn;

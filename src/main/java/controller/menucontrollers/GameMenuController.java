@@ -11,6 +11,11 @@ import model.people.humanClasses.Soldier;
 import view.menus.GameMenu;
 import view.messages.GameMenuMessages;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import static controller.menucontrollers.SelectUnitMenuController.applyAttackDamage;
+
 public class GameMenuController {
     private static GameData gameData = null;
 
@@ -129,6 +134,7 @@ public class GameMenuController {
         gameData.changePlayingPlayer();
         setNumberOfUnits(map, gameData.getPlayerOfTurn());
         updateEmpire(gameData.getPlayerOfTurn());
+
         //patrol apply
         for (int i = 1; i <= map.getWidth(); i++)
             for (int j = 1; j <= map.getWidth(); j++)
@@ -178,21 +184,81 @@ public class GameMenuController {
         empire.affectDestructedAccommodations();
     }
 
-    private static boolean moveAndAttackNearestUnit(Offensive attacker, int x, int y) {
-        return true;
-        //todo abbasfar attack maintain: if no enemy there still attack and say successful
-    }
+    private static void moveAndAttackNearestUnit(Offensive attacker,int currentX,int currentY)
+    {
+        if(!(attacker instanceof Movable)) {
+            attackNearestUnit(attacker, currentX, currentY);
+            return;
+        }
 
-    private static boolean attackNearestUnit(Offensive attacker, int x, int y) {
+        Movable movableAttacker=(Movable) attacker;
+        Asset attackerAsset=(Asset) attacker;
+        for(int i=-movableAttacker.getSpeed();i<=movableAttacker.getSpeed();i++)
+            for(int j=-movableAttacker.getSpeed();j<=movableAttacker.getSpeed();j++) {
+                int destinationX=currentX+i;
+                int destinationY=currentY+j;
+                if(movableAttacker.checkForMoveErrors(gameData.getMap(),destinationX,destinationY).equals(Movable.MovingResult.SUCCESSFUL))
+                {
+                    attackerAsset.setPositionX(destinationX);
+                    attackerAsset.setPositionY(destinationY);
+                    gameData.getMap().getCells()[currentX][currentY].getMovingObjects().remove(attackerAsset);
+                    gameData.getMap().getCells()[destinationX][destinationY].getMovingObjects().add(attackerAsset);
+
+                    if (attackNearestUnit(attacker, currentX, currentY))
+                        return;
+
+                    //failed to attack on that cell
+                    attackerAsset.setPositionX(currentX);
+                    attackerAsset.setPositionY(currentY);
+                    gameData.getMap().getCells()[destinationX][destinationY].getMovingObjects().remove(attackerAsset);
+                    gameData.getMap().getCells()[currentX][currentY].getMovingObjects().add(attackerAsset);
+                }
+            }
+    }
+    private static boolean attackNearestUnit(Offensive attacker, int currentX, int currentY)
+    {
+        for(int i=-attacker.getAimRange();i<=attacker.getAimRange();i++)
+            for(int j=-attacker.getAimRange();j<=attacker.getAimRange();j++)
+            {
+                Offensive.AttackingResult attackingResult=attacker.canAttack(gameData.getMap(),currentX+i,currentY+j,false);
+                if(attackingResult.equals(Offensive.AttackingResult.SUCCESSFUL))
+                {
+                    if(oneUnitAttack(attacker,currentX,currentY,currentX+i,currentY+j))
+                        return true;
+                }
+            }
+
+        return false;
+    }
+    private static boolean oneUnitAttack(Offensive attacker,int currentX,int currentY,int targetX,int targetY)
+    {
+        Map map = gameData.getMap();
+
+        Asset attackerAsset=(Asset) attacker;
+        PlayerNumber currentPlayer = attackerAsset.getOwnerNumber();
+
+        ArrayList<Offensive> currentPlayerAttackers = new ArrayList<>(Arrays.asList(attacker));
+
+        //create enemy objects list
+        Cell targetCell = map.getCells()[targetX][targetY];
+        ArrayList<Asset> enemies = targetCell.getEnemiesOfPlayerInCell(currentPlayer);
+        if (targetCell.hasBuilding())
+            enemies.add(targetCell.getBuilding());
+
+        if(enemies.size()==0)
+            return false;
+
+        //apply attack
+        //if a unit is near to death or not, makes no change for others
+
+        Cell currentCell=gameData.getMap().getCells()[currentX][currentY];
+        HeightOfAsset heightOfAttackers = currentCell.heightOfUnitsOfPlayer();
+
+        SelectUnitMenuController.DamageStruct totalDamage = SelectUnitMenuController.findTotalDamage(heightOfAttackers, currentPlayerAttackers, map, targetX, targetY,false);
+        applyAttackDamage(enemies, totalDamage, targetCell);
+        targetCell.removeDeadUnitsAndBuilding();
+
         return true;
-//        for(int i=0;i<=attacker.getAimRange();i++)
-//            for(int j=0;j<=attacker.getAimRange();j++)
-//            {
-//                //Offensive.AttackingResult attackingResult=attacker.ca
-//            }
-//
-//        return false;
-        //todo abbasfar
     }
 
     private static void resetActsOfUnits() {
@@ -206,15 +272,12 @@ public class GameMenuController {
                         attacker.setAttackedThisTurn(false);
                 }
     }
-
     public static void notify(String message) {
         GameMenu.print(message);
     }
-
     public static int showWealth() {
         return GameMenuController.getGameData().getEmpireByPlayerNumber(GameMenuController.gameData.getPlayerOfTurn()).getWealth();
     }
-
     public static String showCommodity() {
         String output = "Your recourse: \n";
         Empire empire = GameMenuController.getGameData().getEmpireByPlayerNumber(GameMenuController.gameData.getPlayerOfTurn());

@@ -28,5 +28,7 @@ public enum StaticOffensiveWeaponsType {
     public WeaponTypes getWeaponTypes() {
         return weaponTypes;
     }
-
+    public String getName() {
+        return weaponTypes.name();
+    }
 }

@@ -37,4 +37,7 @@ public enum OffensiveWeaponsType {
     public int getSpeed() {
         return speed;
     }
+    public String getName() {
+        return weaponTypes.name();
+    }
 }

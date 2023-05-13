@@ -17,21 +17,15 @@ public class Cell {
     private TreeType treeTypes;
     private Trap trap = null;
     private Building building = null;
-    //    private int speed;
     private CellType cellType;
     private boolean hasTunnel = false;
     private int xPosition;
     private int yPosition;
 
-    //    private boolean ableToBuildOn;
-//    private boolean ableToMoveOn;
     public Cell(CellType cellType, int xPosition, int yPosition) {
         this.cellType = cellType;
         this.xPosition = xPosition;
         this.yPosition = yPosition;
-//        this.speed=cellType.getSpeed();
-//        this.ableToBuildOn=cellType.isAbleToBuildOn();
-//        this.ableToMoveOn= cellType.isAbleToMoveOn();
     }
     public void removeDeadUnitsAndBuilding() {
         movingObjects.removeIf(asset -> asset.isDead());
@@ -121,21 +115,13 @@ public class Cell {
         return trap != null;
     }
 
-    public boolean hasFiringTrap() {
-        //TODO abbasfar has firing trap
-        return true;
-    }
-
     public boolean shieldExistsInCell(PlayerNumber playerNumber) {
         for (Asset movingObject : movingObjects) {
             if (movingObject instanceof Equipments equipment && movingObject.getOwnerNumber().equals(playerNumber)) {
-
-                //TODO abbasfar complete if below for type portable shield
-                //if(equipment.getEquipmentsType().equals())
-                //return true
+                if(equipment.getEquipmentsType().equals(EquipmentsType.PORTABLE_SHIELD))
+                    return true;
             }
         }
-
         return false;
     }
 
@@ -158,13 +144,6 @@ public class Cell {
     public void setBuilding(Building building) {
         this.building = building;
     }
-//    public int getSpeed() {
-//        return speed;
-//    }
-//
-//    public void setSpeed(int speed) {
-//        this.speed = speed;
-//    }
 
     public CellType getCellType() {
         return cellType;
@@ -201,11 +180,11 @@ public class Cell {
         empire.addBuilding(building, buildingGroupNumber);
     }
 
-    private int getXPosition() {
+    public int getXPosition() {
         return xPosition;
     }
 
-    private int getYPosition() {
+    public int getYPosition() {
         return yPosition;
     }
 
@@ -251,6 +230,9 @@ public class Cell {
 
     public void setTree(TreeType treeType) {
         this.treeTypes = treeType;
+    }
+    public TreeType getTreeTypes() {
+        return treeTypes;
     }
 }
 

@@ -13,7 +13,6 @@ public enum Command {
     ENTER_PROFILE_MENU("\\s*enter\\s+profile\\s+menu\\s*"),
     START_GAME("\\s*start\\s+a\\s+new\\s+game\\s*"),
     ADD_PLAYER_TO_GAME("\\s*add\\s+to\\s+game\\s+-u\\s+(?<username>\\S+)\\s*"),
-    //pointive: REMOVE_PLAYER_FROM_GAME(""),
     CHOOSE_MAP("\\s*choose\\s+map\\s+(?<index>\\d+)\\s*"),
     READY("\\s*ready\\s*"),
     CANCEL("\\s*cancel\\s*"),

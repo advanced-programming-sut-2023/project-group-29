@@ -13,6 +13,7 @@ import model.people.humanClasses.Soldier;
 import model.people.humanTypes.SoldierType;
 import model.weapons.weaponClasses.OffensiveWeapons;
 import model.weapons.weaponTypes.OffensiveWeaponsType;
+import org.checkerframework.checker.units.qual.A;
 import view.messages.SelectUnitMenuMessages;
 
 import java.util.ArrayList;
@@ -31,7 +32,8 @@ public class SelectUnitMenuController {
 
         //create moving object list
         ArrayList<Movable> movingObjects = currentCell.getMovingObjectsOfPlayer(gameData.getPlayerOfTurn());
-
+        if(movingObjects.size()==0)
+            return "You don't have any moving unit here!";
 
         //apply moves
         int failuresCount = 0;
@@ -194,7 +196,7 @@ public class SelectUnitMenuController {
         return assets;
     }
 
-    private static void applyAttackDamage(ArrayList<Asset> targetedAssets, DamageStruct damageStruct, Cell damagedCell) {
+    public static void applyAttackDamage(ArrayList<Asset> targetedAssets, DamageStruct damageStruct, Cell damagedCell) {
         boolean[] playerHasShieldInCell = new boolean[8];
         for (int i = 0; i <= 7; i++)
             playerHasShieldInCell[i] = damagedCell.shieldExistsInCell(PlayerNumber.getPlayerByIndex(i));
@@ -249,7 +251,7 @@ public class SelectUnitMenuController {
         }
     }
 
-    private static DamageStruct findTotalDamage(HeightOfAsset heightOfAttackers, ArrayList<Offensive> attackers, Map map, int targetX, int targetY,boolean setHasAttacked) {
+    public static DamageStruct findTotalDamage(HeightOfAsset heightOfAttackers, ArrayList<Offensive> attackers, Map map, int targetX, int targetY,boolean setHasAttacked) {
         DamageStruct damageStruct = new DamageStruct();
 
         for (Offensive attacker : attackers) {

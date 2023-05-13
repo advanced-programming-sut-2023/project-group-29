@@ -112,12 +112,6 @@ public class TestClass {
         String slogan = LoginMenuController.getSlogan(existSloganMatcher, sloganMatcher);
         Assertions.assertEquals(true, !slogan.equals("random"));
     }
-    /*@Test
-    public void checkRandomPassword() {
-        String password = LoginMenuController.createRandomPassword();
-        int a = LoginMenuController.checkWeakPassword(password);
-        Assertions.assertEquals(2, a);
-    }*/
     @Test
     public void checkEmailFormat1() {
         String email = "aaa.a";

@@ -317,7 +317,7 @@ public class MapMenu {
         int n = Integer.parseInt(nMatcher.group(1));
         String buildingName = tMatcher.group(1);
 
-        MapMenuMessages result = MapMenuController.dropBuildingAsAdmin(x, y, buildingName, 1);   //todo abbasfar like unit handle owner regex
+        MapMenuMessages result = MapMenuController.dropBuildingAsAdmin(x, y, buildingName, n);
         buildingSwitchMessages(result);
     }
 
