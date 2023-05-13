@@ -238,6 +238,7 @@ public class MapMenuController {
             case "e" -> setBlockTexture(CellType.RIGHT_ROCK, xPosition, yPosition);
             case "s" -> setBlockTexture(CellType.DOWN_ROCK, xPosition, yPosition);
             case "w" -> setBlockTexture(CellType.LEFT_ROCK, xPosition, yPosition);
+            default -> null;
         };
         return result;
     }

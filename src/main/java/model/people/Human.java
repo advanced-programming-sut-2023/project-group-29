@@ -22,7 +22,7 @@ public class Human extends Asset implements Movable {
         this.hp = humanType.hp();
         this.ableToClimbLadder = humanType.ableToClimbLadder();
         this.speed = humanType.speed().getSpeedValue();
-        this.showingSignInMap=humanType.showingSignInMap();
+        this.showingSignInMap=humanType.showingSignInMap() + "__" + (playerNumber.getNumber() + 1);
         this.name=humanType.name();
         this.ableToClimbStairs=humanType.ableToClimbStairs();
     }
@@ -66,6 +66,7 @@ public class Human extends Asset implements Movable {
 
     public static Human createUnitByName(String unitName,PlayerNumber ownerNumber,int positionX,int positionY)
     {
+
         //if soldier
         for(SoldierType soldierType:SoldierType.values())
             if(soldierType.getName().equals(unitName)) {

@@ -56,8 +56,11 @@ public class GameMenu {
             } else if ((matcher = Command.getMatcher(input, Command.SELECT_UNIT)) != null) {
                 if (selectUnit(matcher).equals(GameMenuMessages.SUCCESS))
                     return MenuNames.SELECT_UNIT_MENU;
-            } else if ((matcher = Command.getMatcher(input, Command.NEXT_TURN)) != null) {
-                GameMenuController.nextTurn();
+            } else if (Command.getMatcher(input, Command.NEXT_TURN) != null) {
+                if (!GameMenuController.nextTurn()) {
+                    GameMenuController.showWinner();
+                    return MenuNames.MAIN_MENU;
+                }
             } else if (Command.getMatcher(input, Command.ENTER_TRADE_MENU) != null) {
                 enterTradeMenu();
                 return MenuNames.TRADE_MENU;

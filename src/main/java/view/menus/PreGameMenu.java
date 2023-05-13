@@ -62,7 +62,10 @@ public class PreGameMenu {
                 System.out.println("You haven't still chosen the map!");
                 return true;
             }
-            case READY -> System.out.println("The game started. GOOD LUCK!");
+            case READY -> {
+                PreGameMenuController.setPlayerNumbersAlive();
+                System.out.println("The game started. GOOD LUCK!");
+            }
         }
         return false;
     }

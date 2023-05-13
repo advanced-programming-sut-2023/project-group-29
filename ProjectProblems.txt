@@ -20,11 +20,9 @@ captha pointive
 
 
 jasbi:
-show number of owner on map pointive
 
 function not too long
 ctr alt l
-
 
 
 

@@ -86,9 +86,12 @@ public class GameData {
             incrementTurn();
             index -= empires.size();
         }
-        //TODO: game finish
-        if (turnNumber > 5) GameMenuController.notify("finish");
         playerOfTurn = PlayerNumber.getPlayerByIndex(index);
+        if (!playerOfTurn.isAlive()) {
+            playerOfTurn.dead();
+            changePlayingPlayer();
+            return;
+        }
         GameMenuController.notify("player number " + (index+1) + " is playing");
     }
 

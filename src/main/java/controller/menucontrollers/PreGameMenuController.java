@@ -1,9 +1,6 @@
 package controller.menucontrollers;
 
-import model.AppData;
-import model.Empire;
-import model.GameData;
-import model.User;
+import model.*;
 import model.map.Map;
 import model.map.MapInitializer;
 import view.messages.PreGameMenuMessages;
@@ -41,5 +38,11 @@ public class PreGameMenuController {
             return PreGameMenuMessages.FEW_PLAYER;
         }
         return PreGameMenuMessages.READY;
+    }
+
+    public static void setPlayerNumbersAlive() {
+        for (PlayerNumber playerNumber : PlayerNumber.values()) {
+            playerNumber.setAlive(true);
+        }
     }
 }

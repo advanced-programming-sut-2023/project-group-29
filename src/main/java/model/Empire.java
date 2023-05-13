@@ -14,8 +14,6 @@ public class Empire {
     private ArrayList<Trade> trades = new ArrayList<>();
     private ArrayList<Trade> newTrades = new ArrayList<>();
     private ArrayList<Trade> tradesHistory = new ArrayList<>();
-    private final ArrayList<Soldier> soldiers = new ArrayList<>();
-    private final ArrayList<Worker> workers = new ArrayList<>();
     private final HashMap<Building, Integer> buildings = new HashMap<>();
     private int[][] storage = new int[2][3]; //{food, productsAndResources, weapons} {0--> filled, 1--> capacity}
     private final HashMap<PopularityFactors, Integer> popularityChange = new HashMap<>();
@@ -116,22 +114,6 @@ public class Empire {
 
     public void setFoodRate(int foodRate) {
         this.foodRate = foodRate;
-    }
-
-    public ArrayList<Soldier> getSoldiers() {
-        return soldiers;
-    }
-
-    public ArrayList<Worker> getWorkers() {
-        return workers;
-    }
-
-    public void addSoldier(Soldier soldier) {
-        soldiers.add(soldier);
-    }
-
-    public void addWorker(Worker worker) {
-        workers.add(worker);
     }
 
     public void changeWealth(int amount) {

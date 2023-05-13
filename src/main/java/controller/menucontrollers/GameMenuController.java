@@ -129,8 +129,10 @@ public class GameMenuController {
         return GameMenuMessages.SUCCESS;
     }
 
-    public static void nextTurn() {
+    public static boolean nextTurn() {
         Map map = gameData.getMap();
+        gameData.getPlayerOfTurn().setAliveOrNot();
+        if (gameIsFinished()) return false;
         gameData.changePlayingPlayer();
         setNumberOfUnits(map, gameData.getPlayerOfTurn());
         updateEmpire(gameData.getPlayerOfTurn());
@@ -158,6 +160,15 @@ public class GameMenuController {
                         moveAndAttackNearestUnit(offensiveAttacker, i, j);
 
                 }
+        return true;
+    }
+
+    private static boolean gameIsFinished() {
+        int numberOfDeadPlayers = 0;
+        for (PlayerNumber playerNumber : PlayerNumber.values()) {
+            if (!playerNumber.isAlive()) numberOfDeadPlayers++;
+        }
+        return numberOfDeadPlayers + 1 == gameData.getNumberOfPlayers();
     }
 
     private static void setNumberOfUnits(Map map, PlayerNumber playerOfTurn) {
@@ -291,5 +302,17 @@ public class GameMenuController {
     public static boolean isAnyMarket() {
         Empire empire = gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn());
         return empire.getNumberOfBuildingType(OtherBuildingsType.MARKET.getName()) > 0;
+    }
+
+    public static void showWinner() {
+        PlayerNumber winner = null;
+        for (PlayerNumber playerNumber : PlayerNumber.values()) {
+            if (playerNumber.getNumber() > gameData.getNumberOfPlayers()) break;
+            if (playerNumber.isAlive()) winner = playerNumber;
+        }
+        Empire empire = gameData.getEmpireByPlayerNumber(winner);
+        User winnerUser = empire.getUser();
+        winnerUser.setHighScore(empire.getWealth() + empire.getPopularity());
+        notify("The player number " + (winner.getNumber() + 1) + "won the game!");
     }
 }
