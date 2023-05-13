@@ -194,6 +194,13 @@ public class GameMenuController {
         return true;
     }
 
+    private static void applyStateForEngineerWithOil(UnitState unitState,Soldier engineerWithOil)
+    {
+        if(unitState.equals(UnitState.STANDING))
+            return;
+
+        int minimumEnemiesToAttack= unitState.equals(UnitState.DEFENSIVE) ? 3 : 1;
+
         for(Direction direction: Direction.values())
         {
             int x=engineerWithOil.getPositionX();
@@ -313,12 +320,6 @@ public class GameMenuController {
 
         return true;
     }
-    private static void applyStateForEngineerWithOil(UnitState unitState,Soldier engineerWithOil)
-    {
-        if(unitState.equals(UnitState.STANDING))
-            return;
-
-        int minimumEnemiesToAttack= unitState.equals(UnitState.DEFENSIVE) ? 3 : 1;
 
     private static void resetActsOfUnits() {
         Map map = gameData.getMap();
