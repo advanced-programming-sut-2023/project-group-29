@@ -167,7 +167,8 @@ public class LoginMenuController {
         if (checkEmailFormat(matcherEmail.group(1)) == 0) {
             return "Check format of your email";
         }
-        User user = new User(username, password, matcherNickname.group(1), matcherEmail.group(1), getSlogan(matcherExistSlogan, matcherSlogan), LoginMenu.checkSecurityQuestion());
+        String hashPassword = SaveAndLoad.hashString(password);
+        User user = new User(username, hashPassword, matcherNickname.group(1), matcherEmail.group(1), getSlogan(matcherExistSlogan, matcherSlogan), LoginMenu.checkSecurityQuestion());
         AppData.addUser(user);
         SaveAndLoad.saveData(AppData.getUsers(), AppData.getUsersDataBaseFilePath());
         return "user created successfully";
@@ -185,7 +186,7 @@ public class LoginMenuController {
         String password = matcherPassword.group(1);
         if (AppData.getUserByUsername(username) == null) {
             return "User with this username doesn't exist!";
-        } else if (!AppData.getUserByUsername(username).getPassword().equals(password)) {
+        } else if (!AppData.getUserByUsername(username).getPassword().equals(SaveAndLoad.hashString(password))) {
             return "Username and password didn't match!";
         }
         Matcher matcherStayLoggedIn = Pattern.compile("--stay-logged-in").matcher(input);
@@ -219,7 +220,7 @@ public class LoginMenuController {
             if (checkWeakPassword(password) != 2) {
                 return "Your new password is weak!";
             }
-            AppData.getUserByUsername(username).setPassword(password);
+            AppData.getUserByUsername(username).setPassword(SaveAndLoad.hashString(password));
             SaveAndLoad.saveData(AppData.getUsers(), AppData.getUsersDataBaseFilePath());
             return "Password changed successfully";
         }

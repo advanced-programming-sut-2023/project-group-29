@@ -3,6 +3,7 @@ package controller.menucontrollers;
 import model.AppData;
 import model.SaveAndLoad;
 
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,8 +25,8 @@ public class ProfileMenuController {
 
     public static String changePassword(Matcher matcher) {
         String input = matcher.group(0);
-        Pattern oldPassPattern = Pattern.compile("-o (\\S+)");
-        Pattern newPassPattern = Pattern.compile("-n (\\S+)");
+        Pattern oldPassPattern = Pattern.compile("-o\\s+(\\S+)");
+        Pattern newPassPattern = Pattern.compile("-n\\s+(\\S+)");
         Matcher oldPassMatcher = oldPassPattern.matcher(input);
         Matcher newPassMatcher = newPassPattern.matcher(input);
         if (!(oldPassMatcher.find() && newPassMatcher.find())) {
@@ -34,7 +35,7 @@ public class ProfileMenuController {
         String oldPass = oldPassMatcher.group(1);
         String newPass = newPassMatcher.group(1);
         //TODO faratin: pointive CAPTCHA
-        if (!AppData.getCurrentUser().getPassword().equals(oldPass)) {
+        if (!AppData.getCurrentUser().getPassword().equals(SaveAndLoad.hashString(oldPass))) {
             return "Enter your old password correctly!";
         }
         if (oldPass.equals(newPass)) {
@@ -44,7 +45,7 @@ public class ProfileMenuController {
             return "Your new password is weak!";
         }
 
-        AppData.getCurrentUser().setPassword(newPass);
+        AppData.getCurrentUser().setPassword(SaveAndLoad.hashString(newPass));
         SaveAndLoad.saveData(AppData.getUsers(), AppData.getUsersDataBaseFilePath());
         return "Password changed";
     }
