@@ -23,7 +23,6 @@ public class Soldier extends Human implements Offensive {
 
     public Soldier(SoldierType soldierType, PlayerNumber playerNumber, int positionX, int positionY) {
         super(soldierType.getHumanType(), playerNumber, positionX, positionY);
-
         this.soldierType = soldierType;
         this.damage = soldierType.getAttackDamage();
         this.aimRange = soldierType.getAimRange();

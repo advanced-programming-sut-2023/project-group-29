@@ -8,5 +8,45 @@
     "securityQuestion": "1 ali",
     "highScore": 0,
     "stayLoggedIn": 0
+  },
+  {
+    "username": "hossein1",
+    "password": "2@Seyed200",
+    "nickname": "thebest1",
+    "email": "Bandeh200@gmail.com",
+    "slogan": "I see noOne1",
+    "securityQuestion": "1 morteza1",
+    "highScore": 0,
+    "stayLoggedIn": 0
+  },
+  {
+    "username": "hossein2",
+    "password": "2@Seyed201",
+    "nickname": "thebest2",
+    "email": "Bandeh201@gmail.com",
+    "slogan": "we are the best",
+    "securityQuestion": "1 morteza2",
+    "highScore": 0,
+    "stayLoggedIn": 0
+  },
+  {
+    "username": "hossein3",
+    "password": "2@Seyed202",
+    "nickname": "thebest3",
+    "email": "Bandeh202@gmail.com",
+    "slogan": "I see noOne3",
+    "securityQuestion": "1 morteza3",
+    "highScore": 0,
+    "stayLoggedIn": 0
+  },
+  {
+    "username": "hossein4",
+    "password": "2@Seyed203",
+    "nickname": "thebest4",
+    "email": "Bandeh203@gmail.com",
+    "slogan": "I see noOne4",
+    "securityQuestion": "1 morteza4",
+    "highScore": 0,
+    "stayLoggedIn": 0
   }
 ]

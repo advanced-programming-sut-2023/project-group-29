@@ -13,7 +13,7 @@ public class PreGameMenuController {
     public static PreGameMenuMessages addUserToGame(String username) {
         GameData gameData = GameMenuController.getGameData();
         User user;
-        if((user = AppData.getUserByUsername(username)) == null) {
+        if ((user = AppData.getUserByUsername(username)) == null) {
             return PreGameMenuMessages.INVALID_USER;
         } else if (gameData.IsUserInGame(user)) {
             return PreGameMenuMessages.USER_EXIST;
@@ -28,9 +28,8 @@ public class PreGameMenuController {
         if (index > MapInitializer.getDefaultMapCounts()) {
             return PreGameMenuMessages.OUT_OF_RANGE;
         }
-        GameData gameData = GameMenuController.getGameData();
-        MapInitializer.initialize(index,gameData);
-
+        Map map = MapInitializer.initialize(index, GameMenuController.getGameData());
+        if (map == null) return PreGameMenuMessages.FEW_PLAYER;
         return PreGameMenuMessages.SUCCESS;
     }
 

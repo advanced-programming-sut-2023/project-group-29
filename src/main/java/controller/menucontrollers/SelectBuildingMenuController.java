@@ -17,7 +17,6 @@ import view.messages.SelectBuildingMenuMessages;
 
 public class SelectBuildingMenuController {
     private static Building selectedBuilding;
-    //todo jasbi your factories eat our units
     public static void setSelectedBuilding(Building selectedBuilding) {
         SelectBuildingMenuController.selectedBuilding = selectedBuilding;
     }

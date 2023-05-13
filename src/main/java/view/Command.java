@@ -40,7 +40,8 @@ public enum Command {
     SET_FOOD_RATE("\\s*food\\s+rate\\s+-r\\s+(?<rate>-?\\d+)\\s*"),
     SET_TAX_RATE("\\s*tax\\s+rate\\s+-r\\s+(?<rate>-?\\d+)\\s*"),
     SET_FEAR_RATE("\\s*fear\\s+rate\\s+-r\\s+(?<rate>-?\\d+)\\s*"),
-    DROP_BUILDING("\\s*drop\\s+building\\s+-[xyt]\\s+(\\S+)\\s+-[yxt]\\s+(\\S+)\\s+-[txy]\\s+(\\S+)\\s*"),
+    DROP_BUILDING("\\s*drop\\s+building\\s+" +
+            "-[xytn]\\s+(\\S+)\\s+-[yxtn]\\s+(\\S+)\\s+-[txyn]\\s+(\\S+)\\s+-[txyn]\\s+(\\S+)\\s*"),
     SELECT_BUILDING("\\s*select\\s+building\\s+-[xy]\\s+(\\d+)\\s+-[yx]\\s+(\\d+)\\s*"),
     SELECT_UNIT("\\s*select\\s+unit\\s+-[xy]\\s+(\\d+)\\s+-[yx]\\s+(\\d+)\\s*"),
     TRADE("\\s*trade\\s+-[tapmn]\\s+([^-]*\\w)\\s+-[atpmn]\\s+([^-]*\\w)\\s+-[ptamn]\\s+"
@@ -54,8 +55,7 @@ public enum Command {
     CLEAR("\\s*clear\\s+-[xy]\\s+(\\d+)\\s+-[yx]\\s+(\\d+)\\s*"),
     DROP_ROCK("\\s*drop\\s+rock\\s+-[xyd]\\s+(\\S+)\\s+-[yxd]\\s+(\\S+)\\s+-[dxy]\\s+(\\S+)\\s*"),
     DROP_TREE("\\s*drop\\s+tree\\s+-[xyt]\\s+(\\S+)\\s+-[yxt]\\s+(\\S+)\\s+-[txy]\\s+(\\S+)\\s*"),
-    CREATE_BUILDING("\\s*admin\\s+dropbuilding\\s+-x\\s+" +
-            "(?<xPosition>\\d+)\\s+-y\\s+(?<yPosition>\\d+)\\s+-type\\s+(?<type>\\S+)\\s*"),    //todo jasbi
+    CREATE_BUILDING("\\s*create\\s+building\\s+-[xyt]\\s+(\\S+)\\s+-[yxt]\\s+(\\S+)\\s+-[txy]\\s+(\\S+)\\s*"),
     DROP_UNIT("\\s*drop\\s+unit\\s+-[xytcn]\\s+(\\S+)\\s+-[xytcn]\\s+(\\S+)\\s+" +
             "-[xytcn]\\s+(\\S+)\\s+-[xytcn]\\s+(\\S+)\\s+-[xytcn]\\s+(\\S+)\\s*"),
     CREATE_UNIT("\\s*create\\s+unit\\s+-[tc]\\s+(\\S+)\\s+-[ct]\\s+(\\S+)\\s*"),

@@ -1,6 +1,8 @@
 package model.buildings.buildingClasses;
 
 import controller.menucontrollers.GameMenuController;
+import controller.menucontrollers.MapMenuController;
+import controller.menucontrollers.SelectUnitMenuController;
 import model.Asset;
 import model.PlayerNumber;
 import model.buildings.Building;
@@ -9,6 +11,7 @@ import model.map.Cell;
 import model.people.Human;
 import model.people.humanClasses.Soldier;
 import model.people.humanTypes.SoldierType;
+import view.menus.MapMenu;
 
 public class OtherBuildings extends Building {
     private final OtherBuildingsType otherBuildingsType;
@@ -49,7 +52,8 @@ public class OtherBuildings extends Building {
     private void convertEngineerToEngineerWithOil(Soldier soldier, Cell currentCell) {
         PlayerNumber playerNumber = GameMenuController.getGameData().getPlayerOfTurn();
         currentCell.getMovingObjects().remove(soldier);
-        Human.createUnitByName("engineerWithOil", playerNumber, getPositionX(), getPositionY());
+        MapMenuController.dropUnit
+                (getPositionX(), getPositionY(), "engineerWithOil", 1,playerNumber.getNumber());
     }
 
     private Soldier findEngineer(Cell currentCell) {

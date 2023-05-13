@@ -7,7 +7,7 @@ import model.dealing.Food;
 import model.dealing.Tradable;
 import model.map.Cell;
 import model.map.Map;
-import model.UnitState;
+import model.people.humanClasses.Soldier;
 import view.menus.GameMenu;
 import view.messages.GameMenuMessages;
 
@@ -44,7 +44,7 @@ public class GameMenuController {
         PlayerNumber playerNumber = gameData.getPlayerOfTurn();
         Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
         String output = "food list:\n";
-        for (Food food: Food.values()) {
+        for (Food food : Food.values()) {
             output += food.getName() + " -> count: " + empire.getFoodsCount(food) + "\n";
         }
         return output.trim();
@@ -100,7 +100,7 @@ public class GameMenuController {
             return GameMenuMessages.OTHERS_BUILDINGS;
         }
 
-        gameData.setSelectedCell(xPosition,yPosition);
+        gameData.setSelectedCell(xPosition, yPosition);
         SelectBuildingMenuController.setSelectedBuilding(building);
         return GameMenuMessages.SUCCESS;
     }
@@ -112,42 +112,61 @@ public class GameMenuController {
                 || y > map.getWidth();
     }
 
-    public static GameMenuMessages selectUnit(int xPosition,int yPosition) {
-
-        //todo jasbi error handle
-        gameData.setSelectedCell(xPosition,yPosition);
+    public static GameMenuMessages selectUnit(int xPosition, int yPosition) {
+        if (!gameData.getMap().isIndexValid(xPosition, yPosition)) {
+            return GameMenuMessages.INVALID_POSITION;
+        }
+        Cell cell = gameData.getMap().getCells()[xPosition][yPosition];
+        if (cell.getMovingObjectsOfPlayer(gameData.getPlayerOfTurn()).size() == 0) {
+            return GameMenuMessages.EMPTY_CELL;
+        }
+        gameData.setSelectedCell(xPosition, yPosition);
         return GameMenuMessages.SUCCESS;
     }
 
     public static void nextTurn() {
+        Map map = gameData.getMap();
         gameData.changePlayingPlayer();
+        setNumberOfUnits(map, gameData.getPlayerOfTurn());
         updateEmpire(gameData.getPlayerOfTurn());
-
-        Map map=gameData.getMap();
-
         //patrol apply
-        for(int i=1;i<= map.getWidth();i++)
-            for(int j=1;j<=map.getWidth();j++)
-                for(Asset movingUnit:map.getCells()[i][j].getMovingObjects())
-                    if(movingUnit instanceof Movable movable && movable.getPatrol().isPatrolling())
-                        movable.getPatrol().patrol(movable,map);
+        for (int i = 1; i <= map.getWidth(); i++)
+            for (int j = 1; j <= map.getWidth(); j++)
+                for (Asset movingUnit : map.getCells()[i][j].getMovingObjects())
+                    if (movingUnit instanceof Movable movable && movable.getPatrol().isPatrolling())
+                        movable.getPatrol().patrol(movable, map);
 
         //reset hasAttacked and hasMoved
         resetActsOfUnits();
 
         //act according to unit state
-        for(int i=1;i<= map.getWidth();i++)
-            for(int j=1;j<=map.getWidth();j++)
-                for(Asset movingUnit:map.getCells()[i][j].getMovingObjects()) {
+        for (int i = 1; i <= map.getWidth(); i++)
+            for (int j = 1; j <= map.getWidth(); j++)
+                for (Asset movingUnit : map.getCells()[i][j].getMovingObjects()) {
                     if (movingUnit instanceof Offensive defensiveAttacker &&
                             defensiveAttacker.getUnitState().equals(UnitState.DEFENSIVE))
                         attackNearestUnit(defensiveAttacker, i, j);
 
                     else if (movingUnit instanceof Offensive offensiveAttacker &&
                             offensiveAttacker.getUnitState().equals(UnitState.OFFENSIVE))
-                        moveAndAttackNearestUnit(offensiveAttacker,i,j);
+                        moveAndAttackNearestUnit(offensiveAttacker, i, j);
 
                 }
+    }
+
+    private static void setNumberOfUnits(Map map, PlayerNumber playerOfTurn) {
+        Empire empire = gameData.getEmpireByPlayerNumber(playerOfTurn);
+        int counter = 0;
+        for (int i = 1; i <= map.getWidth(); i++) {
+            for (int j = 1; j <= map.getWidth(); j++) {
+                for (Asset movingUnit : map.getCells()[i][j].getMovingObjects()) {
+                    if (movingUnit instanceof Soldier soldier && soldier.getOwnerNumber().equals(playerOfTurn)) {
+                        counter++;
+                    }
+                }
+            }
+        }
+        empire.setNumberOfUnits(counter);
     }
 
     public static void updateEmpire(PlayerNumber playerNumber) {
@@ -159,13 +178,12 @@ public class GameMenuController {
         empire.affectDestructedAccommodations();
     }
 
-    private static boolean moveAndAttackNearestUnit(Offensive attacker,int x,int y)
-    {
+    private static boolean moveAndAttackNearestUnit(Offensive attacker, int x, int y) {
         return true;
         //todo abbasfar attack maintain: if no enemy there still attack and say successful
     }
-    private static boolean attackNearestUnit(Offensive attacker, int x, int y)
-    {
+
+    private static boolean attackNearestUnit(Offensive attacker, int x, int y) {
         return true;
 //        for(int i=0;i<=attacker.getAimRange();i++)
 //            for(int j=0;j<=attacker.getAimRange();j++)
@@ -176,28 +194,31 @@ public class GameMenuController {
 //        return false;
         //todo abbasfar
     }
-    private static void resetActsOfUnits()
-    {
-        Map map=gameData.getMap();
-        for(int i=1;i<= map.getWidth();i++)
-            for(int j=1;j<=map.getWidth();j++)
-                for(Asset movingUnit:map.getCells()[i][j].getMovingObjects()) {
+
+    private static void resetActsOfUnits() {
+        Map map = gameData.getMap();
+        for (int i = 1; i <= map.getWidth(); i++)
+            for (int j = 1; j <= map.getWidth(); j++)
+                for (Asset movingUnit : map.getCells()[i][j].getMovingObjects()) {
                     if (movingUnit instanceof Movable movable)
                         movable.setMovedThisTurn(false);
                     if (movingUnit instanceof Offensive attacker)
                         attacker.setAttackedThisTurn(false);
                 }
     }
+
     public static void notify(String message) {
         GameMenu.print(message);
     }
+
     public static int showWealth() {
         return GameMenuController.getGameData().getEmpireByPlayerNumber(GameMenuController.gameData.getPlayerOfTurn()).getWealth();
     }
+
     public static String showCommodity() {
         String output = "Your recourse: \n";
         Empire empire = GameMenuController.getGameData().getEmpireByPlayerNumber(GameMenuController.gameData.getPlayerOfTurn());
-        for(Tradable tradable: empire.getTradableAmounts().keySet()) {
+        for (Tradable tradable : empire.getTradableAmounts().keySet()) {
             int amount = empire.getTradableAmount(tradable);
             output += tradable.getName() + ": " + amount + "\n";
         }

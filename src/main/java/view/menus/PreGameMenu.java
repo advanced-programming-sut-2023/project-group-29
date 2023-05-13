@@ -45,6 +45,7 @@ public class PreGameMenu {
         int index = Integer.parseInt(matcher.group("index"));
         PreGameMenuMessages result = PreGameMenuController.chooseMap(index);
         switch (result) {
+            case FEW_PLAYER -> System.out.println("Number of players is not enough for this map!");
             case OUT_OF_RANGE -> System.out.println("No map exists with this index!");
             case SUCCESS -> System.out.println("Map is chosen successfully!");
         }

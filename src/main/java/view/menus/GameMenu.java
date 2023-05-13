@@ -4,7 +4,6 @@ import controller.MenuNames;
 import controller.menucontrollers.GameMenuController;
 import controller.menucontrollers.MapMenuController;
 import model.GameData;
-import model.PlayerNumber;
 import model.dealing.Trade;
 import view.Command;
 import view.messages.GameMenuMessages;
@@ -17,20 +16,18 @@ import java.util.regex.Pattern;
 
 public class GameMenu {
     static Scanner myScanner;
+
     public static MenuNames run(Scanner scanner) {
         myScanner = scanner;
         System.out.println("You have entered game menu");
-        GameMenuController.updateEmpire(PlayerNumber.FIRST);
-
         while (true) {
             Matcher matcher;
             String input = scanner.nextLine();
-            if ((matcher=Command.getMatcher(input, Command.SHOW_MAP)) != null) {
+            if ((matcher = Command.getMatcher(input, Command.SHOW_MAP)) != null) {
                 int checkCorrectCommand = showMap(matcher);
-                if(checkCorrectCommand == 1) {
+                if (checkCorrectCommand == 1) {
 
-                }
-                else {
+                } else {
                     return MenuNames.MAP_MENU;
                 }
             } else if (Command.getMatcher(input, Command.SHOW_POPULARITY_FACTORS) != null) {
@@ -53,11 +50,11 @@ public class GameMenu {
                 showWealth();
             } else if ((matcher = Command.getMatcher(input, Command.SHOW_COMMODITY)) != null) {
                 showCommodity();
-            }else if ((matcher = Command.getMatcher(input, Command.SELECT_BUILDING)) != null) {
-                if(selectBuilding(matcher).equals(GameMenuMessages.SUCCESS))
+            } else if ((matcher = Command.getMatcher(input, Command.SELECT_BUILDING)) != null) {
+                if (selectBuilding(matcher).equals(GameMenuMessages.SUCCESS))
                     return MenuNames.SELECT_BUILDING_MENU;
             } else if ((matcher = Command.getMatcher(input, Command.SELECT_UNIT)) != null) {
-                if(selectUnit(matcher).equals(GameMenuMessages.SUCCESS))
+                if (selectUnit(matcher).equals(GameMenuMessages.SUCCESS))
                     return MenuNames.SELECT_UNIT_MENU;
             } else if ((matcher = Command.getMatcher(input, Command.NEXT_TURN)) != null) {
                 GameMenuController.nextTurn();
@@ -85,17 +82,18 @@ public class GameMenu {
         }
         return 0;
     }
+
     private static void enterTradeMenu() {
         GameData gameData = GameMenuController.getGameData();
         System.out.println("You entered trade menu");
         System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - -");
-        for(int i = 0; i < gameData.getEmpires().size(); i++) {
+        for (int i = 0; i < gameData.getEmpires().size(); i++) {
             System.out.println("User" + (i + 1) + ": " + gameData.getEmpires().get(i).getUser().getUsername());
         }
         System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - -");
         System.out.println("New Trade For You:");
         ArrayList<Trade> trades = gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn()).getNewTrades();
-        for(int i = 0; i < trades.size(); i++) {
+        for (int i = 0; i < trades.size(); i++) {
             System.out.print((i + 1) + ") sender player: " + (trades.get(i).getSenderPlayer().getNumber() + 1));
             System.out.print(" | commodity: " + trades.get(i).getCommodity().getName());
             System.out.print(" | amount: " + trades.get(i).getCount());
@@ -111,17 +109,16 @@ public class GameMenu {
         String input = matcher.group(0);
         Matcher xMatcher = Pattern.compile("-x\\s+(\\d+)").matcher(input);
         Matcher yMatcher = Pattern.compile("-y\\s+(\\d+)").matcher(input);
-        if(!(xMatcher.find() && yMatcher.find())) {
+        if (!(xMatcher.find() && yMatcher.find())) {
             System.out.println("Invalid command!");
             return 1;
         }
-        int positionX=Integer.parseInt(xMatcher.group(1));
-        int positionY=Integer.parseInt(yMatcher.group(1));
+        int positionX = Integer.parseInt(xMatcher.group(1));
+        int positionY = Integer.parseInt(yMatcher.group(1));
 
-        MapMenuMessages result = MapMenuController.setShowingMapIndexes(positionX,positionY);
-        switch (result) {
-            case INVALID_INDEX -> System.out.println("Invalid index!");
-            case SUCCESSFUL -> System.out.println("Successful");
+        MapMenuMessages result = MapMenuController.setShowingMapIndexes(positionX, positionY);
+        if (result == MapMenuMessages.INVALID_INDEX) {
+            System.out.println("Invalid index!");
         }
         return 0;
     }
@@ -177,7 +174,7 @@ public class GameMenu {
         String input = matcher.group(0);
         Matcher xMatcher = Pattern.compile("-x\\s+(\\d+)").matcher(input);
         Matcher yMatcher = Pattern.compile("-y\\s+(\\d+)").matcher(input);
-        if(!(xMatcher.find() && yMatcher.find())) {
+        if (!(xMatcher.find() && yMatcher.find())) {
             return GameMenuMessages.INVALID_COMMAND;
         }
         int x = Integer.parseInt(xMatcher.group(1));
@@ -198,16 +195,21 @@ public class GameMenu {
         String input = matcher.group(0);
         Matcher xMatcher = Pattern.compile("-x\\s+(\\d+)").matcher(input);
         Matcher yMatcher = Pattern.compile("-y\\s+(\\d+)").matcher(input);
-        if(!(xMatcher.find() && yMatcher.find())) {
+        if (!(xMatcher.find() && yMatcher.find())) {
             return GameMenuMessages.INVALID_COMMAND;
         }
         int xPosition = Integer.parseInt(xMatcher.group(1));
         int yPosition = Integer.parseInt(yMatcher.group(1));
 
-        GameMenuMessages message=GameMenuController.selectUnit(xPosition,yPosition);
-
-        return message;
+        GameMenuMessages result = GameMenuController.selectUnit(xPosition, yPosition);
+        switch (result) {
+            case INVALID_POSITION -> System.out.println("You have chosen an Invalid amount of x or y!");
+            case EMPTY_CELL -> System.out.println("You have no troop in this cell!");
+            case SUCCESS -> System.out.println("The unit was selected successfully!");
+        }
+        return result;
     }
+
     private static void showWealth() {
         System.out.println(GameMenuController.showWealth());
     }

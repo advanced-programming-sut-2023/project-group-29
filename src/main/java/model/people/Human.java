@@ -68,8 +68,9 @@ public class Human extends Asset implements Movable {
     {
         //if soldier
         for(SoldierType soldierType:SoldierType.values())
-            if(soldierType.getName().equals(unitName))
-                return new Soldier(soldierType,ownerNumber,positionX,positionY);
+            if(soldierType.getName().equals(unitName)) {
+                return new Soldier(soldierType, ownerNumber, positionX, positionY);
+            }
 
         //if worker
         for(WorkerType workerType:WorkerType.values())

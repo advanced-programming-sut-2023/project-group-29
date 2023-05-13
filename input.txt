@@ -14,7 +14,16 @@ add to game -u hossein3
 add to game -u hossein4
 choose map 2
 ready
-show map -x 1 -y 1
-drop unit -t ARCHER -y 2 -x 1 -c 2
+show popularity factors
+show map -x 5 -y 5
+create building -x 6 -y 5 -t oilSmelter
+show map -x 5 -y 5
+drop unit -x 6 -y 5 -t engineer -c 1 -n 1
+show map -x 5 -y 5
+back
+next turn
+next turn
+next turn
+next turn
 
-
+show map -x 5 -y 5

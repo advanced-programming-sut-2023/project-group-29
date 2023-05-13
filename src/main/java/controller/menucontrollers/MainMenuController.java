@@ -9,5 +9,6 @@ public class MainMenuController {
         GameMenuController.setGameData(gameData);
         gameData.addEmpire(new Empire(AppData.getCurrentUser()));
         gameData.setPlayerOfTurn(PlayerNumber.FIRST);
+        GameMenuController.updateEmpire(PlayerNumber.FIRST);
     }
 }

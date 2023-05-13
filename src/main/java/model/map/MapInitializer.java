@@ -11,9 +11,10 @@ public class MapInitializer {
     private static final int DEFAULT_MAP_COUNTS = 2;
     public static Map initialize(int mapIndex, GameData gameData)
     {
+        Map map;
         return switch (mapIndex) {
-            case 1 -> initializeFirstMap(gameData);
-            case 2 -> initializeSecondMap(gameData);
+            case 1 -> map = initializeFirstMap(gameData);
+            case 2 -> map = initializeSecondMap(gameData);
             default -> null;
         };
     }
@@ -21,7 +22,9 @@ public class MapInitializer {
     //در داک گفته شده که یک انبار باید در کنار مقر اصلی به صورت پیش فرض ساخته شود. faratin todo
     private static Map initializeFirstMap(GameData gameData) {
         Map firstMap = new Map(100, 8);
-
+        if (gameData.getNumberOfPlayers() < firstMap.getUsersCount()) {
+            return null;
+        }
 //        secondMap.dropBuilding(5,5, AccommodationType.MAIN_KEEP.getName(),1);
 //        secondMap.dropBuilding(100,5, AccommodationType.MAIN_KEEP.getName(),2);
 //        secondMap.dropBuilding(185,5, AccommodationType.MAIN_KEEP.getName(),3);
@@ -35,6 +38,9 @@ public class MapInitializer {
     private static Map initializeSecondMap(GameData gameData)
     {
         Map secondMap=new Map(200,3);
+        if (gameData.getNumberOfPlayers() < secondMap.getUsersCount()) {
+            return null;
+        }
         Cell[][] cells=secondMap.getCells();
 
         for (int i = 1; i < cells.length; i++)

@@ -16,46 +16,55 @@ import java.util.regex.Pattern;
 public class MapMenu {
     public static MenuNames run(Scanner scanner) {
         showMap();
-        while(true) {
+        while (true) {
             Matcher matcher;
             String input = scanner.nextLine();
-            if ((matcher=Command.getMatcher(input, Command.SHOW_MAP)) != null) {
+            if ((matcher = Command.getMatcher(input, Command.SHOW_MAP)) != null) {
                 showMap(matcher);
-            }
-            else if ((matcher=Command.getMatcher(input, Command.SHOW_DETAILS)) != null) {
+            } else if ((matcher = Command.getMatcher(input, Command.SHOW_DETAILS)) != null) {
                 showDetails(matcher);
-            }
-            else if ((matcher = Command.getMatcher(input, Command.MOVE_MAP)) != null) {
+            } else if ((matcher = Command.getMatcher(input, Command.MOVE_MAP)) != null) {
                 moveMap(matcher);
-            }
-            else if ((matcher = Command.getMatcher(input, Command.SET_BLOCK_TEXTURE)) != null) {
+            } else if ((matcher = Command.getMatcher(input, Command.SET_BLOCK_TEXTURE)) != null) {
                 setBlockTexture(matcher);
-            }
-            else if ((matcher = Command.getMatcher(input, Command.SET_PART_OF_BLOCK_TEXTURE)) != null) {
+            } else if ((matcher = Command.getMatcher(input, Command.SET_PART_OF_BLOCK_TEXTURE)) != null) {
                 setPartOfBlockTexture(matcher);
-            }
-            else if ((matcher = Command.getMatcher(input, Command.CLEAR)) != null) {
+            } else if ((matcher = Command.getMatcher(input, Command.CLEAR)) != null) {
                 clear(matcher);
-            }
-            else if ((matcher = Command.getMatcher(input, Command.DROP_ROCK)) != null) {
+            } else if ((matcher = Command.getMatcher(input, Command.DROP_ROCK)) != null) {
                 dropRock(matcher);
-            }
-            else if ((matcher = Command.getMatcher(input, Command.DROP_TREE)) != null) {
+            } else if ((matcher = Command.getMatcher(input, Command.DROP_TREE)) != null) {
                 dropTree(matcher);
-            }
-            else if ((matcher = Command.getMatcher(input, Command.DROP_BUILDING)) != null) {
+            } else if ((matcher = Command.getMatcher(input, Command.DROP_BUILDING)) != null) {
                 dropBuilding(matcher);
-            }
-            else if ((matcher = Command.getMatcher(input, Command.DROP_UNIT)) != null) {
+            } else if ((matcher = Command.getMatcher(input, Command.CREATE_BUILDING)) != null) {
+                createBuilding(matcher);
+            } else if ((matcher = Command.getMatcher(input, Command.DROP_UNIT)) != null) {
                 dropUnit(matcher);
-            }
-            else if ((matcher = Command.getMatcher(input, Command.BACK_GAME_MENU)) != null) {
+            } else if ((matcher = Command.getMatcher(input, Command.BACK_GAME_MENU)) != null) {
                 return MenuNames.GAME_MENU;
-            }
-            else {
+            } else {
                 System.out.println("Invalid command!");
             }
         }
+    }
+
+    private static void createBuilding(Matcher matcher) {
+        String input = matcher.group(0);
+        Matcher xMatcher = Pattern.compile("-x\\s+(\\d+)").matcher(input);
+        Matcher yMatcher = Pattern.compile("-y\\s+(\\d+)").matcher(input);
+        Matcher tMatcher = Pattern.compile("-t\\s+(\\S+)").matcher(input);
+        if (!(xMatcher.find() && yMatcher.find() && tMatcher.find())) {
+            System.out.println("Invalid command!");
+            return;
+        }
+
+        int x = Integer.parseInt(xMatcher.group(1));
+        int y = Integer.parseInt(yMatcher.group(1));
+        String buildingName = tMatcher.group(1);
+
+        MapMenuMessages result = MapMenuController.buildBuilding(x, y, buildingName);
+        buildingSwitchMessages(result);
     }
 
     private static void moveMap(Matcher matcher) {
@@ -96,8 +105,8 @@ public class MapMenu {
         String type = typeMatcher.group(1);
         int trueType = 0;
         CellType cellType = null;
-        for(CellType myCellType: CellType.values()) {
-            if(myCellType.getName().equals(type)) {
+        for (CellType myCellType : CellType.values()) {
+            if (myCellType.getName().equals(type)) {
                 trueType = 1;
                 cellType = myCellType;
                 break;
@@ -126,8 +135,8 @@ public class MapMenu {
         String type = typeMatcher.group(1);
         int trueType = 0;
         CellType cellType = null;
-        for(CellType myCellType: CellType.values()) {
-            if(myCellType.getName().equals(type)) {
+        for (CellType myCellType : CellType.values()) {
+            if (myCellType.getName().equals(type)) {
                 trueType = 1;
                 cellType = myCellType;
                 break;
@@ -151,7 +160,7 @@ public class MapMenu {
         String input = matcher.group(0);
         Matcher xMatcher = Pattern.compile("-x\\s+(\\d+)").matcher(input);
         Matcher yMatcher = Pattern.compile("-y\\s+(\\d+)").matcher(input);
-        if(!(xMatcher.find() && yMatcher.find())) {
+        if (!(xMatcher.find() && yMatcher.find())) {
             System.out.println("Invalid command!");
             return;
         }
@@ -165,21 +174,21 @@ public class MapMenu {
         Matcher xMatcher = Pattern.compile("-x\\s+(\\d+)").matcher(input);
         Matcher yMatcher = Pattern.compile("-y\\s+(\\d+)").matcher(input);
         Matcher dMatcher = Pattern.compile("-d\\s+(\\S+)").matcher(input);
-        if(!(xMatcher.find() && yMatcher.find() && dMatcher.find())) {
+        if (!(xMatcher.find() && yMatcher.find() && dMatcher.find())) {
             System.out.println("Invalid command!");
             return;
         }
         int x = Integer.parseInt(xMatcher.group(1));
         int y = Integer.parseInt(yMatcher.group(1));
         String direction = dMatcher.group(1);
-        if(!(direction.equals("w") || direction.equals("e") || direction.equals("n") || direction.equals("s") || direction.equals("random"))){
+        if (!(direction.equals("w") || direction.equals("e") || direction.equals("n") || direction.equals("s") || direction.equals("random"))) {
             System.out.println("Invalid direction!");
             return;
         }
-        if(direction.equals("random")) {
+        if (direction.equals("random")) {
             Random random = new Random();
             int myRandom = random.nextInt() % 4;
-            if(myRandom == 0){
+            if (myRandom == 0) {
                 direction = "w";
             } else if (myRandom == 1) {
                 direction = "e";
@@ -197,7 +206,7 @@ public class MapMenu {
         Matcher xMatcher = Pattern.compile("-x\\s+(\\d+)").matcher(input);
         Matcher yMatcher = Pattern.compile("-y\\s+(\\d+)").matcher(input);
         Matcher typeMatcher = Pattern.compile("-t\\s+(\\S+)").matcher(input);
-        if(!(xMatcher.find() && yMatcher.find() && typeMatcher.find())) {
+        if (!(xMatcher.find() && yMatcher.find() && typeMatcher.find())) {
             System.out.println("Invalid command!");
             return;
         }
@@ -206,14 +215,14 @@ public class MapMenu {
         String type = typeMatcher.group(1);
         int trueType = 0;
         TreeType myTreeType = null;
-        for (TreeType treeType: TreeType.values()) {
+        for (TreeType treeType : TreeType.values()) {
             if (treeType.name().equals(type)) {
                 trueType = 1;
                 myTreeType = treeType;
                 break;
             }
         }
-        if(trueType == 0) {
+        if (trueType == 0) {
             System.out.println("Invalid type of tree!");
             return;
         }
@@ -236,14 +245,14 @@ public class MapMenu {
         int y = Integer.parseInt(yMatcher.group(1));
         int count = Integer.parseInt(cMatcher.group(1));
         String type = tMatcher.group(1);
-        int playerNumberInt=Integer.parseInt(nMatcher.group(1));
+        int playerNumberInt = Integer.parseInt(nMatcher.group(1));
         if (count < 1) {
             System.out.println("Invalid count!");
             return;
         }
         int trueType = 0;
-        for(SoldierType soldierType: SoldierType.values()) {
-            if(soldierType.getName().equals(type)) {
+        for (SoldierType soldierType : SoldierType.values()) {
+            if (soldierType.getName().equals(type)) {
                 trueType = 1;
                 break;
             }
@@ -259,30 +268,31 @@ public class MapMenu {
         String input = matcher.group(0);
         Matcher xAmount = Pattern.compile("-x\\s+(\\d+)").matcher(input);
         Matcher yAmount = Pattern.compile("-y\\s+(\\d+)").matcher(input);
-        if(!(xAmount.find() && yAmount.find())) {
+        if (!(xAmount.find() && yAmount.find())) {
             System.out.println("Invalid command!");
             return;
         }
-        int positionX=Integer.parseInt(xAmount.group(1));
-        int positionY=Integer.parseInt(yAmount.group(1));
+        int positionX = Integer.parseInt(xAmount.group(1));
+        int positionY = Integer.parseInt(yAmount.group(1));
 
-        System.out.println(MapMenuController.showMap(positionX,positionY));
+        System.out.println(MapMenuController.showMap(positionX, positionY));
     }
+
     private static void showDetails(Matcher matcher) {
         String input = matcher.group(0);
         Matcher xAmount = Pattern.compile("-x\\s+(\\d+)").matcher(input);
         Matcher yAmount = Pattern.compile("-y\\s+(\\d+)").matcher(input);
-        if(!(xAmount.find() && yAmount.find())) {
+        if (!(xAmount.find() && yAmount.find())) {
             System.out.println("Invalid command!");
             return;
         }
-        int positionX=Integer.parseInt(xAmount.group(1));
-        int positionY=Integer.parseInt(yAmount.group(1));
+        int positionX = Integer.parseInt(xAmount.group(1));
+        int positionY = Integer.parseInt(yAmount.group(1));
 
-        System.out.print(MapMenuController.showDetails(positionX,positionY));
+        System.out.print(MapMenuController.showDetails(positionX, positionY));
     }
 
-    private static void showMap(){
+    private static void showMap() {
         System.out.println(MapMenuController.showMap());
     }
 
@@ -291,16 +301,22 @@ public class MapMenu {
         Matcher xMatcher = Pattern.compile("-x\\s+(\\d+)").matcher(input);
         Matcher yMatcher = Pattern.compile("-y\\s+(\\d+)").matcher(input);
         Matcher tMatcher = Pattern.compile("-t\\s+(\\S+)").matcher(input);
-        if(!(xMatcher.find() && yMatcher.find() && tMatcher.find())) {
+        Matcher nMatcher = Pattern.compile("-n\\s+(\\d+)").matcher(input);
+        if (!(xMatcher.find() && yMatcher.find() && tMatcher.find() && nMatcher.find())) {
             System.out.println("Invalid command!");
             return;
         }
 
         int x = Integer.parseInt(xMatcher.group(1));
         int y = Integer.parseInt(yMatcher.group(1));
+        int n = Integer.parseInt(nMatcher.group(1));
         String buildingName = tMatcher.group(1);
 
-        MapMenuMessages result = MapMenuController.dropBuildingAsAdmin(x, y, buildingName,1);   //todo abbasfar like unit handle owner regex
+        MapMenuMessages result = MapMenuController.dropBuildingAsAdmin(x, y, buildingName, 1);   //todo abbasfar like unit handle owner regex
+        buildingSwitchMessages(result);
+    }
+
+    private static void buildingSwitchMessages(MapMenuMessages result) {
         switch (result) {
             case TWO_MAIN_KEEP -> System.out.println("You aren't allowed to have two main keeps!");
             case INVALID_INDEX -> System.out.println("You have chosen an Invalid amount of x or y!");
@@ -308,7 +324,8 @@ public class MapMenu {
             case UNCONNECTED_STOREROOMS -> System.out.println("Your storerooms must be connected to each other!");
             case IMPROPER_CELL_TYPE -> System.out.println("This cell is improper for dropping this type of building!");
             case FULL_CELL -> System.out.println("Another building has been already dropped here!");
-            case LACK_OF_RESOURCES -> System.out.println("You don't have enough resources to build this building!");
+            case LACK_OF_HUMAN -> System.out.println("You don't have enough workless human to work in this building!");
+            case LACK_OF_RESOURCES -> System.out.println("You don't have enough resources for creating this building!");
             case SUCCESSFUL -> System.out.println("The building was dropped successfully!");
         }
     }

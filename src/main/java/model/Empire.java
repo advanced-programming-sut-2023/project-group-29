@@ -2,9 +2,7 @@ package model;
 
 import controller.menucontrollers.GameMenuController;
 import model.buildings.Building;
-import model.buildings.buildingClasses.*;
-import model.buildings.buildingTypes.OtherBuildingsType;
-import model.buildings.buildingTypes.UnitCreatorType;
+import model.buildings.buildingClasses.UnitCreator;
 import model.dealing.*;
 import model.people.humanClasses.Soldier;
 import model.people.humanClasses.Worker;
@@ -39,7 +37,6 @@ public class Empire {
         popularityChange.put(PopularityFactors.FOOD, 0);
         InitializeTradables();
     }
-    //todo jasbi food variation -18 bug
 
     public Empire(User user) {
         this.user = user;
@@ -62,7 +59,7 @@ public class Empire {
         if (popularity < 0) popularity = 0;
     }
 
-    public enum PopularityFactors{
+    public enum PopularityFactors {
         RELIGION,
         TAX,
         FEAR,
@@ -75,7 +72,7 @@ public class Empire {
 
     private int getNumberOfWorkers() {
         int workers = 0;
-        for (Building building: buildings.keySet()) {
+        for (Building building : buildings.keySet()) {
             workers += building.getNumberOfWorkers();
         }
         return workers;
@@ -83,6 +80,10 @@ public class Empire {
 
     private int getNumberOfUnits() {
         return numberOfUnits;
+    }
+
+    public void setNumberOfUnits(int numberOfUnits) {
+        this.numberOfUnits = numberOfUnits;
     }
 
     public int getWealth() {
@@ -216,13 +217,114 @@ public class Empire {
         return count;
     }
 
-    public void affectDestructedStorerooms() {
-        //TODO JASBI: complete. somehow pointive
+    private void removeEatenFood() {
+        int numberOfFoodEaten = (int) ((foodRate + 2) / 2 * getPopulation());
+        if (numberOfFoodEaten > storage[0][0]) {
+            foodRate = -2;
+            GameMenuController.notify("Your food rate was automatically set on -2 because of lack of food!");
+        } else {
+            getRidOfFood(numberOfFoodEaten);
+        }
+    }
+
+    private void commodityRemover(int[] foods, int remainedChange, int length) {
+        for (int i = 0; remainedChange > 0; i++) {
+            if (foods[i] != 0) {
+                foods[i]--;
+                remainedChange--;
+            }
+            if (i == length - 1) i -= length;
+        }
     }
 
     public void affectDestructedAccommodations() {
-        //TODO JASBI: complete. somehow pointive
+        if (possiblePopulation < worklessPopulation) {
+            worklessPopulation = possiblePopulation;
+        }
     }
+
+    public void affectDestructedStorerooms() {
+        if (storage[0][0] > storage[1][0]) {
+            getRidOfFood(storage[0][0] - storage[1][0]);
+        }
+        if (storage[0][1] > storage[1][1]) {
+            getRidOfResourceOrProduct(storage[0][1] - storage[1][1]);
+        }
+        if (storage[0][2] > storage[1][2]) {
+            getRidOfWeapon(storage[0][2] - storage[1][2]);
+        }
+    }
+
+    private void getRidOfWeapon(int amount) {
+        storage[0][2] -= amount;
+        int weapons[] = new int[4];
+        int counter = 0;
+        for (Product product : Product.values()) {
+            switch (product) {
+                case ARMOUR, BOW, PIKE, SWORD -> {
+                    weapons[counter] = tradableAmounts.get(product);
+                    counter++;
+                }
+            }
+        }
+        commodityRemover(weapons, amount, 4);
+        counter = 0;
+        for (Product product : Product.values()) {
+            switch (product) {
+                case ARMOUR, BOW, PIKE, SWORD -> {
+                    tradableAmounts.replace(product, weapons[counter]);
+                    counter++;
+                }
+            }
+        }
+    }
+
+    private void getRidOfResourceOrProduct(int amount) {
+        storage[0][1] -= amount;
+        int tradables[] = new int[9];
+        int counter = 0;
+        for (Resource resource : Resource.values()) {
+            tradables[counter] = tradableAmounts.get(resource);
+            counter++;
+        }
+        for (Product product : Product.values()) {
+            switch (product) {
+                case ARMOUR, BOW, PIKE, SWORD -> {continue;}
+            }
+            tradables[counter] = tradableAmounts.get(product);
+            counter++;
+        }
+        commodityRemover(tradables, amount, 9);
+        counter = 0;
+        for (Resource resource : Resource.values()) {
+            tradableAmounts.replace(resource, tradables[counter]);
+            counter++;
+        }
+        for (Product product : Product.values()) {
+            switch (product) {
+                case ARMOUR, BOW, PIKE, SWORD -> {continue;}
+            }
+            tradableAmounts.replace(product, tradables[counter]);
+            counter++;
+        }
+    }
+
+    private void getRidOfFood(int amount) {
+        storage[0][0] -= amount;
+        int foods[] = new int[4];
+        int counter = 0;
+        for (Food food : Food.values()) {
+            foods[counter] = tradableAmounts.get(food);
+            counter++;
+        }
+        commodityRemover(foods, amount, 4);
+        counter = 0;
+        for (Food food : Food.values()) {
+            tradableAmounts.replace(food, foods[counter]);
+            counter++;
+        }
+    }
+
 
     public void buyBuilding(String buildingName) {
         changeWealth(Building.getNeededResource(0, buildingName));
@@ -298,7 +400,7 @@ public class Empire {
         for (Building building : buildings.keySet()) {
             if (buildings.get(building) == 9) {
                 switch (((UnitCreator) building).getUnitCreatorType()) {
-                    case CATHEDRAL,CHURCH -> effect += 2;
+                    case CATHEDRAL, CHURCH -> effect += 2;
                 }
             }
         }
@@ -313,40 +415,8 @@ public class Empire {
         return variety;
     }
 
-    private void removeEatenFood() {
-        int numberOfFoodEaten = (int) ((foodRate + 2) / 2 * getPopulation());
-        if (numberOfFoodEaten > storage[0][0]) {
-            foodRate = -2;
-            GameMenuController.notify("Your food rate was automatically set on -2 because of lack of food!");
-        } else {
-            storage[0][0] -= numberOfFoodEaten;
-            int foods[] = new int[4];
-            int counter = 0;
-            for (Food food : Food.values()) {
-                foods[counter] = tradableAmounts.get(food);
-                counter++;
-            }
-            foodRemover(foods, numberOfFoodEaten);
-            counter = 0;
-            for (Food food : Food.values()) {
-                tradableAmounts.replace(food, foods[counter]);
-                counter++;
-            }
-        }
-    }
-
-    private void foodRemover(int[] foods, int remainedChange) {
-        for (int i = 0; remainedChange > 0; i++) {
-            if (foods[i] != 0) {
-                foods[i]--;
-                remainedChange--;
-            }
-            if (i == 3) i -= 4;
-        }
-    }
-
-    private void changePopularityFactor(PopularityFactors factor, int change) {
-        popularityChange.replace(factor, popularityChange.get(factor) + change);
+    private void changePopularityFactor(PopularityFactors factor, int amount) {
+        popularityChange.replace(factor, amount);
     }
 
     private int getChangePopularityByTaxRate(int rate) {
