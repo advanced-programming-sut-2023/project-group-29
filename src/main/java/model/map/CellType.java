@@ -1,22 +1,36 @@
 package model.map;
 
+import model.buildings.Building;
+import model.buildings.buildingTypes.BuildType;
+import model.buildings.buildingTypes.ProductExtractorType;
+import model.buildings.buildingTypes.ResourceExtractorType;
+
 public enum CellType {
-    PLAIN_GROUND(ConsoleColors.YELLOW_BACKGROUND,true,true, "plain ground"),
-    GROUND_WITH_PEBBLES(ConsoleColors.CYAN_BACKGROUND,true,true, "ground with pebbles"),
-    BOULDER(ConsoleColors.BLACK_BACKGROUND,true,true, "boulder"),
-    STONE(ConsoleColors.BLACK_BACKGROUND,false,false, "stone"),
-    IRON(ConsoleColors.RED_BACKGROUND,true,true, "iron"),
-    GRASS(ConsoleColors.GREEN_BACKGROUND,true,true, "grass"),
-    MEADOW(ConsoleColors.PURPLE_BACKGROUND,true,true, "meadow"),
-    DENSE_MEADOW(ConsoleColors.PURPLE_BACKGROUND,true,true, "dense meadow"),
-    OIL(ConsoleColors.BLACK_BACKGROUND,false,false, "oil"),
-    PLAIN(ConsoleColors.BLACK_BACKGROUND,false,true, "plain"),
-    SHALLOW_WATER(ConsoleColors.YELLOW_BACKGROUND,false,true, "shallow water"),
-    RIVER(ConsoleColors.BLUE_BACKGROUND,false,false, "river"),
-    SMALL_POND(ConsoleColors.WHITE_BACKGROUND,false,false, "small pond"),
-    BIG_POND(ConsoleColors.WHITE_BACKGROUND,false,false, "big pond"),
-    BEACH(ConsoleColors.YELLOW_BACKGROUND,false,false, "beach"),
-    SEA(ConsoleColors.BLUE_BACKGROUND,false,false, "sea"),
+    UP_ROCK(ConsoleColors.RED_BACKGROUND, false, false, "upRock"),
+    DOWN_ROCK(ConsoleColors.RED_BACKGROUND, false, false, "downRock"),
+    RIGHT_ROCK(ConsoleColors.RED_BACKGROUND, false, false, "rightRock"),
+    LEFT_ROCK(ConsoleColors.RED_BACKGROUND, false, false, "leftRock"),
+    //زمین عادی
+    PLAIN_GROUND(ConsoleColors.YELLOW_BACKGROUND, true, true, "plainGround"),
+    //زمین با خرده‌سنگ
+    GROUND_WITH_PEBBLES(ConsoleColors.CYAN_BACKGROUND, false, true, "groundWithPebbles"),
+    //تخته سنگ
+    BOULDER(ConsoleColors.BLACK_BACKGROUND, false, true, "boulder"),
+    STONE(ConsoleColors.BLACK_BACKGROUND, false, false, "stone"),
+    IRON(ConsoleColors.RED_BACKGROUND, false, true, "iron"),
+    GRASS(ConsoleColors.GREEN_BACKGROUND, true, true, "grass"),
+    //علفزار
+    MEADOW(ConsoleColors.PURPLE_BACKGROUND, true, true, "meadow"),
+    DENSE_MEADOW(ConsoleColors.PURPLE_BACKGROUND, true, true, "denseMeadow"),
+    OIL(ConsoleColors.BLACK_BACKGROUND, false, false, "oil"),
+    //جلگه
+    PLAIN(ConsoleColors.BLACK_BACKGROUND, false, true, "plain"),
+    SHALLOW_WATER(ConsoleColors.YELLOW_BACKGROUND, false, true, "shallowWater"),
+    RIVER(ConsoleColors.BLUE_BACKGROUND, false, false, "river"),
+    SMALL_POND(ConsoleColors.WHITE_BACKGROUND, false, false, "smallPond"),
+    BIG_POND(ConsoleColors.WHITE_BACKGROUND, false, false, "bigPond"),
+    BEACH(ConsoleColors.YELLOW_BACKGROUND, false, false, "beach"),
+    SEA(ConsoleColors.BLUE_BACKGROUND, false, false, "sea"),
 
     ;
     //page 27 of doc
@@ -37,15 +51,28 @@ public enum CellType {
         return showingColor;
     }
 
-    public boolean isAbleToBuildOn() {
-        return ableToBuildOn;
-    }
-
     public boolean isAbleToMoveOn() {
         return ableToMoveOn;
     }
 
     public String getName() {
         return name;
+    }
+
+    public boolean isAbleToBuildOn(String buildingName) {
+        BuildType buildType = Building.getBuildTypeByName(buildingName);
+        if (ProductExtractorType.APPLE_GARDEN.equals(buildType) ||
+                ProductExtractorType.GRAIN_FARM.equals(buildType) ||
+                ProductExtractorType.WHEAT_FARM.equals(buildType)) {
+            return this.equals(CellType.DENSE_MEADOW) || this.equals(CellType.GRASS);
+        } else if (ResourceExtractorType.QUARRY.equals(buildType)) {
+            return this.equals(CellType.STONE);
+        } else if (ResourceExtractorType.IRON_MINE.equals(buildType)) {
+            return this.equals(CellType.IRON);
+        } else if (ResourceExtractorType.PITCH_RIG.equals(buildType)) {
+            return this.equals(CellType.PLAIN);
+        }
+        return this.equals(CellType.PLAIN_GROUND) || this.equals(CellType.MEADOW) ||
+                this.equals(CellType.GRASS) || this.equals(CellType.DENSE_MEADOW);
     }
 }

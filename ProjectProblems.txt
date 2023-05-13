@@ -54,4 +54,8 @@ default map
 showing message is enum : SUCCESSFUL
 
 
+// موقع ساختن خانه ارتباط بین خانه و جنس زمین را چک کند
+
+
+
 

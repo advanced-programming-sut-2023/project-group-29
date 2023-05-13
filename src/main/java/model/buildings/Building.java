@@ -22,6 +22,12 @@ public abstract class Building extends Asset {
         this.maxHp = hp;
     }
 
+    public static BuildType getBuildTypeByName(String buildingName) {
+        for (BuildType buildType : buildingTypesAndTheirGroup.keySet()) {
+            if (buildType.getName().equals(buildingName)) return buildType;
+        }
+        return null;
+    }
     public int getNumberOfWorkers() {
         return numberOfWorkers;
     }
@@ -38,9 +44,6 @@ public abstract class Building extends Asset {
         return false;
     }
 
-    //todo faratin:     دکل قیر باید روی جلگه باشد.
-    //TODO FARATIN:     معدن آهن فقط برروی زمین‌هایی از جنس آهن گذاشته می‌شود.
-    //todo jasbi bad building on texture and vice versa
     public static int getGroupNumberByBuildingName(String buildingName) {
         for (BuildType buildType : buildingTypesAndTheirGroup.keySet()) {
             if (buildType.getName().equals(buildingName)) {
@@ -49,6 +52,7 @@ public abstract class Building extends Asset {
         }
         return 0;
     }
+
 
     public static int getNeededResource(int i, String buildingName) {
        for (BuildType buildType : buildingTypesAndTheirGroup.keySet()) {

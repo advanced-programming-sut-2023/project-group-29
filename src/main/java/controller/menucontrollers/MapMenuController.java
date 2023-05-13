@@ -191,8 +191,8 @@ public class MapMenuController {
     }
 
     public static String setPartOfBlockTexture(CellType cellType, int x1, int y1, int x2, int y2) {
-        for(int i = x1; i <= x2; i++) {
-            for(int j = y1; j < y2; j++) {
+        for (int i = x1; i <= x2; i++) {
+            for (int j = y1; j < y2; j++) {
                 GameMenuController.getGameData().getMap().getCells()[i][j].setCellType(cellType);
             }
         }
@@ -203,6 +203,12 @@ public class MapMenuController {
     }
 
     public static void dropRock(int xPosition, int yPosition, String direction) {
+        switch (direction) {
+            case "n" -> setBlockTexture(CellType.UP_ROCK, xPosition, yPosition);
+            case "e" -> setBlockTexture(CellType.RIGHT_ROCK, xPosition, yPosition);
+            case "s" -> setBlockTexture(CellType.DOWN_ROCK, xPosition, yPosition);
+            case "w" -> setBlockTexture(CellType.LEFT_ROCK, xPosition, yPosition);
+        }
     }
 
     public static String dropTree(int xPosition, int yPosition, TreeType treeType) {
@@ -279,7 +285,7 @@ public class MapMenuController {
             return MapMenuMessages.TWO_MAIN_KEEP;
         } else if (!Building.isBuildingNameValid(buildingName)) {
             return MapMenuMessages.INVALID_TYPE;
-        } else if (!chosenCell.isAbleToBuildOn(buildingName)) {
+        } else if (!chosenCell.getCellType().isAbleToBuildOn(buildingName)) {
             return MapMenuMessages.IMPROPER_CELL_TYPE;
         } else if (chosenCell.getBuilding() != null) {
             return MapMenuMessages.FULL_CELL;

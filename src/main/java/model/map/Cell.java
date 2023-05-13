@@ -6,10 +6,8 @@ import model.buildings.Building;
 import model.buildings.buildingClasses.*;
 import model.buildings.buildingTypes.*;
 import model.weapons.weaponClasses.Equipments;
-import model.weapons.weaponClasses.OffensiveWeapons;
 import model.weapons.weaponClasses.Trap;
 import model.weapons.weaponTypes.EquipmentsType;
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 
@@ -21,7 +19,7 @@ public class Cell {
     private Building building = null;
     //    private int speed;
     private CellType cellType;
-    private boolean hasTunnel=false;
+    private boolean hasTunnel = false;
     private int xPosition;
     private int yPosition;
 
@@ -35,7 +33,6 @@ public class Cell {
 //        this.ableToBuildOn=cellType.isAbleToBuildOn();
 //        this.ableToMoveOn= cellType.isAbleToMoveOn();
     }
-
     public void removeDeadUnitsAndBuilding() {
         movingObjects.removeIf(asset -> asset.isDead());
         if (trap != null && trap.isDead())
@@ -44,47 +41,43 @@ public class Cell {
             building = null;
     }
 
-    public HeightOfAsset heightOfUnitsOfPlayer()
-    {
-        if(hasBuilding())
-        {
-            if(building instanceof AttackingBuilding)
+    public HeightOfAsset heightOfUnitsOfPlayer() {
+        if (hasBuilding()) {
+            if (building instanceof AttackingBuilding)
                 return HeightOfAsset.UP;
 
-            if(getSiegeTowerInMovingUnits()!=null)
+            if (getSiegeTowerInMovingUnits() != null)
                 return HeightOfAsset.UP;
 
-            if(building instanceof OtherBuildings otherBuildings)
-            {
-                OtherBuildingsType type=otherBuildings.getOtherBuildingsType();
-                if(type.equals(OtherBuildingsType.SHORT_WALL))
+            if (building instanceof OtherBuildings otherBuildings) {
+                OtherBuildingsType type = otherBuildings.getOtherBuildingsType();
+                if (type.equals(OtherBuildingsType.SHORT_WALL))
                     return HeightOfAsset.MIDDLE;
-                if(type.equals(OtherBuildingsType.TALL_WALL))
+                if (type.equals(OtherBuildingsType.TALL_WALL))
                     return HeightOfAsset.UP;
-                if(type.equals(OtherBuildingsType.WALL_WITH_STAIR))
+                if (type.equals(OtherBuildingsType.WALL_WITH_STAIR))
                     return HeightOfAsset.MIDDLE;
             }
         }
 
         return HeightOfAsset.GROUND;
     }
-    public LevelChanger goHigherLevel()
-    {
-        if(!hasBuilding())
+
+    public LevelChanger goHigherLevel() {
+        if (!hasBuilding())
             return LevelChanger.NON;
 
-        if(building instanceof OtherBuildings otherBuilding)
-        {
-            OtherBuildingsType type=otherBuilding.getOtherBuildingsType();
-            if(type.equals(OtherBuildingsType.LADDER))
+        if (building instanceof OtherBuildings otherBuilding) {
+            OtherBuildingsType type = otherBuilding.getOtherBuildingsType();
+            if (type.equals(OtherBuildingsType.LADDER))
                 return LevelChanger.LADDER;
-            if(type.equals(OtherBuildingsType.STAIR) || type.equals(OtherBuildingsType.WALL_WITH_STAIR))
+            if (type.equals(OtherBuildingsType.STAIR) || type.equals(OtherBuildingsType.WALL_WITH_STAIR))
                 return LevelChanger.STAIRS;
         }
         return LevelChanger.NON;
     }
 
-    public enum LevelChanger{
+    public enum LevelChanger {
         LADDER,
         STAIRS,
         NON
@@ -121,7 +114,7 @@ public class Cell {
     }
 
     public boolean hasBuilding() {
-        return building!=null;
+        return building != null;
     }
 
     public boolean hasTrap() {
@@ -177,15 +170,6 @@ public class Cell {
         return cellType;
     }
 
-    public boolean isAbleToBuildOn() {
-        return cellType.isAbleToBuildOn();
-    }
-
-    public boolean isAbleToBuildOn(String type) {
-        //TODO jasbi: complete this function
-        return isAbleToBuildOn();
-    }
-
     public boolean isAbleToMoveOn() {
         return cellType.isAbleToMoveOn();
     }
@@ -228,8 +212,8 @@ public class Cell {
     public ConsoleColors getShowingColor() {
         return cellType.getShowingColor();
     }
-    public void addMovingObject(Asset asset)
-    {
+
+    public void addMovingObject(Asset asset) {
         movingObjects.add(asset);
     }
 
@@ -251,13 +235,10 @@ public class Cell {
         this.hasTunnel = hasTunnel;
     }
 
-    public Equipments getSiegeTowerInMovingUnits()
-    {
-        for(Asset asset:movingObjects)
-        {
-            if(asset instanceof Equipments equipment)
-            {
-                if(equipment.getEquipmentsType().equals(EquipmentsType.SIEGE_TOWER))
+    public Equipments getSiegeTowerInMovingUnits() {
+        for (Asset asset : movingObjects) {
+            if (asset instanceof Equipments equipment) {
+                if (equipment.getEquipmentsType().equals(EquipmentsType.SIEGE_TOWER))
                     return equipment;
             }
         }
