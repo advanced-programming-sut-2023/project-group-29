@@ -40,8 +40,18 @@ public class MapMenuController {
         Cell showingCell = map.getCells()[indexX][indexY];
         String output = "";
 
+        output += "Type of cell: ";
+        output+=showingCell.getCellType().getName();
+        output += "\n";
+
+        output += "Type of tree: ";
+        if(showingCell.getTreeTypes()!=null)
+            output+=showingCell.getTreeTypes().getName();
+        output += "\n";
+
         output += "Building: ";
         output += showingCell.hasBuilding() ? showingCell.getBuilding().getName() : "";
+        output += showingCell.hasBuilding() ? " HP: "+showingCell.getBuilding().getHp() : "";
         output += "\n";
 
         output += "Trap: ";
@@ -195,7 +205,7 @@ public class MapMenuController {
         if (string.length() > tileWidth)
             return string.substring(0, tileWidth);
 
-        string += "#".repeat(tileWidth - string.length());
+        string += " ".repeat(tileWidth - string.length());
         return string;
     }
 

@@ -3,6 +3,7 @@ package model.map;
 import model.*;
 import model.buildings.buildingClasses.AttackingBuilding;
 import model.buildings.buildingClasses.OtherBuildings;
+import model.buildings.buildingTypes.AttackingBuildingType;
 import model.buildings.buildingTypes.OtherBuildingsType;
 import model.people.humanClasses.Soldier;
 import model.people.humanTypes.SoldierType;
@@ -97,6 +98,23 @@ public class Map {
                                 && movableUnit.isAbleToClimbLadder())
                                 || (addingCell.goHigherLevel().equals(Cell.LevelChanger.STAIRS)
                                 && movableUnit.isAbleToClimbStairs());
+
+                //check if has big tower so that every unit can go higher
+                if(thisCell.hasBuilding() && thisCell.getBuilding() instanceof AttackingBuilding attackingBuilding)
+                {
+                    AttackingBuildingType type=attackingBuilding.getAttackingBuildingType();
+                    if(type.equals(AttackingBuildingType.CIRCLE_TOWER) || type.equals(AttackingBuildingType.SQUARE_TOWER))
+                        if(addingCell.goHigherLevel().equals(Cell.LevelChanger.STAIRS))
+                            secondCellCanGoHigher=true;
+                }
+                //for the other one
+                if(addingCell.hasBuilding() && addingCell.getBuilding() instanceof AttackingBuilding attackingBuilding)
+                {
+                    AttackingBuildingType type=attackingBuilding.getAttackingBuildingType();
+                    if(type.equals(AttackingBuildingType.CIRCLE_TOWER) || type.equals(AttackingBuildingType.SQUARE_TOWER))
+                        if(thisCell.goHigherLevel().equals(Cell.LevelChanger.STAIRS))
+                            firstCellCanGoHigher=true;
+                }
 
 
                 if(!isUnitAssassin) {

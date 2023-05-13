@@ -31,4 +31,8 @@ public class AttackingBuilding extends Building {
     public int getFireRange() {
         return fireRange;
     }
+
+    public AttackingBuildingType getAttackingBuildingType() {
+        return attackingBuildingType;
+    }
 }

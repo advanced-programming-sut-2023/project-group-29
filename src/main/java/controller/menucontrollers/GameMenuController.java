@@ -150,11 +150,11 @@ public class GameMenuController {
 
         //act according to unit state
         for (int i = 1; i <= map.getWidth(); i++)
-            for (int j = 1; j <= map.getWidth(); j++)
+            for (int j = 1; j <= map.getWidth(); j++) {
+                ArrayList<Asset> trash = new ArrayList<>();
                 for (Asset movingUnit : map.getCells()[i][j].getMovingObjects()) {
-                    if (movingUnit instanceof Soldier soldier && soldier.getSoldierType().equals(SoldierType.ENGINEER_WITH_OIL))
-                    {
-                        applyStateForEngineerWithOil(soldier.getUnitState(),soldier);
+                    if (movingUnit instanceof Soldier soldier && soldier.getSoldierType().equals(SoldierType.ENGINEER_WITH_OIL)) {
+                        applyStateForEngineerWithOil(soldier.getUnitState(), soldier);
                         continue;
                     }
 
@@ -164,9 +164,11 @@ public class GameMenuController {
 
                     else if (movingUnit instanceof Offensive offensiveAttacker &&
                             offensiveAttacker.getUnitState().equals(UnitState.OFFENSIVE))
-                        moveAndAttackNearestUnit(offensiveAttacker, i, j);
+                        moveAndAttackNearestUnit(offensiveAttacker, i, j,trash);
 
                 }
+                map.getCells()[i][j].getMovingObjects().removeAll(trash);
+            }
 
         //trap and plain check
         for (int i = 1; i <= map.getWidth(); i++)
@@ -242,7 +244,7 @@ public class GameMenuController {
         empire.affectDestructedAccommodations();
     }
 
-    private static void moveAndAttackNearestUnit(Offensive attacker,int currentX,int currentY)
+    private static void moveAndAttackNearestUnit(Offensive attacker,int currentX,int currentY,ArrayList<Asset> trash)
     {
         if(!(attacker instanceof Movable movableAttacker)) {
             attackNearestUnit(attacker, currentX, currentY);
@@ -259,17 +261,17 @@ public class GameMenuController {
                 {
                     attackerAsset.setPositionX(destinationX);
                     attackerAsset.setPositionY(destinationY);
-                    gameData.getMap().getCells()[currentX][currentY].getMovingObjects().remove(attackerAsset);
                     gameData.getMap().getCells()[destinationX][destinationY].getMovingObjects().add(attackerAsset);
 
-                    if (attackNearestUnit(attacker, currentX, currentY))
+                    if (attackNearestUnit(attacker, currentX, currentY)) {
+                        trash.add(attackerAsset);
                         return;
+                    }
 
                     //failed to attack on that cell
                     attackerAsset.setPositionX(currentX);
                     attackerAsset.setPositionY(currentY);
                     gameData.getMap().getCells()[destinationX][destinationY].getMovingObjects().remove(attackerAsset);
-                    gameData.getMap().getCells()[currentX][currentY].getMovingObjects().add(attackerAsset);
                 }
             }
     }

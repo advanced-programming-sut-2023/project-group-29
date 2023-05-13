@@ -1,19 +1,15 @@
 abbasfar
-climb stair maybe not considered when near to big
+move up left right number
+pour oil can be handled with trash
 
-bugs:
-    show details show another cell
-
-show tree and celltype in details
+test for offensive next turn exception
 
 check warning for unused things!
 
 faratin:
 captha pointive
 
-
 jasbi:
-
 function not too long
 ctr alt l
 

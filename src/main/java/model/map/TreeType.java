@@ -26,4 +26,7 @@ public enum TreeType {
         return showingColor;
     }
 
+    public String getName() {
+        return name;
+    }
 }

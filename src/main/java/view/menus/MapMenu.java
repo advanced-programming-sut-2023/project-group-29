@@ -89,7 +89,6 @@ public class MapMenu {
         while (matcherRight.find()) {
             right++;
         }
-        System.out.println(up + " " + left + " " + right + " " + down);
         System.out.println(MapMenuController.moveMap(up, right, down, left));
     }
 
