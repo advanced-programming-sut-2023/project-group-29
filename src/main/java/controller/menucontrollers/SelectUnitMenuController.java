@@ -11,8 +11,12 @@ import model.UnitState;
 import model.people.Human;
 import model.people.humanClasses.Soldier;
 import model.people.humanTypes.SoldierType;
+import model.weapons.Weapon;
 import model.weapons.weaponClasses.OffensiveWeapons;
+import model.weapons.weaponClasses.Trap;
 import model.weapons.weaponTypes.OffensiveWeaponsType;
+import org.checkerframework.checker.units.qual.A;
+import view.menus.GameMenu;
 import view.messages.SelectUnitMenuMessages;
 
 import java.util.ArrayList;
@@ -308,7 +312,7 @@ public class SelectUnitMenuController {
         return attacker.getDamage();
     }
 
-    public static SelectUnitMenuMessages pourOil(String direction) {
+    public static String pourOil(String direction) {
         int deltaX = 0, deltaY = 0;
         if (direction.equals("right"))
             deltaX = 1;
@@ -319,7 +323,7 @@ public class SelectUnitMenuController {
         else if (direction.equals("up"))
             deltaY = -1;
         else
-            return SelectUnitMenuMessages.INVALID_DIRECTION;
+            return "Invalid index!";
 
         GameData gameData = GameMenuController.getGameData();
         Map map = gameData.getMap();
@@ -329,19 +333,41 @@ public class SelectUnitMenuController {
         Cell currentCell = map.getCells()[currentX][currentY];
 
         ArrayList<Offensive> attackingUnits = currentCell.getAttackingListOfPlayerNumber(gameData.getPlayerOfTurn());
-        Soldier engineerWithOil = null;
+        ArrayList<Soldier> engineerWithOil=new ArrayList<>();
         for (Offensive attacker : attackingUnits)
             if (attacker instanceof Soldier soldier && soldier.getSoldierType().equals(SoldierType.ENGINEER_WITH_OIL)) {
-                engineerWithOil = soldier;
+                engineerWithOil.add(soldier);
                 break;
             }
 
-        if (engineerWithOil == null)
-            return SelectUnitMenuMessages.NO_PROPER_UNIT;
+        if (engineerWithOil.size()==0)
+            return "There is no proper unit here!";
+
+        int successes=0;
+        for(Soldier engineer:engineerWithOil)
+            if(oneUnitPourOil(engineer,direction,currentX,currentY,0).equals(SelectUnitMenuMessages.SUCCESSFUL))
+                successes++;
+
+        return successes+" out of "+engineerWithOil.size()+" attacked successfully!";
+    }
+    public static SelectUnitMenuMessages oneUnitPourOil(Soldier engineerWithOil,String direction,int currentX,int currentY,int minimumUnitToAttack)
+    {
+        GameData gameData=GameMenuController.getGameData();
+        Map map=gameData.getMap();
+
+        int deltaX = 0, deltaY = 0;
+        if (direction.equals("right"))
+            deltaX = 1;
+        else if (direction.equals("down"))
+            deltaY = 1;
+        else if (direction.equals("left"))
+            deltaX = -1;
+        else if (direction.equals("up"))
+            deltaY = -1;
 
         for (int i = 1; i <= SoldierType.ENGINEER_WITH_OIL.getAimRange(); i++) {
             if (!map.isIndexValid(currentX + deltaX * i, currentY + deltaY * i))
-                return SelectUnitMenuMessages.INVALID_INDEX;
+                continue;
 
             Cell targetedCell = map.getCells()[currentX + deltaX * i][currentY + deltaY * i];
             ArrayList<Asset> enemies = targetedCell.getEnemiesOfPlayerInCell(gameData.getPlayerOfTurn());
@@ -349,17 +375,19 @@ public class SelectUnitMenuController {
             Offensive.AttackingResult attackingResult = engineerWithOil.canAttack
                     (map, currentX + deltaX * i, currentY + deltaY * i,true);
             switch (attackingResult) {
-                case TOO_FAR:
-                    return SelectUnitMenuMessages.TOO_FAR;
                 case HAS_ATTACKED:
                     return SelectUnitMenuMessages.HAS_ATTACKED;
                 case NO_ENEMY_THERE:
                     break;
                 case SUCCESSFUL:
+                    if(targetedCell.getEnemiesOfPlayerInCell(engineerWithOil.getOwnerNumber()).size()<minimumUnitToAttack)
+                        break;
+
                     DamageStruct damageStruct = new DamageStruct();
                     damageStruct.groundDamage = formulatedDamage(engineerWithOil);
 
                     applyAttackDamage(enemies, damageStruct, targetedCell);
+
                     return SelectUnitMenuMessages.SUCCESSFUL;
             }
         }
@@ -478,7 +506,44 @@ public class SelectUnitMenuController {
     }
 
     public static String buildEquipment(String equipmentName) {
-        return null;
+        GameData gameData= GameMenuController.getGameData();
+        int x = gameData.getSelectedCellX();
+        int y = gameData.getSelectedCellY();
+        Cell selectedCell = gameData.getMap().getCells()[x][y];
+        PlayerNumber currentPlayer=gameData.getPlayerOfTurn();
+
+        Weapon weapon=Weapon.createWeaponByWeaponTypeString(equipmentName,currentPlayer,x,y);
+        if(weapon==null)
+            return "This is not a valid name of an equipment!";
+
+        ArrayList<Movable> movingObjects=selectedCell.getMovingObjectsOfPlayer(currentPlayer);
+
+        ArrayList<Movable> engineers=new ArrayList<>();
+        for(Movable movingUnit:movingObjects)
+            if(movingUnit instanceof Soldier soldier &&
+                soldier.getSoldierType().equals(SoldierType.ENGINEER) &&
+                soldier.getOwnerNumber().equals(currentPlayer))
+                engineers.add(movingUnit);
+
+        if(engineers.size()<weapon.getBuilderNeededCount())
+            return "You do not have enough engineers here to build this equipment!";
+
+        if(weapon instanceof Trap)
+            if(selectedCell.hasBuilding() || selectedCell.getMovingObjects().size()>weapon.getBuilderNeededCount())
+                return "You can not build a trap while there are some units here!";
+
+        for(int i=0;i<weapon.getBuilderNeededCount();i++)
+            selectedCell.getMovingObjects().remove((Asset)(engineers.get(i)));
+
+        if(weapon instanceof Trap trap)
+        {
+            selectedCell.setTrap(trap);
+        }
+        else
+        {
+            selectedCell.getMovingObjects().add(weapon);
+        }
+        return "Equipment was successfully built!";
     }
 
     public static void disbandUnit() {

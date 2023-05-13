@@ -5,7 +5,9 @@ import model.Empire;
 import model.GameData;
 import model.PlayerNumber;
 import model.buildings.Building;
+import model.buildings.buildingClasses.OtherBuildings;
 import model.buildings.buildingTypes.AccommodationType;
+import model.buildings.buildingTypes.OtherBuildingsType;
 import model.buildings.buildingTypes.StoreType;
 import model.map.*;
 import model.people.Human;
@@ -275,6 +277,17 @@ public class MapMenuController {
         if (!map.isIndexValid(positionX, positionY))
             return MapMenuMessages.INVALID_INDEX;
 
+        Cell currentCell=map.getCells()[positionX][positionY];
+        if (currentCell.hasBuilding() && currentCell.getBuilding() instanceof OtherBuildings otherBuildings)
+            if(otherBuildings.getOtherBuildingsType().equals(OtherBuildingsType.MOAT))
+                if(!unit.isAbleToClimbLadder())
+                    return MapMenuMessages.IMPROPER_CELL_TYPE;
+
+        if (currentCell.hasTrap() && currentCell.getTrap().getOwnerNumber().equals(unit.getOwnerNumber()))
+            return MapMenuMessages.IMPROPER_CELL_TYPE;
+        if(!currentCell.isAbleToMoveOn())
+            return MapMenuMessages.IMPROPER_CELL_TYPE;
+
         for (int i = 0; i < count; i++) {
             Human addingUnit = Human.createUnitByName(type, ownerPlayerNumber, positionX, positionY);
             map.getCells()[positionX][positionY].addMovingObject(addingUnit);
@@ -333,7 +346,7 @@ public class MapMenuController {
             return MapMenuMessages.INVALID_TYPE;
         } else if (!chosenCell.getCellType().isAbleToBuildOn(buildingName)) {
             return MapMenuMessages.IMPROPER_CELL_TYPE;
-        } else if (chosenCell.getBuilding() != null) {
+        } else if (chosenCell.getBuilding() != null || chosenCell.hasTrap()) {
             return MapMenuMessages.FULL_CELL;
         } else if (buildingTypeIsStore(buildingName)
                 && IsAnotherStore(empire, buildingName)

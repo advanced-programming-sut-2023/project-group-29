@@ -5,6 +5,8 @@ import model.*;
 import model.buildings.Building;
 import model.buildings.buildingClasses.*;
 import model.buildings.buildingTypes.*;
+import model.people.humanClasses.Soldier;
+import model.people.humanTypes.SoldierType;
 import model.weapons.weaponClasses.Equipments;
 import model.weapons.weaponClasses.Trap;
 import model.weapons.weaponTypes.EquipmentsType;
@@ -100,6 +102,8 @@ public class Cell {
     public ArrayList<Offensive> getAttackingListOfPlayerNumber(PlayerNumber playerNumber) {
         ArrayList<Offensive> attackingObjects = new ArrayList<>();
         for (Asset movingObject : movingObjects) {
+            if(movingObject instanceof Soldier soldier && soldier.getSoldierType().equals(SoldierType.ENGINEER_WITH_OIL))
+                continue;
             if (movingObject.getOwnerNumber().equals(playerNumber) && movingObject instanceof Offensive)
                 attackingObjects.add((Offensive) movingObject);
         }

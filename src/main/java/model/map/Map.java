@@ -1,10 +1,7 @@
 package model.map;
 
 import controller.menucontrollers.GameMenuController;
-import model.Asset;
-import model.Movable;
-import model.Pair;
-import model.PlayerNumber;
+import model.*;
 import model.buildings.Building;
 import model.buildings.buildingClasses.AttackingBuilding;
 import model.buildings.buildingClasses.OtherBuildings;
@@ -188,13 +185,6 @@ public class Map {
                         cells[assassinCellX+i][assassinCellY+j].getMovingObjectsOfPlayer(playerNumber).size()>0)
                     return true;
         return false;
-    }
-    public enum Direction
-    {
-        RIGHT,
-        DOWN,
-        LEFT,
-        UP
     }
 
     public int getWidth() {

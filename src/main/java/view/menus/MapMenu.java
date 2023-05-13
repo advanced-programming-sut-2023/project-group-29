@@ -258,6 +258,7 @@ public class MapMenu {
         switch (mapMenuMessages) {
             case INVALID_UNIT_NAME -> System.out.println("Invalid unit name!");
             case INVALID_INDEX -> System.out.println("Invalid index!");
+            case IMPROPER_CELL_TYPE -> System.out.println("You can not drop this type of unit here!");
             case SUCCESSFUL -> System.out.println("You dropped your unit successfully!");
         }
     }

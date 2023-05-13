@@ -6,15 +6,20 @@ import model.buildings.buildingTypes.OtherBuildingsType;
 import model.dealing.Food;
 import model.dealing.Tradable;
 import model.map.Cell;
+import model.map.CellType;
 import model.map.Map;
 import model.people.humanClasses.Soldier;
+import model.people.humanTypes.SoldierType;
+import model.weapons.weaponClasses.Trap;
 import view.menus.GameMenu;
 import view.messages.GameMenuMessages;
+import view.messages.SelectUnitMenuMessages;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static controller.menucontrollers.SelectUnitMenuController.applyAttackDamage;
+import static controller.menucontrollers.SelectUnitMenuController.pourOil;
 
 public class GameMenuController {
     private static GameData gameData = null;
@@ -143,13 +148,16 @@ public class GameMenuController {
                     if (movingUnit instanceof Movable movable && movable.getPatrol().isPatrolling())
                         movable.getPatrol().patrol(movable, map);
 
-        //reset hasAttacked and hasMoved
-        resetActsOfUnits();
-
         //act according to unit state
         for (int i = 1; i <= map.getWidth(); i++)
             for (int j = 1; j <= map.getWidth(); j++)
                 for (Asset movingUnit : map.getCells()[i][j].getMovingObjects()) {
+                    if (movingUnit instanceof Soldier soldier && soldier.getSoldierType().equals(SoldierType.ENGINEER_WITH_OIL))
+                    {
+                        applyStateForEngineerWithOil(soldier.getUnitState(),soldier);
+                        continue;
+                    }
+
                     if (movingUnit instanceof Offensive defensiveAttacker &&
                             defensiveAttacker.getUnitState().equals(UnitState.DEFENSIVE))
                         attackNearestUnit(defensiveAttacker, i, j);
@@ -159,9 +167,42 @@ public class GameMenuController {
                         moveAndAttackNearestUnit(offensiveAttacker, i, j);
 
                 }
+
+        //trap and plain check
+        for (int i = 1; i <= map.getWidth(); i++)
+            for (int j = 1; j <= map.getWidth(); j++) {
+                Cell currentCell=map.getCells()[i][j];
+                if(currentCell.hasTrap()) {
+                    if(currentCell.getMovingObjects().size()>0)
+                    {
+                        SelectUnitMenuController.DamageStruct damageStruct=new SelectUnitMenuController.DamageStruct();
+
+                        Trap trap=currentCell.getTrap();
+                        damageStruct.groundDamage=trap.getDamage();
+
+                        applyAttackDamage(currentCell.getEnemiesOfPlayerInCell(trap.getOwnerNumber()),damageStruct,currentCell);
+                        currentCell.setTrap(null);
+                    }
+                }
+                if(currentCell.getCellType().equals(CellType.PLAIN))
+                    currentCell.getMovingObjects().clear();
+            }
+
+        //reset hasAttacked and hasMoved
+        resetActsOfUnits();
+
         return true;
     }
 
+        for(Direction direction: Direction.values())
+        {
+            int x=engineerWithOil.getPositionX();
+            int y=engineerWithOil.getPositionY();
+
+            if(SelectUnitMenuController.oneUnitPourOil(engineerWithOil,direction.getString(),x,y,minimumEnemiesToAttack).equals(SelectUnitMenuMessages.SUCCESSFUL))
+                return;
+        }
+    }
     private static boolean gameIsFinished() {
         int numberOfDeadPlayers = 0;
         for (PlayerNumber playerNumber : PlayerNumber.values()) {
@@ -272,6 +313,12 @@ public class GameMenuController {
 
         return true;
     }
+    private static void applyStateForEngineerWithOil(UnitState unitState,Soldier engineerWithOil)
+    {
+        if(unitState.equals(UnitState.STANDING))
+            return;
+
+        int minimumEnemiesToAttack= unitState.equals(UnitState.DEFENSIVE) ? 3 : 1;
 
     private static void resetActsOfUnits() {
         Map map = gameData.getMap();

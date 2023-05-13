@@ -112,15 +112,7 @@ public class SelectUnitMenu {
             System.out.println("Invalid command!");
             return;
         }
-        SelectUnitMenuMessages selectUnitMenuMessages = SelectUnitMenuController.pourOil(direction);
-        switch (selectUnitMenuMessages) {
-            case INVALID_DIRECTION -> System.out.println("Invalid direction!");
-            case NO_PROPER_UNIT -> System.out.println("There was no proper unit!");
-            case INVALID_INDEX -> System.out.println("Invalid index!");
-            case TOO_FAR -> System.out.println("Your direction was too far!");
-            case HAS_ATTACKED -> System.out.println("You hasn't any attack in this turn!");
-            case SUCCESSFUL -> System.out.println("You poured oil successfully");
-        }
+        System.out.println(SelectUnitMenuController.pourOil(direction));
     }
 
     private static void digTunnel(Matcher matcher) {

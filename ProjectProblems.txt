@@ -1,17 +1,10 @@
-abbasfar()
-{
-    create weapons
-    handle trap and batlagh
+abbasfar
+climb stair maybe not considered when near to big
 
-    pour oil vs simple attack
-    pour oil defensive exception
-    climb stair maybe not considered when near to big
+bugs:
+    show details show another cell
 
-    bugs:
-        drop unit in water
-        show details show another cell
-}
-
+show tree and celltype in details
 
 check warning for unused things!
 
