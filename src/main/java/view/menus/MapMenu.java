@@ -213,20 +213,13 @@ public class MapMenu {
         int x = Integer.parseInt(xMatcher.group(1));
         int y = Integer.parseInt(yMatcher.group(1));
         String type = typeMatcher.group(1);
-        int trueType = 0;
-        TreeType myTreeType = null;
-        for (TreeType treeType : TreeType.values()) {
-            if (treeType.name().equals(type)) {
-                trueType = 1;
-                myTreeType = treeType;
-                break;
-            }
+
+        MapMenuMessages result = MapMenuController.dropTree(x, y, type);
+        switch (result) {
+            case SUCCESSFUL -> System.out.println("The tree was successfully added!");
+            case INVALID_TYPE -> System.out.println("Invalid type of tree!");
+            case INVALID_INDEX -> System.out.println("Invalid Index!");
         }
-        if (trueType == 0) {
-            System.out.println("Invalid type of tree!");
-            return;
-        }
-        System.out.println(MapMenuController.dropTree(x, y, myTreeType));
     }
 
     private static void dropUnit(Matcher matcher) {

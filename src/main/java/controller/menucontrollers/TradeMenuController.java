@@ -1,6 +1,7 @@
 package controller.menucontrollers;
 
 import model.Empire;
+import model.GameData;
 import model.PlayerNumber;
 import model.dealing.*;
 
@@ -52,7 +53,12 @@ public class TradeMenuController {
     }
 
     public static String showTradeList() {
-        ArrayList<Trade> trades = GameMenuController.getGameData().getEmpireByPlayerNumber(GameMenuController.getGameData().getPlayerOfTurn()).getTrades();
+        GameData gameData = GameMenuController.getGameData();
+        ArrayList<Trade> trades = gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn()).getTrades();
+        return makeOutput(trades);
+    }
+
+    private static String makeOutput(ArrayList<Trade> trades) {
         String output = "";
         for(int i = 0; i < trades.size(); i++) {
             output += (i + 1) + ") sender player: " + trades.get(i).getSenderPlayer().getNumber();
@@ -67,18 +73,9 @@ public class TradeMenuController {
     }
 
     public static String showTradeHistory() {
-        ArrayList<Trade> trades = GameMenuController.getGameData().getEmpireByPlayerNumber(GameMenuController.getGameData().getPlayerOfTurn()).getTradesHistory();
-        String output = "";
-        for(int i = 0; i < trades.size(); i++) {
-            output += (i + 1) + ") sender player: " + trades.get(i).getSenderPlayer().getNumber();
-            output += " | receiver player: " + trades.get(i).getReceiverPlayer().getNumber();
-            output += " | commodity: " + trades.get(i).getCommodity().getName();
-            output += " | amount: " + trades.get(i).getCount();
-            output += " | price: " + trades.get(i).getPrice();
-            output += " | message: " + trades.get(i).getMessage();
-            output += "\n";
-        }
-        return output;
+        GameData gameData = GameMenuController.getGameData();
+        ArrayList<Trade> trades = gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn()).getTradesHistory();
+        return makeOutput(trades);
     }
 
     public static String acceptTrade(int id) {
@@ -89,21 +86,23 @@ public class TradeMenuController {
         }
         Trade trade = null;
         ArrayList<Trade> modernTrades = new ArrayList<>();
+        GameData gameData = GameMenuController.getGameData();
         for(int i = 0; i < trades.size(); i++) {
             if(i == id - 1) {
                 trade = trades.get(i);
-                if(trade.getCount() * trade.getPrice() > GameMenuController.getGameData().getEmpireByPlayerNumber(GameMenuController.getGameData().getPlayerOfTurn()).getWealth()) {
+                if(trade.getCount() * trade.getPrice() >
+                        gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn()).getWealth()) {
                     return "Your wealth is less than the price of your dealing!";
                 }
-                GameMenuController.getGameData().getEmpireByPlayerNumber(GameMenuController.getGameData().getPlayerOfTurn()).
+                gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn()).
                         getTradesHistory().add(trades.get(i));
                 continue;
             }
             modernTrades.add(trades.get(i));
         }
-        GameMenuController.getGameData().getEmpireByPlayerNumber(GameMenuController.getGameData().getPlayerOfTurn()).setTrades(modernTrades);
-        Empire reciverEmpire = GameMenuController.getGameData().getEmpireByPlayerNumber(trade.getReceiverPlayer());
-        Empire senderEmpire = GameMenuController.getGameData().getEmpireByPlayerNumber(trade.getSenderPlayer());
+        gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn()).setTrades(modernTrades);
+        Empire reciverEmpire = gameData.getEmpireByPlayerNumber(trade.getReceiverPlayer());
+        Empire senderEmpire = gameData.getEmpireByPlayerNumber(trade.getSenderPlayer());
         reciverEmpire.changeTradableAmount(trade.getCommodity(), trade.getCount());
         senderEmpire.changeTradableAmount(trade.getCommodity(), -trade.getCount());
         reciverEmpire.changeWealth(-(trade.getPrice() * trade.getCount()));

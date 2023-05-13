@@ -43,21 +43,25 @@ public class MapMenuController {
         output += "\n";
 
         output += "Trap: ";
-        output += (showingCell.hasTrap() && showingCell.getTrap().getOwnerNumber().equals(currentPlayer)) ? showingCell.getTrap().getName() : "";
+        output += (showingCell.hasTrap() &&
+                showingCell.getTrap().getOwnerNumber().equals(currentPlayer)) ? showingCell.getTrap().getName() : "";
         output += "\n";
 
-        output += showingCell.hasTunnel() ? "There is a tunnel under this cell." : "There are no tunnels under this cell.";
+        output += showingCell.hasTunnel() ?
+                "There is a tunnel under this cell." : "There are no tunnels under this cell.";
         output += "\n";
 
         output += "Units and Weapons: \n";
         for (Asset asset : showingCell.getMovingObjects()) {
             output += "    ";
             if (asset instanceof Soldier soldier) {
-                output += "name: " + soldier.getName() + ". owner: " + soldier.getOwnerNumber() + " PLAYER. " + "hp: " + soldier.getHp() + ". ";
+                output += "name: " + soldier.getName() + ". owner: " +
+                        soldier.getOwnerNumber() + " PLAYER. " + "hp: " + soldier.getHp() + ". ";
                 output += soldier.hasAttackedThisTurn() ? " attacked. " : "not attacked. ";
                 output += soldier.hasMovedThisTurn() ? " moved. " : "not moved. ";
             } else if (asset instanceof Weapon weapon) {
-                output += "name: " + weapon.getName() + ". owner: " + weapon.getOwnerNumber() + " PLAYER. " + "hp: " + weapon.getHp() + ". ";
+                output += "name: " + weapon.getName() + ". owner: " +
+                        weapon.getOwnerNumber() + " PLAYER. " + "hp: " + weapon.getHp() + ". ";
 
                 if (weapon instanceof Equipments equipments) {
                     output += equipments.hasMovedThisTurn() ? " moved. " : "not moved. ";
@@ -145,24 +149,26 @@ public class MapMenuController {
             showingSignOfBuilding = cell.getTrap().getShowingSignInMap();
 
         showingSignOfBuilding = fitStringToTileWidthWithNumberSign(showingSignOfBuilding);
-        if(cell.getTreeTypes()!=null)
+        if (cell.getTreeTypes() != null)
             showingSignOfBuilding = colorString(showingSignOfBuilding, cell.getTreeTypes().getShowingColor());
         else showingSignOfBuilding = colorString(showingSignOfBuilding, cell.getShowingColor());
 
         tile.add(showingSignOfBuilding);
 
         //other units
-        int index=0;
+        int index = 0;
         for (int i = 0; i < tileHeight - 1; i++) {
             String showingSignOfOtherUnits = "";
             while (index < cell.getMovingObjects().size()) {
+                GameData gameData = GameMenuController.getGameData();
                 showingSignOfOtherUnits = cell.getMovingObjects().get(index).getShowingSignInMap();
 
                 //hide assassin
-                if(cell.getMovingObjects().get(index) instanceof Soldier soldier &&
+                if (cell.getMovingObjects().get(index) instanceof Soldier soldier &&
                         soldier.getSoldierType().equals(SoldierType.ASSASSIN) &&
-                        !soldier.getOwnerNumber().equals(GameMenuController.getGameData().getPlayerOfTurn()) &&
-                        !GameMenuController.getGameData().getMap().isAssassinSeen(cell.getXPosition(), cell.getYPosition(),GameMenuController.getGameData().getPlayerOfTurn()))
+                        !soldier.getOwnerNumber().equals(gameData.getPlayerOfTurn()) &&
+                        !gameData.getMap().isAssassinSeen
+                                (cell.getXPosition(), cell.getYPosition(),gameData.getPlayerOfTurn()))
                     index++;
                 else {
                     break;
@@ -204,7 +210,7 @@ public class MapMenuController {
     }
 
     public static String setBlockTexture(CellType cellType, int x, int y) {
-        if(GameMenuController.getGameData().getMap().getCells()[x][y].hasBuilding()) {
+        if (GameMenuController.getGameData().getMap().getCells()[x][y].hasBuilding()) {
             return "You can't change texture of this cell!";
         }
         GameMenuController.getGameData().getMap().getCells()[x][y].setCellType(cellType);
@@ -214,7 +220,7 @@ public class MapMenuController {
     public static String setPartOfBlockTexture(CellType cellType, int x1, int y1, int x2, int y2) {
         for (int i = x1; i <= x2; i++) {
             for (int j = y1; j <= y2; j++) {
-                if(GameMenuController.getGameData().getMap().getCells()[i][j].hasBuilding()) {
+                if (GameMenuController.getGameData().getMap().getCells()[i][j].hasBuilding()) {
                     MapMenu.messageOfSetTexture(i, j);
                     continue;
                 }
@@ -225,7 +231,7 @@ public class MapMenuController {
     }
 
     public static String clear(int xPosition, int yPosition) {
-        if(GameMenuController.getGameData().getMap().getCells()[xPosition][yPosition].hasBuilding()) {
+        if (GameMenuController.getGameData().getMap().getCells()[xPosition][yPosition].hasBuilding()) {
             return "You can't change texture of this cell!";
         }
         GameMenuController.getGameData().getMap().getCells()[xPosition][yPosition].setCellType(CellType.PLAIN_GROUND);
@@ -233,23 +239,31 @@ public class MapMenuController {
     }
 
     public static String dropRock(int xPosition, int yPosition, String direction) {
-        String result = switch (direction) {
+        return switch (direction) {
             case "n" -> setBlockTexture(CellType.UP_ROCK, xPosition, yPosition);
             case "e" -> setBlockTexture(CellType.RIGHT_ROCK, xPosition, yPosition);
             case "s" -> setBlockTexture(CellType.DOWN_ROCK, xPosition, yPosition);
             case "w" -> setBlockTexture(CellType.LEFT_ROCK, xPosition, yPosition);
             default -> null;
         };
-        return result;
     }
 
-    public static String dropTree(int xPosition, int yPosition, TreeType treeType) {
-        GameMenuController.getGameData().getMap().getCells()[xPosition][yPosition].setTree(treeType);
-        return "Tree was successfully added";
+    public static MapMenuMessages dropTree(int xPosition, int yPosition, String name) {
+        GameData gameData = GameMenuController.getGameData();
+        TreeType treeType = TreeType.getTreeTypeByName(name);
+        if (treeType == null) {
+            return MapMenuMessages.INVALID_TYPE;
+        } else if (!gameData.getMap().isIndexValid(xPosition, yPosition)) {
+            return MapMenuMessages.INVALID_INDEX;
+        }
+        Cell cell = gameData.getMap().getCells()[xPosition][yPosition];
+        cell.setTree(treeType);
+        return MapMenuMessages.SUCCESSFUL;
     }
 
 
-    public static MapMenuMessages dropUnit(int positionX, int positionY, String type, int count, int ownerPlayerNumberInt) {
+    public static MapMenuMessages dropUnit
+            (int positionX, int positionY, String type, int count, int ownerPlayerNumberInt) {
 
         Map map = GameMenuController.getGameData().getMap();
 

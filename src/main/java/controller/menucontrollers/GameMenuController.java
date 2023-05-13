@@ -12,7 +12,7 @@ import view.menus.GameMenu;
 import view.messages.GameMenuMessages;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 import static controller.menucontrollers.SelectUnitMenuController.applyAttackDamage;
 
@@ -196,18 +196,18 @@ public class GameMenuController {
 
     private static void moveAndAttackNearestUnit(Offensive attacker,int currentX,int currentY)
     {
-        if(!(attacker instanceof Movable)) {
+        if(!(attacker instanceof Movable movableAttacker)) {
             attackNearestUnit(attacker, currentX, currentY);
             return;
         }
 
-        Movable movableAttacker=(Movable) attacker;
         Asset attackerAsset=(Asset) attacker;
         for(int i=-movableAttacker.getSpeed();i<=movableAttacker.getSpeed();i++)
             for(int j=-movableAttacker.getSpeed();j<=movableAttacker.getSpeed();j++) {
                 int destinationX=currentX+i;
                 int destinationY=currentY+j;
-                if(movableAttacker.checkForMoveErrors(gameData.getMap(),destinationX,destinationY).equals(Movable.MovingResult.SUCCESSFUL))
+                if(movableAttacker.checkForMoveErrors
+                        (gameData.getMap(),destinationX,destinationY).equals(Movable.MovingResult.SUCCESSFUL))
                 {
                     attackerAsset.setPositionX(destinationX);
                     attackerAsset.setPositionY(destinationY);
@@ -230,7 +230,8 @@ public class GameMenuController {
         for(int i=-attacker.getAimRange();i<=attacker.getAimRange();i++)
             for(int j=-attacker.getAimRange();j<=attacker.getAimRange();j++)
             {
-                Offensive.AttackingResult attackingResult=attacker.canAttack(gameData.getMap(),currentX+i,currentY+j,false);
+                Offensive.AttackingResult attackingResult=attacker.canAttack
+                        (gameData.getMap(),currentX+i,currentY+j,false);
                 if(attackingResult.equals(Offensive.AttackingResult.SUCCESSFUL))
                 {
                     if(oneUnitAttack(attacker,currentX,currentY,currentX+i,currentY+j))
@@ -247,7 +248,7 @@ public class GameMenuController {
         Asset attackerAsset=(Asset) attacker;
         PlayerNumber currentPlayer = attackerAsset.getOwnerNumber();
 
-        ArrayList<Offensive> currentPlayerAttackers = new ArrayList<>(Arrays.asList(attacker));
+        ArrayList<Offensive> currentPlayerAttackers = new ArrayList<>(List.of(attacker));
 
         //create enemy objects list
         Cell targetCell = map.getCells()[targetX][targetY];
@@ -264,7 +265,8 @@ public class GameMenuController {
         Cell currentCell=gameData.getMap().getCells()[currentX][currentY];
         HeightOfAsset heightOfAttackers = currentCell.heightOfUnitsOfPlayer();
 
-        SelectUnitMenuController.DamageStruct totalDamage = SelectUnitMenuController.findTotalDamage(heightOfAttackers, currentPlayerAttackers, map, targetX, targetY,false);
+        SelectUnitMenuController.DamageStruct totalDamage = SelectUnitMenuController.findTotalDamage
+                (heightOfAttackers, currentPlayerAttackers, map, targetX, targetY,false);
         applyAttackDamage(enemies, totalDamage, targetCell);
         targetCell.removeDeadUnitsAndBuilding();
 
@@ -286,11 +288,13 @@ public class GameMenuController {
         GameMenu.print(message);
     }
     public static int showWealth() {
-        return GameMenuController.getGameData().getEmpireByPlayerNumber(GameMenuController.gameData.getPlayerOfTurn()).getWealth();
+        return GameMenuController.getGameData().getEmpireByPlayerNumber
+                (GameMenuController.gameData.getPlayerOfTurn()).getWealth();
     }
     public static String showCommodity() {
         String output = "Your recourse: \n";
-        Empire empire = GameMenuController.getGameData().getEmpireByPlayerNumber(GameMenuController.gameData.getPlayerOfTurn());
+        Empire empire = GameMenuController.getGameData().getEmpireByPlayerNumber
+                (GameMenuController.gameData.getPlayerOfTurn());
         for (Tradable tradable : empire.getTradableAmounts().keySet()) {
             int amount = empire.getTradableAmount(tradable);
             output += tradable.getName() + ": " + amount + "\n";

@@ -14,5 +14,5 @@ public enum MenuNames {
     SELECT_BUILDING_MENU,
     SELECT_UNIT_MENU,
     TRADE_MENU,
-    PRE_GAME_MENU;
+    PRE_GAME_MENU
 }

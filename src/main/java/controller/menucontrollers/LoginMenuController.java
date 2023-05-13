@@ -37,8 +37,6 @@ public class LoginMenuController {
     public static String createRandomPassword() {
         String output = "";
         Random random = new Random();
-        int charAscii = 0;
-        int myRandom = 0;
         int[] n1 = {26, 26, 26, 26, 10, 10, 10, 15}, n2 = {65, 65, 65, 97, 48, 48, 48, 33};
         for (int i = 0; i < 8; i++)
             output = addCharToPassword(random, output, n1[i], n2[i]);
@@ -73,7 +71,9 @@ public class LoginMenuController {
         return "Us against whole of the world!";
     }
 
-    public static int checkEmptyFilled(Matcher matcherExistSlogan, Matcher matcherUsername, Matcher matcherPassword, Matcher matcherNickname, Matcher matcherEmail, Matcher matcherSlogan) {
+    public static int checkEmptyFilled
+            (Matcher matcherExistSlogan, Matcher matcherUsername, Matcher matcherPassword,
+             Matcher matcherNickname, Matcher matcherEmail, Matcher matcherSlogan) {
         if (!matcherUsername.find()) {
             return 1;
         }
@@ -118,19 +118,22 @@ public class LoginMenuController {
 
     public static String createUser(Matcher matcher) {
         String input = matcher.group(0);
-        if(checkInvalidCommand(input) == 1) return "Invalid command!";
-        Matcher matcherUsername = Pattern.compile("-u\\s+(?<username>\\w[^-&^\\s]+\\S)").matcher(input);
-        Matcher matcherPassword = Pattern.compile("-p\\s+(?<password>\\S[^-&^\\s]+\\S)\\s+(?<passwordConfirmation>\\S[^-&^\\s]+\\S+)?").matcher(input);
+        if (checkInvalidCommand(input) == 1) return "Invalid command!";
+        Matcher matcherUsername = Pattern.compile
+                ("-u\\s+(?<username>\\w[^-&^\\s]+\\S)").matcher(input);
+        Matcher matcherPassword = Pattern.compile("-p\\s+(?<password>\\S[^-&^\\s]+\\S)\\s+" +
+                        "(?<passwordConfirmation>\\S[^-&^\\s]+\\S+)?").matcher(input);
         Matcher matcherNickname = Pattern.compile("-n\\s+(?<nickname>\\w[^-&^\\s]+\\S)").matcher(input);
         Matcher matcherEmail = Pattern.compile("-email\\s+(?<email>\\w[^-&^\\s]+\\S)").matcher(input);
         Matcher matcherExistSlogan = Pattern.compile(".+-s.+").matcher(input);
         Matcher matcherSlogan = Pattern.compile("-s\\s+(?<slogan>\\w[^-]+\\w)").matcher(input);
-        int checkFilled = checkEmptyFilled(matcherExistSlogan, matcherUsername, matcherPassword, matcherNickname, matcherEmail, matcherSlogan);
-        if(checkFilled == 1) return "Fill your username";
-        if(checkFilled == 2) return "Fill your password";
-        if(checkFilled == 3) return "Fill your nickname";
-        if(checkFilled == 4) return "Fill your email";
-        if(checkFilled == 5) return "Fill your slogan";
+        int checkFilled = checkEmptyFilled
+                (matcherExistSlogan, matcherUsername, matcherPassword, matcherNickname, matcherEmail, matcherSlogan);
+        if (checkFilled == 1) return "Fill your username";
+        if (checkFilled == 2) return "Fill your password";
+        if (checkFilled == 3) return "Fill your nickname";
+        if (checkFilled == 4) return "Fill your email";
+        if (checkFilled == 5) return "Fill your slogan";
         String username = matcherUsername.group(1);
         Matcher matcherCheckUsername = Pattern.compile("\\w+").matcher(username);
         if (!matcherCheckUsername.matches()) {
@@ -168,7 +171,8 @@ public class LoginMenuController {
             return "Check format of your email";
         }
         String hashPassword = SaveAndLoad.hashString(password);
-        User user = new User(username, hashPassword, matcherNickname.group(1), matcherEmail.group(1), getSlogan(matcherExistSlogan, matcherSlogan), LoginMenu.checkSecurityQuestion());
+        User user = new User(username, hashPassword, matcherNickname.group(1), matcherEmail.group(1),
+                getSlogan(matcherExistSlogan, matcherSlogan), LoginMenu.checkSecurityQuestion());
         AppData.addUser(user);
         SaveAndLoad.saveData(AppData.getUsers(), AppData.getUsersDataBaseFilePath());
         return "user created successfully";

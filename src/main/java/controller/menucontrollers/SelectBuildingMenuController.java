@@ -55,7 +55,8 @@ public class SelectBuildingMenuController {
         return SelectBuildingMenuMessages.SUCCESS;
     }
 
-    private static void createUnitsAndDecreaseCoinAndWeapon(String unitType, int count, Empire ownerEmpire, SoldierType soldierType, UnitCreator building) {
+    private static void createUnitsAndDecreaseCoinAndWeapon
+            (String unitType, int count, Empire ownerEmpire, SoldierType soldierType, UnitCreator building) {
         PlayerNumber playerNumber = GameMenuController.getGameData().getPlayerOfTurn();
         for (int i = 0; i < count; i++) {
             Human.createUnitByName(unitType, playerNumber, building.getPositionX(), building.getPositionY());

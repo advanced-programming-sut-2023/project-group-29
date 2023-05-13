@@ -17,6 +17,7 @@ import view.messages.SelectUnitMenuMessages;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class SelectUnitMenuController {
     private static final int maximumLengthOfTunnel=3;
@@ -100,7 +101,8 @@ public class SelectUnitMenuController {
             ((Asset) movingObject).setPositionY(currentY);
         }
 
-        return (movingObjects.size() - failures) + " unit(s) out of " + movingObjects.size() + " has been set successfully!";
+        return (movingObjects.size() - failures) + " unit(s) out of " +
+                movingObjects.size() + " has been set successfully!";
     }
 
     public static SelectUnitMenuMessages setStateOfUnit(int cellX, int cellY, String stateOfUnitString) {
@@ -156,13 +158,14 @@ public class SelectUnitMenuController {
         //if a unit is near to death or not, makes no change for others
 
         HeightOfAsset heightOfAttackers = currentCell.heightOfUnitsOfPlayer();
-        DamageStruct totalDamage = findTotalDamage(heightOfAttackers, currentPlayerAttackers, map, targetX, targetY,true);
+        DamageStruct totalDamage = findTotalDamage
+                (heightOfAttackers, currentPlayerAttackers, map, targetX, targetY,true);
         applyAttackDamage(enemies, totalDamage, targetCell);
         int currentPlayerFailures = totalDamage.failures;
 
         //apply back attack
         DamageStruct counterAttackTotalDamage = new DamageStruct();
-        DamageStruct partialDamage = new DamageStruct();
+        DamageStruct partialDamage;
 
         for (PlayerNumber playerNumber : PlayerNumber.values()) {
             if (playerNumber.equals(currentPlayer))
@@ -171,11 +174,13 @@ public class SelectUnitMenuController {
             ArrayList<Offensive> playerAttackers = targetCell.getAttackingListOfPlayerNumber(playerNumber);
 
             heightOfAttackers = currentCell.heightOfUnitsOfPlayer();
-            partialDamage = findTotalDamage(heightOfAttackers, playerAttackers, map, currentX, currentY,false);
+            partialDamage = findTotalDamage
+                    (heightOfAttackers, playerAttackers, map, currentX, currentY,false);
             counterAttackTotalDamage.add(partialDamage);
         }
 
-        applyAttackDamage(offensiveArrayListToAssetArrayList(currentPlayerAttackers), counterAttackTotalDamage, currentCell);
+        applyAttackDamage(offensiveArrayListToAssetArrayList(currentPlayerAttackers),
+                counterAttackTotalDamage, currentCell);
 
         currentCell.removeDeadUnitsAndBuilding();
         targetCell.removeDeadUnitsAndBuilding();
@@ -185,7 +190,8 @@ public class SelectUnitMenuController {
             return "All units attacked successfully!";
 
         int totalAttackingEfforts = currentPlayerAttackers.size();
-        return (totalAttackingEfforts - currentPlayerFailures) + " troops out of " + totalAttackingEfforts + " attacked successfully!";
+        return (totalAttackingEfforts - currentPlayerFailures) + " troops out of " +
+                totalAttackingEfforts + " attacked successfully!";
     }
 
     private static ArrayList<Asset> offensiveArrayListToAssetArrayList(ArrayList<Offensive> attackers) {
@@ -219,10 +225,12 @@ public class SelectUnitMenuController {
         int dividedUpDamage = upHeightTargets.size()==0 ? 0 : damageStruct.upDamage / upHeightTargets.size();
         applyAttackDamageOnLevel(upHeightTargets, dividedUpDamage, dividedAirDamage, playerHasShieldInCell);
 
-        int dividedMiddleDamage = middleHeightTargets.size()==0 ? 0 : damageStruct.middleDamage / middleHeightTargets.size();
+        int dividedMiddleDamage = middleHeightTargets.size()==0 ? 0
+                : damageStruct.middleDamage / middleHeightTargets.size();
         applyAttackDamageOnLevel(middleHeightTargets, dividedMiddleDamage, dividedAirDamage, playerHasShieldInCell);
 
-        int dividedGroundDamage = groundHeightTargets.size()==0 ? 0 : damageStruct.groundDamage / groundHeightTargets.size();
+        int dividedGroundDamage = groundHeightTargets.size()==0 ? 0
+                : damageStruct.groundDamage / groundHeightTargets.size();
         applyAttackDamageOnLevel(groundHeightTargets, dividedGroundDamage, dividedAirDamage, playerHasShieldInCell);
 
         Building building=null;
@@ -235,13 +243,16 @@ public class SelectUnitMenuController {
             nonBuildings.remove(building);
 
         int dividedNonBuildingDamage=nonBuildings.size()==0 ? 0:damageStruct.nonBuildingDamage / nonBuildings.size();
-        applyAttackDamageOnLevel(nonBuildings,0,dividedNonBuildingDamage,playerHasShieldInCell);
+        applyAttackDamageOnLevel
+                (nonBuildings,0,dividedNonBuildingDamage,playerHasShieldInCell);
 
         if(building!=null)
-            applyAttackDamageOnLevel(new ArrayList<Asset>(Arrays.asList(building)),damageStruct.onlyBuildingDamage,0,playerHasShieldInCell);
+            applyAttackDamageOnLevel(new ArrayList<>(List.of(building)),damageStruct.onlyBuildingDamage,
+                    0,playerHasShieldInCell);
     }
 
-    private static void applyAttackDamageOnLevel(ArrayList<Asset> targetedAssets, int sameHeightDamageDividedToTargets, int airDamageDividedToTargets, boolean[] playerHasShieldInCell) {
+    private static void applyAttackDamageOnLevel(ArrayList<Asset> targetedAssets, int sameHeightDamageDividedToTargets,
+                                                 int airDamageDividedToTargets, boolean[] playerHasShieldInCell) {
         for (Asset asset : targetedAssets) {
             asset.decreaseHp(sameHeightDamageDividedToTargets);
             if (playerHasShieldInCell[asset.getOwnerNumber().getNumber()])
@@ -250,7 +261,8 @@ public class SelectUnitMenuController {
         }
     }
 
-    public static DamageStruct findTotalDamage(HeightOfAsset heightOfAttackers, ArrayList<Offensive> attackers, Map map, int targetX, int targetY,boolean setHasAttacked) {
+    public static DamageStruct findTotalDamage(HeightOfAsset heightOfAttackers, ArrayList<Offensive> attackers,
+                                               Map map, int targetX, int targetY,boolean setHasAttacked) {
         DamageStruct damageStruct = new DamageStruct();
 
         for (Offensive attacker : attackers) {
@@ -334,7 +346,8 @@ public class SelectUnitMenuController {
             Cell targetedCell = map.getCells()[currentX + deltaX * i][currentY + deltaY * i];
             ArrayList<Asset> enemies = targetedCell.getEnemiesOfPlayerInCell(gameData.getPlayerOfTurn());
 
-            Offensive.AttackingResult attackingResult = engineerWithOil.canAttack(map, currentX + deltaX * i, currentY + deltaY * i,true);
+            Offensive.AttackingResult attackingResult = engineerWithOil.canAttack
+                    (map, currentX + deltaX * i, currentY + deltaY * i,true);
             switch (attackingResult) {
                 case TOO_FAR:
                     return SelectUnitMenuMessages.TOO_FAR;
@@ -420,13 +433,17 @@ public class SelectUnitMenuController {
             currentCell.getMovingObjects().remove(siegeTower);
 
         //destroy other tunnels
-        if(thisCellCoordination.first< map.getWidth() && map.getCells()[thisCellCoordination.first+1][thisCellCoordination.second].hasTunnel())
+        if(thisCellCoordination.first< map.getWidth() &&
+                map.getCells()[thisCellCoordination.first+1][thisCellCoordination.second].hasTunnel())
             destroyTunnels(map,new Pair(thisCellCoordination.first+1,thisCellCoordination.second));
-        if(thisCellCoordination.second< map.getWidth() && map.getCells()[thisCellCoordination.first][thisCellCoordination.second+1].hasTunnel())
+        if(thisCellCoordination.second< map.getWidth() &&
+                map.getCells()[thisCellCoordination.first][thisCellCoordination.second+1].hasTunnel())
             destroyTunnels(map,new Pair(thisCellCoordination.first,thisCellCoordination.second+1));
-        if(thisCellCoordination.first>1 && map.getCells()[thisCellCoordination.first-1][thisCellCoordination.second].hasTunnel())
+        if(thisCellCoordination.first>1 &&
+                map.getCells()[thisCellCoordination.first-1][thisCellCoordination.second].hasTunnel())
             destroyTunnels(map,new Pair(thisCellCoordination.first-1,thisCellCoordination.second));
-        if(thisCellCoordination.second>1 && map.getCells()[thisCellCoordination.first][thisCellCoordination.second-1].hasTunnel())
+        if(thisCellCoordination.second>1 &&
+                map.getCells()[thisCellCoordination.first][thisCellCoordination.second-1].hasTunnel())
             destroyTunnels(map,new Pair(thisCellCoordination.first,thisCellCoordination.second-1));
     }
     private static int dfs(Map map,Pair thisCellCoordination,boolean[][] mark) {
@@ -436,22 +453,26 @@ public class SelectUnitMenuController {
         if (thisCellCoordination.first < map.getWidth() &&
                 map.getCells()[thisCellCoordination.first + 1][thisCellCoordination.second].hasTunnel() &&
                 !mark[thisCellCoordination.first + 1][thisCellCoordination.second])
-            numberOfAdjacentTunnels += dfs(map, new Pair(thisCellCoordination.first + 1, thisCellCoordination.second), mark);
+            numberOfAdjacentTunnels += dfs
+                    (map, new Pair(thisCellCoordination.first + 1, thisCellCoordination.second), mark);
 
         if (thisCellCoordination.second < map.getWidth() &&
                 map.getCells()[thisCellCoordination.first][thisCellCoordination.second + 1].hasTunnel() &&
                 !mark[thisCellCoordination.first][thisCellCoordination.second + 1])
-            numberOfAdjacentTunnels += dfs(map, new Pair(thisCellCoordination.first, thisCellCoordination.second + 1), mark);
+            numberOfAdjacentTunnels += dfs
+                    (map, new Pair(thisCellCoordination.first, thisCellCoordination.second + 1), mark);
 
         if (thisCellCoordination.first > 1 &&
                 map.getCells()[thisCellCoordination.first - 1][thisCellCoordination.second].hasTunnel() &&
                 !mark[thisCellCoordination.first - 1][thisCellCoordination.second])
-            numberOfAdjacentTunnels += dfs(map, new Pair(thisCellCoordination.first - 1, thisCellCoordination.second), mark);
+            numberOfAdjacentTunnels += dfs
+                    (map, new Pair(thisCellCoordination.first - 1, thisCellCoordination.second), mark);
 
         if (thisCellCoordination.second > 1 &&
                 map.getCells()[thisCellCoordination.first][thisCellCoordination.second - 1].hasTunnel() &&
                 !mark[thisCellCoordination.first][thisCellCoordination.second - 1])
-            numberOfAdjacentTunnels += dfs(map, new Pair(thisCellCoordination.first, thisCellCoordination.second - 1), mark);
+            numberOfAdjacentTunnels += dfs
+                    (map, new Pair(thisCellCoordination.first, thisCellCoordination.second - 1), mark);
 
         return numberOfAdjacentTunnels;
     }
