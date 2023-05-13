@@ -86,7 +86,7 @@ public class GameData {
             incrementTurn();
             index -= empires.size();
         }
-        //TODO jasbi: game finish
+        //TODO: game finish
         if (turnNumber > 5) GameMenuController.notify("finish");
         playerOfTurn = PlayerNumber.getPlayerByIndex(index);
         GameMenuController.notify("player number " + (index+1) + " is playing");
