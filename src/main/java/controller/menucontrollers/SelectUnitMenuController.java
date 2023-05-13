@@ -13,7 +13,6 @@ import model.people.humanClasses.Soldier;
 import model.people.humanTypes.SoldierType;
 import model.weapons.weaponClasses.OffensiveWeapons;
 import model.weapons.weaponTypes.OffensiveWeaponsType;
-import org.checkerframework.checker.units.qual.A;
 import view.messages.SelectUnitMenuMessages;
 
 import java.util.ArrayList;
@@ -467,9 +466,10 @@ public class SelectUnitMenuController {
         int y = gameData.getSelectedCellY();
         Cell selectedCell = gameData.getMap().getCells()[x][y];
         Empire empire = gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn());
-        ArrayList<Movable> movingObjects = selectedCell.getMovingObjectsOfPlayer(gameData.getPlayerOfTurn());
+        ArrayList<Asset> movingObjects = selectedCell.getMovingObjects();
         int numberBeforeDisband = movingObjects.size();
-        movingObjects.removeIf(movable -> movable instanceof Human);
+        movingObjects.removeIf
+                (asset -> asset instanceof Human && asset.getOwnerNumber().equals(gameData.getPlayerOfTurn()));
         int change = movingObjects.size() - numberBeforeDisband;
         empire.changeWorklessPopulation(change);
     }

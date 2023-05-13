@@ -1,6 +1,9 @@
 package model;
 
 import controller.menucontrollers.GameMenuController;
+import model.map.Cell;
+import model.map.Map;
+import model.people.Human;
 
 public enum PlayerNumber {
     FIRST(0),
@@ -40,10 +43,29 @@ public enum PlayerNumber {
 
     public void setAliveOrNot() {
         Empire empire = GameMenuController.getGameData().getEmpireByPlayerNumber(this);
-        isAlive = empire.getNumberOfBuildingType("mainKeep") > 0;
+        if (empire.getNumberOfBuildingType("mainKeep") > 0) isAlive = true;
+        else {
+            isAlive = false;
+            dead();
+        }
     }
 
     public void dead() {
         GameMenuController.notify("You have lost your main keep and you can't play any more!");
+        Map map = GameMenuController.getGameData().getMap();
+        Empire deadEmpire = GameMenuController.getGameData().getEmpireByPlayerNumber(this);
+        for (int i = 1; i <= map.getWidth(); i++) {
+            for (int j = 1; j <= map.getWidth(); j++) {
+                Cell cell = map.getCells()[i][j];
+                if (cell.hasBuilding() && cell.getBuilding().getOwnerEmpire().equals(deadEmpire)) {
+                    cell.setBuilding(null);
+                }
+                if (cell.hasTrap() && cell.getTrap().getOwnerEmpire().equals(deadEmpire)) {
+                    cell.setTrap(null);
+                }
+                cell.getMovingObjects().removeIf(asset -> asset.getOwnerNumber().equals(this));
+
+            }
+        }
     }
 }

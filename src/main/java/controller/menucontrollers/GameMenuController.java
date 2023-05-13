@@ -131,7 +131,6 @@ public class GameMenuController {
 
     public static boolean nextTurn() {
         Map map = gameData.getMap();
-        gameData.getPlayerOfTurn().setAliveOrNot();
         if (gameIsFinished()) return false;
         gameData.changePlayingPlayer();
         setNumberOfUnits(map, gameData.getPlayerOfTurn());

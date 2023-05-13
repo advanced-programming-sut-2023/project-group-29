@@ -87,8 +87,8 @@ public class GameData {
             index -= empires.size();
         }
         playerOfTurn = PlayerNumber.getPlayerByIndex(index);
+        playerOfTurn.setAliveOrNot();
         if (!playerOfTurn.isAlive()) {
-            playerOfTurn.dead();
             changePlayingPlayer();
             return;
         }
