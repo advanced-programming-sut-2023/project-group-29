@@ -19,8 +19,8 @@ public enum StoreType implements BuildType {
     ;
     private final int capacity;
     private final BuildingType buildingType;
-    private String name;
-    private int[] neededResources;
+    private final String name;
+    private final int[] neededResources;
 
 
     StoreType(BuildingType buildingType, int capacity, String buildingName) {

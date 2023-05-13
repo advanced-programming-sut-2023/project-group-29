@@ -23,11 +23,11 @@ public enum ResourceExtractorType implements BuildType {
     );
     //کارخانه ذوب
 
-    private int rate;
-    private Resource producingResource;
+    private final int rate;
+    private final Resource producingResource;
     private final BuildingType buildingType;
-    private String name;
-    private int[] neededResources;
+    private final String name;
+    private final int[] neededResources;
 
 
     ResourceExtractorType(BuildingType buildingType, int rate, Resource producingResource, String buildingName) {

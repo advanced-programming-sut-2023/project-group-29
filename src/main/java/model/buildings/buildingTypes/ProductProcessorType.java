@@ -25,17 +25,16 @@ public enum ProductProcessorType implements BuildType {
     ),
     ;
 
-    private String name;
-    private int rate;
-    private Product consumingProduct;
-    private Tradable producingTradable;
-    private BuildingType buildingType;
-    private int[] neededResources;
+    private final String name;
+    private final int rate;
+    private final Product consumingProduct;
+    private final Tradable producingTradable;
+    private final BuildingType buildingType;
+    private final int[] neededResources;
 
 
     ProductProcessorType(BuildingType buildingType, int rate,
                          Product consumingProduct, Tradable producingTradable, String buildingName) {
-        this.name = buildingName;
         this.rate = rate;
         this.consumingProduct = consumingProduct;
         this.producingTradable = producingTradable;

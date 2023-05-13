@@ -4,14 +4,13 @@ import model.Empire;
 import model.PlayerNumber;
 import model.buildings.Building;
 import model.buildings.buildingTypes.ProductExtractorType;
-import model.dealing.Food;
 import model.dealing.Product;
 import model.dealing.Tradable;
 
 public class ProductExtractor extends Building {
-    private ProductExtractorType productExtractorType;
-    private int rate;
-    private Tradable producingTradable;
+    private final ProductExtractorType productExtractorType;
+    private final int rate;
+    private final Tradable producingTradable;
 
     public ProductExtractor(ProductExtractorType productExtractorType,
                             PlayerNumber playerNumber, int positionX, int positionY) {
@@ -33,17 +32,14 @@ public class ProductExtractor extends Building {
     }
 
     public void update() {
-        int switcher;
+        int switcher = 0;
         if (producingTradable instanceof Product) {
             switcher = 1;
-        } else if (producingTradable instanceof Food) {
-            switcher = 0;
         }
-
         Empire ownerEmpire=this.getOwnerEmpire();
-        int change = Math.min(ownerEmpire.getEmptySpace(0), rate + ownerEmpire.getFearRate());
+        int change = Math.min(ownerEmpire.getEmptySpace(switcher), rate + ownerEmpire.getFearRate());
         ownerEmpire.changeTradableAmount(producingTradable, change);
-        ownerEmpire.fillStorage(0, change);
+        ownerEmpire.fillStorage(switcher, change);
 
     }
 }

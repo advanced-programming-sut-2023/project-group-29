@@ -26,10 +26,10 @@ public enum ResourceProcessorType implements BuildType {
 
     private final int rate;
     private final Resource resource;
-    private Product product;
+    private final Product product;
     private final BuildingType buildingType;
-    private String name;
-    private int[] neededResources;
+    private final String name;
+    private final int[] neededResources;
 
 
     ResourceProcessorType(BuildingType buildingType, int rate,

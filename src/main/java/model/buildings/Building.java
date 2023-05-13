@@ -53,7 +53,6 @@ public abstract class Building extends Asset {
         return 0;
     }
 
-
     public static int getNeededResource(int i, String buildingName) {
        for (BuildType buildType : buildingTypesAndTheirGroup.keySet()) {
            if (buildType.getName().equals(buildingName)) return buildType.getNeededResources(i);

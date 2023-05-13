@@ -6,41 +6,39 @@ import model.buildings.buildingTypes.ProductExtractorType;
 import model.buildings.buildingTypes.ResourceExtractorType;
 
 public enum CellType {
-    UP_ROCK(ConsoleColors.RED_BACKGROUND, false, false, "upRock"),
-    DOWN_ROCK(ConsoleColors.RED_BACKGROUND, false, false, "downRock"),
-    RIGHT_ROCK(ConsoleColors.RED_BACKGROUND, false, false, "rightRock"),
-    LEFT_ROCK(ConsoleColors.RED_BACKGROUND, false, false, "leftRock"),
+    UP_ROCK(ConsoleColors.RED_BACKGROUND, false, "upRock"),
+    DOWN_ROCK(ConsoleColors.RED_BACKGROUND, false, "downRock"),
+    RIGHT_ROCK(ConsoleColors.RED_BACKGROUND, false, "rightRock"),
+    LEFT_ROCK(ConsoleColors.RED_BACKGROUND, false, "leftRock"),
     //زمین عادی
-    PLAIN_GROUND(ConsoleColors.YELLOW_BACKGROUND, true, true, "plainGround"),
+    PLAIN_GROUND(ConsoleColors.YELLOW_BACKGROUND, true, "plainGround"),
     //زمین با خرده‌سنگ
-    GROUND_WITH_PEBBLES(ConsoleColors.CYAN_BACKGROUND, false, true, "groundWithPebbles"),
+    GROUND_WITH_PEBBLES(ConsoleColors.CYAN_BACKGROUND, true, "groundWithPebbles"),
     //تخته سنگ
-    BOULDER(ConsoleColors.BLACK_BACKGROUND, false, true, "boulder"),
-    STONE(ConsoleColors.BLACK_BACKGROUND, false, false, "stone"),
-    IRON(ConsoleColors.RED_BACKGROUND, false, true, "iron"),
-    GRASS(ConsoleColors.GREEN_BACKGROUND, true, true, "grass"),
+    BOULDER(ConsoleColors.BLACK_BACKGROUND, true, "boulder"),
+    STONE(ConsoleColors.BLACK_BACKGROUND, false, "stone"),
+    IRON(ConsoleColors.RED_BACKGROUND, true, "iron"),
+    GRASS(ConsoleColors.GREEN_BACKGROUND, true, "grass"),
     //علفزار
-    MEADOW(ConsoleColors.PURPLE_BACKGROUND, true, true, "meadow"),
-    DENSE_MEADOW(ConsoleColors.PURPLE_BACKGROUND, true, true, "denseMeadow"),
-    OIL(ConsoleColors.BLACK_BACKGROUND, false, false, "oil"),
+    MEADOW(ConsoleColors.PURPLE_BACKGROUND, true, "meadow"),
+    DENSE_MEADOW(ConsoleColors.PURPLE_BACKGROUND, true, "denseMeadow"),
+    OIL(ConsoleColors.BLACK_BACKGROUND, false, "oil"),
     //جلگه
-    PLAIN(ConsoleColors.BLACK_BACKGROUND, false, true, "plain"),
-    SHALLOW_WATER(ConsoleColors.YELLOW_BACKGROUND, false, true, "shallowWater"),
-    RIVER(ConsoleColors.BLUE_BACKGROUND, false, false, "river"),
-    SMALL_POND(ConsoleColors.WHITE_BACKGROUND, false, false, "smallPond"),
-    BIG_POND(ConsoleColors.WHITE_BACKGROUND, false, false, "bigPond"),
-    BEACH(ConsoleColors.YELLOW_BACKGROUND, false, false, "beach"),
-    SEA(ConsoleColors.BLUE_BACKGROUND, false, false, "sea"),
+    PLAIN(ConsoleColors.BLACK_BACKGROUND, true, "plain"),
+    SHALLOW_WATER(ConsoleColors.YELLOW_BACKGROUND, true, "shallowWater"),
+    RIVER(ConsoleColors.BLUE_BACKGROUND, false, "river"),
+    SMALL_POND(ConsoleColors.WHITE_BACKGROUND, false, "smallPond"),
+    BIG_POND(ConsoleColors.WHITE_BACKGROUND, false, "bigPond"),
+    BEACH(ConsoleColors.YELLOW_BACKGROUND, false, "beach"),
+    SEA(ConsoleColors.BLUE_BACKGROUND, false, "sea"),
 
     ;
 
     private final ConsoleColors showingColor;
-    private final boolean ableToBuildOn;
     private final boolean ableToMoveOn;
     private final String name;
 
-    CellType(ConsoleColors showingColor, boolean ableToBuildOn, boolean ableToMoveOn, String name) {
-        this.ableToBuildOn = ableToBuildOn;
+    CellType(ConsoleColors showingColor, boolean ableToMoveOn, String name) {
         this.ableToMoveOn = ableToMoveOn;
         this.showingColor = showingColor;
         this.name = name;

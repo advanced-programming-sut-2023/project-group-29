@@ -21,8 +21,8 @@ public class Cell {
     private Building building = null;
     private CellType cellType;
     private boolean hasTunnel = false;
-    private int xPosition;
-    private int yPosition;
+    private final int xPosition;
+    private final int yPosition;
 
     public Cell(CellType cellType, int xPosition, int yPosition) {
         this.cellType = cellType;
@@ -102,7 +102,8 @@ public class Cell {
     public ArrayList<Offensive> getAttackingListOfPlayerNumber(PlayerNumber playerNumber) {
         ArrayList<Offensive> attackingObjects = new ArrayList<>();
         for (Asset movingObject : movingObjects) {
-            if(movingObject instanceof Soldier soldier && soldier.getSoldierType().equals(SoldierType.ENGINEER_WITH_OIL))
+            if(movingObject instanceof Soldier soldier &&
+                    soldier.getSoldierType().equals(SoldierType.ENGINEER_WITH_OIL))
                 continue;
             if (movingObject.getOwnerNumber().equals(playerNumber) && movingObject instanceof Offensive)
                 attackingObjects.add((Offensive) movingObject);
@@ -180,10 +181,8 @@ public class Cell {
             case 9 -> building = new UnitCreator
                     (UnitCreatorType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
         }
-        Empire empire = GameMenuController.getGameData().getEmpireByPlayerNumber(ownerPlayerNumber);
-        empire.addBuilding(building, buildingGroupNumber);
     }
-
+    //todo jasbi handle hashmap of building
     public int getXPosition() {
         return xPosition;
     }

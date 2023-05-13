@@ -11,7 +11,7 @@ public class ResourceProcessor extends Building {
     private final ResourceProcessorType resourceProcessorType;
     private final int rate;
     private final Resource resource;
-    private Product product;
+    private final Product product;
 
     public ResourceProcessor(ResourceProcessorType resourceProcessorType,
                              PlayerNumber playerNumber, int positionX, int positionY) {
@@ -30,7 +30,8 @@ public class ResourceProcessor extends Building {
 
     @Override
     public void setShowingSignInMap() {
-            showingSignInMap = resourceProcessorType.getBuildingType().abbreviation() + (getOwnerNumber().getNumber() + 1);
+            showingSignInMap = resourceProcessorType.getBuildingType().abbreviation() +
+                    (getOwnerNumber().getNumber() + 1);
     }
 
     public void update() {

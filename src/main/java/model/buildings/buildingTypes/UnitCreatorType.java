@@ -25,14 +25,13 @@ public enum UnitCreatorType implements BuildType {
             30,"cathedral"
     ),
     ;
-    private String name;
-    private int unitCost;
-    private BuildingType buildingType;
-    private int[] neededResources;
+    private final String name;
+    private final int unitCost;
+    private final BuildingType buildingType;
+    private final int[] neededResources;
 
 
     UnitCreatorType(BuildingType buildingType, int unitCost, String buildingName) {
-        this.name = buildingName;
         this.unitCost = unitCost;
         this.buildingType = buildingType;
         this.name = buildingName;

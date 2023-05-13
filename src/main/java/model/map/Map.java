@@ -1,18 +1,15 @@
 package model.map;
 
-import controller.menucontrollers.GameMenuController;
 import model.*;
-import model.buildings.Building;
 import model.buildings.buildingClasses.AttackingBuilding;
 import model.buildings.buildingClasses.OtherBuildings;
 import model.buildings.buildingTypes.OtherBuildingsType;
-import model.people.Human;
 import model.people.humanClasses.Soldier;
 import model.people.humanTypes.SoldierType;
-import org.checkerframework.checker.units.qual.A;
-import view.messages.GameMenuMessages;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Map {
     private final Cell[][] cells;
@@ -34,7 +31,8 @@ public class Map {
         return BFSForMoving(movingUnit,firstX,firstY,secondX,secondY);
     }
 
-    public int distanceOfTwoCellsForAttacking(int firstX, int firstY, int secondX, int secondY, boolean overTheWallAllowed) {
+    public int distanceOfTwoCellsForAttacking
+            (int firstX, int firstY, int secondX, int secondY, boolean overTheWallAllowed) {
         return BFSForAttacking(firstX,firstY,secondX,secondY,overTheWallAllowed);
     }
 
@@ -90,11 +88,15 @@ public class Map {
                 int secondCellHeight=addingCell.heightOfUnitsOfPlayer().getHeightNumber();
 
                 boolean firstCellCanGoHigher=
-                        (thisCell.goHigherLevel().equals(Cell.LevelChanger.LADDER) && movableUnit.isAbleToClimbLadder()) ||
-                                (thisCell.goHigherLevel().equals(Cell.LevelChanger.STAIRS) && movableUnit.isAbleToClimbStairs());
+                        (thisCell.goHigherLevel().equals(Cell.LevelChanger.LADDER)
+                                && movableUnit.isAbleToClimbLadder())
+                                || (thisCell.goHigherLevel().equals(Cell.LevelChanger.STAIRS)
+                                && movableUnit.isAbleToClimbStairs());
                 boolean secondCellCanGoHigher=
-                        (addingCell.goHigherLevel().equals(Cell.LevelChanger.LADDER) && movableUnit.isAbleToClimbLadder()) ||
-                                (addingCell.goHigherLevel().equals(Cell.LevelChanger.STAIRS) && movableUnit.isAbleToClimbStairs());
+                        (addingCell.goHigherLevel().equals(Cell.LevelChanger.LADDER)
+                                && movableUnit.isAbleToClimbLadder())
+                                || (addingCell.goHigherLevel().equals(Cell.LevelChanger.STAIRS)
+                                && movableUnit.isAbleToClimbStairs());
 
 
                 if(!isUnitAssassin) {
@@ -113,7 +115,8 @@ public class Map {
                     continue;
 
                 queue.add(addingCellCoordination);
-                distances[addingCellCoordination.first][addingCellCoordination.second]=distances[thisCellCoordination.first][thisCellCoordination.second]+1;
+                distances[addingCellCoordination.first][addingCellCoordination.second]=
+                        distances[thisCellCoordination.first][thisCellCoordination.second]+1;
             }
         }
 
@@ -170,7 +173,8 @@ public class Map {
                 }
 
                 queue.add(addingCellCoordination);
-                distances[addingCellCoordination.first][addingCellCoordination.second]=distances[thisCellCoordination.first][thisCellCoordination.second]+1;
+                distances[addingCellCoordination.first][addingCellCoordination.second]=
+                        distances[thisCellCoordination.first][thisCellCoordination.second]+1;
             }
         }
 

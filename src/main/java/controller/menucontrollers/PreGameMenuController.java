@@ -37,6 +37,7 @@ public class PreGameMenuController {
         } else if (gameData.getNumberOfPlayers() == 1) {
             return PreGameMenuMessages.FEW_PLAYER;
         }
+        GameMenuController.updateEmpire(PlayerNumber.FIRST);
         return PreGameMenuMessages.READY;
     }
 

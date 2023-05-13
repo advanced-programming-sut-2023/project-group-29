@@ -9,10 +9,10 @@ import model.dealing.Product;
 import model.dealing.Tradable;
 
 public class ProductProcessor extends Building {
-    private ProductProcessorType productProcessorType;
-    private int rate;
-    private Product consumingProduct;
-    private Tradable producingTradable;
+    private final ProductProcessorType productProcessorType;
+    private final int rate;
+    private final Product consumingProduct;
+    private final Tradable producingTradable;
 
     public ProductProcessor(ProductProcessorType productProcessorType,
                             PlayerNumber playerNumber, int positionX, int positionY) {

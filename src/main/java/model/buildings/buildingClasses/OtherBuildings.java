@@ -2,16 +2,13 @@ package model.buildings.buildingClasses;
 
 import controller.menucontrollers.GameMenuController;
 import controller.menucontrollers.MapMenuController;
-import controller.menucontrollers.SelectUnitMenuController;
 import model.Asset;
 import model.PlayerNumber;
 import model.buildings.Building;
 import model.buildings.buildingTypes.OtherBuildingsType;
 import model.map.Cell;
-import model.people.Human;
 import model.people.humanClasses.Soldier;
 import model.people.humanTypes.SoldierType;
-import view.menus.MapMenu;
 
 public class OtherBuildings extends Building {
     private final OtherBuildingsType otherBuildingsType;
@@ -67,9 +64,9 @@ public class OtherBuildings extends Building {
 
     public void changeState() {
         if (showingSignInMap.charAt(4) == 'D') {
-            showingSignInMap = showingSignInMap.substring(0,4) + "U" + showingSignInMap.substring(5,6) ;
+            showingSignInMap = showingSignInMap.substring(0,4) + "U" + showingSignInMap.charAt(5) ;
         } else if (showingSignInMap.charAt(4) == 'U') {
-            showingSignInMap = showingSignInMap.substring(0,4) + "D" + showingSignInMap.substring(5,6) ;
+            showingSignInMap = showingSignInMap.substring(0,4) + "D" + showingSignInMap.charAt(5) ;
         }
     }
 }

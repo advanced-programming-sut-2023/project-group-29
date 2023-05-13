@@ -24,7 +24,7 @@ public enum AccommodationType implements BuildType{
     private final int numberOfSettler;
     private final BuildingType buildingType;
     private final String name;
-    private int[] neededResources;
+    private final int[] neededResources;
 
     AccommodationType(BuildingType buildingType, int numberOfSettler, String buildingName) {
         this.buildingType = buildingType;

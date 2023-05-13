@@ -55,8 +55,8 @@ public enum OtherBuildingsType implements BuildType{
     ;
 
     private final BuildingType buildingType;
-    private String name;
-    private int[] neededResources;
+    private final String name;
+    private final int[] neededResources;
 
     OtherBuildingsType(BuildingType buildingType, String buildingName) {
         this.buildingType = buildingType;

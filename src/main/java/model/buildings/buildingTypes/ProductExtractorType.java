@@ -32,11 +32,11 @@ public enum ProductExtractorType implements BuildType{
             30, Product.WHEAT,"wheatFarm"
     ),
     ;
-    private String name;
-    private int rate;
-    private Tradable producingTradable;
-    private BuildingType buildingType;
-    private int[] neededResources;
+    private final String name;
+    private final int rate;
+    private final Tradable producingTradable;
+    private final BuildingType buildingType;
+    private final int[] neededResources;
 
     ProductExtractorType(BuildingType buildingType, int rate,
                          Tradable producingTradable, String buildingName) {

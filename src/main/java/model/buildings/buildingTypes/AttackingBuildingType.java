@@ -30,7 +30,7 @@ public enum AttackingBuildingType implements BuildType {
     private final int defendRange;
     private final BuildingType buildingType;
     private final String name;
-    private int[] neededResources;
+    private final int[] neededResources;
 
 
     AttackingBuildingType(BuildingType buildingType, int fireRange, int defendRange, String buildingName) {

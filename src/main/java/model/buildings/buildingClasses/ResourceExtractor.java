@@ -9,7 +9,7 @@ import model.dealing.Resource;
 public class ResourceExtractor extends Building {
     private final ResourceExtractorType resourceExtractorType;
     private final int rate;
-    private Resource producingResource;
+    private final Resource producingResource;
 
     public ResourceExtractor
             (ResourceExtractorType resourceExtractorType, PlayerNumber playerNumber, int positionX, int positionY) {

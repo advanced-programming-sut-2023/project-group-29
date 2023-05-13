@@ -4,8 +4,8 @@ import controller.menucontrollers.GameMenuController;
 import model.buildings.Building;
 import model.buildings.buildingClasses.UnitCreator;
 import model.dealing.*;
-import model.people.humanClasses.Soldier;
-import model.people.humanClasses.Worker;
+import model.map.Cell;
+import model.map.Map;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +14,6 @@ public class Empire {
     private ArrayList<Trade> trades = new ArrayList<>();
     private ArrayList<Trade> newTrades = new ArrayList<>();
     private ArrayList<Trade> tradesHistory = new ArrayList<>();
-    private final HashMap<Building, Integer> buildings = new HashMap<>();
     private int[][] storage = new int[2][3]; //{food, productsAndResources, weapons} {0--> filled, 1--> capacity}
     private final HashMap<PopularityFactors, Integer> popularityChange = new HashMap<>();
     private HashMap<Tradable, Integer> tradableAmounts;
@@ -70,7 +69,7 @@ public class Empire {
 
     private int getNumberOfWorkers() {
         int workers = 0;
-        for (Building building : buildings.keySet()) {
+        for (Building building : getBuildings()) {
             workers += building.getNumberOfWorkers();
         }
         return workers;
@@ -145,14 +144,10 @@ public class Empire {
         return popularityChange.get(cause);
     }
 
-    public void addBuilding(Building building, int groupNumber) {
-        buildings.put(building, groupNumber);
-    }
-
     public void updateBuildings() {
         makeCapacitiesZero();
         makePossiblePopulationZero();
-        for (Building building : buildings.keySet()) {
+        for (Building building : getBuildings()) {
             building.update();
         }
     }
@@ -193,7 +188,7 @@ public class Empire {
 
     public int getNumberOfBuildingType(String buildingName) {
         int count = 0;
-        for (Building building : buildings.keySet()) {
+        for (Building building : getBuildings()) {
             if (building.getName().equals(buildingName)) count++;
         }
         return count;
@@ -271,7 +266,9 @@ public class Empire {
         }
         for (Product product : Product.values()) {
             switch (product) {
-                case ARMOUR, BOW, PIKE, SWORD -> {continue;}
+                case ARMOUR, BOW, PIKE, SWORD -> {
+                    continue;
+                }
             }
             tradables[counter] = tradableAmounts.get(product);
             counter++;
@@ -284,7 +281,9 @@ public class Empire {
         }
         for (Product product : Product.values()) {
             switch (product) {
-                case ARMOUR, BOW, PIKE, SWORD -> {continue;}
+                case ARMOUR, BOW, PIKE, SWORD -> {
+                    continue;
+                }
             }
             tradableAmounts.replace(product, tradables[counter]);
             counter++;
@@ -379,14 +378,27 @@ public class Empire {
 
     private int getEffectOfReligiousBuildings() {
         int effect = 0;
-        for (Building building : buildings.keySet()) {
-            if (buildings.get(building) == 9) {
+        for (Building building : getBuildings()) {
+            if (building instanceof UnitCreator) {
                 switch (((UnitCreator) building).getUnitCreatorType()) {
                     case CATHEDRAL, CHURCH -> effect += 2;
                 }
             }
         }
         return effect;
+    }
+
+    private ArrayList<Building> getBuildings() {
+        ArrayList<Building> buildings = new ArrayList<>();
+        Map map = GameMenuController.getGameData().getMap();
+        for (int i = 1; i <= map.getWidth(); i++) {
+            for (int j = 1; j <= map.getWidth(); j++) {
+                Cell cell = map.getCells()[i][j];
+                Building building = cell.getBuilding();
+                if (cell.hasBuilding() && building.getOwnerEmpire().equals(this)) buildings.add(building);
+            }
+        }
+        return buildings;
     }
 
     private int getVarietyOfFood() {

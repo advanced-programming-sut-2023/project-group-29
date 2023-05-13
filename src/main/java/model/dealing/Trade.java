@@ -10,7 +10,8 @@ public class Trade {
     private final int count;
     private final String message;
 
-    public Trade(PlayerNumber senderPlayer, PlayerNumber receiverPlayer, int price, Tradable tradable, int count, String message) {
+    public Trade(PlayerNumber senderPlayer, PlayerNumber receiverPlayer,
+                 int price, Tradable tradable, int count, String message) {
         this.senderPlayer = senderPlayer;
         this.receiverPlayer = receiverPlayer;
         this.price = price;
