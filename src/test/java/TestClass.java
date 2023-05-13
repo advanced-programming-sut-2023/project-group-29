@@ -13,9 +13,54 @@ public class TestClass {
         Assertions.assertEquals(AppData.getUserByUsername("ali"), user);
     }
     @Test
+    public void checkLengthOfPassword() {
+        int a = LoginMenuController.checkWeakPassword("psP@1");
+        Assertions.assertEquals(0 , a);
+    }
+    @Test
     public void checkWeakPassword() {
-        int a = LoginMenuController.checkWeakPassword("pass");
-        Assertions.assertEquals(a , 1);
+        int a = LoginMenuController.checkWeakPassword("passpass");
+        Assertions.assertEquals(1 , a);
+    }
+    @Test
+    public void checkPassword() {
+        int a = LoginMenuController.checkWeakPassword("passP@1");
+        Assertions.assertEquals(2 , a);
+    }
+    @Test
+    public void checkInvalidCommand1() {
+        int a = LoginMenuController.checkInvalidCommand("-u");
+        Assertions.assertEquals(1 , a);
+    }
+    @Test
+    public void checkInvalidCommand2() {
+        int a = LoginMenuController.checkInvalidCommand("-u -p -email -n");
+        Assertions.assertEquals(0 , a);
+    }
+    @Test
+    public void checkEmptyField1() {
+        //int a = LoginMenuController.checkEmptyFilled();
+        //Assertions.assertEquals(0 , a);
+    }
+    @Test
+    public void checkEmptyField2() {
+        int a = LoginMenuController.checkInvalidCommand("-u -p -email -n");
+        Assertions.assertEquals(0 , a);
+    }
+    @Test
+    public void checkEmptyField3() {
+        int a = LoginMenuController.checkInvalidCommand("-u -p -email -n");
+        Assertions.assertEquals(0 , a);
+    }
+    @Test
+    public void checkEmptyField4() {
+        int a = LoginMenuController.checkInvalidCommand("-u -p -email -n");
+        Assertions.assertEquals(0 , a);
+    }
+    @Test
+    public void checkEmptyField5() {
+        int a = LoginMenuController.checkInvalidCommand("-u -p -email -n");
+        Assertions.assertEquals(0 , a);
     }
 
 }

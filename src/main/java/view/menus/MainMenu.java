@@ -5,6 +5,7 @@ import controller.menucontrollers.GameMenuController;
 import controller.menucontrollers.MainMenuController;
 import model.AppData;
 import model.GameData;
+import model.SaveAndLoad;
 import model.User;
 import view.Command;
 
@@ -17,7 +18,8 @@ public class MainMenu {
             String input = scanner.nextLine();
             if (Command.getMatcher(input, Command.LOGOUT) != null) {
                 System.out.println("User logged out");
-                AppData.setStayLoggedIn(0);
+                AppData.getCurrentUser().setStayLoggedIn(0);
+                SaveAndLoad.saveData(AppData.getUsers(), AppData.getUsersDataBaseFilePath());
                 return MenuNames.LOGIN_MENU;
             } else if (Command.getMatcher(input, Command.ENTER_PROFILE_MENU) != null) {
                 return MenuNames.PROFILE_MENU;

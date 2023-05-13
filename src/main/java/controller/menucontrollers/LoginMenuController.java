@@ -73,7 +73,7 @@ public class LoginMenuController {
         return "Us against whole of the world!";
     }
 
-    private static int checkEmptyFilled(Matcher matcherExistSlogan, Matcher matcherUsername, Matcher matcherPassword, Matcher matcherNickname, Matcher matcherEmail, Matcher matcherSlogan) {
+    public static int checkEmptyFilled(Matcher matcherExistSlogan, Matcher matcherUsername, Matcher matcherPassword, Matcher matcherNickname, Matcher matcherEmail, Matcher matcherSlogan) {
         if (!matcherUsername.find()) {
             return 1;
         }
@@ -104,7 +104,7 @@ public class LoginMenuController {
         return slogan;
     }
 
-    private static int checkInvalidCommand(String input) {
+    public static int checkInvalidCommand(String input) {
         Matcher matcherExistUsername = Pattern.compile("-u").matcher(input);
         Matcher matcherExistPassword = Pattern.compile("-p").matcher(input);
         Matcher matcherExistNickname = Pattern.compile("-n").matcher(input);
@@ -190,9 +190,10 @@ public class LoginMenuController {
         }
         Matcher matcherStayLoggedIn = Pattern.compile("--stay-logged-in").matcher(input);
         if (matcherStayLoggedIn.find()) {
-            AppData.setStayLoggedIn(1);
+            AppData.getUserByUsername(username).setStayLoggedIn(1);
         }
         AppData.setCurrentUser(AppData.getUserByUsername(username));
+        SaveAndLoad.saveData(AppData.getUsers(), AppData.getUsersDataBaseFilePath());
         return "user logged in successfully!";
     }
 
@@ -219,6 +220,7 @@ public class LoginMenuController {
                 return "Your new password is weak!";
             }
             AppData.getUserByUsername(username).setPassword(password);
+            SaveAndLoad.saveData(AppData.getUsers(), AppData.getUsersDataBaseFilePath());
             return "Password changed successfully";
         }
 

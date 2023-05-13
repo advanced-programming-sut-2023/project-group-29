@@ -1,15 +1,29 @@
 package controller;
 
+import model.AppData;
+import model.SaveAndLoad;
+import model.User;
 import model.buildings.buildingTypes.*;
 import view.menus.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Controller {
     public static void run() {
+        User[] users=SaveAndLoad.loadArrayData(AppData.getUsersDataBaseFilePath(), User[].class);
+        if(users!=null)
+            AppData.setUsers(new ArrayList<>(Arrays.asList(users)));
         buildEnums();
         Scanner scanner = new Scanner(System.in);
-        MenuNames menuNames = MenuNames.LOGIN_MENU;
+        MenuNames menuNames;
+        if(AppData.checkStayLoggedIn()) {
+            menuNames = MenuNames.MAIN_MENU;
+        }
+        else {
+            menuNames = MenuNames.LOGIN_MENU;
+        }
 
         while (true) {
             switch (menuNames) {

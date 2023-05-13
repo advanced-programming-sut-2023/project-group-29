@@ -10,7 +10,6 @@ public class AppData {
     private static User currentUser;
     private static int delayInLogin = 0;
 
-    private static int stayLoggedIn = 0;
 
     public static User getUserByUsername(String username) {
         for (int i = 0; i < users.size(); i++) {
@@ -40,14 +39,6 @@ public class AppData {
 
     public static void setDelayInLogin(int delayInLogin) {
         AppData.delayInLogin = delayInLogin;
-    }
-
-    public static int getStayLoggedIn() {
-        return stayLoggedIn;
-    }
-
-    public static void setStayLoggedIn(int stayLoggedIn) {
-        AppData.stayLoggedIn = stayLoggedIn;
     }
 
     public static User getCurrentUser() {
@@ -88,5 +79,19 @@ public class AppData {
 
     public static String getUsersDataBaseFilePath() {
         return usersDataBaseFilePath;
+    }
+
+    public static void setUsers(ArrayList<User> users) {
+        AppData.users = users;
+    }
+
+    public static boolean checkStayLoggedIn() {
+        for(int i = 0; i < users.size(); i++) {
+            if(users.get(i).getStayLoggedIn() == 1) {
+                AppData.setCurrentUser(users.get(i));
+                return true;
+            }
+        }
+        return false;
     }
 }

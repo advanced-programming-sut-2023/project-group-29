@@ -15,6 +15,7 @@ public class User {
     private String slogan;
     private final String securityQuestion;
     private int highScore = 0;
+    private int stayLoggedIn = 0;
 
     public User(String username, String password, String nickname, String email, String slogan, String securityQuestion) {
         this.username = username;
@@ -99,5 +100,13 @@ public class User {
             if (empire.getUser().equals(this)) return empire;
         }
         return null;
+    }
+
+    public int getStayLoggedIn() {
+        return stayLoggedIn;
+    }
+
+    public void setStayLoggedIn(int stayLoggedIn) {
+        this.stayLoggedIn = stayLoggedIn;
     }
 }

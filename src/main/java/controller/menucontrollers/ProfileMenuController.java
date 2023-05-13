@@ -1,6 +1,7 @@
 package controller.menucontrollers;
 
 import model.AppData;
+import model.SaveAndLoad;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,6 +18,7 @@ public class ProfileMenuController {
             return "This username is already exist!";
         }
         AppData.getCurrentUser().setUsername(username);
+        SaveAndLoad.saveData(AppData.getUsers(), AppData.getUsersDataBaseFilePath());
         return "Username changed";
     }
 
@@ -43,12 +45,14 @@ public class ProfileMenuController {
         }
 
         AppData.getCurrentUser().setPassword(newPass);
+        SaveAndLoad.saveData(AppData.getUsers(), AppData.getUsersDataBaseFilePath());
         return "Password changed";
     }
 
     public static String changeNickname(Matcher matcher) {
         String nickname = matcher.group(1);
         AppData.getCurrentUser().setNickname(nickname);
+        SaveAndLoad.saveData(AppData.getUsers(), AppData.getUsersDataBaseFilePath());
         return "Nickname changed";
     }
 
@@ -58,17 +62,20 @@ public class ProfileMenuController {
             return "Check format of your email";
         }
         AppData.getCurrentUser().setEmail(email);
+        SaveAndLoad.saveData(AppData.getUsers(), AppData.getUsersDataBaseFilePath());
         return "Email changed";
     }
 
     public static String changeSlogan(Matcher matcher) {
         String slogan = matcher.group(1);
         AppData.getCurrentUser().setSlogan(slogan);
+        SaveAndLoad.saveData(AppData.getUsers(), AppData.getUsersDataBaseFilePath());
         return "Slogan changed";
     }
 
     public static String removeSlogan() {
         AppData.getCurrentUser().setSlogan("");
+        SaveAndLoad.saveData(AppData.getUsers(), AppData.getUsersDataBaseFilePath());
         return "Your slogan removed";
     }
 

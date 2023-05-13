@@ -8,6 +8,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class SaveAndLoad {
 
@@ -41,6 +44,16 @@ public class SaveAndLoad {
             ioException.printStackTrace();
         }
 
+        return null;
+    }
+    public static <T> T[] loadArrayData(String filePath, Class<T[]> listClass) {
+        Gson gson = new Gson();
+
+        try (FileReader fileReader = new FileReader(filePath)) {
+            return gson.fromJson(fileReader, listClass);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
         return null;
     }
 
