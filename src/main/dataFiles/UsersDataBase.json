@@ -1,17 +1,7 @@
 [
   {
-    "username": "ali",
-    "password": "ae43fbc08456cbee9bf38455653de40ce937d007fc1e29ed1e9042aa6ea8e6a3",
-    "nickname": "ali",
-    "email": "a@a.a",
-    "slogan": "",
-    "securityQuestion": "1 ali",
-    "highScore": 0,
-    "stayLoggedIn": 0
-  },
-  {
     "username": "hossein1",
-    "password": "2@Seyed200",
+    "password": "c1ac98106760503f4263aa5a45f4653cc6dbd15c9440b18b108ad668d4bd46da",
     "nickname": "thebest1",
     "email": "Bandeh200@gmail.com",
     "slogan": "I see noOne1",
@@ -21,7 +11,7 @@
   },
   {
     "username": "hossein2",
-    "password": "2@Seyed201",
+    "password": "67695bba8326c906c86bf582601b1efe405998c218ec75835d58ed16648ddd20",
     "nickname": "thebest2",
     "email": "Bandeh201@gmail.com",
     "slogan": "we are the best",
@@ -31,7 +21,7 @@
   },
   {
     "username": "hossein3",
-    "password": "2@Seyed202",
+    "password": "30bde9f9a48e18df0bf75871287a6bd0e86fe0de3e621b7aca3abf234d32c198",
     "nickname": "thebest3",
     "email": "Bandeh202@gmail.com",
     "slogan": "I see noOne3",
@@ -41,9 +31,49 @@
   },
   {
     "username": "hossein4",
-    "password": "2@Seyed203",
+    "password": "57d1671a22956aac14cd152a31f59ffa18e35cbcdad576e681f9c93fa80b2b9f",
     "nickname": "thebest4",
     "email": "Bandeh203@gmail.com",
+    "slogan": "I see noOne4",
+    "securityQuestion": "1 morteza4",
+    "highScore": 0,
+    "stayLoggedIn": 0
+  },
+  {
+    "username": "hossein5",
+    "password": "57d1671a22956aac14cd152a31f59ffa18e35cbcdad576e681f9c93fa80b2b9f",
+    "nickname": "thebest5",
+    "email": "Bandeh204@gmail.com",
+    "slogan": "I see noOne4",
+    "securityQuestion": "1 morteza4",
+    "highScore": 0,
+    "stayLoggedIn": 0
+  },
+  {
+    "username": "hossein6",
+    "password": "57d1671a22956aac14cd152a31f59ffa18e35cbcdad576e681f9c93fa80b2b9f",
+    "nickname": "thebest6",
+    "email": "Bandeh205@gmail.com",
+    "slogan": "I see noOne4",
+    "securityQuestion": "1 morteza4",
+    "highScore": 0,
+    "stayLoggedIn": 0
+  },
+  {
+    "username": "hossein7",
+    "password": "57d1671a22956aac14cd152a31f59ffa18e35cbcdad576e681f9c93fa80b2b9f",
+    "nickname": "thebest7",
+    "email": "Bandeh206@gmail.com",
+    "slogan": "I see noOne4",
+    "securityQuestion": "1 morteza4",
+    "highScore": 0,
+    "stayLoggedIn": 0
+  },
+  {
+    "username": "hossein8",
+    "password": "57d1671a22956aac14cd152a31f59ffa18e35cbcdad576e681f9c93fa80b2b9f",
+    "nickname": "thebest8",
+    "email": "Bandeh207@gmail.com",
     "slogan": "I see noOne4",
     "securityQuestion": "1 morteza4",
     "highScore": 0,

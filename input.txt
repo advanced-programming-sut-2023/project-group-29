@@ -6,16 +6,23 @@ user create -u hossein3 -p 2@Seyed202 2@Seyed202 -email Bandeh202@gmail.com -n t
 question pick -q 1 -a morteza3 -c morteza3
 user create -u hossein4 -p 2@Seyed203 2@Seyed203 -email Bandeh203@gmail.com -n thebest4 -s I see noOne4
 question pick -q 1 -a morteza4 -c morteza4
+user create -u hossein5 -p 2@Seyed203 2@Seyed203 -email Bandeh204@gmail.com -n thebest5 -s I see noOne4
+question pick -q 1 -a morteza4 -c morteza4
+user create -u hossein6 -p 2@Seyed203 2@Seyed203 -email Bandeh205@gmail.com -n thebest6 -s I see noOne4
+question pick -q 1 -a morteza4 -c morteza4
+user create -u hossein7 -p 2@Seyed203 2@Seyed203 -email Bandeh206@gmail.com -n thebest7 -s I see noOne4
+question pick -q 1 -a morteza4 -c morteza4
+user create -u hossein8 -p 2@Seyed203 2@Seyed203 -email Bandeh207@gmail.com -n thebest8 -s I see noOne4
+question pick -q 1 -a morteza4 -c morteza4
 user login -u hossein2 -p 2@Seyed201
 start a new game
 add to game -u hossein1
 add to game -u hossein2
 add to game -u hossein3
-add to game -u hossein4
 choose map 2
 ready
 show popularity factors
-show map -x 5 -y 5
+show map -x 5 -y 10
 create building -x 6 -y 5 -t oilSmelter
 show map -x 5 -y 5
 drop unit -x 6 -y 5 -t engineer -c 1 -n 1
