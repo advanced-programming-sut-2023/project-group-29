@@ -8,11 +8,11 @@ import model.buildings.buildingTypes.OtherBuildingsType;
 import model.map.Cell;
 import model.map.Map;
 import model.UnitState;
+import model.people.Human;
 import model.people.humanClasses.Soldier;
 import model.people.humanTypes.SoldierType;
 import model.weapons.weaponClasses.OffensiveWeapons;
 import model.weapons.weaponTypes.OffensiveWeaponsType;
-import org.checkerframework.checker.units.qual.A;
 import view.messages.SelectUnitMenuMessages;
 
 import java.util.ArrayList;
@@ -459,9 +459,17 @@ public class SelectUnitMenuController {
         return null;
     }
 
-    public static String disbandUnit() {
-        //todo pointive abbasfar for later
-        return null;
+    public static void disbandUnit() {
+        GameData gameData = GameMenuController.getGameData();
+        int x = gameData.getSelectedCellX();
+        int y = gameData.getSelectedCellY();
+        Cell selectedCell = gameData.getMap().getCells()[x][y];
+        Empire empire = gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn());
+        ArrayList<Movable> movingObjects = selectedCell.getMovingObjectsOfPlayer(gameData.getPlayerOfTurn());
+        int numberBeforeDisband = movingObjects.size();
+        movingObjects.removeIf(movable -> movable instanceof Human);
+        int change = movingObjects.size() - numberBeforeDisband;
+        empire.changeWorklessPopulation(change);
     }
 
     static class DamageStruct {

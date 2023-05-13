@@ -28,7 +28,7 @@ public class SelectUnitMenu {
                 digTunnel(matcher);
             } else if ((matcher = Command.getMatcher(input, Command.BUILD_EQUIPMENT)) != null) {
                 buildEquipment(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.DISBAND_UNIT)) != null) {
+            } else if (Command.getMatcher(input, Command.DISBAND_UNIT) != null) {
                 disbandUnit();
             } else if ((matcher = Command.getMatcher(input, Command.BACK_GAME_MENU)) != null) {
                 return MenuNames.GAME_MENU;
@@ -129,6 +129,7 @@ public class SelectUnitMenu {
     }
 
     private static void disbandUnit() {
-        System.out.println(SelectUnitMenuController.disbandUnit());
+        SelectUnitMenuController.disbandUnit();
+        System.out.println("Disband was successfully done!");
     }
 }
