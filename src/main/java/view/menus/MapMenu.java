@@ -334,4 +334,8 @@ public class MapMenu {
             case SUCCESSFUL -> System.out.println("The building was dropped successfully!");
         }
     }
+
+    public static void messageOfSetTexture (int x, int y) {
+        System.out.println("You can't change texture of this cell.(" + x + ", " + y + ") ");
+    }
 }

@@ -14,6 +14,7 @@ import model.weapons.Weapon;
 import model.weapons.weaponClasses.Equipments;
 import model.weapons.weaponClasses.OffensiveWeapons;
 import model.weapons.weaponClasses.StaticOffensiveWeapons;
+import view.menus.MapMenu;
 import view.messages.MapMenuMessages;
 
 import java.util.ArrayList;
@@ -186,13 +187,20 @@ public class MapMenuController {
     }
 
     public static String setBlockTexture(CellType cellType, int x, int y) {
+        if(GameMenuController.getGameData().getMap().getCells()[x][y].hasBuilding()) {
+            return "You can't change texture of this cell!";
+        }
         GameMenuController.getGameData().getMap().getCells()[x][y].setCellType(cellType);
         return "Type of the cell was successfully changed";
     }
 
     public static String setPartOfBlockTexture(CellType cellType, int x1, int y1, int x2, int y2) {
         for (int i = x1; i <= x2; i++) {
-            for (int j = y1; j < y2; j++) {
+            for (int j = y1; j <= y2; j++) {
+                if(GameMenuController.getGameData().getMap().getCells()[i][j].hasBuilding()) {
+                    MapMenu.messageOfSetTexture(i, j);
+                    continue;
+                }
                 GameMenuController.getGameData().getMap().getCells()[i][j].setCellType(cellType);
             }
         }
@@ -200,6 +208,9 @@ public class MapMenuController {
     }
 
     public static String clear(int xPosition, int yPosition) {
+        if(GameMenuController.getGameData().getMap().getCells()[xPosition][yPosition].hasBuilding()) {
+            return "You can't change texture of this cell!";
+        }
         GameMenuController.getGameData().getMap().getCells()[xPosition][yPosition].setCellType(CellType.PLAIN_GROUND);
         return "Type of the cell was successfully cleared";
     }
