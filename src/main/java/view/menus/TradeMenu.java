@@ -48,7 +48,6 @@ public class TradeMenu {
                 matcherExistMessage.group(1),
                 Integer.parseInt(matcherExistNumberOfAnotherPlayer.group(1))));
     }
-    //todo index +1
     private static void showTradeList() {
         System.out.println(TradeMenuController.showTradeList());
     }

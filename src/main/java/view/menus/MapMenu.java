@@ -166,7 +166,7 @@ public class MapMenu {
         }
         int x = Integer.parseInt(xMatcher.group(1));
         int y = Integer.parseInt(yMatcher.group(1));
-        MapMenuController.clear(x, y);
+        System.out.println(MapMenuController.clear(x, y));
     }
 
     private static void dropRock(Matcher matcher) {
@@ -198,7 +198,7 @@ public class MapMenu {
                 direction = "s";
             }
         }
-        MapMenuController.dropRock(x, y, direction);
+        System.out.println(MapMenuController.dropRock(x, y, direction));
     }
 
     private static void dropTree(Matcher matcher) {
@@ -261,7 +261,12 @@ public class MapMenu {
             System.out.println("Invalid type of soldier!");
             return;
         }
-        System.out.println(MapMenuController.dropUnit(x, y, type, count, playerNumberInt));
+        MapMenuMessages mapMenuMessages = MapMenuController.dropUnit(x, y, type, count, playerNumberInt);
+        switch (mapMenuMessages) {
+            case INVALID_UNIT_NAME -> System.out.println("Invalid unit name!");
+            case INVALID_INDEX -> System.out.println("Invalid index!");
+            case SUCCESSFUL -> System.out.println("You dropped your unit successfully!");
+        }
     }
 
     private static void showMap(Matcher matcher) {

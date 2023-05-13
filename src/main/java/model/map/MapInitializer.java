@@ -20,7 +20,6 @@ public class MapInitializer {
         };
     }
 
-    //در داک گفته شده که یک انبار باید در کنار مقر اصلی به صورت پیش فرض ساخته شود. faratin todo
     private static Map initializeFirstMap(GameData gameData) {
         Map firstMap = new Map(200, 8);
         if (gameData.getNumberOfPlayers() < firstMap.getUsersCount()) {

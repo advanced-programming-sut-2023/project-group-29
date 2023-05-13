@@ -29,7 +29,7 @@ public enum Command {
     DISPLAY_PROFILE("\\s*profile\\s+display\\s*"),
     BACK_MAIN_MENU("\\s*back\\s*"),
     NEXT_TURN("\\s*next\\s+turn\\s*"),
-    SHOW_MAP("\\s*show\\s+map\\s+-[xy]\\s+(\\d+)\\s+-[yx]\\s+(\\d+)\\s*"), //todo
+    SHOW_MAP("\\s*show\\s+map\\s+-[xy]\\s+(\\d+)\\s+-[yx]\\s+(\\d+)\\s*"),
     SHOW_DETAILS("\\s*show\\s+details\\s+-[xy]\\s+(\\d+)\\s+-[yx]\\s+(\\d+)\\s*"),
     SHOW_POPULARITY_FACTORS("\\s*show\\s+popularity\\s+factors\\s*"),
     SHOW_POPULARITY("\\s*show\\s+popularity\\s*"),

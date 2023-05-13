@@ -3,6 +3,7 @@ package view.menus;
 import controller.MenuNames;
 import controller.menucontrollers.SelectUnitMenuController;
 import view.Command;
+import view.messages.SelectUnitMenuMessages;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -84,7 +85,12 @@ public class SelectUnitMenu {
             System.out.println("Invalid state!");
             return;
         }
-        System.out.println(SelectUnitMenuController.setStateOfUnit(x, y, state));
+        SelectUnitMenuMessages selectUnitMenuMessages = SelectUnitMenuController.setStateOfUnit(x, y, state);
+        switch (selectUnitMenuMessages) {
+            case INVALID_INDEX -> System.out.println("Invalid index!");
+            case INVALID_STATE -> System.out.println("Invalid state!");
+            case SUCCESSFUL -> System.out.println("State of unit was set successfully");
+        }
     }
 
     private static void Attack(Matcher matcher) {
@@ -97,7 +103,6 @@ public class SelectUnitMenu {
         }
         int x=Integer.parseInt(xMatcher.group(1));
         int y=Integer.parseInt(yMatcher.group(1));
-
         System.out.println(SelectUnitMenuController.makeUnitAttacking(x,y));
     }
 
@@ -107,7 +112,15 @@ public class SelectUnitMenu {
             System.out.println("Invalid command!");
             return;
         }
-        System.out.println(SelectUnitMenuController.pourOil(direction));
+        SelectUnitMenuMessages selectUnitMenuMessages = SelectUnitMenuController.pourOil(direction);
+        switch (selectUnitMenuMessages) {
+            case INVALID_DIRECTION -> System.out.println("Invalid direction!");
+            case NO_PROPER_UNIT -> System.out.println("There was no proper unit!");
+            case INVALID_INDEX -> System.out.println("Invalid index!");
+            case TOO_FAR -> System.out.println("Your direction was too far!");
+            case HAS_ATTACKED -> System.out.println("You hasn't any attack in this turn!");
+            case SUCCESSFUL -> System.out.println("You poured oil successfully");
+        }
     }
 
     private static void digTunnel(Matcher matcher) {
@@ -120,7 +133,15 @@ public class SelectUnitMenu {
         }
         int x = Integer.parseInt(xMatcher.group(1));
         int y = Integer.parseInt(yMatcher.group(1));
-        System.out.println(SelectUnitMenuController.digTunnel(x, y));
+        SelectUnitMenuMessages selectUnitMenuMessages = SelectUnitMenuController.digTunnel(x, y);
+        switch (selectUnitMenuMessages) {
+            case NO_PROPER_UNIT -> System.out.println("There was no proper unit!");
+            case INVALID_INDEX -> System.out.println("Invalid index!");
+            case TOO_FAR -> System.out.println("Your direction was too far!");
+            case HAS_ATTACKED -> System.out.println("You hasn't any attack in this turn!");
+            case SUCCESSFUL -> System.out.println("You poured oil successfully");
+            case INVALID_PLACE_FOR_DIGGING_TUNNEL -> System.out.println("Invalid place for digging tunnel!");
+        }
     }
 
     private static void buildEquipment(Matcher matcher) {

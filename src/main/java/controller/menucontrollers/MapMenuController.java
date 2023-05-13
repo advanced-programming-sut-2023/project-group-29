@@ -187,7 +187,7 @@ public class MapMenuController {
 
     public static String setBlockTexture(CellType cellType, int x, int y) {
         GameMenuController.getGameData().getMap().getCells()[x][y].setCellType(cellType);
-        return "Type of the cell was successfully change";
+        return "Type of the cell was successfully changed";
     }
 
     public static String setPartOfBlockTexture(CellType cellType, int x1, int y1, int x2, int y2) {
@@ -196,19 +196,22 @@ public class MapMenuController {
                 GameMenuController.getGameData().getMap().getCells()[i][j].setCellType(cellType);
             }
         }
-        return "Type of the cells were successfully change";
+        return "Type of the cells were successfully changed";
     }
 
-    public static void clear(int xPosition, int yPosition) {
+    public static String clear(int xPosition, int yPosition) {
+        GameMenuController.getGameData().getMap().getCells()[xPosition][yPosition].setCellType(CellType.PLAIN_GROUND);
+        return "Type of the cell was successfully cleared";
     }
 
-    public static void dropRock(int xPosition, int yPosition, String direction) {
-        switch (direction) {
+    public static String dropRock(int xPosition, int yPosition, String direction) {
+        String result = switch (direction) {
             case "n" -> setBlockTexture(CellType.UP_ROCK, xPosition, yPosition);
             case "e" -> setBlockTexture(CellType.RIGHT_ROCK, xPosition, yPosition);
             case "s" -> setBlockTexture(CellType.DOWN_ROCK, xPosition, yPosition);
             case "w" -> setBlockTexture(CellType.LEFT_ROCK, xPosition, yPosition);
-        }
+        };
+        return result;
     }
 
     public static String dropTree(int xPosition, int yPosition, TreeType treeType) {
