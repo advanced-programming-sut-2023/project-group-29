@@ -26,7 +26,7 @@ public class LoginMenuController {
     }
 
     public static int checkEmailFormat(String email) {
-        Pattern patternOfFormatOfEmail = Pattern.compile("\\S+@\\S+.\\S+");
+        Pattern patternOfFormatOfEmail = Pattern.compile("\\S+@\\S+\\.\\S+");
         Matcher matcherOfFormatOfEmail = patternOfFormatOfEmail.matcher(email);
         if (matcherOfFormatOfEmail.matches()) {
             return 1;
@@ -34,7 +34,7 @@ public class LoginMenuController {
         return 0;
     }
 
-    private static String createRandomPassword(String username) {
+    public static String createRandomPassword() {
         String output = "";
         Random random = new Random();
         int charAscii = 0;
@@ -92,7 +92,7 @@ public class LoginMenuController {
         return 0;
     }
 
-    private static String getSlogan(Matcher matcherExistSlogan, Matcher matcherSlogan) {
+    public static String getSlogan(Matcher matcherExistSlogan, Matcher matcherSlogan) {
         String slogan = "";
         if (matcherExistSlogan.matches()) {
             if (!matcherSlogan.group(1).equals("random")) {
@@ -156,7 +156,7 @@ public class LoginMenuController {
                 return "Please enter password confirmation correctly!";
             }
         } else {
-            password = createRandomPassword(username);
+            password = createRandomPassword();
             if (password.equals("Incorrect password!")) {
                 return "Incorrect password!";
             }
