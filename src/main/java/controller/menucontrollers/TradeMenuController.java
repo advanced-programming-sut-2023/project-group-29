@@ -26,16 +26,22 @@ public class TradeMenuController {
         }
         if(trueType == 0) {
             System.out.println(type);
-            return "Invalid type of tradable!";
+            return "Invalid type of tradable!\n";
         }
         if (numberOfAnotherPlayer < 1 || numberOfAnotherPlayer > GameMenuController.getGameData().getEmpires().size()) {
-            return "Invalid number of another player!";
+            return "Invalid number of another player!\n";
         }
         if(Integer.parseInt(amount) < 0) {
-            return "Invalid amount!";
+            return "Invalid amount!\n";
         }
         if(Integer.parseInt(price) < 0) {
-            return "Invalid price!";
+            return "Invalid price!\n";
+        }
+        int amountInt = Integer.parseInt(amount);
+        GameData gameData = GameMenuController.getGameData();
+        Empire empire = gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn());
+        if (empire.getTradableAmount(tradable) < amountInt) {
+            return "You don't have enough commodity!\n";
         }
         Trade trade = new Trade(GameMenuController.getGameData().getPlayerOfTurn(),
                 PlayerNumber.getPlayerByIndex(numberOfAnotherPlayer - 1),
@@ -49,7 +55,7 @@ public class TradeMenuController {
                 (PlayerNumber.getPlayerByIndex(numberOfAnotherPlayer - 1)).addTrade(trade);
         GameMenuController.getGameData().getEmpireByPlayerNumber
                 (PlayerNumber.getPlayerByIndex(numberOfAnotherPlayer - 1)).addNewTrade(trade);
-        return "Your trade was recorded";
+        return "Your trade was recorded\n";
     }
 
     public static String showTradeList() {

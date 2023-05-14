@@ -122,7 +122,7 @@ public class LoginMenuController {
         Matcher matcherUsername = Pattern.compile
                 ("-u\\s+(?<username>\\w[^-&^\\s]+\\S)").matcher(input);
         Matcher matcherPassword = Pattern.compile("-p\\s+(?<password>\\S[^-&^\\s]+\\S)\\s+" +
-                        "(?<passwordConfirmation>\\S[^-&^\\s]+\\S+)?").matcher(input);
+                "(?<passwordConfirmation>\\S[^-&^\\s]+\\S+)?").matcher(input);
         Matcher matcherNickname = Pattern.compile("-n\\s+(?<nickname>\\w[^-&^\\s]+\\S)").matcher(input);
         Matcher matcherEmail = Pattern.compile("-email\\s+(?<email>\\w[^-&^\\s]+\\S)").matcher(input);
         Matcher matcherExistSlogan = Pattern.compile(".+-s.+").matcher(input);
@@ -175,7 +175,7 @@ public class LoginMenuController {
         }
         String hashPassword = SaveAndLoad.hashString(password);
         String securityQuestion = LoginMenu.checkSecurityQuestion();
-        if(!captcha()) {
+        if (!captcha()) {
             return "Your register doesn't complete!";
         }
         User user = new User(username, hashPassword, matcherNickname.group(1), matcherEmail.group(1),
@@ -200,7 +200,7 @@ public class LoginMenuController {
         } else if (!AppData.getUserByUsername(username).getPassword().equals(SaveAndLoad.hashString(password))) {
             return "Username and password didn't match!";
         }
-        if(!captcha()) {
+        if (!captcha()) {
             return "You can't logged in!";
         }
         Matcher matcherStayLoggedIn = Pattern.compile("--stay-logged-in").matcher(input);
@@ -241,6 +241,7 @@ public class LoginMenuController {
 
         return "Wrong answer!";
     }
+
     public static String[] graphicNumbers(int x) {
         String zero[] = {" 0000 ", "00  00", "00  00", "00  00", " 0000 "};
         String one[] = {"1111  ", "  11  ", "  11  ", "  11  ", "111111"};
@@ -275,18 +276,19 @@ public class LoginMenuController {
         }
         return null;
     }
+
     public static Boolean captcha() {
         Random random = new Random();
         int numberOfNumbers = random.nextInt();
         numberOfNumbers = numberOfNumbers % 8;
         numberOfNumbers++;
-        if(numberOfNumbers < 4) {
+        if (numberOfNumbers < 4) {
             numberOfNumbers = 4;
         }
         String output[] = new String[5];
         int myCaptcha = 0;
         int result = 0;
-        for(int i = 0; i < numberOfNumbers; i++) {
+        for (int i = 0; i < numberOfNumbers; i++) {
             myCaptcha = random.nextInt();
             myCaptcha = (myCaptcha * myCaptcha) % 10;
             if (myCaptcha < 0) {
@@ -294,19 +296,32 @@ public class LoginMenuController {
             }
             result = (result * 10) + myCaptcha;
             String[] y1 = graphicNumbers(myCaptcha);
-            if(i == 0) {
-                output[0] = y1[0] + "  ";
-                output[1] = y1[1] + "  ";
-                output[2] = y1[2] + "  ";
-                output[3] = y1[3] + "  ";
-                output[4] = y1[4] + "  ";
-            }
-            else {
-                output[0] += y1[0] + "  ";
-                output[1] += y1[1] + "  ";
-                output[2] += y1[2] + "  ";
-                output[3] += y1[3] + "  ";
-                output[4] += y1[4] + "  ";
+            int randomSpace;
+            if (i == 0) {
+                for (int j = 0; j < 5; j++) {
+                    randomSpace = (random.nextInt() % 5) + 1;
+                    output[j] = y1[j] + switch (randomSpace) {
+                        case 1 -> "*    ";
+                        case 2 -> " *   ";
+                        case 3 -> "  *  ";
+                        case 4 -> "   * ";
+                        case 5 -> "    *";
+                        default -> "     ";
+                    };
+                }
+            } else {
+                for (int j = 0; j < 5; j++) {
+                    randomSpace = (random.nextInt() % 2) + 1;
+                    output[j] += y1[j] + switch (randomSpace) {
+                        case 1 -> "*    ";
+                        case 2 -> " *   ";
+                        case 3 -> "  *  ";
+                        case 4 -> "   * ";
+                        case 5 -> "    *";
+                        default -> "     ";
+                    };
+
+                }
             }
         }
         String answer = LoginMenu.captcha(output);

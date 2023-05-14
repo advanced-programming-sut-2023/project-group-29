@@ -14,23 +14,33 @@ user create -u hossein7 -p 2@Seyed203 2@Seyed203 -email Bandeh206@gmail.com -n t
 question pick -q 1 -a morteza4 -c morteza4
 user create -u hossein8 -p 2@Seyed203 2@Seyed203 -email Bandeh207@gmail.com -n thebest8 -s I see noOne4
 question pick -q 1 -a morteza4 -c morteza4
+user create -u hossein9 -p 2@Seyed203 2@Seyed203 -email Bandeh208@gmail.com -n thebest8 -s I see noOne4
+question pick -q 1 -a morteza4 -c morteza4
 user login -u hossein2 -p 2@Seyed201
 start a new game
 add to game -u hossein1
 add to game -u hossein2
 add to game -u hossein3
-choose map 2
+add to game -u hossein4
+add to game -u hossein5
+add to game -u hossein6
+add to game -u hossein7
+add to game -u hossein8
+add to game -u hossein9
+choose map 1
 ready
 show popularity factors
 show map -x 5 -y 10
-create building -x 6 -y 5 -t oilSmelter
-show map -x 5 -y 5
 drop unit -x 6 -y 5 -t engineer -c 1 -n 1
-show map -x 5 -y 5
+create building -x 6 -y 5 -t oilSmelter
+create building -x 5 -y 6 -t church
 back
+show popularity
 next turn
 next turn
 next turn
 next turn
-
-show map -x 5 -y 5
+next turn
+next turn
+next turn
+next turn

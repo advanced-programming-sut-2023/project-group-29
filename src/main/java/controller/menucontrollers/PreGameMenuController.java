@@ -22,7 +22,7 @@ public class PreGameMenuController {
     }
 
     public static PreGameMenuMessages chooseMap(int index) {
-        if (index > MapInitializer.getDefaultMapCounts()) {
+        if (index > MapInitializer.getDefaultMapCounts() || index == 0) {
             return PreGameMenuMessages.OUT_OF_RANGE;
         }
         Map map = MapInitializer.initialize(index, GameMenuController.getGameData());

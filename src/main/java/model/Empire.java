@@ -308,10 +308,10 @@ public class Empire {
 
 
     public void buyBuilding(String buildingName) {
-        changeWealth(Building.getNeededResource(0, buildingName));
-        changeTradableAmount(Resource.STONE, Building.getNeededResource(1, buildingName));
-        changeTradableAmount(Resource.WOOD, Building.getNeededResource(2, buildingName));
-        changeTradableAmount(Resource.IRON, Building.getNeededResource(3, buildingName));
+        changeWealth(-Building.getNeededResource(0, buildingName));
+        changeTradableAmount(Resource.STONE, -Building.getNeededResource(1, buildingName));
+        changeTradableAmount(Resource.WOOD, -Building.getNeededResource(2, buildingName));
+        changeTradableAmount(Resource.IRON, -Building.getNeededResource(3, buildingName));
     }
 
     public boolean canBuyBuilding(String buildingName) {

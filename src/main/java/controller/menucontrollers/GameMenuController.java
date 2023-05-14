@@ -40,7 +40,7 @@ public class GameMenuController {
         output += "factor 1: religion -> " + empire.getPopularityChange(Empire.PopularityFactors.RELIGION) + "\n";
         output += "factor 2: tax rate -> " + empire.getPopularityChange(Empire.PopularityFactors.TAX) + "\n";
         output += "factor 3: fear rate -> " + empire.getPopularityChange(Empire.PopularityFactors.FEAR) + "\n";
-        output += "factor 4: food variation -> " + empire.getPopularityChange(Empire.PopularityFactors.FOOD);
+        output += "factor 4: food rate -> " + empire.getPopularityChange(Empire.PopularityFactors.FOOD);
         return output;
     }
 

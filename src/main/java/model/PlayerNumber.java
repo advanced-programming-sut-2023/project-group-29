@@ -51,7 +51,8 @@ public enum PlayerNumber {
     }
 
     public void dead() {
-        GameMenuController.notify("You have lost your main keep and you can't play any more!");
+        GameMenuController.notify("Player number" + this.number + "\n" +
+                "You have lost your main keep and you can't play any more!");
         Map map = GameMenuController.getGameData().getMap();
         Empire deadEmpire = GameMenuController.getGameData().getEmpireByPlayerNumber(this);
         for (int i = 1; i <= map.getWidth(); i++) {

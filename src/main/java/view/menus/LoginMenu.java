@@ -107,8 +107,7 @@ public class LoginMenu {
         for(int i = 0; i < 5; i++) {
             System.out.println(mtCaptcha[i]);
         }
-        Scanner myscanner = new Scanner(System.in);
-        String answer = myscanner.nextLine();
+        String answer = scanner.nextLine();
         return answer;
     }
 }

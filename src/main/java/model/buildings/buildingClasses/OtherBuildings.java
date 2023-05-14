@@ -49,8 +49,8 @@ public class OtherBuildings extends Building {
     private void convertEngineerToEngineerWithOil(Soldier soldier, Cell currentCell) {
         PlayerNumber playerNumber = GameMenuController.getGameData().getPlayerOfTurn();
         currentCell.getMovingObjects().remove(soldier);
-        MapMenuController.dropUnit
-                (getPositionX(), getPositionY(), "engineerWithOil", 1,playerNumber.getNumber());
+        MapMenuController.dropUnit(getPositionX(), getPositionY(),
+                "engineerWithOil", 1,playerNumber.getNumber() + 1);
     }
 
     private Soldier findEngineer(Cell currentCell) {

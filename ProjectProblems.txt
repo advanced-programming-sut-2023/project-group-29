@@ -1,14 +1,5 @@
-abbasfar
+abbasfar {
 pour oil can be handled with trash
 test pour oil
-
-faratin:
-move up left right number
-add noise to captcha
-
-jasbi:
-ctr alt l
-
-
-
 check warning for unused things!
+}

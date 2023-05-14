@@ -22,7 +22,7 @@ public class MapInitializer {
 
     private static Map initializeFirstMap(GameData gameData) {
         Map firstMap = new Map(200, 8);
-        if (gameData.getNumberOfPlayers() < firstMap.getUsersCount()) {
+        if (gameData.getNumberOfPlayers() != firstMap.getUsersCount()) {
             return null;
         }
         Cell[][] cells = firstMap.getCells();
@@ -61,7 +61,7 @@ public class MapInitializer {
     private static Map initializeSecondMap(GameData gameData)
     {
         Map secondMap=new Map(200,3);
-        if (gameData.getNumberOfPlayers() < secondMap.getUsersCount()) {
+        if (gameData.getNumberOfPlayers() != secondMap.getUsersCount()) {
             return null;
         }
         Cell[][] cells=secondMap.getCells();

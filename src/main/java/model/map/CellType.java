@@ -69,7 +69,8 @@ public enum CellType {
         } else if (ResourceExtractorType.PITCH_RIG.equals(buildType)) {
             return this.equals(CellType.PLAIN);
         }
-        return this.equals(CellType.PLAIN_GROUND) || this.equals(CellType.MEADOW) ||
-                this.equals(CellType.GRASS) || this.equals(CellType.DENSE_MEADOW);
+        return this.equals(CellType.PLAIN_GROUND) || this.equals(CellType.MEADOW)
+                || this.equals(CellType.GRASS) || this.equals(CellType.DENSE_MEADOW)
+                || this.equals(CellType.GROUND_WITH_PEBBLES);
     }
 }
