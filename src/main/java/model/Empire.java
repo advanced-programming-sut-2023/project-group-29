@@ -2,7 +2,8 @@ package model;
 
 import controller.menucontrollers.GameMenuController;
 import model.buildings.Building;
-import model.buildings.buildingClasses.UnitCreator;
+import model.buildings.buildingClasses.*;
+import model.buildings.buildingTypes.ProductProcessorType;
 import model.dealing.*;
 import model.map.Cell;
 import model.map.Map;
@@ -125,15 +126,28 @@ public class Empire {
             tradableAmounts.put(resource, 50);
         }
         for (Product product : Product.values()) {
-            tradableAmounts.put(product, 20);
+            tradableAmounts.put(product, 0);
         }
         for (Food food : Food.values()) {
             tradableAmounts.put(food, 0);
         }
+        storage[0][1] = 200;
     }
 
     public void changeTradableAmount(Tradable tradable, int amount) {
         tradableAmounts.replace(tradable, tradableAmounts.get(tradable) + amount);
+        if (tradable instanceof Food) {
+            storage[0][0] += amount;
+        }
+        if (tradable instanceof Resource) {
+            storage[0][1] += amount;
+        }
+        if (tradable instanceof Product product){
+            switch (product){
+                case BOW,SWORD,PIKE,ARMOUR -> storage[0][2] += amount;
+                default -> storage[0][1] += amount;
+            }
+        }
     }
 
     public int getTradableAmount(Tradable tradable) {
@@ -148,7 +162,31 @@ public class Empire {
         makeCapacitiesZero();
         makePossiblePopulationZero();
         for (Building building : getBuildings()) {
-            building.update();
+            if (building instanceof Store) building.update();
+        }
+        for (Building building : getBuildings()) {
+            if (building instanceof Accommodation) building.update();
+        }
+        for (Building building : getBuildings()) {
+            if (building instanceof ProductExtractor ||
+                    building instanceof ResourceExtractor) building.update();
+        }
+        for (Building building : getBuildings()) {
+            if (building instanceof ResourceProcessor) building.update();
+        }
+        for (Building building : getBuildings()) {
+            if (building instanceof ProductProcessor productProcessor
+                    && (productProcessor.getProductProcessorType().equals(ProductProcessorType.MILL)
+                    || productProcessor.getProductProcessorType().equals(ProductProcessorType.BEER_BREWING))){
+                building.update();
+            }
+        }
+        for (Building building : getBuildings()) {
+            if (building instanceof ProductProcessor productProcessor
+                    && (productProcessor.getProductProcessorType().equals(ProductProcessorType.BAKERY)
+                    || productProcessor.getProductProcessorType().equals(ProductProcessorType.INN))) {
+                building.update();
+            }
         }
     }
 
@@ -168,10 +206,6 @@ public class Empire {
 
     public void addStorage(int capacity, int switcher) {
         storage[1][switcher] += capacity;
-    }
-
-    public void fillStorage(int switcher, int change) {
-        storage[0][switcher] += change;
     }
 
     @Override
@@ -347,10 +381,6 @@ public class Empire {
 
     public ArrayList<Trade> getTradesHistory() {
         return tradesHistory;
-    }
-
-    public void setTradesHistory(ArrayList<Trade> trades) {
-        this.tradesHistory = trades;
     }
 
     public void addTradeHistory(Trade trade) {

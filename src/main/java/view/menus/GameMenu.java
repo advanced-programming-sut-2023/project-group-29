@@ -65,7 +65,10 @@ public class GameMenu {
                 enterTradeMenu();
                 return MenuNames.TRADE_MENU;
             } else if (Command.getMatcher(input, Command.ENTER_SHOP_MENU) != null) {
-                if (!GameMenuController.isAnyMarket()) continue;
+                if (!GameMenuController.isAnyMarket()) {
+                    System.out.println("You don't have any market!");
+                    continue;
+                }
                 return MenuNames.SHOP_MENU;
             } else if (Command.getMatcher(input, Command.BACK_MAIN_MENU) != null) {
                 if (confirmationOfExist() == 1) {

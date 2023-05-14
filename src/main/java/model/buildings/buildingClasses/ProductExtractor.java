@@ -39,7 +39,5 @@ public class ProductExtractor extends Building {
         Empire ownerEmpire=this.getOwnerEmpire();
         int change = Math.min(ownerEmpire.getEmptySpace(switcher), rate + ownerEmpire.getFearRate());
         ownerEmpire.changeTradableAmount(producingTradable, change);
-        ownerEmpire.fillStorage(switcher, change);
-
     }
 }

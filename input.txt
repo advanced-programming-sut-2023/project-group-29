@@ -29,13 +29,35 @@ add to game -u hossein8
 add to game -u hossein9
 choose map 1
 ready
-show popularity factors
-show map -x 5 -y 10
-drop unit -x 6 -y 5 -t engineer -c 1 -n 1
-create building -x 6 -y 5 -t oilSmelter
-create building -x 5 -y 6 -t church
+enter trade menu
+trade -t bread -a 2 -p 100 -n 2 -m hichi
 back
-show popularity
+show map -x 1 -y 1
+create building -x 1 -y 1 -t wheatFarm
+create building -x 1 -y 4 -t wheatFarm
+back
+enter shop menu
+show map -x 1 -y 1
+create building -x 2 -y 1 -t market
+back
+show commodity
+enter shop menu
+buy -n stone -a 5
+back
+show wealth
+show map -x 1 -y 1
+create building -x 2 -y 2 -t bakery
+back
+show commodity
+enter shop menu
+buy -n wood -a 10
+back
+show wealth
+show map -x 1 -y 1
+create building -x 2 -y 2 -t bakery
+show map -x 1 -y 1
+back
+show commodity
 next turn
 next turn
 next turn
@@ -44,3 +66,4 @@ next turn
 next turn
 next turn
 next turn
+show commodity

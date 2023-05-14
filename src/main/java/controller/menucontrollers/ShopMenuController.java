@@ -30,7 +30,6 @@ public class ShopMenuController {
         }
         empire.changeWealth(-resource.getBuyingPrice() * amount);
         empire.changeTradableAmount(resource, amount);
-        empire.fillStorage(1, amount);
         return ShopMenuMessages.SUCCESS;
     }
 
@@ -42,7 +41,6 @@ public class ShopMenuController {
         }
         empire.changeWealth(resource.getSellingPrice() * amount);
         empire.changeTradableAmount(resource, -amount);
-        empire.fillStorage(1, -amount);
         return ShopMenuMessages.SUCCESS;
     }
 

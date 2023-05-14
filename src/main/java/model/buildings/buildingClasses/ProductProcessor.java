@@ -35,6 +35,11 @@ public class ProductProcessor extends Building {
         showingSignInMap = productProcessorType.getBuildingType().abbreviation() + (getOwnerNumber().getNumber() + 1);
     }
 
+
+    public ProductProcessorType getProductProcessorType() {
+        return productProcessorType;
+    }
+
     public void update() {
         Empire ownerEmpire = this.getOwnerEmpire();
         int availableConsumingProduct = ownerEmpire.getTradableAmount(consumingProduct);
