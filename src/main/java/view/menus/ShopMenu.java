@@ -2,7 +2,6 @@ package view.menus;
 
 import controller.MenuNames;
 import controller.menucontrollers.ShopMenuController;
-import model.Empire;
 import view.Command;
 import view.messages.ShopMenuMessages;
 
@@ -16,15 +15,19 @@ public class ShopMenu {
         while (true) {
             Matcher matcher;
             String input = scanner.nextLine();
-            if ((matcher = Command.getMatcher(input, Command.SHOW_PRICE_LIST)) != null) {
+            if (Command.getMatcher(input, Command.SHOW_PRICE_LIST) != null) {
                 showPriceList();
-            } else if ((matcher = Command.getMatcher(input, Command.BUY)) != null) {
+            }
+            else if ((matcher = Command.getMatcher(input, Command.BUY)) != null) {
                 buy(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.SELL)) != null) {
+            }
+            else if ((matcher = Command.getMatcher(input, Command.SELL)) != null) {
                 sell(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.BACK_GAME_MENU)) != null) {
+            }
+            else if (Command.getMatcher(input, Command.BACK_GAME_MENU) != null) {
                 return MenuNames.GAME_MENU;
-            } else {
+            }
+            else {
                 System.out.println("Invalid command!");
             }
         }
@@ -38,7 +41,7 @@ public class ShopMenu {
         String input = matcher.group(0);
         Matcher amountMatcher = Pattern.compile("-a\\s+(\\d+)").matcher(input);
         Matcher nameMatcher = Pattern.compile("-n\\s+(\\S+)").matcher(input);
-        if(!(amountMatcher.find() && nameMatcher.find())) {
+        if (!(amountMatcher.find() && nameMatcher.find())) {
             System.out.println("Invalid command!");
             return;
         }
@@ -57,7 +60,7 @@ public class ShopMenu {
         String input = matcher.group(0);
         Matcher amountMatcher = Pattern.compile("-a\\s+(\\d+)").matcher(input);
         Matcher nameMatcher = Pattern.compile("-n\\s+(\\S+)").matcher(input);
-        if(!(amountMatcher.find() && nameMatcher.find())) {
+        if (!(amountMatcher.find() && nameMatcher.find())) {
             System.out.println("Invalid command!");
             return;
         }

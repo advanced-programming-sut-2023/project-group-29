@@ -12,13 +12,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Empire {
+    private final ArrayList<Trade> tradesHistory = new ArrayList<>();
+    private final int[][] storage = new int[2][3]; //{food, productsAndResources, weapons} {0--> filled, 1--> capacity}
+    private final HashMap<PopularityFactors, Integer> popularityChange = new HashMap<>();
+    private final User user;
     private ArrayList<Trade> trades = new ArrayList<>();
     private ArrayList<Trade> newTrades = new ArrayList<>();
-    private ArrayList<Trade> tradesHistory = new ArrayList<>();
-    private int[][] storage = new int[2][3]; //{food, productsAndResources, weapons} {0--> filled, 1--> capacity}
-    private final HashMap<PopularityFactors, Integer> popularityChange = new HashMap<>();
     private HashMap<Tradable, Integer> tradableAmounts;
-    private User user;
     private int possiblePopulation;
     private int wealth = 500;
     private int taxRate = 0;
@@ -55,13 +55,6 @@ public class Empire {
         popularity += popularityChange.get(PopularityFactors.FEAR);
         popularity += popularityChange.get(PopularityFactors.FOOD);
         if (popularity < 0) popularity = 0;
-    }
-
-    public enum PopularityFactors {
-        RELIGION,
-        TAX,
-        FEAR,
-        FOOD
     }
 
     public int getPopulation() {
@@ -142,9 +135,9 @@ public class Empire {
         if (tradable instanceof Resource) {
             storage[0][1] += amount;
         }
-        if (tradable instanceof Product product){
-            switch (product){
-                case BOW,SWORD,PIKE,ARMOUR -> storage[0][2] += amount;
+        if (tradable instanceof Product product) {
+            switch (product) {
+                case BOW, SWORD, PIKE, ARMOUR -> storage[0][2] += amount;
                 default -> storage[0][1] += amount;
             }
         }
@@ -177,7 +170,7 @@ public class Empire {
         for (Building building : getBuildings()) {
             if (building instanceof ProductProcessor productProcessor
                     && (productProcessor.getProductProcessorType().equals(ProductProcessorType.MILL)
-                    || productProcessor.getProductProcessorType().equals(ProductProcessorType.BEER_BREWING))){
+                    || productProcessor.getProductProcessorType().equals(ProductProcessorType.BEER_BREWING))) {
                 building.update();
             }
         }
@@ -229,11 +222,12 @@ public class Empire {
     }
 
     private void removeEatenFood() {
-        int numberOfFoodEaten = (int) ((foodRate + 2) / 2 * getPopulation());
+        int numberOfFoodEaten = (foodRate + 2) / 2 * getPopulation();
         if (numberOfFoodEaten > storage[0][0]) {
             foodRate = -2;
             GameMenuController.notify("Your food rate was automatically set on -2 because of lack of food!");
-        } else {
+        }
+        else {
             getRidOfFood(numberOfFoodEaten);
         }
     }
@@ -268,7 +262,7 @@ public class Empire {
 
     private void getRidOfWeapon(int amount) {
         storage[0][2] -= amount;
-        int weapons[] = new int[4];
+        int[] weapons = new int[4];
         int counter = 0;
         for (Product product : Product.values()) {
             switch (product) {
@@ -292,7 +286,7 @@ public class Empire {
 
     private void getRidOfResourceOrProduct(int amount) {
         storage[0][1] -= amount;
-        int tradables[] = new int[9];
+        int[] tradables = new int[9];
         int counter = 0;
         for (Resource resource : Resource.values()) {
             tradables[counter] = tradableAmounts.get(resource);
@@ -326,7 +320,7 @@ public class Empire {
 
     private void getRidOfFood(int amount) {
         storage[0][0] -= amount;
-        int foods[] = new int[4];
+        int[] foods = new int[4];
         int counter = 0;
         for (Food food : Food.values()) {
             foods[counter] = tradableAmounts.get(food);
@@ -339,7 +333,6 @@ public class Empire {
             counter++;
         }
     }
-
 
     public void buyBuilding(String buildingName) {
         changeWealth(-Building.getNeededResource(0, buildingName));
@@ -454,9 +447,11 @@ public class Empire {
         float changeByPerson;
         if (rate < 0) {
             changeByPerson = (float) (rate * 0.2 - 0.4);
-        } else if (rate == 0) {
+        }
+        else if (rate == 0) {
             changeByPerson = 0;
-        } else {
+        }
+        else {
             changeByPerson = (float) (rate * 0.2 + 0.4);
         }
         return (int) Math.floor(changeByPerson * getPopulation());
@@ -470,7 +465,8 @@ public class Empire {
         int growAccordingToFood, growAccordingToSpace;
         if (storage[0][0] * 2 >= getPopulation()) {
             growAccordingToFood = storage[0][0] * 2 - getPopulation();
-        } else {
+        }
+        else {
             growAccordingToFood = 0;
         }
         growAccordingToSpace = possiblePopulation - worklessPopulation;
@@ -485,5 +481,12 @@ public class Empire {
 
     public void changeWorklessPopulation(int change) {
         worklessPopulation += change;
+    }
+
+    public enum PopularityFactors {
+        RELIGION,
+        TAX,
+        FEAR,
+        FOOD
     }
 }

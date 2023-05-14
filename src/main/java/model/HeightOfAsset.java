@@ -5,11 +5,10 @@ public enum HeightOfAsset {
     MIDDLE(1),
     GROUND(0);
 
-    private int heightNumber;
+    private final int heightNumber;
 
-    private HeightOfAsset(int heightNumber)
-    {
-        this.heightNumber=heightNumber;
+    HeightOfAsset(int heightNumber) {
+        this.heightNumber = heightNumber;
     }
 
     public int getHeightNumber() {

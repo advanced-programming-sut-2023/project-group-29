@@ -8,20 +8,20 @@ import model.dealing.Tradable;
 
 public enum ProductProcessorType implements BuildType {
     MILL( //آسیاب
-            new BuildingType(60, 3, new int[]{0, 0, 20, 0},"Mill_"),
+            new BuildingType(60, 3, new int[]{0, 0, 20, 0}, "Mill_"),
             10, Product.WHEAT, Product.FLOUR, "mill"
     ),
     BAKERY( //نانوایی
-            new BuildingType(40, 1, new int[]{0, 0, 10, 0},"Bkery"),
+            new BuildingType(40, 1, new int[]{0, 0, 10, 0}, "Bkery"),
             10, Product.FLOUR, Food.BREAD, "bakery"
     ),
     BEER_BREWING(// آبجوسازی
-            new BuildingType(40, 1, new int[]{0, 0, 10, 0},"BeerB"),
+            new BuildingType(40, 1, new int[]{0, 0, 10, 0}, "BeerB"),
             10, Product.GRAIN, Product.BEER, "beerBrewing"
     ),
     INN( //مسافرخانه
-            new BuildingType(60, 1, new int[]{100, 0, 20, 0},"Inn__"),
-            10, Product.BEER, null,"inn"
+            new BuildingType(60, 1, new int[]{100, 0, 20, 0}, "Inn__"),
+            10, Product.BEER, null, "inn"
     ),
     ;
 

@@ -5,37 +5,35 @@ import model.buildings.BuildingType;
 
 public enum AttackingBuildingType implements BuildType {
     LOOKOUT_TOWER( // برج دیدبانی
-            new BuildingType(70, 0, new int[]{0, 10, 0, 0},"LookT"),
-            30, 45, "lookoutTower"
+            new BuildingType(70, 0, new int[]{0, 10, 0, 0}, "LookT"),
+            30, "lookoutTower"
     ),
     CIRCLE_TOWER( // برچ دایره‌ای
-            new BuildingType(150, 0, new int[]{0, 40, 0, 0},"CrclT"),
-            100, 150, "circleTower"
+            new BuildingType(150, 0, new int[]{0, 40, 0, 0}, "CrclT"),
+            100, "circleTower"
     ),
     PERIMETER_TOWER( // برج محیطی
-            new BuildingType(70, 0, new int[]{0, 10, 0, 0},"PeriT"),
-            30, 45, "perimeterTower"
+            new BuildingType(70, 0, new int[]{0, 10, 0, 0}, "PeriT"),
+            30, "perimeterTower"
     ),
     SQUARE_TOWER( // برج مربعی
-            new BuildingType(140, 0, new int[]{0, 35, 0, 0},"SqreT"),
-            90, 135, "squareTower"
+            new BuildingType(140, 0, new int[]{0, 35, 0, 0}, "SqreT"),
+            90, "squareTower"
     ),
     DEFENCE_TURRET( //برجک دفاعی
-            new BuildingType(90, 0, new int[]{0, 15, 0, 0},"DefTr"),
-            40, 60, "defenceTurret"
+            new BuildingType(90, 0, new int[]{0, 15, 0, 0}, "DefTr"),
+            40, "defenceTurret"
     ),
     ;
 
     private final int fireRange;
-    private final int defendRange;
     private final BuildingType buildingType;
     private final String name;
     private final int[] neededResources;
 
 
-    AttackingBuildingType(BuildingType buildingType, int fireRange, int defendRange, String buildingName) {
+    AttackingBuildingType(BuildingType buildingType, int fireRange, String buildingName) {
         this.fireRange = fireRange;
-        this.defendRange = defendRange;
         this.buildingType = buildingType;
         this.name = buildingName;
         this.neededResources = buildingType.neededResources();
@@ -54,10 +52,6 @@ public enum AttackingBuildingType implements BuildType {
 
     public int getFireRange() {
         return fireRange;
-    }
-
-    public int getDefendRange() {
-        return defendRange;
     }
 
     public BuildingType getBuildingType() {

@@ -10,21 +10,21 @@ import model.weapons.weaponTypes.EquipmentsType;
 public class Equipments extends Weapon implements Movable {
     private final EquipmentsType equipmentsType;
     private final int speed;
-    private boolean movedThisTurn=false;
-
-    private final Patrol patrol=new Patrol();
+    private final Patrol patrol = new Patrol();
+    private boolean movedThisTurn = false;
 
 
     public Equipments(EquipmentsType equipmentsType, PlayerNumber playerNumber, int positionX, int positionY) {
         super(equipmentsType.getWeaponTypes(), playerNumber, positionX, positionY);
 
         this.equipmentsType = equipmentsType;
-        this.speed=equipmentsType.getSpeed();
+        this.speed = equipmentsType.getSpeed();
     }
 
     public MovingResult move(Map map, int destinationX, int destinationY) {
         return Movable.move(map, this, destinationX, destinationY);
     }
+
     public MovingResult checkForMoveErrors(Map map, int destinationX, int destinationY) {
         return Movable.checkForMoveErrors(map, this, destinationX, destinationY);
     }
@@ -37,8 +37,7 @@ public class Equipments extends Weapon implements Movable {
         return speed;
     }
 
-    public boolean hasMovedThisTurn()
-    {
+    public boolean hasMovedThisTurn() {
         return movedThisTurn;
     }
 
@@ -50,9 +49,11 @@ public class Equipments extends Weapon implements Movable {
     public Patrol getPatrol() {
         return patrol;
     }
+
     public boolean isAbleToClimbStairs() {
         return false;
     }
+
     public boolean isAbleToClimbLadder() {
         return false;
     }

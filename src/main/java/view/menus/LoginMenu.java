@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 
 public class LoginMenu {
     static Scanner scanner;
+
     public static MenuNames run(Scanner scanner) {
         LoginMenu.scanner = scanner;
         System.out.println("You have entered login menu");
@@ -19,9 +20,11 @@ public class LoginMenu {
             String input = scanner.nextLine();
             if ((matcher = Command.getMatcher(input, Command.USER_CREATE)) != null) {
                 System.out.println(LoginMenuController.createUser(matcher));
-            } else if ((matcher = Command.getMatcher(input, Command.EXIT)) != null) {
+            }
+            else if (Command.getMatcher(input, Command.EXIT) != null) {
                 return MenuNames.EXIT;
-            } else if ((matcher = Command.getMatcher(input, Command.LOGIN)) != null) {
+            }
+            else if ((matcher = Command.getMatcher(input, Command.LOGIN)) != null) {
                 String output = LoginMenuController.login(matcher);
                 System.out.println(output);
                 if (output.equals("user logged in successfully!")) {
@@ -36,16 +39,18 @@ public class LoginMenu {
                     } catch (Exception e) {
                     }
                 }
-            } else if ((matcher = Command.getMatcher(input, Command.FORGET_PASSWORD)) != null) {
+            }
+            else if ((matcher = Command.getMatcher(input, Command.FORGET_PASSWORD)) != null) {
                 System.out.println(LoginMenuController.forgottenPassword(matcher));
-            } else {
+            }
+            else {
                 System.out.println("Invalid command!");
             }
         }
     }
 
     public static String checkSecurityQuestion() {
-        String output = "";
+        String output;
         while (true) {
             System.out.println("Pick your security question: 1. What is my father’s name? 2. What " +
                     "was my first pet’s name? 3. What is my mother’s last name?");
@@ -57,18 +62,23 @@ public class LoginMenu {
             if (matcher1.matches()) {
                 if (Integer.parseInt(matcher1.group(1)) > 3) {
                     System.out.println("Invalid number of question!");
-                } else if (!matcher1.group(2).equals(matcher1.group(3))) {
+                }
+                else if (!matcher1.group(2).equals(matcher1.group(3))) {
                     System.out.println("Please enter your answer confirm correctly");
-                } else {
+                }
+                else {
                     output = matcher1.group(1) + " " + matcher1.group(2);
                     break;
                 }
-            } else if (matcher2.matches()) {
+            }
+            else if (matcher2.matches()) {
                 if (Integer.parseInt(matcher2.group(3)) > 3) {
                     System.out.println("Invalid number of question!");
-                } else if (!matcher2.group(1).equals(matcher2.group(2))) {
+                }
+                else if (!matcher2.group(1).equals(matcher2.group(2))) {
                     System.out.println("Please enter your answer confirm correctly");
-                } else {
+                }
+                else {
                     output = matcher2.group(3) + " " + matcher2.group(1);
                     break;
                 }
@@ -86,9 +96,11 @@ public class LoginMenu {
     public static String askSecurityQuestion(int numberOfQuestion) {
         if (numberOfQuestion == 1) {
             System.out.println("What is your father’s name?");
-        } else if (numberOfQuestion == 2) {
+        }
+        else if (numberOfQuestion == 2) {
             System.out.println("What was your first pet’s name?");
-        } else if (numberOfQuestion == 3) {
+        }
+        else if (numberOfQuestion == 3) {
             System.out.println("What is your mother’s last name?");
         }
         return scanner.nextLine();
@@ -103,11 +115,11 @@ public class LoginMenu {
         System.out.println("Your random password is: " + output + ". Please re-enter your password here:");
         return scanner.nextLine();
     }
+
     public static String captcha(String[] mtCaptcha) {
-        for(int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++) {
             System.out.println(mtCaptcha[i]);
         }
-        String answer = scanner.nextLine();
-        return answer;
+        return scanner.nextLine();
     }
 }

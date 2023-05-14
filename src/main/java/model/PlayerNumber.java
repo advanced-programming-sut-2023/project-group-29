@@ -3,7 +3,6 @@ package model;
 import controller.menucontrollers.GameMenuController;
 import model.map.Cell;
 import model.map.Map;
-import model.people.Human;
 
 public enum PlayerNumber {
     FIRST(0),

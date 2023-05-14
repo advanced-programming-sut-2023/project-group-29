@@ -18,6 +18,7 @@ public class UnitCreator extends Building {
     public int getUnitCost() {
         return unitCost;
     }
+
     public UnitCreatorType getUnitCreatorType() {
         return unitCreatorType;
     }

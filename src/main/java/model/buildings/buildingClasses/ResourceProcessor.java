@@ -30,12 +30,12 @@ public class ResourceProcessor extends Building {
 
     @Override
     public void setShowingSignInMap() {
-            showingSignInMap = resourceProcessorType.getBuildingType().abbreviation() +
-                    (getOwnerNumber().getNumber() + 1);
+        showingSignInMap = resourceProcessorType.getBuildingType().abbreviation() +
+                (getOwnerNumber().getNumber() + 1);
     }
 
     public void update() {
-        Empire ownerEmpire=this.getOwnerEmpire();
+        Empire ownerEmpire = this.getOwnerEmpire();
 
         int availableResource = ownerEmpire.getTradableAmount(resource);
         int changeAmount = Math.min(availableResource, rate + ownerEmpire.getFearRate());

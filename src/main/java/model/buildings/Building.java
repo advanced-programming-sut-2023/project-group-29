@@ -2,7 +2,7 @@ package model.buildings;
 
 import model.Asset;
 import model.PlayerNumber;
-import model.buildings.buildingTypes.*;
+import model.buildings.buildingTypes.BuildType;
 import model.dealing.Resource;
 
 import java.util.HashMap;
@@ -28,9 +28,6 @@ public abstract class Building extends Asset {
         }
         return null;
     }
-    public int getNumberOfWorkers() {
-        return numberOfWorkers;
-    }
 
     public static void addToValidBuildingNames(BuildType buildType, int groupNumber) {
         buildingTypesAndTheirGroup.put(buildType, groupNumber);
@@ -54,11 +51,12 @@ public abstract class Building extends Asset {
     }
 
     public static int getNeededResource(int i, String buildingName) {
-       for (BuildType buildType : buildingTypesAndTheirGroup.keySet()) {
-           if (buildType.getName().equals(buildingName)) return buildType.getNeededResources(i);
-       }
-       return 0;
+        for (BuildType buildType : buildingTypesAndTheirGroup.keySet()) {
+            if (buildType.getName().equals(buildingName)) return buildType.getNeededResources(i);
+        }
+        return 0;
     }
+
     public static int getNumberOfWorkers(String buildingName) {
         for (BuildType buildType : buildingTypesAndTheirGroup.keySet()) {
             if (buildType.getName().equals(buildingName)) return buildType.getBuildingType().numberOfWorkers();
@@ -66,8 +64,12 @@ public abstract class Building extends Asset {
         return 0;
     }
 
+    public int getNumberOfWorkers() {
+        return numberOfWorkers;
+    }
+
     public void repair() {
-        this.getOwnerEmpire().changeTradableAmount(Resource.STONE, (maxHp - hp)/10);
+        this.getOwnerEmpire().changeTradableAmount(Resource.STONE, (maxHp - hp) / 10);
         hp = maxHp;
     }
 
@@ -80,5 +82,6 @@ public abstract class Building extends Asset {
 
     public abstract void setShowingSignInMap();
 
-    public void update() {}
+    public void update() {
+    }
 }

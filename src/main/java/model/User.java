@@ -2,18 +2,15 @@ package model;
 
 import controller.menucontrollers.GameMenuController;
 
-import java.util.ArrayList;
-
 public class User {
-    private static ArrayList<String> questions = new ArrayList<>();
 
+    private final String securityQuestion;
     private String username;
     private String password;
     private String nickname;
     private String email;
     //recovery question
     private String slogan;
-    private final String securityQuestion;
     private int highScore = 0;
     private int stayLoggedIn = 0;
 
@@ -24,14 +21,6 @@ public class User {
         this.email = email;
         this.slogan = slogan;
         this.securityQuestion = securityQuestion;
-    }
-
-    public static ArrayList<String> getQuestions() {
-        return questions;
-    }
-
-    public static void setQuestions(ArrayList<String> questions) {
-        User.questions = questions;
     }
 
     public String getUsername() {
@@ -89,14 +78,14 @@ public class User {
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof User) {
-            return ((User)obj).username.equals(this.username);
+            return ((User) obj).username.equals(this.username);
         }
         return false;
     }
 
     public Empire getEmpire() {
         GameData gameData = GameMenuController.getGameData();
-        for (Empire empire: gameData.getEmpires()){
+        for (Empire empire : gameData.getEmpires()) {
             if (empire.getUser().equals(this)) return empire;
         }
         return null;

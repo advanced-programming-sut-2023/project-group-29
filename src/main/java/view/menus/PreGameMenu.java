@@ -16,15 +16,19 @@ public class PreGameMenu {
             Matcher matcher;
             if ((matcher = Command.getMatcher(input, Command.ADD_PLAYER_TO_GAME)) != null) {
                 addPlayerToGame(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.CHOOSE_MAP)) != null) {
+            }
+            else if ((matcher = Command.getMatcher(input, Command.CHOOSE_MAP)) != null) {
                 chooseMap(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.READY)) != null) {
+            }
+            else if (Command.getMatcher(input, Command.READY) != null) {
                 if (notReady()) continue;
                 return MenuNames.GAME_MENU;
-            } else if ((matcher = Command.getMatcher(input, Command.CANCEL)) != null) {
+            }
+            else if (Command.getMatcher(input, Command.CANCEL) != null) {
                 System.out.println("The game was canceled!");
                 return MenuNames.MAIN_MENU;
-            } else {
+            }
+            else {
                 System.out.println("Invalid command!");
             }
         }

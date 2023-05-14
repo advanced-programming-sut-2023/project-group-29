@@ -1,18 +1,14 @@
 package model;
 
 import controller.menucontrollers.GameMenuController;
-import model.dealing.Trade;
 import model.map.Map;
 
 import java.util.ArrayList;
 
 public class GameData {
-    private final ArrayList<Trade> trades = new ArrayList<>();
     private final ArrayList<Empire> empires = new ArrayList<>();
     private Map map;
-    private int turnNumber = 1;
     private PlayerNumber playerOfTurn = PlayerNumber.FIRST;
-    private final PlayerNumber ownerOfGame = PlayerNumber.FIRST;
     private int selectedCellX;
     private int selectedCellY;
 
@@ -28,12 +24,12 @@ public class GameData {
     public Map getMap() {
         return map;
     }
-    public int getTurnNumber() {
-        return turnNumber;
+
+    public void setMap(Map map) {
+        this.map = map;
     }
 
     public void incrementTurn() {
-        turnNumber++;
     }
 
     public PlayerNumber getPlayerOfTurn() {
@@ -48,24 +44,12 @@ public class GameData {
         return selectedCellX;
     }
 
-    public void setSelectedCellX(int selectedCellX) {
-        this.selectedCellX = selectedCellX;
-    }
-
     public int getSelectedCellY() {
         return selectedCellY;
     }
 
-    public void setSelectedCellY(int selectedCellY) {
-        this.selectedCellY = selectedCellY;
-    }
-
     public int getNumberOfPlayers() {
         return empires.size();
-    }
-
-    public void setMap(Map map) {
-        this.map = map;
     }
 
     public boolean IsUserInGame(User user) {
@@ -92,12 +76,11 @@ public class GameData {
             changePlayingPlayer();
             return;
         }
-        GameMenuController.notify("player number " + (index+1) + " is playing");
+        GameMenuController.notify("player number " + (index + 1) + " is playing");
     }
 
-    public void setSelectedCell(int selectedCellX,int selectedCellY)
-    {
-        this.selectedCellX=selectedCellX;
-        this.selectedCellY=selectedCellY;
+    public void setSelectedCell(int selectedCellX, int selectedCellY) {
+        this.selectedCellX = selectedCellX;
+        this.selectedCellY = selectedCellY;
     }
 }

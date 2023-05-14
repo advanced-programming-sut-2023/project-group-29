@@ -3,7 +3,6 @@ package view.menus;
 import controller.MenuNames;
 import controller.menucontrollers.MapMenuController;
 import model.map.CellType;
-import model.map.TreeType;
 import model.people.humanTypes.SoldierType;
 import view.Command;
 import view.messages.MapMenuMessages;
@@ -21,29 +20,41 @@ public class MapMenu {
             String input = scanner.nextLine();
             if ((matcher = Command.getMatcher(input, Command.SHOW_MAP)) != null) {
                 showMap(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.SHOW_DETAILS)) != null) {
+            }
+            else if ((matcher = Command.getMatcher(input, Command.SHOW_DETAILS)) != null) {
                 showDetails(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.MOVE_MAP)) != null) {
+            }
+            else if ((matcher = Command.getMatcher(input, Command.MOVE_MAP)) != null) {
                 moveMap(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.SET_BLOCK_TEXTURE)) != null) {
+            }
+            else if ((matcher = Command.getMatcher(input, Command.SET_BLOCK_TEXTURE)) != null) {
                 setBlockTexture(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.SET_PART_OF_BLOCK_TEXTURE)) != null) {
+            }
+            else if ((matcher = Command.getMatcher(input, Command.SET_PART_OF_BLOCK_TEXTURE)) != null) {
                 setPartOfBlockTexture(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.CLEAR)) != null) {
+            }
+            else if ((matcher = Command.getMatcher(input, Command.CLEAR)) != null) {
                 clear(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.DROP_ROCK)) != null) {
+            }
+            else if ((matcher = Command.getMatcher(input, Command.DROP_ROCK)) != null) {
                 dropRock(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.DROP_TREE)) != null) {
+            }
+            else if ((matcher = Command.getMatcher(input, Command.DROP_TREE)) != null) {
                 dropTree(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.DROP_BUILDING)) != null) {
+            }
+            else if ((matcher = Command.getMatcher(input, Command.DROP_BUILDING)) != null) {
                 dropBuilding(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.CREATE_BUILDING)) != null) {
+            }
+            else if ((matcher = Command.getMatcher(input, Command.CREATE_BUILDING)) != null) {
                 createBuilding(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.DROP_UNIT)) != null) {
+            }
+            else if ((matcher = Command.getMatcher(input, Command.DROP_UNIT)) != null) {
                 dropUnit(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.BACK_GAME_MENU)) != null) {
+            }
+            else if (Command.getMatcher(input, Command.BACK_GAME_MENU) != null) {
                 return MenuNames.GAME_MENU;
-            } else {
+            }
+            else {
                 System.out.println("Invalid command!");
             }
         }
@@ -73,21 +84,43 @@ public class MapMenu {
         Matcher matcherDown = Pattern.compile("down").matcher(input);
         Matcher matcherLeft = Pattern.compile("left").matcher(input);
         Matcher matcherRight = Pattern.compile("right").matcher(input);
+        Matcher matcherUpNumber = Pattern.compile("up\\s*(\\d+)").matcher(input);
+        Matcher matcherDownNumber = Pattern.compile("down\\s*(\\d+)").matcher(input);
+        Matcher matcherLeftNumber = Pattern.compile("left\\s*(\\d+)").matcher(input);
+        Matcher matcherRightNumber = Pattern.compile("right\\s*(\\d+)").matcher(input);
         int up = 0;
         int left = 0;
         int down = 0;
         int right = 0;
-        while (matcherUp.find()) {
-            up++;
+
+        boolean matcherUpNumberFound = matcherUpNumber.find();
+        boolean matcherDownNumberFound = matcherDownNumber.find();
+        boolean matcherRightNumberFound = matcherRightNumber.find();
+        boolean matcherLeftNumberFound = matcherLeftNumber.find();
+
+        if (matcherUpNumberFound) {
+            up = Integer.parseInt(matcherUpNumber.group(1));
         }
-        while (matcherDown.find()) {
-            down++;
+        if (matcherDownNumberFound) {
+            down = Integer.parseInt(matcherDownNumber.group(1));
         }
-        while (matcherLeft.find()) {
-            left++;
+        if (matcherLeftNumberFound) {
+            left = Integer.parseInt(matcherLeftNumber.group(1));
         }
-        while (matcherRight.find()) {
-            right++;
+        if (matcherRightNumberFound) {
+            right = Integer.parseInt(matcherRightNumber.group(1));
+        }
+        if (!matcherUpNumberFound && matcherUp.find()) {
+            up = 1;
+        }
+        if (!matcherDownNumberFound && matcherDown.find()) {
+            down = 1;
+        }
+        if (!matcherLeftNumberFound && matcherLeft.find()) {
+            left = 1;
+        }
+        if (!matcherRightNumberFound && matcherRight.find()) {
+            right = 1;
         }
         System.out.println(MapMenuController.moveMap(up, right, down, left));
     }
@@ -190,11 +223,14 @@ public class MapMenu {
             int myRandom = random.nextInt() % 4;
             if (myRandom == 0) {
                 direction = "w";
-            } else if (myRandom == 1) {
+            }
+            else if (myRandom == 1) {
                 direction = "e";
-            } else if (myRandom == 2) {
+            }
+            else if (myRandom == 2) {
                 direction = "n";
-            } else {
+            }
+            else {
                 direction = "s";
             }
         }
@@ -329,7 +365,7 @@ public class MapMenu {
         }
     }
 
-    public static void messageOfSetTexture (int x, int y) {
+    public static void messageOfSetTexture(int x, int y) {
         System.out.println("You can't change texture of this cell.(" + x + ", " + y + ") ");
     }
 }

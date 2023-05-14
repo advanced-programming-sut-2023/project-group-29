@@ -1,12 +1,9 @@
 package view.menus;
 
 import controller.MenuNames;
-import controller.menucontrollers.GameMenuController;
 import controller.menucontrollers.MainMenuController;
 import model.AppData;
-import model.GameData;
 import model.SaveAndLoad;
-import model.User;
 import view.Command;
 
 import java.util.Scanner;
@@ -21,12 +18,15 @@ public class MainMenu {
                 AppData.getCurrentUser().setStayLoggedIn(0);
                 SaveAndLoad.saveData(AppData.getUsers(), AppData.getUsersDataBaseFilePath());
                 return MenuNames.LOGIN_MENU;
-            } else if (Command.getMatcher(input, Command.ENTER_PROFILE_MENU) != null) {
+            }
+            else if (Command.getMatcher(input, Command.ENTER_PROFILE_MENU) != null) {
                 return MenuNames.PROFILE_MENU;
-            } else if (Command.getMatcher(input, Command.START_GAME) != null) {
+            }
+            else if (Command.getMatcher(input, Command.START_GAME) != null) {
                 MainMenuController.createGameData();
                 return MenuNames.PRE_GAME_MENU;
-            } else {
+            }
+            else {
                 System.out.println("Invalid command!");
             }
         }

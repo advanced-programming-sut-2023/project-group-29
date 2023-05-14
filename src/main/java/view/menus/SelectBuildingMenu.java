@@ -18,13 +18,17 @@ public class SelectBuildingMenu {
             String input = scanner.nextLine();
             if ((matcher = Command.getMatcher(input, Command.CREATE_UNIT)) != null) {
                 createUnit(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.REPAIR_BUILDING)) != null) {
+            }
+            else if (Command.getMatcher(input, Command.REPAIR_BUILDING) != null) {
                 repairBuilding();
-            } else if (Command.getMatcher(input, Command.CHANGE_BRIDGE_STATE) != null) {
+            }
+            else if (Command.getMatcher(input, Command.CHANGE_BRIDGE_STATE) != null) {
                 changeBridgeState();
-            } else if ((matcher = Command.getMatcher(input, Command.BACK_GAME_MENU)) != null) {
+            }
+            else if (Command.getMatcher(input, Command.BACK_GAME_MENU) != null) {
                 return MenuNames.GAME_MENU;
-            } else {
+            }
+            else {
                 System.out.println("Invalid command!");
             }
         }

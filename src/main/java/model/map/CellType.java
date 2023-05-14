@@ -62,11 +62,14 @@ public enum CellType {
                 ProductExtractorType.GRAIN_FARM.equals(buildType) ||
                 ProductExtractorType.WHEAT_FARM.equals(buildType)) {
             return this.equals(CellType.DENSE_MEADOW) || this.equals(CellType.GRASS);
-        } else if (ResourceExtractorType.QUARRY.equals(buildType)) {
+        }
+        else if (ResourceExtractorType.QUARRY.equals(buildType)) {
             return this.equals(CellType.STONE);
-        } else if (ResourceExtractorType.IRON_MINE.equals(buildType)) {
+        }
+        else if (ResourceExtractorType.IRON_MINE.equals(buildType)) {
             return this.equals(CellType.IRON);
-        } else if (ResourceExtractorType.PITCH_RIG.equals(buildType)) {
+        }
+        else if (ResourceExtractorType.PITCH_RIG.equals(buildType)) {
             return this.equals(CellType.PLAIN);
         }
         return this.equals(CellType.PLAIN_GROUND) || this.equals(CellType.MEADOW)

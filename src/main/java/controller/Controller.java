@@ -12,13 +12,13 @@ import java.util.Scanner;
 
 public class Controller {
     public static void run() {
-        User[] users=SaveAndLoad.loadArrayData(AppData.getUsersDataBaseFilePath(), User[].class);
-        if(users!=null)
+        User[] users = SaveAndLoad.loadArrayData(AppData.getUsersDataBaseFilePath(), User[].class);
+        if (users != null)
             AppData.setUsers(new ArrayList<>(Arrays.asList(users)));
         buildEnums();
         Scanner scanner = new Scanner(System.in);
         MenuNames menuNames;
-        if(AppData.checkStayLoggedIn()) {
+        if (AppData.checkStayLoggedIn()) {
             menuNames = MenuNames.MAIN_MENU;
         }
         else {

@@ -21,7 +21,6 @@ public class OtherBuildings extends Building {
     }
 
 
-
     @Override
     public String getName() {
         return otherBuildingsType.getName();
@@ -41,7 +40,7 @@ public class OtherBuildings extends Building {
         if (otherBuildingsType.equals(OtherBuildingsType.OIL_SMELTER)) {
             Soldier engineer = findEngineer(currentCell);
             if (engineer != null) {
-                convertEngineerToEngineerWithOil(engineer,currentCell);
+                convertEngineerToEngineerWithOil(engineer, currentCell);
             }
         }
     }
@@ -50,12 +49,12 @@ public class OtherBuildings extends Building {
         PlayerNumber playerNumber = GameMenuController.getGameData().getPlayerOfTurn();
         currentCell.getMovingObjects().remove(soldier);
         MapMenuController.dropUnit(getPositionX(), getPositionY(),
-                "engineerWithOil", 1,playerNumber.getNumber() + 1);
+                "engineerWithOil", 1, playerNumber.getNumber() + 1);
     }
 
     private Soldier findEngineer(Cell currentCell) {
-        for (Asset asset: currentCell.getMovingObjects()) {
-            if (asset instanceof Soldier soldier){
+        for (Asset asset : currentCell.getMovingObjects()) {
+            if (asset instanceof Soldier soldier) {
                 if (soldier.getSoldierType().equals(SoldierType.ENGINEER)) return soldier;
             }
         }
@@ -64,9 +63,10 @@ public class OtherBuildings extends Building {
 
     public void changeState() {
         if (showingSignInMap.charAt(4) == 'D') {
-            showingSignInMap = showingSignInMap.substring(0,4) + "U" + showingSignInMap.charAt(5) ;
-        } else if (showingSignInMap.charAt(4) == 'U') {
-            showingSignInMap = showingSignInMap.substring(0,4) + "D" + showingSignInMap.charAt(5) ;
+            showingSignInMap = showingSignInMap.substring(0, 4) + "U" + showingSignInMap.charAt(5);
+        }
+        else if (showingSignInMap.charAt(4) == 'U') {
+            showingSignInMap = showingSignInMap.substring(0, 4) + "D" + showingSignInMap.charAt(5);
         }
     }
 }

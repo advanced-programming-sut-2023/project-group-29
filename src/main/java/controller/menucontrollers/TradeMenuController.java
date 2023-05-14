@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TradeMenuController {
-    public static String trade(String type, String amount, String price, String message, int numberOfAnotherPlayer){
+    public static String trade(String type, String amount, String price, String message, int numberOfAnotherPlayer) {
         int trueType = 0;
         Tradable tradable = null;
         ArrayList<Tradable> tradableArrayList = new ArrayList<>();
@@ -17,24 +17,24 @@ public class TradeMenuController {
         tradableArrayList.addAll(List.of(Product.values()));
         tradableArrayList.addAll(List.of(Food.values()));
 
-        for(Tradable myTradable: tradableArrayList) {
-            if(myTradable.getName().equals(type)) {
+        for (Tradable myTradable : tradableArrayList) {
+            if (myTradable.getName().equals(type)) {
                 trueType = 1;
                 tradable = myTradable;
                 break;
             }
         }
-        if(trueType == 0) {
+        if (trueType == 0) {
             System.out.println(type);
             return "Invalid type of tradable!\n";
         }
         if (numberOfAnotherPlayer < 1 || numberOfAnotherPlayer > GameMenuController.getGameData().getEmpires().size()) {
             return "Invalid number of another player!\n";
         }
-        if(Integer.parseInt(amount) < 0) {
+        if (Integer.parseInt(amount) < 0) {
             return "Invalid amount!\n";
         }
-        if(Integer.parseInt(price) < 0) {
+        if (Integer.parseInt(price) < 0) {
             return "Invalid price!\n";
         }
         int amountInt = Integer.parseInt(amount);
@@ -66,7 +66,7 @@ public class TradeMenuController {
 
     private static String makeOutput(ArrayList<Trade> trades) {
         String output = "";
-        for(int i = 0; i < trades.size(); i++) {
+        for (int i = 0; i < trades.size(); i++) {
             output += (i + 1) + ") sender player: " + trades.get(i).getSenderPlayer().getNumber();
             output += " | receiver player: " + trades.get(i).getReceiverPlayer().getNumber();
             output += " | commodity: " + trades.get(i).getCommodity().getName();
@@ -87,21 +87,21 @@ public class TradeMenuController {
     public static String acceptTrade(int id) {
         ArrayList<Trade> trades = GameMenuController.getGameData().
                 getEmpireByPlayerNumber(GameMenuController.getGameData().getPlayerOfTurn()).getTrades();
-        if(id < 1 || id > trades.size()) {
+        if (id < 1 || id > trades.size()) {
             return "Wrong id!";
         }
         Trade trade = null;
         ArrayList<Trade> modernTrades = new ArrayList<>();
         GameData gameData = GameMenuController.getGameData();
-        for(int i = 0; i < trades.size(); i++) {
-            if(i == id - 1) {
+        for (int i = 0; i < trades.size(); i++) {
+            if (i == id - 1) {
                 trade = trades.get(i);
-                if(trade.getCount() * trade.getPrice() >
+                if (trade.getCount() * trade.getPrice() >
                         gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn()).getWealth()) {
                     return "Your wealth is less than the price of your dealing!";
                 }
                 Empire senderEmpire = gameData.getEmpireByPlayerNumber(trade.getSenderPlayer());
-                if(senderEmpire.getTradableAmount(trade.getCommodity()) < trade.getCount()) {
+                if (senderEmpire.getTradableAmount(trade.getCommodity()) < trade.getCount()) {
                     return "The sender doesn't have enough commodity now!";
                 }
                 gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn()).

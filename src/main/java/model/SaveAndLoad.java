@@ -8,9 +8,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class SaveAndLoad {
 
@@ -36,6 +33,7 @@ public class SaveAndLoad {
 
         return null;
     }
+
     public static <T> T[] loadArrayData(String filePath, Class<T[]> listClass) {
         Gson gson = new Gson();
 
@@ -48,7 +46,6 @@ public class SaveAndLoad {
     }
 
     public static String hashString(String string) {
-        String hashedString = Hashing.sha256().hashString(string, StandardCharsets.UTF_8).toString();
-        return hashedString;
+        return Hashing.sha256().hashString(string, StandardCharsets.UTF_8).toString();
     }
 }

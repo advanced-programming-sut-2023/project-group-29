@@ -5,6 +5,5 @@ public enum ShopMenuMessages {
     FEW_AMOUNT,
     FEW_CASH,
     LACK_OF_SPACE,
-    INVALID_NAME,
-    ;
+    INVALID_NAME
 }

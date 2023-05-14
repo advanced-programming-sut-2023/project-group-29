@@ -3,10 +3,10 @@ package model.weapons.weaponClasses;
 import controller.menucontrollers.GameMenuController;
 import model.Offensive;
 import model.PlayerNumber;
+import model.UnitState;
 import model.buildings.buildingClasses.AttackingBuilding;
 import model.map.Cell;
 import model.map.Map;
-import model.UnitState;
 import model.weapons.Weapon;
 import model.weapons.weaponTypes.StaticOffensiveWeaponsType;
 
@@ -14,7 +14,7 @@ public class StaticOffensiveWeapons extends Weapon implements Offensive {
     private final int damage;
     private final int aimRange;
     private final StaticOffensiveWeaponsType staticOffensiveWeaponsType;
-    private boolean attackedThisTurn=false;
+    private boolean attackedThisTurn = false;
     private UnitState unitState = UnitState.STANDING;
 
     public StaticOffensiveWeapons(StaticOffensiveWeaponsType staticOffensiveWeaponsType, PlayerNumber playerNumber, int positionX, int positionY) {
@@ -25,8 +25,8 @@ public class StaticOffensiveWeapons extends Weapon implements Offensive {
         this.aimRange = staticOffensiveWeaponsType.getAimRange();
     }
 
-    public Offensive.AttackingResult canAttack(Map map, int targetX, int targetY,boolean setHasAttacked) {
-        return Offensive.canAttack(map, this, targetX, targetY,setHasAttacked);
+    public Offensive.AttackingResult canAttack(Map map, int targetX, int targetY, boolean setHasAttacked) {
+        return Offensive.canAttack(map, this, targetX, targetY, setHasAttacked);
     }
 
     @Override
@@ -35,9 +35,9 @@ public class StaticOffensiveWeapons extends Weapon implements Offensive {
     }
 
     public int getAimRange() {
-        if(isArcherType()) {
-            Cell currentCell= GameMenuController.getGameData().getMap().getCells()[getPositionX()][getPositionY()];
-            if(currentCell.hasBuilding() && currentCell.getBuilding() instanceof AttackingBuilding attackingBuilding)
+        if (isArcherType()) {
+            Cell currentCell = GameMenuController.getGameData().getMap().getCells()[getPositionX()][getPositionY()];
+            if (currentCell.hasBuilding() && currentCell.getBuilding() instanceof AttackingBuilding attackingBuilding)
                 return Math.max(aimRange, attackingBuilding.getFireRange());
         }
         return aimRange;
@@ -46,8 +46,8 @@ public class StaticOffensiveWeapons extends Weapon implements Offensive {
     public boolean isArcherType() {
         return true;
     }
-    public boolean hasAttackedThisTurn()
-    {
+
+    public boolean hasAttackedThisTurn() {
         return attackedThisTurn;
     }
 

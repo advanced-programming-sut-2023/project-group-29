@@ -30,9 +30,7 @@ public class Store extends Building {
         Empire empire = this.getOwnerEmpire();
         switch (this.getName()) {
             case "foodStore" -> empire.addStorage(capacity, 0);
-            case "stockPile" -> {
-                empire.addStorage(capacity, 1);
-            }
+            case "stockPile" -> empire.addStorage(capacity, 1);
             case "armoury" -> empire.addStorage(capacity, 2);
         }
     }

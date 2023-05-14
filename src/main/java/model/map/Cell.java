@@ -1,6 +1,5 @@
 package model.map;
 
-import controller.menucontrollers.GameMenuController;
 import model.*;
 import model.buildings.Building;
 import model.buildings.buildingClasses.*;
@@ -16,19 +15,20 @@ import java.util.ArrayList;
 
 public class Cell {
     private final ArrayList<Asset> movingObjects = new ArrayList<>();
+    private final int xPosition;
+    private final int yPosition;
     private TreeType treeTypes;
     private Trap trap = null;
     private Building building = null;
     private CellType cellType;
     private boolean hasTunnel = false;
-    private final int xPosition;
-    private final int yPosition;
 
     public Cell(CellType cellType, int xPosition, int yPosition) {
         this.cellType = cellType;
         this.xPosition = xPosition;
         this.yPosition = yPosition;
     }
+
     public void removeDeadUnitsAndBuilding() {
         movingObjects.removeIf(asset -> asset.isDead());
         if (trap != null && trap.isDead())
@@ -73,12 +73,6 @@ public class Cell {
         return LevelChanger.NON;
     }
 
-    public enum LevelChanger {
-        LADDER,
-        STAIRS,
-        NON
-    }
-
     public ArrayList<Movable> getMovingObjectsOfPlayer(PlayerNumber playerNumber) {
         ArrayList<Movable> movables = new ArrayList<>();
         for (Asset movingObject : movingObjects) {
@@ -102,7 +96,7 @@ public class Cell {
     public ArrayList<Offensive> getAttackingListOfPlayerNumber(PlayerNumber playerNumber) {
         ArrayList<Offensive> attackingObjects = new ArrayList<>();
         for (Asset movingObject : movingObjects) {
-            if(movingObject instanceof Soldier soldier &&
+            if (movingObject instanceof Soldier soldier &&
                     soldier.getSoldierType().equals(SoldierType.ENGINEER_WITH_OIL))
                 continue;
             if (movingObject.getOwnerNumber().equals(playerNumber) && movingObject instanceof Offensive)
@@ -123,7 +117,7 @@ public class Cell {
     public boolean shieldExistsInCell(PlayerNumber playerNumber) {
         for (Asset movingObject : movingObjects) {
             if (movingObject instanceof Equipments equipment && movingObject.getOwnerNumber().equals(playerNumber)) {
-                if(equipment.getEquipmentsType().equals(EquipmentsType.PORTABLE_SHIELD))
+                if (equipment.getEquipmentsType().equals(EquipmentsType.PORTABLE_SHIELD))
                     return true;
             }
         }
@@ -152,6 +146,10 @@ public class Cell {
 
     public CellType getCellType() {
         return cellType;
+    }
+
+    public void setCellType(CellType cellType) {
+        this.cellType = cellType;
     }
 
     public boolean isAbleToMoveOn() {
@@ -187,6 +185,7 @@ public class Cell {
                     (UnitCreatorType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
         }
     }
+
     public int getXPosition() {
         return xPosition;
     }
@@ -231,15 +230,18 @@ public class Cell {
         return null;
     }
 
-    public void setCellType(CellType cellType) {
-        this.cellType = cellType;
-    }
-
     public void setTree(TreeType treeType) {
         this.treeTypes = treeType;
     }
+
     public TreeType getTreeTypes() {
         return treeTypes;
+    }
+
+    public enum LevelChanger {
+        LADDER,
+        STAIRS,
+        NON
     }
 }
 

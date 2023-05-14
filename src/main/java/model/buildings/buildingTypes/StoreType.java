@@ -5,15 +5,15 @@ import model.buildings.BuildingType;
 
 public enum StoreType implements BuildType {
     ARMOURY( //اسلحه خانه
-            new BuildingType(60, 0, new int[]{0, 0, 5, 0},"Armry"),
+            new BuildingType(60, 0, new int[]{0, 0, 5, 0}, "Armry"),
             100, "armoury"
     ),
     FOOD_STORE( //انبار غذا
-            new BuildingType(60, 0, new int[]{0, 0, 5, 0},"FStor"),
+            new BuildingType(60, 0, new int[]{0, 0, 5, 0}, "FStor"),
             200, "foodStore"
     ),
     STOCK_PILE( //انبار
-            new BuildingType(60, 0, new int[]{0, 0, 5, 0},"SPile"),
+            new BuildingType(60, 0, new int[]{0, 0, 5, 0}, "SPile"),
             500, "stockPile"
     ),
     ;

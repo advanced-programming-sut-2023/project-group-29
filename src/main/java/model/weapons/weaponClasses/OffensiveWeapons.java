@@ -5,7 +5,6 @@ import model.*;
 import model.buildings.buildingClasses.AttackingBuilding;
 import model.map.Cell;
 import model.map.Map;
-import model.UnitState;
 import model.weapons.Weapon;
 import model.weapons.weaponTypes.OffensiveWeaponsType;
 
@@ -14,9 +13,9 @@ public class OffensiveWeapons extends Weapon implements Movable, Offensive {
     private final int aimRange;
     private final int speed;
     private final OffensiveWeaponsType offensiveWeaponsType;
-    private boolean movedThisTurn=false;
-    private boolean attackedThisTurn=false;
-    private final Patrol patrol=new Patrol();
+    private final Patrol patrol = new Patrol();
+    private boolean movedThisTurn = false;
+    private boolean attackedThisTurn = false;
     private UnitState unitState = UnitState.STANDING;
 
 
@@ -24,7 +23,7 @@ public class OffensiveWeapons extends Weapon implements Movable, Offensive {
         super(offensiveWeaponsType.getWeaponTypes(), playerNumber, positionX, positionY);
 
         this.offensiveWeaponsType = offensiveWeaponsType;
-        this.speed=offensiveWeaponsType.getSpeed();
+        this.speed = offensiveWeaponsType.getSpeed();
         this.damage = offensiveWeaponsType.getDamage();
         this.aimRange = offensiveWeaponsType.getAimRange();
     }
@@ -37,8 +36,8 @@ public class OffensiveWeapons extends Weapon implements Movable, Offensive {
         return Movable.checkForMoveErrors(map, this, destinationX, destinationY);
     }
 
-    public AttackingResult canAttack(Map map, int targetX, int targetY,boolean setHasAttacked) {
-        return Offensive.canAttack(map, this, targetX, targetY,setHasAttacked);
+    public AttackingResult canAttack(Map map, int targetX, int targetY, boolean setHasAttacked) {
+        return Offensive.canAttack(map, this, targetX, targetY, setHasAttacked);
     }
 
     @Override
@@ -47,18 +46,16 @@ public class OffensiveWeapons extends Weapon implements Movable, Offensive {
     }
 
     public int getAimRange() {
-        if(isArcherType()) {
-            Cell currentCell= GameMenuController.getGameData().getMap().getCells()[getPositionX()][getPositionY()];
-            if(currentCell.hasBuilding() && currentCell.getBuilding() instanceof AttackingBuilding attackingBuilding)
+        if (isArcherType()) {
+            Cell currentCell = GameMenuController.getGameData().getMap().getCells()[getPositionX()][getPositionY()];
+            if (currentCell.hasBuilding() && currentCell.getBuilding() instanceof AttackingBuilding attackingBuilding)
                 return Math.max(aimRange, attackingBuilding.getFireRange());
         }
         return aimRange;
     }
 
     public boolean isArcherType() {
-        if(offensiveWeaponsType.equals(OffensiveWeaponsType.CATAPULT) || offensiveWeaponsType.equals(OffensiveWeaponsType.FIRE_STONE_THROWER))
-            return true;
-        return false;
+        return offensiveWeaponsType.equals(OffensiveWeaponsType.CATAPULT) || offensiveWeaponsType.equals(OffensiveWeaponsType.FIRE_STONE_THROWER);
     }
 
     public OffensiveWeaponsType getOffensiveWeaponsType() {
@@ -69,12 +66,11 @@ public class OffensiveWeapons extends Weapon implements Movable, Offensive {
         return speed;
     }
 
-    public boolean hasMovedThisTurn()
-    {
+    public boolean hasMovedThisTurn() {
         return movedThisTurn;
     }
-    public boolean hasAttackedThisTurn()
-    {
+
+    public boolean hasAttackedThisTurn() {
         return attackedThisTurn;
     }
 
@@ -100,9 +96,11 @@ public class OffensiveWeapons extends Weapon implements Movable, Offensive {
     public void setUnitState(UnitState unitState) {
         this.unitState = unitState;
     }
+
     public boolean isAbleToClimbStairs() {
         return false;
     }
+
     public boolean isAbleToClimbLadder() {
         return false;
     }

@@ -1,6 +1,9 @@
 package controller.menucontrollers;
 
-import model.*;
+import model.AppData;
+import model.Empire;
+import model.GameData;
+import model.PlayerNumber;
 
 public class MainMenuController {
     public static void createGameData() {

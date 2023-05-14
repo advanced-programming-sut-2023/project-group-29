@@ -6,9 +6,9 @@ public enum Direction {
     LEFT("left"),
     UP("up");
     private final String string;
-    Direction(String string)
-    {
-        this.string=string;
+
+    Direction(String string) {
+        this.string = string;
     }
 
     public String getString() {

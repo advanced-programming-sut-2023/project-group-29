@@ -25,56 +25,71 @@ public class GameMenu {
             String input = scanner.nextLine();
             if ((matcher = Command.getMatcher(input, Command.SHOW_MAP)) != null) {
                 int checkCorrectCommand = showMap(matcher);
-                if (checkCorrectCommand == 1) {
-
-                } else {
+                if (checkCorrectCommand != 1) {
                     return MenuNames.MAP_MENU;
                 }
-            } else if (Command.getMatcher(input, Command.SHOW_POPULARITY_FACTORS) != null) {
+            }
+            else if (Command.getMatcher(input, Command.SHOW_POPULARITY_FACTORS) != null) {
                 showPopularityFactors();
-            } else if (Command.getMatcher(input, Command.SHOW_POPULARITY) != null) {
+            }
+            else if (Command.getMatcher(input, Command.SHOW_POPULARITY) != null) {
                 showPopularity();
-            } else if (Command.getMatcher(input, Command.SHOW_FOOD_LIST) != null) {
+            }
+            else if (Command.getMatcher(input, Command.SHOW_FOOD_LIST) != null) {
                 showFoodList();
-            } else if (Command.getMatcher(input, Command.SHOW_FOOD_RATE) != null) {
+            }
+            else if (Command.getMatcher(input, Command.SHOW_FOOD_RATE) != null) {
                 showFoodRate();
-            } else if (Command.getMatcher(input, Command.SHOW_TAX_RATE) != null) {
+            }
+            else if (Command.getMatcher(input, Command.SHOW_TAX_RATE) != null) {
                 showTaxRate();
-            } else if ((matcher = Command.getMatcher(input, Command.SET_FOOD_RATE)) != null) {
+            }
+            else if ((matcher = Command.getMatcher(input, Command.SET_FOOD_RATE)) != null) {
                 setFoodRate(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.SET_TAX_RATE)) != null) {
+            }
+            else if ((matcher = Command.getMatcher(input, Command.SET_TAX_RATE)) != null) {
                 setTaxRate(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.SET_FEAR_RATE)) != null) {
+            }
+            else if ((matcher = Command.getMatcher(input, Command.SET_FEAR_RATE)) != null) {
                 setFearRate(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.SHOW_WEALTH)) != null) {
+            }
+            else if (Command.getMatcher(input, Command.SHOW_WEALTH) != null) {
                 showWealth();
-            } else if ((matcher = Command.getMatcher(input, Command.SHOW_COMMODITY)) != null) {
+            }
+            else if (Command.getMatcher(input, Command.SHOW_COMMODITY) != null) {
                 showCommodity();
-            } else if ((matcher = Command.getMatcher(input, Command.SELECT_BUILDING)) != null) {
+            }
+            else if ((matcher = Command.getMatcher(input, Command.SELECT_BUILDING)) != null) {
                 if (selectBuilding(matcher).equals(GameMenuMessages.SUCCESS))
                     return MenuNames.SELECT_BUILDING_MENU;
-            } else if ((matcher = Command.getMatcher(input, Command.SELECT_UNIT)) != null) {
+            }
+            else if ((matcher = Command.getMatcher(input, Command.SELECT_UNIT)) != null) {
                 if (selectUnit(matcher).equals(GameMenuMessages.SUCCESS))
                     return MenuNames.SELECT_UNIT_MENU;
-            } else if (Command.getMatcher(input, Command.NEXT_TURN) != null) {
+            }
+            else if (Command.getMatcher(input, Command.NEXT_TURN) != null) {
                 if (!GameMenuController.nextTurn()) {
                     GameMenuController.showWinner();
                     return MenuNames.MAIN_MENU;
                 }
-            } else if (Command.getMatcher(input, Command.ENTER_TRADE_MENU) != null) {
+            }
+            else if (Command.getMatcher(input, Command.ENTER_TRADE_MENU) != null) {
                 enterTradeMenu();
                 return MenuNames.TRADE_MENU;
-            } else if (Command.getMatcher(input, Command.ENTER_SHOP_MENU) != null) {
+            }
+            else if (Command.getMatcher(input, Command.ENTER_SHOP_MENU) != null) {
                 if (!GameMenuController.isAnyMarket()) {
                     System.out.println("You don't have any market!");
                     continue;
                 }
                 return MenuNames.SHOP_MENU;
-            } else if (Command.getMatcher(input, Command.BACK_MAIN_MENU) != null) {
+            }
+            else if (Command.getMatcher(input, Command.BACK_MAIN_MENU) != null) {
                 if (confirmationOfExist() == 1) {
                     return MenuNames.MAIN_MENU;
                 }
-            } else {
+            }
+            else {
                 System.out.println("Invalid command!");
             }
         }
@@ -190,9 +205,7 @@ public class GameMenu {
             case INVALID_POSITION -> System.out.println("You have chosen an Invalid amount of x or y!");
             case EMPTY_CELL -> System.out.println("This cell is empty!");
             case OTHERS_BUILDINGS -> System.out.println("This building belongs to others!");
-            case SUCCESS -> {
-                System.out.println("The building is selected successfully!");
-            }
+            case SUCCESS -> System.out.println("The building is selected successfully!");
         }
         return result;
     }

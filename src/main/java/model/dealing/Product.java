@@ -1,6 +1,6 @@
 package model.dealing;
 
-public enum Product implements Tradable{
+public enum Product implements Tradable {
     ARMOUR("armour"),
     SWORD("sword"),
     BOW("bow"),

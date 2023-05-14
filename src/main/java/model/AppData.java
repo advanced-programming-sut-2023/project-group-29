@@ -2,7 +2,6 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Map;
 
 public class AppData {
     private static final String usersDataBaseFilePath = "./src/main/dataFiles/UsersDataBase.json";
@@ -77,17 +76,17 @@ public class AppData {
         return users;
     }
 
-    public static String getUsersDataBaseFilePath() {
-        return usersDataBaseFilePath;
-    }
-
     public static void setUsers(ArrayList<User> users) {
         AppData.users = users;
     }
 
+    public static String getUsersDataBaseFilePath() {
+        return usersDataBaseFilePath;
+    }
+
     public static boolean checkStayLoggedIn() {
-        for(int i = 0; i < users.size(); i++) {
-            if(users.get(i).getStayLoggedIn() == 1) {
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getStayLoggedIn() == 1) {
                 AppData.setCurrentUser(users.get(i));
                 return true;
             }

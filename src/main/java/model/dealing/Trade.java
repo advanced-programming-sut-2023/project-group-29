@@ -6,7 +6,7 @@ public class Trade {
     private final PlayerNumber senderPlayer;
     private final PlayerNumber receiverPlayer;
     private final int price;
-    private Tradable tradable;
+    private final Tradable tradable;
     private final int count;
     private final String message;
 
@@ -31,6 +31,7 @@ public class Trade {
     public int getPrice() {
         return price;
     }
+
     public int getCount() {
         return count;
     }

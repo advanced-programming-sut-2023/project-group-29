@@ -9,9 +9,9 @@ public enum AimRangeEnum {
     LONG_CATAPULT_RANGE(12);
 
     private final int range;
-    AimRangeEnum(int range)
-    {
-        this.range =range;
+
+    AimRangeEnum(int range) {
+        this.range = range;
     }
 
     public int getRange() {

@@ -32,12 +32,12 @@ public class ResourceExtractor extends Building {
     }
 
     public void update() {
-        Empire ownerEmpire=this.getOwnerEmpire();
+        Empire ownerEmpire = this.getOwnerEmpire();
         //exception relating quarry and ox tether!!:
         if (resourceExtractorType.equals(ResourceExtractorType.QUARRY)
-        && ownerEmpire.getNumberOfBuildingType("oxTether") == 0) return;
+                && ownerEmpire.getNumberOfBuildingType("oxTether") == 0) return;
 
-        int change = Math.min(ownerEmpire.getEmptySpace(1),rate + ownerEmpire.getFearRate());
+        int change = Math.min(ownerEmpire.getEmptySpace(1), rate + ownerEmpire.getFearRate());
         ownerEmpire.changeTradableAmount(this.producingResource, change);
     }
 }

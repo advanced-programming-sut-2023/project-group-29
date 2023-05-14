@@ -47,7 +47,7 @@ public enum Command {
     SHOW_TRADE_LIST("\\s*trade\\s+list\\s*"),
     TRADE_ACCEPT("\\s*trade\\s+accept\\s+-i\\s+(?<id>\\S+)\\s*"),
     TRADE_HISTORY("\\s*trade\\s+history\\s*"),
-    MOVE_MAP("\\s*move(\\s+(up)|\\s+(down)|\\s+(right)|\\s+(left))+\\s*"),
+    MOVE_MAP("\\s*move(\\s+\\S+(\\s+\\d+)?)+\\s*"),
     SET_BLOCK_TEXTURE("\\s*set\\s+texture\\s+-[xyt]\\s+(\\S+)\\s+-[yxt]\\s+(\\S+)\\s+-[txy]\\s+(\\S+)\\s*"),
     SET_PART_OF_BLOCK_TEXTURE("\\s*set\\s+texture\\s+-(x1|y1|x2|y2|t)\\s+(\\S+)\\s+-(x1|y1|x2|y2|t)\\s+(\\S+)\\s+-(x1|y1|x2|y2|t)\\s+(\\S+)\\s+-(x1|y1|x2|y2|t)\\s+(\\S+)\\s+-(x1|y1|x2|y2|t)\\s+(\\S+)\\s*"),
     CLEAR("\\s*clear\\s+-[xy]\\s+(\\d+)\\s+-[yx]\\s+(\\d+)\\s*"),
@@ -57,6 +57,7 @@ public enum Command {
     DROP_UNIT("\\s*drop\\s+unit\\s+-[xytcn]\\s+(\\S+)\\s+-[xytcn]\\s+(\\S+)\\s+" +
             "-[xytcn]\\s+(\\S+)\\s+-[xytcn]\\s+(\\S+)\\s+-[xytcn]\\s+(\\S+)\\s*"),
     CREATE_UNIT("\\s*create\\s+unit\\s+-[tc]\\s+(\\S+)\\s+-[ct]\\s+(\\S+)\\s*"),
+    DROP_LADDER("\\s*drop\\s+ladder\\s*"),
     CHANGE_BRIDGE_STATE("\\s*change\\s+state\\s+of\\s+this\\s+bridge\\s*"),
     REPAIR_BUILDING("\\s*repair\\s*"),
     MOVE_UNIT("\\s*move\\s+unit\\s+to\\s+-[xy]\\s+(\\d+)\\s+-[xy]\\s+(\\d+)\\s*"),

@@ -1,7 +1,9 @@
 package model.people;
 
-import controller.menucontrollers.GameMenuController;
-import model.*;
+import model.Asset;
+import model.Movable;
+import model.Patrol;
+import model.PlayerNumber;
 import model.map.Map;
 import model.people.humanClasses.Soldier;
 import model.people.humanClasses.Worker;
@@ -9,12 +11,12 @@ import model.people.humanTypes.SoldierType;
 import model.people.humanTypes.WorkerType;
 
 public class Human extends Asset implements Movable {
+    private final String name;
+    private final Patrol patrol = new Patrol();
     protected boolean ableToClimbLadder;
     protected boolean ableToClimbStairs;
     protected int speed;
-    private boolean movedThisTurn=false;
-    private String name;
-    private final Patrol patrol=new Patrol();
+    private boolean movedThisTurn = false;
 
 
     protected Human(HumanType humanType, PlayerNumber playerNumber, int positionX, int positionY) {
@@ -22,14 +24,31 @@ public class Human extends Asset implements Movable {
         this.hp = humanType.hp();
         this.ableToClimbLadder = humanType.ableToClimbLadder();
         this.speed = humanType.speed().getSpeedValue();
-        this.showingSignInMap=humanType.showingSignInMap() + "__" + (playerNumber.getNumber() + 1);
-        this.name=humanType.name();
-        this.ableToClimbStairs=humanType.ableToClimbStairs();
+        this.showingSignInMap = humanType.showingSignInMap() + "__" + (playerNumber.getNumber() + 1);
+        this.name = humanType.name();
+        this.ableToClimbStairs = humanType.ableToClimbStairs();
+    }
+
+    public static Human createUnitByName(String unitName, PlayerNumber ownerNumber, int positionX, int positionY) {
+
+        //if soldier
+        for (SoldierType soldierType : SoldierType.values())
+            if (soldierType.getName().equals(unitName)) {
+                return new Soldier(soldierType, ownerNumber, positionX, positionY);
+            }
+
+        //if worker
+        for (WorkerType workerType : WorkerType.values())
+            if (workerType.getName().equals(unitName))
+                return new Worker(workerType, ownerNumber, positionX, positionY);
+
+        return null;
     }
 
     public MovingResult move(Map map, int destinationX, int destinationY) {
         return Movable.move(map, this, destinationX, destinationY);
     }
+
     public MovingResult checkForMoveErrors(Map map, int destinationX, int destinationY) {
         return Movable.checkForMoveErrors(map, this, destinationX, destinationY);
     }
@@ -38,16 +57,11 @@ public class Human extends Asset implements Movable {
         return ableToClimbLadder;
     }
 
-    public boolean isAlive() {
-        return hp > 0;
-    }
-
     public int getSpeed() {
         return speed;
     }
 
-    public boolean hasMovedThisTurn()
-    {
+    public boolean hasMovedThisTurn() {
         return movedThisTurn;
     }
 
@@ -62,23 +76,6 @@ public class Human extends Asset implements Movable {
 
     public String getName() {
         return name;
-    }
-
-    public static Human createUnitByName(String unitName,PlayerNumber ownerNumber,int positionX,int positionY)
-    {
-
-        //if soldier
-        for(SoldierType soldierType:SoldierType.values())
-            if(soldierType.getName().equals(unitName)) {
-                return new Soldier(soldierType, ownerNumber, positionX, positionY);
-            }
-
-        //if worker
-        for(WorkerType workerType:WorkerType.values())
-            if(workerType.getName().equals(unitName))
-                return new Worker(workerType,ownerNumber,positionX,positionY);
-
-        return null;
     }
 
     @Override

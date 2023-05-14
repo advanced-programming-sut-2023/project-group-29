@@ -7,19 +7,19 @@ import model.dealing.Resource;
 
 public enum ResourceProcessorType implements BuildType {
     ARMOURER( // زره سازی
-            new BuildingType(80, 1, new int[]{100, 0, 20, 0},"Armrr"),
+            new BuildingType(80, 1, new int[]{100, 0, 20, 0}, "Armrr"),
             10, Resource.IRON, Product.ARMOUR, "Armourer"
     ),
     BLACK_SMITH( // ساختمان آهنگری
-            new BuildingType(80, 1, new int[]{100, 0, 20, 0},"BSmth"),
+            new BuildingType(80, 1, new int[]{100, 0, 20, 0}, "BSmth"),
             10, Resource.IRON, Product.SWORD, "blackSmith"
     ),
     FLETCHER( // کمان سازی
-            new BuildingType(80, 1, new int[]{100, 0, 20, 0},"Fltch"),
+            new BuildingType(80, 1, new int[]{100, 0, 20, 0}, "Fltch"),
             10, Resource.WOOD, Product.BOW, "fletcher"
     ),
     POLETURNER( // نیزه سازی
-            new BuildingType(80, 1, new int[]{100, 0, 10, 0},"Ptrnr"),
+            new BuildingType(80, 1, new int[]{100, 0, 10, 0}, "Ptrnr"),
             10, Resource.WOOD, Product.PIKE, "poleturner"
     ),
     ;

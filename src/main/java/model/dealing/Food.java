@@ -1,6 +1,6 @@
 package model.dealing;
 
-public enum Food implements Tradable{
+public enum Food implements Tradable {
     APPLE("apple"),
     MEAT("meat"),
     BREAD("bread"),

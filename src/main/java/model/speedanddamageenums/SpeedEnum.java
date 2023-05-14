@@ -7,9 +7,9 @@ public enum SpeedEnum {
     FAST(7),
     TOO_FAST(9);
     private final int speedValue;
-    SpeedEnum(int speedValue)
-    {
-        this.speedValue=speedValue;
+
+    SpeedEnum(int speedValue) {
+        this.speedValue = speedValue;
     }
 
     public int getSpeedValue() {

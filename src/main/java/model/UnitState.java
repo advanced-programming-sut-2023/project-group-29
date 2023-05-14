@@ -6,20 +6,20 @@ public enum UnitState {
     OFFENSIVE("offensive");
 
     private final String string;
-    UnitState(String string)
-    {
-        this.string=string;
-    }
-    public String getString() {
-        return string;
+
+    UnitState(String string) {
+        this.string = string;
     }
 
-    public static UnitState getUnitStateByString(String string)
-    {
-        for(UnitState unitState : UnitState.values())
-            if(unitState.string.equals(string))
+    public static UnitState getUnitStateByString(String string) {
+        for (UnitState unitState : UnitState.values())
+            if (unitState.string.equals(string))
                 return unitState;
 
         return null;
+    }
+
+    public String getString() {
+        return string;
     }
 }

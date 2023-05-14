@@ -17,6 +17,7 @@ import view.messages.SelectBuildingMenuMessages;
 
 public class SelectBuildingMenuController {
     private static Building selectedBuilding;
+
     public static void setSelectedBuilding(Building selectedBuilding) {
         SelectBuildingMenuController.selectedBuilding = selectedBuilding;
     }
@@ -32,6 +33,7 @@ public class SelectBuildingMenuController {
         building.changeState();
         return SelectBuildingMenuMessages.SUCCESS;
     }
+
     public static SelectBuildingMenuMessages createUnit(String unitType, int count) {
         Empire ownerEmpire = selectedBuilding.getOwnerEmpire();
         SoldierType soldierType = SoldierType.getSoldierTypeByName(unitType);
@@ -39,16 +41,19 @@ public class SelectBuildingMenuController {
 
         if (soldierType == null) {
             return SelectBuildingMenuMessages.INVALID_TYPE;
-        } else if (!(selectedBuilding instanceof UnitCreator
+        }
+        else if (!(selectedBuilding instanceof UnitCreator
                 && buildingAndTroopMatch((UnitCreator) selectedBuilding, soldierType))) {
             return SelectBuildingMenuMessages.UNRELATED;
         }
         UnitCreator building = (UnitCreator) selectedBuilding;
         if (building.getUnitCost() * count > ownerEmpire.getWealth()) {
             return SelectBuildingMenuMessages.LACK_OF_COINS;
-        } else if (!isWeaponEnough(ownerEmpire, soldierType, count)) {
+        }
+        else if (!isWeaponEnough(ownerEmpire, soldierType, count)) {
             return SelectBuildingMenuMessages.LACK_OF_WEAPON;
-        } else if (ownerEmpire.getWorklessPopulation() < count) {
+        }
+        else if (ownerEmpire.getWorklessPopulation() < count) {
             return SelectBuildingMenuMessages.LACK_OF_HUMAN;
         }
         createUnitsAndDecreaseCoinAndWeapon(unitType, count, ownerEmpire, soldierType, building);
@@ -74,7 +79,7 @@ public class SelectBuildingMenuController {
             case ARABIAN_SWORDSMAN, ARCHER_BOW, SLINGER, ASSASSIN, HORSE_ARCHER, FIRE_THROWER ->
                     (building.getUnitCreatorType().equals(UnitCreatorType.MERCENARY_POST));
             case ENGINEER -> (building.getUnitCreatorType().equals(UnitCreatorType.ENGINEER_GUILD));
-            case BLACK_MONK -> (building.getUnitCreatorType().equals(UnitCreatorType.CATHEDRAL))||
+            case BLACK_MONK -> (building.getUnitCreatorType().equals(UnitCreatorType.CATHEDRAL)) ||
                     (building.getUnitCreatorType().equals(UnitCreatorType.CHURCH));
             default -> (building.getUnitCreatorType().equals(UnitCreatorType.BARRACK));
         };
@@ -93,7 +98,8 @@ public class SelectBuildingMenuController {
         Empire ownerEmpire = selectedBuilding.getOwnerEmpire();
         if (!hasEnoughStoneToRepair(ownerEmpire, selectedBuilding)) {
             return SelectBuildingMenuMessages.LACK_OF_STONE;
-        } else if (isEnemyNearIt(selectedBuilding)) {
+        }
+        else if (isEnemyNearIt(selectedBuilding)) {
             return SelectBuildingMenuMessages.ENEMY_IS_NEAR;
         }
         selectedBuilding.repair();

@@ -5,14 +5,14 @@ import controller.menucontrollers.GameMenuController;
 public class Asset {
     private final PlayerNumber ownerNumber;
     protected int hp;
+    protected String showingSignInMap;
     private int positionX;
     private int positionY;
-    protected String showingSignInMap;
 
     public Asset(PlayerNumber ownerNumber, int positionX, int positionY) {
         this.ownerNumber = ownerNumber;
-        this.positionX=positionX;
-        this.positionY= positionY;
+        this.positionX = positionX;
+        this.positionY = positionY;
     }
 
     public Empire getOwnerEmpire() {

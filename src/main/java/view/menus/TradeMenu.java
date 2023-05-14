@@ -2,7 +2,6 @@ package view.menus;
 
 import controller.MenuNames;
 import controller.menucontrollers.TradeMenuController;
-import org.checkerframework.checker.units.qual.C;
 import view.Command;
 
 import java.util.Scanner;
@@ -15,16 +14,21 @@ public class TradeMenu {
         String input = scanner.nextLine();
         if ((matcher = Command.getMatcher(input, Command.TRADE)) != null) {
             trade(matcher);
-        } else if (Command.getMatcher(input, Command.SHOW_TRADE_LIST) != null) {
+        }
+        else if (Command.getMatcher(input, Command.SHOW_TRADE_LIST) != null) {
             showTradeList();
-        } else if ((matcher = Command.getMatcher(input, Command.TRADE_ACCEPT)) != null) {
+        }
+        else if ((matcher = Command.getMatcher(input, Command.TRADE_ACCEPT)) != null) {
             tradeAccept(matcher);
-        } else if ((matcher = Command.getMatcher(input, Command.TRADE_HISTORY)) != null) {
+        }
+        else if (Command.getMatcher(input, Command.TRADE_HISTORY) != null) {
             tradeHistory();
-        } else if ((matcher = Command.getMatcher(input, Command.BACK_GAME_MENU)) != null) {
+        }
+        else if (Command.getMatcher(input, Command.BACK_GAME_MENU) != null) {
             System.out.println("You entered game menu");
             return MenuNames.GAME_MENU;
-        } else {
+        }
+        else {
             System.out.println("Invalid command!");
         }
         return MenuNames.TRADE_MENU;
@@ -37,7 +41,7 @@ public class TradeMenu {
         Matcher matcherExistPrice = Pattern.compile("-p\\s+(\\d+)").matcher(input);
         Matcher matcherExistMessage = Pattern.compile("-m\\s+(\\S[^-]+\\w)").matcher(input);
         Matcher matcherExistNumberOfAnotherPlayer = Pattern.compile("-n\\s+(\\d)").matcher(input);
-        if(!(matcherExistType.find() && matcherExistAmount.find() &&
+        if (!(matcherExistType.find() && matcherExistAmount.find() &&
                 matcherExistPrice.find() && matcherExistMessage.find() && matcherExistNumberOfAnotherPlayer.find())) {
             System.out.println("Invalid command!");
             return;
@@ -48,6 +52,7 @@ public class TradeMenu {
                 matcherExistMessage.group(1),
                 Integer.parseInt(matcherExistNumberOfAnotherPlayer.group(1))));
     }
+
     private static void showTradeList() {
         System.out.println(TradeMenuController.showTradeList());
     }
@@ -55,7 +60,7 @@ public class TradeMenu {
     private static void tradeAccept(Matcher matcher) {
         String input = matcher.group(0);
         Matcher existIdMatcher = Pattern.compile("-i (\\d+)").matcher(input);
-        if(!(existIdMatcher.find())) {
+        if (!(existIdMatcher.find())) {
             System.out.println("Invalid command!");
             return;
         }

@@ -25,7 +25,8 @@ public class ShopMenuController {
         Resource resource = Resource.getResourceByName(resourceName);
         if (empire.getWealth() < resource.getBuyingPrice() * amount) {
             return ShopMenuMessages.FEW_CASH;
-        } else if (empire.getEmptySpace(1) < amount) {
+        }
+        else if (empire.getEmptySpace(1) < amount) {
             return ShopMenuMessages.LACK_OF_SPACE;
         }
         empire.changeWealth(-resource.getBuyingPrice() * amount);

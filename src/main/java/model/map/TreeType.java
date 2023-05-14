@@ -8,7 +8,7 @@ public enum TreeType {
     DATES(ConsoleColors.BLACK_BACKGROUND, "dates"),
     ;
     private final ConsoleColors showingColor;
-    private String name;
+    private final String name;
 
     TreeType(ConsoleColors showingColor, String name) {
         this.name = name;

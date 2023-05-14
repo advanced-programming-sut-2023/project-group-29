@@ -23,7 +23,7 @@ public class Accommodation extends Building {
 
     @Override
     public void setShowingSignInMap() {
-        showingSignInMap = accommodationType.getBuildingType().abbreviation() + (getOwnerNumber().getNumber()+1);
+        showingSignInMap = accommodationType.getBuildingType().abbreviation() + (getOwnerNumber().getNumber() + 1);
     }
 
     public void update() {

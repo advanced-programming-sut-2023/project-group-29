@@ -3,7 +3,7 @@ package model.buildings.buildingTypes;
 import model.buildings.Building;
 import model.buildings.BuildingType;
 
-public enum OtherBuildingsType implements BuildType{
+public enum OtherBuildingsType implements BuildType {
     DRAW_BRIDGE( // پل متحرک
             new BuildingType(50, 0, new int[]{0, 0, 10, 0}, "DBrgD"),
             "drawBridge"

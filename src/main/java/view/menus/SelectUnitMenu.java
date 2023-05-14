@@ -17,39 +17,52 @@ public class SelectUnitMenu {
             String input = scanner.nextLine();
             if ((matcher = Command.getMatcher(input, Command.MOVE_UNIT)) != null) {
                 moveUnit(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.PATROL_UNIT)) != null) {
+            }
+            else if ((matcher = Command.getMatcher(input, Command.PATROL_UNIT)) != null) {
                 patrolUnit(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.SET_STATE_OF_UNIT)) != null) {
+            }
+            else if ((matcher = Command.getMatcher(input, Command.SET_STATE_OF_UNIT)) != null) {
                 setStateOfUnit(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.ATTACK)) != null) {
+            }
+            else if ((matcher = Command.getMatcher(input, Command.ATTACK)) != null) {
                 Attack(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.POUR_OIL)) != null) {
+            }
+            else if ((matcher = Command.getMatcher(input, Command.POUR_OIL)) != null) {
                 pourOil(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.DIG_TUNNEL)) != null) {
+            }
+            else if (Command.getMatcher(input, Command.DROP_LADDER) != null) {
+                dropLadder();
+            }
+            else if ((matcher = Command.getMatcher(input, Command.DIG_TUNNEL)) != null) {
                 digTunnel(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.BUILD_EQUIPMENT)) != null) {
+            }
+            else if ((matcher = Command.getMatcher(input, Command.BUILD_EQUIPMENT)) != null) {
                 buildEquipment(matcher);
-            } else if (Command.getMatcher(input, Command.DISBAND_UNIT) != null) {
+            }
+            else if (Command.getMatcher(input, Command.DISBAND_UNIT) != null) {
                 disbandUnit();
-            } else if ((matcher = Command.getMatcher(input, Command.BACK_GAME_MENU)) != null) {
+            }
+            else if (Command.getMatcher(input, Command.BACK_GAME_MENU) != null) {
                 return MenuNames.GAME_MENU;
-            } else {
+            }
+            else {
                 System.out.println("Invalid command!");
             }
         }
     }
+
     private static void moveUnit(Matcher matcher) {
         String input = matcher.group(0);
         Matcher xMatcher = Pattern.compile("-x\\s+(\\d+)").matcher(input);
         Matcher yMatcher = Pattern.compile("-y\\s+(\\d+)").matcher(input);
-        if(!(xMatcher.find() && yMatcher.find())) {
+        if (!(xMatcher.find() && yMatcher.find())) {
             System.out.println("Invalid command!");
             return;
         }
-        int xPosition=Integer.parseInt(xMatcher.group(1));
-        int yPosition=Integer.parseInt(yMatcher.group(1));
+        int xPosition = Integer.parseInt(xMatcher.group(1));
+        int yPosition = Integer.parseInt(yMatcher.group(1));
 
-        System.out.println(SelectUnitMenuController.moveUnit(xPosition,yPosition));
+        System.out.println(SelectUnitMenuController.moveUnit(xPosition, yPosition));
     }
 
     private static void patrolUnit(Matcher matcher) {
@@ -58,7 +71,7 @@ public class SelectUnitMenu {
         Matcher x2Matcher = Pattern.compile("x2\\s+(\\d+)").matcher(input);
         Matcher y1Matcher = Pattern.compile("y1\\s+(\\d+)").matcher(input);
         Matcher y2Matcher = Pattern.compile("y2\\s+(\\d+)").matcher(input);
-        if(!(x1Matcher.find() && x2Matcher.find() && y1Matcher.find() && y2Matcher.find())) {
+        if (!(x1Matcher.find() && x2Matcher.find() && y1Matcher.find() && y2Matcher.find())) {
             System.out.println("Invalid command!");
             return;
         }
@@ -74,7 +87,7 @@ public class SelectUnitMenu {
         Matcher xMatcher = Pattern.compile("-x\\s+(\\d+)").matcher(input);
         Matcher yMatcher = Pattern.compile("-y\\s+(\\d+)").matcher(input);
         Matcher sMatcher = Pattern.compile("-s\\s+(\\S+)").matcher(input);
-        if(!(xMatcher.find() && yMatcher.find() && sMatcher.find())) {
+        if (!(xMatcher.find() && yMatcher.find() && sMatcher.find())) {
             System.out.println("Invalid command!");
             return;
         }
@@ -97,18 +110,18 @@ public class SelectUnitMenu {
         String input = matcher.group(0);
         Matcher xMatcher = Pattern.compile("-x\\s+(\\d+)").matcher(input);
         Matcher yMatcher = Pattern.compile("-y\\s+(\\d+)").matcher(input);
-        if(!(xMatcher.find() && yMatcher.find())) {
+        if (!(xMatcher.find() && yMatcher.find())) {
             System.out.println("Invalid command!");
             return;
         }
-        int x=Integer.parseInt(xMatcher.group(1));
-        int y=Integer.parseInt(yMatcher.group(1));
-        System.out.println(SelectUnitMenuController.makeUnitAttacking(x,y));
+        int x = Integer.parseInt(xMatcher.group(1));
+        int y = Integer.parseInt(yMatcher.group(1));
+        System.out.println(SelectUnitMenuController.makeUnitAttacking(x, y));
     }
 
     private static void pourOil(Matcher matcher) {
         String direction = matcher.group(1);
-        if(!(direction.equals("e") || direction.equals("w") || direction.equals("n") || direction.equals("s"))) {
+        if (!(direction.equals("right") || direction.equals("down") || direction.equals("left") || direction.equals("up"))) {
             System.out.println("Invalid command!");
             return;
         }
@@ -119,7 +132,7 @@ public class SelectUnitMenu {
         String input = matcher.group(0);
         Matcher xMatcher = Pattern.compile("-x\\s+(\\d+)").matcher(input);
         Matcher yMatcher = Pattern.compile("-y\\s+(\\d+)").matcher(input);
-        if(!(xMatcher.find() && yMatcher.find())) {
+        if (!(xMatcher.find() && yMatcher.find())) {
             System.out.println("Invalid command!");
             return;
         }
@@ -144,5 +157,9 @@ public class SelectUnitMenu {
     private static void disbandUnit() {
         SelectUnitMenuController.disbandUnit();
         System.out.println("Disband was successfully done!");
+    }
+
+    private static void dropLadder() {
+        System.out.println(SelectUnitMenuController.dropLadder());
     }
 }

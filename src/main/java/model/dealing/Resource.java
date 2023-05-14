@@ -1,10 +1,10 @@
 package model.dealing;
 
-public enum Resource implements Tradable{
+public enum Resource implements Tradable {
     STONE(30, 15, "stone"),
     WOOD(20, 10, "wood"),
     IRON(40, 20, "iron"),
-    PITCH(10,5,"pitch"),
+    PITCH(10, 5, "pitch"),
     ;
     private final String name;
     private final int buyingPrice;
@@ -14,6 +14,13 @@ public enum Resource implements Tradable{
         this.buyingPrice = buyingPrice;
         this.sellingPrice = sellingPrice;
         this.name = name;
+    }
+
+    public static Resource getResourceByName(String name) {
+        for (Resource resource : Resource.values()) {
+            if (resource.name.equals(name)) return resource;
+        }
+        return null;
     }
 
     public String getName() {
@@ -26,12 +33,5 @@ public enum Resource implements Tradable{
 
     public int getSellingPrice() {
         return sellingPrice;
-    }
-
-    public static Resource getResourceByName(String name) {
-        for (Resource resource : Resource.values()) {
-            if (resource.name.equals(name)) return resource;
-        }
-        return null;
     }
 }

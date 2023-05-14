@@ -1,9 +1,6 @@
 package model.people.humanTypes;
 
 import model.people.HumanType;
-import model.speedanddamageenums.AimRangeEnum;
-import model.speedanddamageenums.DamageEnum;
-import model.speedanddamageenums.SpeedEnum;
 
 public enum WorkerType {
     ;
@@ -13,7 +10,7 @@ public enum WorkerType {
 
     WorkerType(HumanType humanType) {
         this.humanType = humanType;
-        this.name= humanType.name();
+        this.name = humanType.name();
     }
 
     public HumanType getHumanType() {

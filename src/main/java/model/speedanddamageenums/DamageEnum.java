@@ -10,9 +10,9 @@ public enum DamageEnum {
     TOO_STRONG(50);
 
     private final int damageValue;
-    DamageEnum(int damageValue)
-    {
-        this.damageValue=damageValue;
+
+    DamageEnum(int damageValue) {
+        this.damageValue = damageValue;
     }
 
     public int getDamageValue() {

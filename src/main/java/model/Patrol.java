@@ -3,20 +3,20 @@ package model;
 import model.map.Map;
 
 public class Patrol {
-    private boolean patrolling=false;
-    private final Pair[] patrolEndCells=new Pair[2];
-    private CellEnds currentCell=CellEnds.SECOND_CELL;
+    private final Pair[] patrolEndCells = new Pair[2];
+    private boolean patrolling = false;
+    private CellEnds currentCell = CellEnds.SECOND_CELL;
 
     public boolean isPatrolling() {
         return patrolling;
     }
-    public void startNewPatrol(int firstX,int firstY,int secondX,int secondY)
-    {
-        patrolEndCells[0]=new Pair(firstX,firstY);
-        patrolEndCells[1]=new Pair(secondX,secondY);
 
-        currentCell=CellEnds.SECOND_CELL;
-        patrolling=true;
+    public void startNewPatrol(int firstX, int firstY, int secondX, int secondY) {
+        patrolEndCells[0] = new Pair(firstX, firstY);
+        patrolEndCells[1] = new Pair(secondX, secondY);
+
+        currentCell = CellEnds.SECOND_CELL;
+        patrolling = true;
     }
 
     public void cancelPatrolling() {
@@ -27,26 +27,23 @@ public class Patrol {
         return patrolEndCells;
     }
 
-    public void patrol(Movable movable, Map map)
-    {
+    public void patrol(Movable movable, Map map) {
         Movable.MovingResult movingResult;
 
-        if(currentCell.equals(CellEnds.FIRST_CELL))
-            movingResult=movable.move(map,patrolEndCells[1].first,patrolEndCells[1].second);
+        if (currentCell.equals(CellEnds.FIRST_CELL))
+            movingResult = movable.move(map, patrolEndCells[1].first, patrolEndCells[1].second);
         else
-            movingResult=movable.move(map,patrolEndCells[0].first,patrolEndCells[0].second);
+            movingResult = movable.move(map, patrolEndCells[0].first, patrolEndCells[0].second);
 
-        if(movingResult.equals(Movable.MovingResult.SUCCESSFUL))
-        {
-            currentCell= currentCell.equals(CellEnds.FIRST_CELL) ? CellEnds.SECOND_CELL : CellEnds.FIRST_CELL;
+        if (movingResult.equals(Movable.MovingResult.SUCCESSFUL)) {
+            currentCell = currentCell.equals(CellEnds.FIRST_CELL) ? CellEnds.SECOND_CELL : CellEnds.FIRST_CELL;
         }
-        else
-        {
-            patrolling=false;
+        else {
+            patrolling = false;
         }
     }
 
-    public enum CellEnds{
+    public enum CellEnds {
         FIRST_CELL,
         SECOND_CELL
     }

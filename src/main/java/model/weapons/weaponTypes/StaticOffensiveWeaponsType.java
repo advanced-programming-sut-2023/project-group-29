@@ -1,12 +1,11 @@
 package model.weapons.weaponTypes;
 
 import model.speedanddamageenums.AimRangeEnum;
-import model.speedanddamageenums.SpeedEnum;
 import model.weapons.Weapon;
 import model.weapons.WeaponTypes;
 
 public enum StaticOffensiveWeaponsType {
-    CATAPULT_WITH_BALLAST(new WeaponTypes("catapultWithBallast",Weapon.BuilderType.ENGINEER, 80, 3,"CPB"), 100,AimRangeEnum.LONG_CATAPULT_RANGE);
+    CATAPULT_WITH_BALLAST(new WeaponTypes("catapultWithBallast", Weapon.BuilderType.ENGINEER, 80, 3, "CPB"), 100, AimRangeEnum.LONG_CATAPULT_RANGE);
     private final int damage;
     private final int aimRange;
     private final WeaponTypes weaponTypes;
@@ -28,6 +27,7 @@ public enum StaticOffensiveWeaponsType {
     public WeaponTypes getWeaponTypes() {
         return weaponTypes;
     }
+
     public String getName() {
         return weaponTypes.name();
     }

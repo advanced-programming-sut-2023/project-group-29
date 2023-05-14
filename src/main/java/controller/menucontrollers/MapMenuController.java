@@ -69,9 +69,10 @@ public class MapMenuController {
             if (asset instanceof Soldier soldier) {
                 output += "name: " + soldier.getName() + ". owner: " +
                         soldier.getOwnerNumber() + " PLAYER. " + "hp: " + soldier.getHp() + ". ";
-                output += soldier.hasAttackedThisTurn() ? " attacked. " : "not attacked. ";
+                output += soldier.hasAttackedThisTurn() ? "attacked. " : "not attacked. ";
                 output += soldier.hasMovedThisTurn() ? " moved. " : "not moved. ";
-            } else if (asset instanceof Weapon weapon) {
+            }
+            else if (asset instanceof Weapon weapon) {
                 output += "name: " + weapon.getName() + ". owner: " +
                         weapon.getOwnerNumber() + " PLAYER. " + "hp: " + weapon.getHp() + ". ";
 
@@ -265,7 +266,8 @@ public class MapMenuController {
         TreeType treeType = TreeType.getTreeTypeByName(name);
         if (treeType == null) {
             return MapMenuMessages.INVALID_TYPE;
-        } else if (!gameData.getMap().isIndexValid(xPosition, yPosition)) {
+        }
+        else if (!gameData.getMap().isIndexValid(xPosition, yPosition)) {
             return MapMenuMessages.INVALID_INDEX;
         }
         Cell cell = gameData.getMap().getCells()[xPosition][yPosition];
@@ -318,7 +320,8 @@ public class MapMenuController {
 
         if (!empire.canBuyBuilding(buildingName)) {
             return MapMenuMessages.LACK_OF_RESOURCES;
-        } else if (empire.getWorklessPopulation() < Building.getNumberOfWorkers(buildingName)) {
+        }
+        else if (empire.getWorklessPopulation() < Building.getNumberOfWorkers(buildingName)) {
             return MapMenuMessages.LACK_OF_HUMAN;
         }
 
@@ -337,7 +340,8 @@ public class MapMenuController {
         if (result.equals(MapMenuMessages.SUCCESSFUL)) {
             chosenCell.makeBuilding(buildingName, ownerPlayerNumber);
             return MapMenuMessages.SUCCESSFUL;
-        } else
+        }
+        else
             return result;
     }
 
@@ -352,18 +356,22 @@ public class MapMenuController {
         if (buildingName.equals(mainKeepName)
                 && empire.getNumberOfBuildingType(mainKeepName) > 0) {
             return MapMenuMessages.TWO_MAIN_KEEP;
-        } else if (!Building.isBuildingNameValid(buildingName)) {
+        }
+        else if (!Building.isBuildingNameValid(buildingName)) {
             return MapMenuMessages.INVALID_TYPE;
-        } else if (!chosenCell.getCellType().isAbleToBuildOn(buildingName)) {
+        }
+        else if (!chosenCell.getCellType().isAbleToBuildOn(buildingName)) {
             return MapMenuMessages.IMPROPER_CELL_TYPE;
-        } else if (chosenCell.getBuilding() != null || chosenCell.hasTrap()) {
+        }
+        else if (chosenCell.getBuilding() != null || chosenCell.hasTrap()) {
             if (!(chosenCell.getBuilding() instanceof OtherBuildings otherBuildings &&
                     otherBuildings.getOtherBuildingsType().equals(OtherBuildingsType.SHORT_WALL) &&
                     buildingName.equals("stair") &&
                     chosenCell.getBuilding().getOwnerNumber().equals(gameData.getPlayerOfTurn()))) {
                 return MapMenuMessages.FULL_CELL;
             }
-        } else if (buildingTypeIsStore(buildingName)
+        }
+        else if (buildingTypeIsStore(buildingName)
                 && IsAnotherStore(empire, buildingName)
                 && !isConnectedToOthers(x, y, buildingName, empire)) {
             return MapMenuMessages.UNCONNECTED_STOREROOMS;
@@ -398,7 +406,8 @@ public class MapMenuController {
         Cell chosenCell = map.getCells()[x][y];
         if (chosenCell.getBuilding() == null) {
             return false;
-        } else {
+        }
+        else {
             return chosenCell.getBuilding().getName().equals(buildingName)
                     && chosenCell.getBuilding().getOwnerEmpire().equals(empire);
         }
