@@ -161,6 +161,11 @@ public class Cell {
     public void makeBuilding(String buildingName, PlayerNumber ownerPlayerNumber) {
         int buildingGroupNumber = Building.getGroupNumberByBuildingName(buildingName);
         int x = this.getXPosition(), y = this.getYPosition();
+        //wall with stair:
+        if (buildingName.equals("stair") && this.hasBuilding()) {
+            building = new OtherBuildings(OtherBuildingsType.WALL_WITH_STAIR, ownerPlayerNumber, x, y);
+            return;
+        }
         switch (buildingGroupNumber) {
             case 1 -> building = new Accommodation
                     (AccommodationType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
@@ -182,7 +187,6 @@ public class Cell {
                     (UnitCreatorType.getTypeByBuildingName(buildingName), ownerPlayerNumber, x, y);
         }
     }
-    //todo jasbi handle hashmap of building
     public int getXPosition() {
         return xPosition;
     }

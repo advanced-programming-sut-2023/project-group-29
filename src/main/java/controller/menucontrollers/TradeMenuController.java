@@ -100,6 +100,10 @@ public class TradeMenuController {
                         gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn()).getWealth()) {
                     return "Your wealth is less than the price of your dealing!";
                 }
+                Empire senderEmpire = gameData.getEmpireByPlayerNumber(trade.getSenderPlayer());
+                if(senderEmpire.getTradableAmount(trade.getCommodity()) < trade.getCount()) {
+                    return "The sender doesn't have enough commodity now!";
+                }
                 gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn()).
                         getTradesHistory().add(trades.get(i));
                 continue;

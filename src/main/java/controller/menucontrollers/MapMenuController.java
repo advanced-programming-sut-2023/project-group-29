@@ -41,17 +41,17 @@ public class MapMenuController {
         String output = "";
 
         output += "Type of cell: ";
-        output+=showingCell.getCellType().getName();
+        output += showingCell.getCellType().getName();
         output += "\n";
 
         output += "Type of tree: ";
-        if(showingCell.getTreeTypes()!=null)
-            output+=showingCell.getTreeTypes().getName();
+        if (showingCell.getTreeTypes() != null)
+            output += showingCell.getTreeTypes().getName();
         output += "\n";
 
         output += "Building: ";
         output += showingCell.hasBuilding() ? showingCell.getBuilding().getName() : "";
-        output += showingCell.hasBuilding() ? " HP: "+showingCell.getBuilding().getHp() : "";
+        output += showingCell.hasBuilding() ? " HP: " + showingCell.getBuilding().getHp() : "";
         output += "\n";
 
         output += "Trap: ";
@@ -180,7 +180,7 @@ public class MapMenuController {
                         soldier.getSoldierType().equals(SoldierType.ASSASSIN) &&
                         !soldier.getOwnerNumber().equals(gameData.getPlayerOfTurn()) &&
                         !gameData.getMap().isAssassinSeen
-                                (cell.getXPosition(), cell.getYPosition(),gameData.getPlayerOfTurn()))
+                                (cell.getXPosition(), cell.getYPosition(), gameData.getPlayerOfTurn()))
                     index++;
                 else {
                     break;
@@ -287,15 +287,15 @@ public class MapMenuController {
         if (!map.isIndexValid(positionX, positionY))
             return MapMenuMessages.INVALID_INDEX;
 
-        Cell currentCell=map.getCells()[positionX][positionY];
+        Cell currentCell = map.getCells()[positionX][positionY];
         if (currentCell.hasBuilding() && currentCell.getBuilding() instanceof OtherBuildings otherBuildings)
-            if(otherBuildings.getOtherBuildingsType().equals(OtherBuildingsType.MOAT))
-                if(!unit.isAbleToClimbLadder())
+            if (otherBuildings.getOtherBuildingsType().equals(OtherBuildingsType.MOAT))
+                if (!unit.isAbleToClimbLadder())
                     return MapMenuMessages.IMPROPER_CELL_TYPE;
 
         if (currentCell.hasTrap() && currentCell.getTrap().getOwnerNumber().equals(unit.getOwnerNumber()))
             return MapMenuMessages.IMPROPER_CELL_TYPE;
-        if(!currentCell.isAbleToMoveOn())
+        if (!currentCell.isAbleToMoveOn())
             return MapMenuMessages.IMPROPER_CELL_TYPE;
 
         for (int i = 0; i < count; i++) {
@@ -357,7 +357,12 @@ public class MapMenuController {
         } else if (!chosenCell.getCellType().isAbleToBuildOn(buildingName)) {
             return MapMenuMessages.IMPROPER_CELL_TYPE;
         } else if (chosenCell.getBuilding() != null || chosenCell.hasTrap()) {
-            return MapMenuMessages.FULL_CELL;
+            if (!(chosenCell.getBuilding() instanceof OtherBuildings otherBuildings &&
+                    otherBuildings.getOtherBuildingsType().equals(OtherBuildingsType.SHORT_WALL) &&
+                    buildingName.equals("stair") &&
+                    chosenCell.getBuilding().getOwnerNumber().equals(gameData.getPlayerOfTurn()))) {
+                return MapMenuMessages.FULL_CELL;
+            }
         } else if (buildingTypeIsStore(buildingName)
                 && IsAnotherStore(empire, buildingName)
                 && !isConnectedToOthers(x, y, buildingName, empire)) {
