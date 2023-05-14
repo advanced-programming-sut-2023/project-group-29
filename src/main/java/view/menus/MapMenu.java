@@ -149,8 +149,9 @@ public class MapMenu {
         int y1 = Integer.parseInt(y1Matcher.group(1));
         int x2 = Integer.parseInt(x2Matcher.group(1));
         int y2 = Integer.parseInt(y2Matcher.group(1));
-        if (x2 <= x1 || y2 <= y1) {
+        if (x2 < x1 || y2 < y1) {
             System.out.println("Please enter your coordinates correctly!");
+            return;
         }
         System.out.println(MapMenuController.setPartOfBlockTexture(cellType, x1, y1, x2, y2));
     }

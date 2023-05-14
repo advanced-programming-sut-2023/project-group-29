@@ -26,6 +26,7 @@ public class Weapon extends Asset {
         this.name=weaponTypes.name();
         this.builderType = weaponTypes.builderType();
         this.builderNeededCount = weaponTypes.builderNeededCount();
+        this.showingSignInMap=weaponTypes.showingSignInMap() + "__" + (playerNumber.getNumber() + 1);
     }
 
     public BuilderType getBuilderType() {

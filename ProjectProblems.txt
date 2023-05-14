@@ -1,17 +1,14 @@
 abbasfar
-move up left right number
 pour oil can be handled with trash
-
-test for offensive next turn exception
-
-check warning for unused things!
+test pour oil
 
 faratin:
-captha pointive
+move up left right number
+add noise to captcha
 
 jasbi:
-function not too long
 ctr alt l
 
 
 
+check warning for unused things!

@@ -157,7 +157,7 @@ public class MapMenuController {
         String showingSignOfBuilding = "";
         if (cell.hasBuilding())
             showingSignOfBuilding = cell.getBuilding().getShowingSignInMap();
-        else if (cell.hasTrap())
+        else if (cell.hasTrap() && cell.getTrap().getOwnerNumber().equals(GameMenuController.getGameData().getPlayerOfTurn()))
             showingSignOfBuilding = cell.getTrap().getShowingSignInMap();
 
         showingSignOfBuilding = fitStringToTileWidthWithNumberSign(showingSignOfBuilding);

@@ -6,5 +6,6 @@ public record WeaponTypes(
         String name,
         Weapon.BuilderType builderType,
         int hp,
-        int builderNeededCount)
+        int builderNeededCount,
+        String showingSignInMap)
 {}

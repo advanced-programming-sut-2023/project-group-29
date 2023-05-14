@@ -149,9 +149,10 @@ public class GameMenuController {
                         movable.getPatrol().patrol(movable, map);
 
         //act according to unit state
+        ArrayList<Asset> trash = new ArrayList<>();
         for (int i = 1; i <= map.getWidth(); i++)
             for (int j = 1; j <= map.getWidth(); j++) {
-                ArrayList<Asset> trash = new ArrayList<>();
+                trash.clear();
                 for (Asset movingUnit : map.getCells()[i][j].getMovingObjects()) {
                     if (movingUnit instanceof Soldier soldier && soldier.getSoldierType().equals(SoldierType.ENGINEER_WITH_OIL)) {
                         applyStateForEngineerWithOil(soldier.getUnitState(), soldier);
@@ -259,6 +260,11 @@ public class GameMenuController {
                 if(movableAttacker.checkForMoveErrors
                         (gameData.getMap(),destinationX,destinationY).equals(Movable.MovingResult.SUCCESSFUL))
                 {
+                    if(i==0 && j==0) {
+                        if (attackNearestUnit(attacker, currentX, currentY))
+                            return;
+                        continue;
+                    }
                     attackerAsset.setPositionX(destinationX);
                     attackerAsset.setPositionY(destinationY);
                     gameData.getMap().getCells()[destinationX][destinationY].getMovingObjects().add(attackerAsset);

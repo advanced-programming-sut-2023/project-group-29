@@ -150,6 +150,7 @@ public class Map {
             Arrays.fill(array,-1);
 
         queue.add(new Pair(firstX,firstY));
+        distances[firstX][firstY]=0;
 
         while (!queue.isEmpty())
         {

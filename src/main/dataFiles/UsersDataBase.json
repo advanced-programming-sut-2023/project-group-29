@@ -18,5 +18,35 @@
     "securityQuestion": "2 t",
     "highScore": 0,
     "stayLoggedIn": 0
+  },
+  {
+    "username": "abbasfar",
+    "password": "428f09548289b1f20ed5ae1907f47f6aa84999e21dc102e7ce11310c905eef51",
+    "nickname": "nick",
+    "email": "m@m.m",
+    "slogan": "",
+    "securityQuestion": "2 faratin",
+    "highScore": 0,
+    "stayLoggedIn": 0
+  },
+  {
+    "username": "jasbi",
+    "password": "428f09548289b1f20ed5ae1907f47f6aa84999e21dc102e7ce11310c905eef51",
+    "nickname": "nick",
+    "email": "j@m.m",
+    "slogan": "",
+    "securityQuestion": "2 faratin",
+    "highScore": 0,
+    "stayLoggedIn": 0
+  },
+  {
+    "username": "faratin",
+    "password": "428f09548289b1f20ed5ae1907f47f6aa84999e21dc102e7ce11310c905eef51",
+    "nickname": "nick",
+    "email": "f@m.m",
+    "slogan": "",
+    "securityQuestion": "2 faratin",
+    "highScore": 0,
+    "stayLoggedIn": 0
   }
 ]

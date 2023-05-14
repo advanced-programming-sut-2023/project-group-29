@@ -186,9 +186,6 @@ public class SelectUnitMenuController {
         applyAttackDamage(offensiveArrayListToAssetArrayList(currentPlayerAttackers),
                 counterAttackTotalDamage, currentCell);
 
-        currentCell.removeDeadUnitsAndBuilding();
-        targetCell.removeDeadUnitsAndBuilding();
-
         //results
         if (currentPlayerFailures == 0)
             return "All units attacked successfully!";
@@ -253,6 +250,8 @@ public class SelectUnitMenuController {
         if(building!=null)
             applyAttackDamageOnLevel(new ArrayList<>(List.of(building)),damageStruct.onlyBuildingDamage,
                     0,playerHasShieldInCell);
+
+        damagedCell.removeDeadUnitsAndBuilding();
     }
 
     private static void applyAttackDamageOnLevel(ArrayList<Asset> targetedAssets, int sameHeightDamageDividedToTargets,

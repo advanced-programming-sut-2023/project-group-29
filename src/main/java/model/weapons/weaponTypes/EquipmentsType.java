@@ -6,8 +6,8 @@ import model.weapons.Weapon;
 import model.weapons.WeaponTypes;
 
 public enum EquipmentsType{
-    PORTABLE_SHIELD(new WeaponTypes("portableShield",Weapon.BuilderType.ENGINEER, 100, 1),SpeedEnum.NORMAL),
-    SIEGE_TOWER(new WeaponTypes("siegeTower",Weapon.BuilderType.ENGINEER, 50, 4),SpeedEnum.TOO_SLOW);
+    PORTABLE_SHIELD(new WeaponTypes("portableShield",Weapon.BuilderType.ENGINEER, 100, 1,"PSH"),SpeedEnum.NORMAL),
+    SIEGE_TOWER(new WeaponTypes("siegeTower",Weapon.BuilderType.ENGINEER, 50, 4,"SGT"),SpeedEnum.TOO_SLOW);
 
     private final WeaponTypes weaponTypes;
     private final int speed;
