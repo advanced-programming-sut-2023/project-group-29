@@ -103,4 +103,12 @@ public class LoginMenu {
         System.out.println("Your random password is: " + output + ". Please re-enter your password here:");
         return scanner.nextLine();
     }
+    public static String captcha(String[] mtCaptcha) {
+        for(int i = 0; i < 5; i++) {
+            System.out.println(mtCaptcha[i]);
+        }
+        Scanner myscanner = new Scanner(System.in);
+        String answer = myscanner.nextLine();
+        return answer;
+    }
 }

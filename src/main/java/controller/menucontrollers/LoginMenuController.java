@@ -145,6 +145,9 @@ public class LoginMenuController {
                 return "Account didn't create!";
             }
             username = username + "1";
+            if (AppData.getUserByUsername(username) != null) {
+                return "This Username is already exist too!\nPlease try creating user again!";
+            }
         }
         String password = matcherPassword.group(1);
         if (!password.equals("random")) {
@@ -171,8 +174,12 @@ public class LoginMenuController {
             return "Check format of your email";
         }
         String hashPassword = SaveAndLoad.hashString(password);
+        String securityQuestion = LoginMenu.checkSecurityQuestion();
+        if(!captcha()) {
+            return "Your register doesn't complete!";
+        }
         User user = new User(username, hashPassword, matcherNickname.group(1), matcherEmail.group(1),
-                getSlogan(matcherExistSlogan, matcherSlogan), LoginMenu.checkSecurityQuestion());
+                getSlogan(matcherExistSlogan, matcherSlogan), securityQuestion);
         AppData.addUser(user);
         SaveAndLoad.saveData(AppData.getUsers(), AppData.getUsersDataBaseFilePath());
         return "user created successfully";
@@ -192,6 +199,9 @@ public class LoginMenuController {
             return "User with this username doesn't exist!";
         } else if (!AppData.getUserByUsername(username).getPassword().equals(SaveAndLoad.hashString(password))) {
             return "Username and password didn't match!";
+        }
+        if(!captcha()) {
+            return "You can't logged in!";
         }
         Matcher matcherStayLoggedIn = Pattern.compile("--stay-logged-in").matcher(input);
         if (matcherStayLoggedIn.find()) {
@@ -230,5 +240,83 @@ public class LoginMenuController {
         }
 
         return "Wrong answer!";
+    }
+    public static String[] graphicNumbers(int x) {
+        String zero[] = {" 0000 ", "00  00", "00  00", "00  00", " 0000 "};
+        String one[] = {"1111  ", "  11  ", "  11  ", "  11  ", "111111"};
+        String two[] = {" 2222 ", "    22", "   22 ", "  22  ", "222222"};
+        String nine[] = {" 9999 ", "99  99", " 99999", "    99", " 9999 "};
+        String three[] = {" 3333 ", "33  33", "   333", "33  33", " 3333 "};
+        String four[] = {"44  44", "44  44", "444444", "    44", "    44"};
+        String five[] = {"555555", "55    ", "555555", "    55", "555555"};
+        String six[] = {" 6666 ", "66    ", "66666 ", "66  66", " 6666 "};
+        String seven[] = {"777777", "   77 ", "  77  ", " 77   ", "77    "};
+        String eight[] = {" 8888 ", "88  88", " 8888 ", "88  88", " 8888 "};
+        if (x == 1) {
+            return one;
+        } else if (x == 2) {
+            return two;
+        } else if (x == 3) {
+            return three;
+        } else if (x == 4) {
+            return four;
+        } else if (x == 5) {
+            return five;
+        } else if (x == 6) {
+            return six;
+        } else if (x == 7) {
+            return seven;
+        } else if (x == 8) {
+            return eight;
+        } else if (x == 9) {
+            return nine;
+        } else if (x == 0) {
+            return zero;
+        }
+        return null;
+    }
+    public static Boolean captcha() {
+        Random random = new Random();
+        int numberOfNumbers = random.nextInt();
+        numberOfNumbers = numberOfNumbers % 8;
+        numberOfNumbers++;
+        if(numberOfNumbers < 4) {
+            numberOfNumbers = 4;
+        }
+        String output[] = new String[5];
+        int myCaptcha = 0;
+        int result = 0;
+        for(int i = 0; i < numberOfNumbers; i++) {
+            myCaptcha = random.nextInt();
+            myCaptcha = (myCaptcha * myCaptcha) % 10;
+            if (myCaptcha < 0) {
+                myCaptcha = -myCaptcha;
+            }
+            result = (result * 10) + myCaptcha;
+            String[] y1 = graphicNumbers(myCaptcha);
+            if(i == 0) {
+                output[0] = y1[0] + "  ";
+                output[1] = y1[1] + "  ";
+                output[2] = y1[2] + "  ";
+                output[3] = y1[3] + "  ";
+                output[4] = y1[4] + "  ";
+            }
+            else {
+                output[0] += y1[0] + "  ";
+                output[1] += y1[1] + "  ";
+                output[2] += y1[2] + "  ";
+                output[3] += y1[3] + "  ";
+                output[4] += y1[4] + "  ";
+            }
+        }
+        String answer = LoginMenu.captcha(output);
+        Matcher answerMatcher = Pattern.compile("\\d+").matcher(answer);
+        if (!answerMatcher.matches()) {
+            return false;
+        }
+        if (Integer.parseInt(answer) == result) {
+            return true;
+        }
+        return false;
     }
 }
