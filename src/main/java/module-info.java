@@ -13,4 +13,5 @@ module project {
     opens view.menus to javafx.fxml;
 
     exports model;
+    exports model.gamestates;
 }

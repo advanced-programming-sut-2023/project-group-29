@@ -4,6 +4,7 @@ import model.AppData;
 import model.SaveAndLoad;
 import model.User;
 import model.buildings.buildingTypes.*;
+import view.Main;
 import view.menus.*;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Controller {
-    public static void run() {
+    public static void run() throws Exception {
         User[] users = SaveAndLoad.loadArrayData(AppData.getUsersDataBaseFilePath(), User[].class);
         if (users != null)
             AppData.setUsers(new ArrayList<>(Arrays.asList(users)));
@@ -36,7 +37,10 @@ public class Controller {
                 case TRADE_MENU -> menuNames = TradeMenu.run(scanner);
                 case SELECT_BUILDING_MENU -> menuNames = SelectBuildingMenu.run(scanner);
                 case SELECT_UNIT_MENU -> menuNames = SelectUnitMenu.run(scanner);
-                case MAP_MENU -> menuNames = MapMenu.run(scanner);
+                case MAP_MENU -> {
+                    new MapMenu().start(Main.stage);
+                    //menuNames = MapMenu.run(scanner);
+                }
                 case EXIT -> {
                     return;
                 }

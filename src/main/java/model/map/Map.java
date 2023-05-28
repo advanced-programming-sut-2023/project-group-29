@@ -49,14 +49,14 @@ public class Map {
         distances[firstX][firstY] = 0;
 
         while (!queue.isEmpty()) {
-            Pair thisCellCoordination = queue.poll();
+            Pair<Integer,Integer> thisCellCoordination = queue.poll();
             if (thisCellCoordination.first == secondX && thisCellCoordination.second == secondY)
                 break;
 
             Cell thisCell = cells[thisCellCoordination.first][thisCellCoordination.second];
 
             for (Direction direction : Direction.values()) {
-                Pair addingCellCoordination;
+                Pair<Integer,Integer> addingCellCoordination;
 
                 if (direction.equals(Direction.RIGHT) && thisCellCoordination.first < width)
                     addingCellCoordination = new Pair(thisCellCoordination.first + 1, thisCellCoordination.second);
@@ -147,12 +147,12 @@ public class Map {
         distances[firstX][firstY] = 0;
 
         while (!queue.isEmpty()) {
-            Pair thisCellCoordination = queue.poll();
+            Pair<Integer,Integer> thisCellCoordination = queue.poll();
             if (thisCellCoordination.first == secondX && thisCellCoordination.second == secondY)
                 break;
 
             for (Direction direction : Direction.values()) {
-                Pair addingCellCoordination;
+                Pair<Integer,Integer> addingCellCoordination;
 
                 if (direction.equals(Direction.RIGHT) && thisCellCoordination.first < width)
                     addingCellCoordination = new Pair(thisCellCoordination.first + 1, thisCellCoordination.second);

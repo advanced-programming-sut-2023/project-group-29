@@ -1,6 +1,7 @@
 package controller.menucontrollers;
 
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import model.*;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 
 public class MapMenuController {
     private static final int tileWidth = 20;
-    private static final int tileHeight = 20;
+    private static final int tileHeight = 20;//todo should get from gamedata
     private static final int numberOfTilesShowingInRow = AppData.getScreenWidth()/tileWidth;
     private static final int numberOfTilesShowingInColumn = AppData.getScreenHeight()/tileHeight;
     private static int showingMapIndexX = 1;

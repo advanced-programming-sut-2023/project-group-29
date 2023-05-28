@@ -28,5 +28,15 @@
     "slogan": "",
     "highScore": 0,
     "stayLoggedIn": 0
+  },
+  {
+    "securityQuestion": "2 aaa",
+    "username": "amin123",
+    "password": "4316fd0c20d795c27961cea0b9eaa3184cbdd3f2c65423421ba73ce39d5756ba",
+    "nickname": "amin",
+    "email": "m@d.com",
+    "slogan": "",
+    "highScore": 0,
+    "stayLoggedIn": 0
   }
 ]

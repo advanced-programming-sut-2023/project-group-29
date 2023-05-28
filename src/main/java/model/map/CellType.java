@@ -82,6 +82,6 @@ public enum CellType {
     }
 
     public Image getImage(){
-        return new Image(LoginMenu.class.getResource("/images/"+showingImageFileName).toExternalForm());
+        return new Image(LoginMenu.class.getResource("/images/tiles/"+showingImageFileName).toExternalForm());
     }
 }

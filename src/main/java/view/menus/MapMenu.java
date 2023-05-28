@@ -4,17 +4,18 @@ import controller.MenuNames;
 import controller.menucontrollers.GameMenuController;
 import controller.menucontrollers.MapMenuController;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseDragEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import model.AppData;
-import model.Empire;
 import model.GameData;
-import model.PlayerNumber;
+import model.Pair;
 import model.map.CellType;
-import model.map.Map;
-import model.map.MapInitializer;
 import model.people.humanTypes.SoldierType;
 import view.Command;
 import view.messages.MapMenuMessages;
@@ -27,21 +28,59 @@ import java.util.regex.Pattern;
 
 public class MapMenu extends Application {
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+    GameData gameData = null;
+
     @Override
     public void start(Stage stage) throws Exception {
 
         URL url = LoginMenu.class.getResource("/FXML/MapMenu.fxml");
-        Pane borderPane = FXMLLoader.load(url);
-        Scene scene = new Scene(borderPane);
+        Pane pane = FXMLLoader.load(url);
+        Scene scene = new Scene(pane);
 
-        MapMenuController.showMap(1,1);
+        MapMenuController.showMap(1, 1, pane);
+
+        this.gameData = GameMenuController.getGameData();
+
+        pane.requestFocus();
+        pane.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                keyHandle(keyEvent);
+            }
+        });
+
+        pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                mouseClickHandle(mouseEvent);
+            }
+        });
+
 
         stage.setScene(scene);
         stage.show();
     }
+
+    private void keyHandle(KeyEvent keyEvent) {
+        switch (gameData.getGameState()) {
+            case VIEW_MAP -> {
+
+            }
+        }
+    }
+
+    private void mouseClickHandle(MouseEvent mouseEvent) {
+        Pair<Double, Double> mousePosition = new Pair<>(mouseEvent.getX(), mouseEvent.getY());
+        Pair<Integer, Integer> cellIndex = gameData.mousePositionToCellIndex(mousePosition);
+
+        switch (gameData.getGameState()) {
+            case VIEW_MAP -> {
+
+            }
+        }
+    }
+
+
     public static MenuNames run(Scanner scanner) {
         showMap();
         while (true) {

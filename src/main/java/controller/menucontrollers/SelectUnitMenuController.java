@@ -444,7 +444,7 @@ public class SelectUnitMenuController {
         return SelectUnitMenuMessages.SUCCESSFUL;
     }
 
-    private static void destroyTunnels(Map map, Pair thisCellCoordination) {
+    private static void destroyTunnels(Map map, Pair<Integer,Integer> thisCellCoordination) {
         Cell currentCell = map.getCells()[thisCellCoordination.first][thisCellCoordination.second];
 
         //destroy tunnel
@@ -469,7 +469,7 @@ public class SelectUnitMenuController {
             destroyTunnels(map, new Pair(thisCellCoordination.first, thisCellCoordination.second - 1));
     }
 
-    private static int dfs(Map map, Pair thisCellCoordination, boolean[][] mark) {
+    private static int dfs(Map map, Pair<Integer,Integer> thisCellCoordination, boolean[][] mark) {
         int numberOfAdjacentTunnels = 1;
         mark[thisCellCoordination.first][thisCellCoordination.second] = true;
 

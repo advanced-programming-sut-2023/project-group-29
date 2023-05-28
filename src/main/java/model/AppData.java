@@ -11,8 +11,8 @@ public class AppData {
     private static User currentUser;
     private static int delayInLogin = 0;
 
-    private static final int screenWidth=800;
-    private static final int screenHeight=600;
+    private static final int screenWidth=1080;
+    private static final int screenHeight=720;
     private static Stage stage;
 
 
