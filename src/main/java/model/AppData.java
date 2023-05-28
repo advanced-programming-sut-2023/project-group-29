@@ -1,5 +1,7 @@
 package model;
 
+import javafx.stage.Stage;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -11,6 +13,7 @@ public class AppData {
 
     private static final int screenWidth=800;
     private static final int screenHeight=600;
+    private static Stage stage;
 
 
     public static User getUserByUsername(String username) {
@@ -103,5 +106,13 @@ public class AppData {
 
     public static int getScreenHeight() {
         return screenHeight;
+    }
+
+    public static Stage getStage() {
+        return stage;
+    }
+
+    public static void setStage(Stage stage) {
+        AppData.stage = stage;
     }
 }

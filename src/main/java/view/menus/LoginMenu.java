@@ -2,15 +2,31 @@ package view.menus;
 
 import controller.MenuNames;
 import controller.menucontrollers.LoginMenuController;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import model.AppData;
 import view.Command;
 
+import java.net.URL;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LoginMenu {
+public class LoginMenu extends Application {
+    @Override
+    public void start(Stage stage) throws Exception {
+        URL url = Command.class.getResource("/FXML/LoginMenu.fxml");
+        BorderPane borderPane = FXMLLoader.load(url);
+        Scene scene = new Scene(borderPane);
+        stage.setScene(scene);
+        stage.show();
+    }
+
     static Scanner scanner;
+
 
     public static MenuNames run(Scanner scanner) {
         LoginMenu.scanner = scanner;
