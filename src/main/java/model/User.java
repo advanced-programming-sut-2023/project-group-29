@@ -4,15 +4,15 @@ import controller.menucontrollers.GameMenuController;
 
 public class User {
 
-    private final String securityQuestion;
-    private String username;
-    private String password;
-    private String nickname;
-    private String email;
+    public final String securityQuestion;
+    public String username;
+    public String password;
+    public String nickname;
+    public String email;
     //recovery question
-    private String slogan;
-    private int highScore = 0;
-    private int stayLoggedIn = 0;
+    public String slogan;
+    public int highScore = 0;
+    public int stayLoggedIn = 0;
 
     public User(String username, String password, String nickname, String email, String slogan, String securityQuestion) {
         this.username = username;

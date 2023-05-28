@@ -1,0 +1,32 @@
+[
+  {
+    "securityQuestion": "1 ali",
+    "username": "amin",
+    "password": "cc20baaa52e7bb799510019e8039655e32dac815bc2678a07f1ba94a88826a23",
+    "nickname": "amin",
+    "email": "a@gmail.com",
+    "slogan": "",
+    "highScore": 0,
+    "stayLoggedIn": 0
+  },
+  {
+    "securityQuestion": "1 ali",
+    "username": "hossein",
+    "password": "91ceb666d734c5bf7ac323f27d1b548a55bfa05eb87bc068ecb0eaa87b84a284",
+    "nickname": "amin",
+    "email": "a@gmail.com1",
+    "slogan": "",
+    "highScore": 0,
+    "stayLoggedIn": 0
+  },
+  {
+    "securityQuestion": "2 ali",
+    "username": "moj",
+    "password": "8cce54b8014d7d62ea136ff509eff2923cf0568a54e29c3f6b0ec9d2b859e7d5",
+    "nickname": "amin",
+    "email": "a@dal.com",
+    "slogan": "",
+    "highScore": 0,
+    "stayLoggedIn": 0
+  }
+]

@@ -1,9 +1,9 @@
 package controller.menucontrollers;
 
-import model.Asset;
-import model.Empire;
-import model.GameData;
-import model.PlayerNumber;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Rectangle;
+import model.*;
 import model.buildings.Building;
 import model.buildings.buildingClasses.OtherBuildings;
 import model.buildings.buildingTypes.AccommodationType;
@@ -23,10 +23,10 @@ import view.messages.MapMenuMessages;
 import java.util.ArrayList;
 
 public class MapMenuController {
-    private static final int tileWidth = 6;
-    private static final int tileHeight = 4;
-    private static final int maxNumberOfTilesShowingInRow = 20;
-    private static final int maxNumberOfTilesShowingInColumn = 8;
+    private static final int tileWidth = 20;
+    private static final int tileHeight = 20;
+    private static final int numberOfTilesShowingInRow = AppData.getScreenWidth()/tileWidth;
+    private static final int numberOfTilesShowingInColumn = AppData.getScreenHeight()/tileHeight;
     private static int showingMapIndexX = 1;
     private static int showingMapIndexY = 1;
 
@@ -105,6 +105,35 @@ public class MapMenuController {
         return MapMenuMessages.SUCCESSFUL;
     }
 
+    public static void showMap(int indexX, int indexY, Pane rootPane) {
+        Map map = GameMenuController.getGameData().getMap();
+
+        for(int i=0;i<numberOfTilesShowingInRow;i++)
+        {
+            for(int j=0;j<numberOfTilesShowingInColumn;j++)
+            {
+                if(!map.isIndexValid(indexX+i,indexY+j))
+                    break;
+
+                Rectangle tile=createTile(indexX+i,indexY+j);
+                tile.setX(i*tileWidth);
+                tile.setY(j*tileHeight);
+                rootPane.getChildren().add(tile);
+            }
+        }
+    }
+
+    public static Rectangle createTile(int indexX,int indexY){
+        Cell cell=GameMenuController.getGameData().getMap().getCells()[indexX][indexY];
+
+        Rectangle tile=new Rectangle(tileWidth,tileHeight);
+
+        tile.setFill(new ImagePattern(cell.getCellType().getImage()));
+
+        return tile;
+    }
+
+
     public static String showMap(int indexX, int indexY) {
         Map map = GameMenuController.getGameData().getMap();
 
@@ -115,8 +144,8 @@ public class MapMenuController {
         //the first line is the building and trap(if is for user)
         //the second,third and forth line shows other units
 
-        int mapShowingWidth = Math.min(maxNumberOfTilesShowingInRow, map.getWidth() - showingMapIndexX + 1);
-        int mapShowingHeight = Math.min(maxNumberOfTilesShowingInColumn, map.getWidth() - showingMapIndexY + 1);
+        int mapShowingWidth = Math.min(numberOfTilesShowingInRow, map.getWidth() - showingMapIndexX + 1);
+        int mapShowingHeight = Math.min(numberOfTilesShowingInColumn, map.getWidth() - showingMapIndexY + 1);
 
         ArrayList<String>[][] tiles = new ArrayList[mapShowingWidth][mapShowingHeight];
         for (int i = 0; i < mapShowingWidth; i++)

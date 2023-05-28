@@ -9,6 +9,9 @@ public class AppData {
     private static User currentUser;
     private static int delayInLogin = 0;
 
+    private static final int screenWidth=800;
+    private static final int screenHeight=600;
+
 
     public static User getUserByUsername(String username) {
         for (int i = 0; i < users.size(); i++) {
@@ -92,5 +95,13 @@ public class AppData {
             }
         }
         return false;
+    }
+
+    public static int getScreenWidth() {
+        return screenWidth;
+    }
+
+    public static int getScreenHeight() {
+        return screenHeight;
     }
 }

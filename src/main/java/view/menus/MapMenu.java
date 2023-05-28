@@ -1,18 +1,47 @@
 package view.menus;
 
 import controller.MenuNames;
+import controller.menucontrollers.GameMenuController;
 import controller.menucontrollers.MapMenuController;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import model.AppData;
+import model.Empire;
+import model.GameData;
+import model.PlayerNumber;
 import model.map.CellType;
+import model.map.Map;
+import model.map.MapInitializer;
 import model.people.humanTypes.SoldierType;
 import view.Command;
 import view.messages.MapMenuMessages;
 
+import java.net.URL;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MapMenu {
+public class MapMenu extends Application {
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+    @Override
+    public void start(Stage stage) throws Exception {
+
+        URL url = LoginMenu.class.getResource("/FXML/MapMenu.fxml");
+        Pane borderPane = FXMLLoader.load(url);
+        Scene scene = new Scene(borderPane);
+
+        MapMenuController.showMap(1,1);
+
+        stage.setScene(scene);
+        stage.show();
+    }
     public static MenuNames run(Scanner scanner) {
         showMap();
         while (true) {
