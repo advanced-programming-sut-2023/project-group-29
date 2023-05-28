@@ -3,19 +3,37 @@ package view.menus;
 import controller.MenuNames;
 import controller.menucontrollers.GameMenuController;
 import controller.menucontrollers.MapMenuController;
+import javafx.application.Application;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import model.GameData;
 import model.dealing.Trade;
 import view.Command;
 import view.messages.GameMenuMessages;
 import view.messages.MapMenuMessages;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class GameMenu {
+public class GameMenu extends Application {
     static Scanner myScanner;
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+    @Override
+    public void start(Stage stage) throws Exception {
+        BorderPane pane = FXMLLoader.load(new URL(GameMenu.class.getResource("/fxml/GameMenu.fxml").toString()));
+        Scene scene = new Scene(pane);
+        stage.setScene(scene);
+        stage.show();
+    }
 
     public static MenuNames run(Scanner scanner) {
         myScanner = scanner;
