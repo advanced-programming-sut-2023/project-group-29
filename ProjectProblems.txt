@@ -1,2 +1,5 @@
 static menus
 where is issue?
+
+
+set map 0_base

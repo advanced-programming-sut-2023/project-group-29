@@ -15,13 +15,19 @@ import java.util.Queue;
 public class Map {
     private final Cell[][] cells;
     private final int width;
+    private final int height;
     private final int usersCount;
     private final int assassinVisibilityRadius = 10;
 
     public Map(int width, int usersCount) {
         this.width = width;
+        this.height=width;//todo initialize height
         this.cells = new Cell[width + 1][width + 1];
         this.usersCount = usersCount;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     public Cell[][] getCells() {

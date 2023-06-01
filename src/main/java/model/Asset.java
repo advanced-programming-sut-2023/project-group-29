@@ -1,6 +1,9 @@
 package model;
 
 import controller.menucontrollers.GameMenuController;
+import javafx.scene.image.Image;
+import view.Main;
+import view.menus.LoginMenu;
 
 public class Asset {
     private final PlayerNumber ownerNumber;
@@ -8,6 +11,7 @@ public class Asset {
     protected String showingSignInMap;
     private int positionX;
     private int positionY;
+    protected String showingImageFilePath;    //todo set for all values
 
     public Asset(PlayerNumber ownerNumber, int positionX, int positionY) {
         this.ownerNumber = ownerNumber;
@@ -57,5 +61,17 @@ public class Asset {
 
     public void setShowingSignInMap(String showingSignInMap) {
         this.showingSignInMap = showingSignInMap;
+    }
+
+    public String getShowingImageFilePath() {
+        return showingImageFilePath;
+    }
+
+    public Image getShowingImage(){
+        return new Image(LoginMenu.class.getResource(showingImageFilePath).toExternalForm());
+    }
+
+    public void setShowingImageFilePath(String showingImageFilePath) {
+        this.showingImageFilePath = showingImageFilePath;
     }
 }

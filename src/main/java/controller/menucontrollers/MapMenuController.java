@@ -1,9 +1,8 @@
 package controller.menucontrollers;
 
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import model.*;
 import model.buildings.Building;
 import model.buildings.buildingClasses.OtherBuildings;
@@ -26,10 +25,91 @@ import java.util.ArrayList;
 public class MapMenuController {
     private static final int tileWidth = 20;
     private static final int tileHeight = 20;//todo should get from gamedata
-    private static final int numberOfTilesShowingInRow = AppData.getScreenWidth()/tileWidth;
-    private static final int numberOfTilesShowingInColumn = AppData.getScreenHeight()/tileHeight;
+    private static final int tileCapacityForShowingUnits=10;//todo should update with zoom level
+    private static final int numberOfTilesShowingInRow = AppData.getScreenWidth() / tileWidth;
+    private static final int numberOfTilesShowingInColumn = AppData.getScreenHeight() / tileHeight;
     private static int showingMapIndexX = 1;
     private static int showingMapIndexY = 1;
+
+    public static MapMenuMessages setShowingMapIndexes(int indexX, int indexY) {
+        Map map = GameMenuController.getGameData().getMap();
+        if (!map.isIndexValid(indexX, indexY))
+            return MapMenuMessages.INVALID_INDEX;
+
+        showingMapIndexX = indexX;
+        showingMapIndexY = indexY;
+
+        return MapMenuMessages.SUCCESSFUL;
+    }
+
+    public static Pane[][] showMap(int indexX, int indexY, Pane rootPane) {
+        Map map = GameMenuController.getGameData().getMap();
+        Pane[][] tiles=new Pane[numberOfTilesShowingInRow][numberOfTilesShowingInColumn];
+
+        for (int i = 0; i < numberOfTilesShowingInRow; i++) {
+            for (int j = 0; j < numberOfTilesShowingInColumn; j++) {
+                if (!map.isIndexValid(indexX + i, indexY + j))
+                    break;
+
+                tiles[i][j] = createTile(indexX + i, indexY + j);
+                tiles[i][j].setLayoutX(i * tileWidth);
+                tiles[i][j].setLayoutY(j * tileHeight);
+                rootPane.getChildren().add(tiles[i][j]);
+            }
+        }
+
+        return tiles;
+    }
+
+    public static Pane createTile(int indexX, int indexY) {
+        GameData gameData = GameMenuController.getGameData();
+        Cell cell = gameData.getMap().getCells()[indexX][indexY];
+
+        Pane tile = new Pane();
+        tile.setMaxWidth(tileWidth);
+        tile.setMinWidth(tileWidth);
+        tile.setMaxHeight(tileHeight);
+        tile.setMinHeight(tileHeight);
+
+        tile.setBackground(new Background(new BackgroundImage(cell.getCellType().getImage(), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+        //todo handle trees
+
+        //building or trap
+        if (cell.hasBuilding())
+            fitImageInTile(cell.getBuilding().getShowingImage(), tile);
+        else if (cell.hasTrap() && cell.getTrap().getOwnerNumber().equals(GameMenuController.getGameData().getPlayerOfTurn()))
+            fitImageInTile(cell.getTrap().getShowingImage(), tile);
+
+        //other units
+        int index = 0;
+        for (int i = 0; i < tileCapacityForShowingUnits; i++) {
+            while (index < cell.getMovingObjects().size()) {
+                //hide assassin
+                if (cell.getMovingObjects().get(index) instanceof Soldier soldier &&
+                        soldier.getSoldierType().equals(SoldierType.ASSASSIN) &&
+                        !soldier.getOwnerNumber().equals(gameData.getPlayerOfTurn()) &&
+                        !gameData.getMap().isAssassinSeen
+                                (cell.getXPosition(), cell.getYPosition(), gameData.getPlayerOfTurn()))
+                    index++;
+                else {
+                    addUnitInTile(cell.getMovingObjects().get(index).getShowingImage(),tile,i);
+                    break;
+                }
+            }
+            index++;
+        }
+
+        return tile;
+    }
+
+    private static void addUnitInTile(Image image, Pane tile, int indexOfUnitInTile) {
+        //todo
+    }
+
+    private static void fitImageInTile(Image image, Pane tile) {
+        tile.getChildren().add(new ImageView(image));
+    }
+
 
     public static String showDetails(int indexX, int indexY) {
         Map map = GameMenuController.getGameData().getMap();
@@ -95,161 +175,20 @@ public class MapMenuController {
         return output;
     }
 
-    public static MapMenuMessages setShowingMapIndexes(int indexX, int indexY) {
-        Map map = GameMenuController.getGameData().getMap();
-        if (!map.isIndexValid(indexX, indexY))
-            return MapMenuMessages.INVALID_INDEX;
-
-        showingMapIndexX = indexX;
-        showingMapIndexY = indexY;
-
-        return MapMenuMessages.SUCCESSFUL;
-    }
-
-    public static void showMap(int indexX, int indexY, Pane rootPane) {
-        Map map = GameMenuController.getGameData().getMap();
-
-        for(int i=0;i<numberOfTilesShowingInRow;i++)
-        {
-            for(int j=0;j<numberOfTilesShowingInColumn;j++)
-            {
-                if(!map.isIndexValid(indexX+i,indexY+j))
-                    break;
-
-                Rectangle tile=createTile(indexX+i,indexY+j);
-                tile.setX(i*tileWidth);
-                tile.setY(j*tileHeight);
-                rootPane.getChildren().add(tile);
-            }
-        }
-    }
-
-    public static Rectangle createTile(int indexX,int indexY){
-        Cell cell=GameMenuController.getGameData().getMap().getCells()[indexX][indexY];
-
-        Rectangle tile=new Rectangle(tileWidth,tileHeight);
-
-        tile.setFill(new ImagePattern(cell.getCellType().getImage()));
-
-        return tile;
-    }
-
-
-    public static String showMap(int indexX, int indexY) {
-        Map map = GameMenuController.getGameData().getMap();
-
-        MapMenuMessages message = setShowingMapIndexes(indexX, indexY);
-        if (message.equals(MapMenuMessages.INVALID_INDEX))
-            return "Invalid index!";
-
-        //the first line is the building and trap(if is for user)
-        //the second,third and forth line shows other units
-
-        int mapShowingWidth = Math.min(numberOfTilesShowingInRow, map.getWidth() - showingMapIndexX + 1);
-        int mapShowingHeight = Math.min(numberOfTilesShowingInColumn, map.getWidth() - showingMapIndexY + 1);
-
-        ArrayList<String>[][] tiles = new ArrayList[mapShowingWidth][mapShowingHeight];
-        for (int i = 0; i < mapShowingWidth; i++)
-            for (int j = 0; j < mapShowingHeight; j++)
-                tiles[i][j] = createTileInMap(map.getCells()[i + showingMapIndexX][j + showingMapIndexY]);
-
-        return showTilesOfMap(tiles, mapShowingWidth, mapShowingHeight);
-    }
-
-    public static String showMap() {
-        return showMap(showingMapIndexX, showingMapIndexY);
-    }
-
-
-    private static String showTilesOfMap(ArrayList<String>[][] tiles, int mapShowingWidth, int mapShowingHeight) {
-        String tilesOfMap = "";
-        for (int i = 0; i < mapShowingHeight; i++) {
-            tilesOfMap += "-".repeat(mapShowingWidth * (tileWidth + 1) + 1);
-            tilesOfMap += "\n";
-
-            for (int j = 0; j < tileHeight; j++) {
-                for (int k = 0; k < mapShowingWidth; k++) {
-
-                    tilesOfMap += "|";
-                    tilesOfMap += tiles[k][i].get(j);
-                }
-                tilesOfMap += "|\n";
-            }
-        }
-        tilesOfMap += "-".repeat(mapShowingWidth * (tileWidth + 1) + 1);
-
-        return tilesOfMap;
-    }
-
-    private static ArrayList<String> createTileInMap(Cell cell) {
-        ArrayList<String> tile = new ArrayList<>();
-
-        //building or trap
-        String showingSignOfBuilding = "";
-        if (cell.hasBuilding())
-            showingSignOfBuilding = cell.getBuilding().getShowingSignInMap();
-        else if (cell.hasTrap() && cell.getTrap().getOwnerNumber().equals(GameMenuController.getGameData().getPlayerOfTurn()))
-            showingSignOfBuilding = cell.getTrap().getShowingSignInMap();
-
-        showingSignOfBuilding = fitStringToTileWidthWithNumberSign(showingSignOfBuilding);
-        if (cell.getTreeTypes() != null)
-            showingSignOfBuilding = colorString(showingSignOfBuilding, cell.getTreeTypes().getShowingColor());
-        else showingSignOfBuilding = colorString(showingSignOfBuilding, cell.getShowingColor());
-
-        tile.add(showingSignOfBuilding);
-
-        //other units
-        int index = 0;
-        for (int i = 0; i < tileHeight - 1; i++) {
-            String showingSignOfOtherUnits = "";
-            while (index < cell.getMovingObjects().size()) {
-                GameData gameData = GameMenuController.getGameData();
-                showingSignOfOtherUnits = cell.getMovingObjects().get(index).getShowingSignInMap();
-
-                //hide assassin
-                if (cell.getMovingObjects().get(index) instanceof Soldier soldier &&
-                        soldier.getSoldierType().equals(SoldierType.ASSASSIN) &&
-                        !soldier.getOwnerNumber().equals(gameData.getPlayerOfTurn()) &&
-                        !gameData.getMap().isAssassinSeen
-                                (cell.getXPosition(), cell.getYPosition(), gameData.getPlayerOfTurn()))
-                    index++;
-                else {
-                    break;
-                }
-            }
-
-            showingSignOfOtherUnits = fitStringToTileWidthWithNumberSign(showingSignOfOtherUnits);
-            showingSignOfOtherUnits = colorString(showingSignOfOtherUnits, cell.getShowingColor());
-            tile.add(showingSignOfOtherUnits);
-
-            index++;
-        }
-
-        return tile;
-    }
-
     private static String colorString(String string, ConsoleColors color) {
         return color.getStringCode() + string + ConsoleColors.RESET_COLOR.getStringCode();
     }
 
-    private static String fitStringToTileWidthWithNumberSign(String string) {
-        if (string.length() > tileWidth)
-            return string.substring(0, tileWidth);
-
-        string += " ".repeat(tileWidth - string.length());
-        return string;
-    }
-
-    public static String moveMap(int upMovements, int rightMovements, int downMovements, int leftMovements) {
+    public static void moveMap(int upMovements, int rightMovements, int downMovements, int leftMovements) {
         Map map = GameMenuController.getGameData().getMap();
 
         int newShowingMapIndexX = showingMapIndexX + rightMovements - leftMovements;
         int newShowingMapIndexY = showingMapIndexY + downMovements - upMovements;
 
-        if (!map.isIndexValid(newShowingMapIndexX, newShowingMapIndexY))
-            return "The index is invalid";
-
-        return showMap(newShowingMapIndexX, newShowingMapIndexY);
+        if (map.isIndexValid(newShowingMapIndexX, newShowingMapIndexY)) {
+            showingMapIndexX = newShowingMapIndexX;
+            showingMapIndexY=newShowingMapIndexY;
+        }
     }
 
     public static String setBlockTexture(CellType cellType, int x, int y) {
@@ -264,7 +203,6 @@ public class MapMenuController {
         for (int i = x1; i <= x2; i++) {
             for (int j = y1; j <= y2; j++) {
                 if (GameMenuController.getGameData().getMap().getCells()[i][j].hasBuilding()) {
-                    MapMenu.messageOfSetTexture(i, j);
                     continue;
                 }
                 GameMenuController.getGameData().getMap().getCells()[i][j].setCellType(cellType);

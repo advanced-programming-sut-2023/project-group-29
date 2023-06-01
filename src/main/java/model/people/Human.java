@@ -27,6 +27,7 @@ public class Human extends Asset implements Movable {
         this.showingSignInMap = humanType.showingSignInMap() + "__" + (playerNumber.getNumber() + 1);
         this.name = humanType.name();
         this.ableToClimbStairs = humanType.ableToClimbStairs();
+        this.showingImageFilePath= humanType.showingImageFilePath();
     }
 
     public static Human createUnitByName(String unitName, PlayerNumber ownerNumber, int positionX, int positionY) {

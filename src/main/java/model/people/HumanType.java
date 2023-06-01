@@ -8,5 +8,7 @@ public record HumanType(
         boolean ableToClimbLadder,
         boolean ableToClimbStairs,
         SpeedEnum speed,
-        String showingSignInMap) {
+        String showingSignInMap,
+        String showingImageFilePath
+        ) {
 }

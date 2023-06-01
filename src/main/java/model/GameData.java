@@ -16,6 +16,8 @@ public class GameData {
     private int tileWidth = 20;
     private int tileHeight = 20;
     private Pair<Integer,Integer> cornerCellIndex=new Pair<>(1,1);
+    private int numberOfTilesShowingInRow = AppData.getScreenWidth() / tileWidth;
+    private int numberOfTilesShowingInColumn = AppData.getScreenHeight() / tileHeight;
 
     public void addEmpire(Empire empire) {
         empires.add(empire);
@@ -130,5 +132,21 @@ public class GameData {
 
     public void setCornerCellIndex(Pair<Integer, Integer> cornerCellIndex) {
         this.cornerCellIndex = cornerCellIndex;
+    }
+
+    public int getNumberOfTilesShowingInRow() {
+        return numberOfTilesShowingInRow;
+    }
+
+    public void setNumberOfTilesShowingInRow(int numberOfTilesShowingInRow) {
+        this.numberOfTilesShowingInRow = numberOfTilesShowingInRow;
+    }
+
+    public int getNumberOfTilesShowingInColumn() {
+        return numberOfTilesShowingInColumn;
+    }
+
+    public void setNumberOfTilesShowingInColumn(int numberOfTilesShowingInColumn) {
+        this.numberOfTilesShowingInColumn = numberOfTilesShowingInColumn;
     }
 }

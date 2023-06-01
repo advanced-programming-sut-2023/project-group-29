@@ -4,6 +4,8 @@ import controller.MenuNames;
 import controller.menucontrollers.GameMenuController;
 import controller.menucontrollers.MapMenuController;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,65 +16,116 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.GameData;
+import model.GameKeyConstants;
 import model.Pair;
+import model.gamestates.GameState;
+import model.map.Cell;
 import model.map.CellType;
 import model.people.humanTypes.SoldierType;
 import view.Command;
 import view.messages.MapMenuMessages;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MapMenu extends Application {
-
-    GameData gameData = null;
-
+    private GameData gameData = null;
+    private Pane mainPane=null;
+    private Pane[][] tiles=null;
     @Override
     public void start(Stage stage) throws Exception {
-
         URL url = LoginMenu.class.getResource("/FXML/MapMenu.fxml");
-        Pane pane = FXMLLoader.load(url);
-        Scene scene = new Scene(pane);
-
-        MapMenuController.showMap(1, 1, pane);
-
+        mainPane = FXMLLoader.load(url);
         this.gameData = GameMenuController.getGameData();
 
-        pane.requestFocus();
-        pane.setOnKeyPressed(new EventHandler<KeyEvent>() {
+        mainPane.requestFocus();
+        setMainPaneListeners();
+
+        setUpAndShowMap();
+
+        Scene scene = new Scene(mainPane);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private void setUpAndShowMap(){
+        tiles=MapMenuController.showMap(0, 0, mainPane);
+        setTilesListeners();
+    }
+
+    private void setMainPaneListeners(){
+        mainPane.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
                 keyHandle(keyEvent);
             }
         });
+    }
 
-        pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                mouseClickHandle(mouseEvent);
+    private void setTilesListeners(){
+        for(int i=0;i<gameData.getNumberOfTilesShowingInRow();i++)
+            for(int j=0;j<gameData.getNumberOfTilesShowingInColumn();j++)
+            {
+                int i_dup = i;
+                int j_dup = j;
+
+                tiles[i][j].setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        mouseClickHandle(mouseEvent, i_dup,j_dup);
+                    }
+                });
+
+                tiles[i][j].hoverProperty().addListener((observable, oldValue, newValue) -> {
+                    if (newValue) {
+                        showDetails(i_dup,j_dup);
+                    } else {
+                        hideDetails(i_dup,j_dup);
+                    }
+                });
+
             }
-        });
+    }
 
+    private void showDetails(int x,int y){
+        Cell cell=gameData.getMap().getCells()[x][y];
 
-        stage.setScene(scene);
-        stage.show();
+        cell.showDetail(mainPane);
+    }
+    private void hideDetails(int x,int y){
+        Cell cell=gameData.getMap().getCells()[x][y];
+
+        cell.hideDetails();
     }
 
     private void keyHandle(KeyEvent keyEvent) {
         switch (gameData.getGameState()) {
+            case CELL_SELECTED -> {
+                if(keyEvent.getCode().equals(GameKeyConstants.attackKey))
+                    gameData.setGameState(GameState.ATTACKING);
+                else if(keyEvent.getCode().equals(GameKeyConstants.moveKey))
+                    gameData.setGameState(GameState.MOVING);
+            }
             case VIEW_MAP -> {
+                if(keyEvent.getCode().equals(GameKeyConstants.mapMoveLeft))
+                    MapMenuController.moveMap(0,0,0,1);
+                else if(keyEvent.getCode().equals(GameKeyConstants.mapMoveRight))
+                    MapMenuController.moveMap(0,1,0,0);
+                else if(keyEvent.getCode().equals(GameKeyConstants.mapMoveDown))
+                    MapMenuController.moveMap(0,0,1,0);
+                else if(keyEvent.getCode().equals(GameKeyConstants.mapMoveUp))
+                    MapMenuController.moveMap(1,1,0,0);
 
+                setUpAndShowMap();
             }
         }
     }
 
-    private void mouseClickHandle(MouseEvent mouseEvent) {
-        Pair<Double, Double> mousePosition = new Pair<>(mouseEvent.getX(), mouseEvent.getY());
-        Pair<Integer, Integer> cellIndex = gameData.mousePositionToCellIndex(mousePosition);
-
+    private void mouseClickHandle(MouseEvent mouseEvent,int tileX,int tileY) {
         switch (gameData.getGameState()) {
             case VIEW_MAP -> {
 
@@ -81,21 +134,17 @@ public class MapMenu extends Application {
     }
 
 
+
+
+
+
     public static MenuNames run(Scanner scanner) {
-        showMap();
         while (true) {
             Matcher matcher;
             String input = scanner.nextLine();
-            if ((matcher = Command.getMatcher(input, Command.SHOW_MAP)) != null) {
-                showMap(matcher);
-            }
-            else if ((matcher = Command.getMatcher(input, Command.SHOW_DETAILS)) != null) {
-                showDetails(matcher);
-            }
-            else if ((matcher = Command.getMatcher(input, Command.MOVE_MAP)) != null) {
-                moveMap(matcher);
-            }
-            else if ((matcher = Command.getMatcher(input, Command.SET_BLOCK_TEXTURE)) != null) {
+
+
+            if ((matcher = Command.getMatcher(input, Command.SET_BLOCK_TEXTURE)) != null) {
                 setBlockTexture(matcher);
             }
             else if ((matcher = Command.getMatcher(input, Command.SET_PART_OF_BLOCK_TEXTURE)) != null) {
@@ -104,6 +153,7 @@ public class MapMenu extends Application {
             else if ((matcher = Command.getMatcher(input, Command.CLEAR)) != null) {
                 clear(matcher);
             }
+
             else if ((matcher = Command.getMatcher(input, Command.DROP_ROCK)) != null) {
                 dropRock(matcher);
             }
@@ -113,17 +163,8 @@ public class MapMenu extends Application {
             else if ((matcher = Command.getMatcher(input, Command.DROP_BUILDING)) != null) {
                 dropBuilding(matcher);
             }
-            else if ((matcher = Command.getMatcher(input, Command.CREATE_BUILDING)) != null) {
-                createBuilding(matcher);
-            }
             else if ((matcher = Command.getMatcher(input, Command.DROP_UNIT)) != null) {
                 dropUnit(matcher);
-            }
-            else if (Command.getMatcher(input, Command.BACK_GAME_MENU) != null) {
-                return MenuNames.GAME_MENU;
-            }
-            else {
-                System.out.println("Invalid command!");
             }
         }
     }
@@ -143,54 +184,6 @@ public class MapMenu extends Application {
         String buildingName = tMatcher.group(1);
 
         MapMenuMessages result = MapMenuController.buildBuilding(x, y, buildingName);
-        buildingSwitchMessages(result);
-    }
-
-    private static void moveMap(Matcher matcher) {
-        String input = matcher.group(0);
-        Matcher matcherUp = Pattern.compile("up").matcher(input);
-        Matcher matcherDown = Pattern.compile("down").matcher(input);
-        Matcher matcherLeft = Pattern.compile("left").matcher(input);
-        Matcher matcherRight = Pattern.compile("right").matcher(input);
-        Matcher matcherUpNumber = Pattern.compile("up\\s*(\\d+)").matcher(input);
-        Matcher matcherDownNumber = Pattern.compile("down\\s*(\\d+)").matcher(input);
-        Matcher matcherLeftNumber = Pattern.compile("left\\s*(\\d+)").matcher(input);
-        Matcher matcherRightNumber = Pattern.compile("right\\s*(\\d+)").matcher(input);
-        int up = 0;
-        int left = 0;
-        int down = 0;
-        int right = 0;
-
-        boolean matcherUpNumberFound = matcherUpNumber.find();
-        boolean matcherDownNumberFound = matcherDownNumber.find();
-        boolean matcherRightNumberFound = matcherRightNumber.find();
-        boolean matcherLeftNumberFound = matcherLeftNumber.find();
-
-        if (matcherUpNumberFound) {
-            up = Integer.parseInt(matcherUpNumber.group(1));
-        }
-        if (matcherDownNumberFound) {
-            down = Integer.parseInt(matcherDownNumber.group(1));
-        }
-        if (matcherLeftNumberFound) {
-            left = Integer.parseInt(matcherLeftNumber.group(1));
-        }
-        if (matcherRightNumberFound) {
-            right = Integer.parseInt(matcherRightNumber.group(1));
-        }
-        if (!matcherUpNumberFound && matcherUp.find()) {
-            up = 1;
-        }
-        if (!matcherDownNumberFound && matcherDown.find()) {
-            down = 1;
-        }
-        if (!matcherLeftNumberFound && matcherLeft.find()) {
-            left = 1;
-        }
-        if (!matcherRightNumberFound && matcherRight.find()) {
-            right = 1;
-        }
-        System.out.println(MapMenuController.moveMap(up, right, down, left));
     }
 
     private static void setBlockTexture(Matcher matcher) {
@@ -367,20 +360,6 @@ public class MapMenu extends Application {
         }
     }
 
-    private static void showMap(Matcher matcher) {
-        String input = matcher.group(0);
-        Matcher xAmount = Pattern.compile("-x\\s+(\\d+)").matcher(input);
-        Matcher yAmount = Pattern.compile("-y\\s+(\\d+)").matcher(input);
-        if (!(xAmount.find() && yAmount.find())) {
-            System.out.println("Invalid command!");
-            return;
-        }
-        int positionX = Integer.parseInt(xAmount.group(1));
-        int positionY = Integer.parseInt(yAmount.group(1));
-
-        System.out.println(MapMenuController.showMap(positionX, positionY));
-    }
-
     private static void showDetails(Matcher matcher) {
         String input = matcher.group(0);
         Matcher xAmount = Pattern.compile("-x\\s+(\\d+)").matcher(input);
@@ -393,10 +372,6 @@ public class MapMenu extends Application {
         int positionY = Integer.parseInt(yAmount.group(1));
 
         System.out.print(MapMenuController.showDetails(positionX, positionY));
-    }
-
-    private static void showMap() {
-        System.out.println(MapMenuController.showMap());
     }
 
     private static void dropBuilding(Matcher matcher) {
@@ -416,24 +391,6 @@ public class MapMenu extends Application {
         String buildingName = tMatcher.group(1);
 
         MapMenuMessages result = MapMenuController.dropBuildingAsAdmin(x, y, buildingName, n);
-        buildingSwitchMessages(result);
     }
 
-    private static void buildingSwitchMessages(MapMenuMessages result) {
-        switch (result) {
-            case TWO_MAIN_KEEP -> System.out.println("You aren't allowed to have two main keeps!");
-            case INVALID_INDEX -> System.out.println("You have chosen an Invalid amount of x or y!");
-            case INVALID_TYPE -> System.out.println("This type of building doesn't exist!");
-            case UNCONNECTED_STOREROOMS -> System.out.println("Your storerooms must be connected to each other!");
-            case IMPROPER_CELL_TYPE -> System.out.println("This cell is improper for dropping this type of building!");
-            case FULL_CELL -> System.out.println("Another building has been already dropped here!");
-            case LACK_OF_HUMAN -> System.out.println("You don't have enough workless human to work in this building!");
-            case LACK_OF_RESOURCES -> System.out.println("You don't have enough resources for creating this building!");
-            case SUCCESSFUL -> System.out.println("The building was dropped successfully!");
-        }
-    }
-
-    public static void messageOfSetTexture(int x, int y) {
-        System.out.println("You can't change texture of this cell.(" + x + ", " + y + ") ");
-    }
 }
