@@ -121,18 +121,6 @@ public class GameMenuController {
                 || y > map.getWidth();
     }
 
-    public static GameMenuMessages selectUnit(int xPosition, int yPosition) {
-        if (!gameData.getMap().isIndexValid(xPosition, yPosition)) {
-            return GameMenuMessages.INVALID_POSITION;
-        }
-        Cell cell = gameData.getMap().getCells()[xPosition][yPosition];
-        if (cell.getMovingObjectsOfPlayer(gameData.getPlayerOfTurn()).size() == 0) {
-            return GameMenuMessages.EMPTY_CELL;
-        }
-        gameData.setSelectedCell(xPosition, yPosition);
-        return GameMenuMessages.SUCCESS;
-    }
-
     public static boolean nextTurn() {
         Map map = gameData.getMap();
         if (gameIsFinished()) return false;

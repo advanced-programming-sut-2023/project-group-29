@@ -23,52 +23,46 @@ import java.util.List;
 public class SelectUnitMenuController {
     private static final int maximumLengthOfTunnel = 3;
 
-    public static String moveUnit(int destinationX, int destinationY) {
+    public static ArrayList<Pair<Integer, Integer>> moveUnit(Asset movingUnit) {
         GameData gameData = GameMenuController.getGameData();
-
-        int currentX = gameData.getSelectedCellX();
-        int currentY = gameData.getSelectedCellY();
-
         Map map = gameData.getMap();
-        Cell currentCell = map.getCells()[currentX][currentY];
 
-        //create moving object list
-        ArrayList<Movable> movingObjects = currentCell.getMovingObjectsOfPlayer(gameData.getPlayerOfTurn());
-        if (movingObjects.size() == 0)
-            return "You don't have any moving unit here!";
+        Pair<Integer, Integer> destinationCellPosition = gameData.getDestinationCellPosition();
+        Pair<Integer, Integer> currentCellPosition = new Pair<>(movingUnit.getPositionX(), movingUnit.getPositionY());
 
-        //apply moves
-        int failuresCount = 0;
-        ArrayList<Movable> successfullyDeletedObjects = new ArrayList<>();
+        Cell currentCell = map.getCells()[currentCellPosition.first][currentCellPosition.second];
 
-        for (Movable movableObject : movingObjects) {
-            Movable.MovingResult movingResult = movableObject.move(map, destinationX, destinationY);
+        Movable movableUnit=(Movable) movingUnit;
 
-            switch (movingResult) {
-                case BAD_PLACE:
-                    return "Troops cannot go there!";
-                case INVALID_INDEX:
-                    return "Destination index is invalid!";
-                case TOO_FAR, HAS_MOVED:
-                    failuresCount++;
-                    break;
-                case SUCCESSFUL:
-                    successfullyDeletedObjects.add(movableObject);
-                    map.getCells()[destinationX][destinationY].getMovingObjects().add((Asset) movableObject);
-                    break;
+        Movable.MovingResult movingResult = movableUnit.move(map, destinationCellPosition.first, destinationCellPosition.second);
+        switch (movingResult) {
+            case TOO_FAR, HAS_MOVED ->{
+                return null;
+            }
+            case SUCCESSFUL->{
+                currentCell.getMovingObjects().remove(movingUnit);
+                return Movable.pathToDestination(map,movingUnit,destinationCellPosition.first,destinationCellPosition.second);
             }
         }
 
-        for (Movable removingObject : successfullyDeletedObjects)
-            currentCell.getMovingObjects().remove(removingObject);
-
-        if (failuresCount == 0)
-            return "All troops moved successfully!";
-
-        int totalObjectCount = movingObjects.size();
-        return (totalObjectCount - failuresCount) + " troop(s) out of " + totalObjectCount + " moved successfully!";
+        return null;
     }
 
+    public static SelectUnitMenuMessages moveUnitsCheckError(ArrayList<Asset> movingUnits,Pair<Integer,Integer> destination){
+        GameData gameData = GameMenuController.getGameData();
+        Map map = gameData.getMap();
+
+        if (destination==null || destination.first==null || destination.second==null)
+            return SelectUnitMenuMessages.NO_DESTINATION_SELECTED;
+        if (movingUnits.size() == 0)
+            return SelectUnitMenuMessages.EMPTY_MOVING_UNIT_ARRAY_LIST;
+
+        Movable.MovingResult movingResult= Movable.checkForMoveErrors(map,movingUnits.get(0),destination.first,destination.second);
+        if(movingResult.equals(Movable.MovingResult.BAD_PLACE))
+            return SelectUnitMenuMessages.BAD_PLACE_TO_MOVE_ON;
+
+        return SelectUnitMenuMessages.SUCCESSFUL;
+    }
 
     public static String patrolUnit(int firstX, int firstY, int secondX, int secondY) {
 
@@ -444,7 +438,7 @@ public class SelectUnitMenuController {
         return SelectUnitMenuMessages.SUCCESSFUL;
     }
 
-    private static void destroyTunnels(Map map, Pair<Integer,Integer> thisCellCoordination) {
+    private static void destroyTunnels(Map map, Pair<Integer, Integer> thisCellCoordination) {
         Cell currentCell = map.getCells()[thisCellCoordination.first][thisCellCoordination.second];
 
         //destroy tunnel
@@ -469,7 +463,7 @@ public class SelectUnitMenuController {
             destroyTunnels(map, new Pair(thisCellCoordination.first, thisCellCoordination.second - 1));
     }
 
-    private static int dfs(Map map, Pair<Integer,Integer> thisCellCoordination, boolean[][] mark) {
+    private static int dfs(Map map, Pair<Integer, Integer> thisCellCoordination, boolean[][] mark) {
         int numberOfAdjacentTunnels = 1;
         mark[thisCellCoordination.first][thisCellCoordination.second] = true;
 

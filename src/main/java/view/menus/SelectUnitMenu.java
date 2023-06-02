@@ -15,10 +15,7 @@ public class SelectUnitMenu {
         while (true) {
             Matcher matcher;
             String input = scanner.nextLine();
-            if ((matcher = Command.getMatcher(input, Command.MOVE_UNIT)) != null) {
-                moveUnit(matcher);
-            }
-            else if ((matcher = Command.getMatcher(input, Command.PATROL_UNIT)) != null) {
+            if ((matcher = Command.getMatcher(input, Command.PATROL_UNIT)) != null) {
                 patrolUnit(matcher);
             }
             else if ((matcher = Command.getMatcher(input, Command.SET_STATE_OF_UNIT)) != null) {
@@ -49,20 +46,6 @@ public class SelectUnitMenu {
                 System.out.println("Invalid command!");
             }
         }
-    }
-
-    private static void moveUnit(Matcher matcher) {
-        String input = matcher.group(0);
-        Matcher xMatcher = Pattern.compile("-x\\s+(\\d+)").matcher(input);
-        Matcher yMatcher = Pattern.compile("-y\\s+(\\d+)").matcher(input);
-        if (!(xMatcher.find() && yMatcher.find())) {
-            System.out.println("Invalid command!");
-            return;
-        }
-        int xPosition = Integer.parseInt(xMatcher.group(1));
-        int yPosition = Integer.parseInt(yMatcher.group(1));
-
-        System.out.println(SelectUnitMenuController.moveUnit(xPosition, yPosition));
     }
 
     private static void patrolUnit(Matcher matcher) {

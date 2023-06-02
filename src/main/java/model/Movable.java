@@ -4,6 +4,8 @@ import model.map.Cell;
 import model.map.CellType;
 import model.map.Map;
 
+import java.util.ArrayList;
+
 public interface Movable {
     static MovingResult move(Map map, Asset asset, int destinationX, int destinationY) {
 
@@ -24,24 +26,32 @@ public interface Movable {
         if (!map.isIndexValid(destinationX, destinationY))
             return MovingResult.INVALID_INDEX;
 
+        Cell currentCell = map.getCells()[currentX][currentY];
+
+        ArrayList<Pair<Integer, Integer>> path =
+                map.pathOfTwoCellsForMoving(movableUnit, currentX, currentY, destinationX, destinationY);
+
+        if (path == null)
+            return MovingResult.BAD_PLACE;
+
         if (movableUnit.hasMovedThisTurn())
             return MovingResult.HAS_MOVED;
 
-        Cell currentCell = map.getCells()[currentX][currentY];
+        int formulatedSpeedBecauseOfWaterInCell =
+                currentCell.getCellType().equals(CellType.SMALL_POND) ? movableUnit.getSpeed() / 2 + 1 : movableUnit.getSpeed();
 
-        int destinationDistance;
-
-        destinationDistance = map.distanceOfTwoCellsForMoving(((Movable) asset), currentX, currentY, destinationX, destinationY);
-
-        if (destinationDistance == -1)
-            return MovingResult.BAD_PLACE;
-
-        int formulatedSpeedBecauseOfWaterInCell = currentCell.getCellType().equals(CellType.SMALL_POND) ? movableUnit.getSpeed() / 2 + 1 : movableUnit.getSpeed();
-
-        if (destinationDistance > formulatedSpeedBecauseOfWaterInCell)
+        if (path.size() > formulatedSpeedBecauseOfWaterInCell)
             return MovingResult.TOO_FAR;
 
         return MovingResult.SUCCESSFUL;
+    }
+    static ArrayList<Pair<Integer,Integer>> pathToDestination(Map map, Asset asset, int destinationX, int destinationY){
+        int currentX = asset.getPositionX();
+        int currentY = asset.getPositionY();
+
+        Movable movableUnit = (Movable) asset;
+
+        return map.pathOfTwoCellsForMoving(movableUnit, currentX, currentY, destinationX, destinationY);
     }
 
     private static void finalTransfer(Asset asset, int destinationX, int destinationY) {
@@ -60,7 +70,6 @@ public interface Movable {
     boolean hasMovedThisTurn();
 
     Patrol getPatrol();
-
     boolean isAbleToClimbStairs();
 
     boolean isAbleToClimbLadder();

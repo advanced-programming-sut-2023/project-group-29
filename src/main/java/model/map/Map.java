@@ -8,9 +8,7 @@ import model.buildings.buildingTypes.OtherBuildingsType;
 import model.people.humanClasses.Soldier;
 import model.people.humanTypes.SoldierType;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class Map {
     private final Cell[][] cells;
@@ -34,7 +32,7 @@ public class Map {
         return cells;
     }
 
-    public int distanceOfTwoCellsForMoving(Movable movingUnit, int firstX, int firstY, int secondX, int secondY) {
+    public ArrayList<Pair<Integer,Integer>> pathOfTwoCellsForMoving(Movable movingUnit, int firstX, int firstY, int secondX, int secondY) {
         return BFSForMoving(movingUnit, firstX, firstY, secondX, secondY);
     }
 
@@ -43,11 +41,12 @@ public class Map {
         return BFSForAttacking(firstX, firstY, secondX, secondY, overTheWallAllowed);
     }
 
-    private int BFSForMoving(Movable movableUnit, int firstX, int firstY, int secondX, int secondY) {
+    private ArrayList<Pair<Integer,Integer>> BFSForMoving(Movable movableUnit, int firstX, int firstY, int secondX, int secondY) {
+        Queue<Pair<Integer,Integer>> queue = new LinkedList<>();
 
-        Queue<Pair> queue = new LinkedList<>();
+        int[][] distances = new int[width][width];
+        Pair<Integer,Integer>[][] parents = new Pair[width][width];
 
-        int[][] distances = new int[width + 1][width + 1];
         for (int[] array : distances)
             Arrays.fill(array, -1);
 
@@ -135,10 +134,25 @@ public class Map {
                 queue.add(addingCellCoordination);
                 distances[addingCellCoordination.first][addingCellCoordination.second] =
                         distances[thisCellCoordination.first][thisCellCoordination.second] + 1;
+                parents[addingCellCoordination.first][addingCellCoordination.second] =
+                        new Pair<>(thisCellCoordination.first,thisCellCoordination.second);
             }
         }
 
-        return distances[secondX][secondY];
+        if(distances[secondX][secondY]==-1)
+            return null;
+
+        ArrayList<Pair<Integer,Integer>> path=new ArrayList<>();
+        path.add(new Pair<>(secondX,secondY));
+
+        Pair<Integer,Integer> nextParent=parents[secondX][secondY];
+        while(nextParent.first!=firstX || nextParent.second!=firstY){
+            path.add(nextParent);
+            nextParent=parents[nextParent.first][nextParent.second];
+        }
+
+        Collections.reverse(path);
+        return path;
     }
 
     private int BFSForAttacking(int firstX, int firstY, int secondX, int secondY, boolean overWallAllowed) {
@@ -211,7 +225,7 @@ public class Map {
     }
 
     public boolean isIndexValid(int x, int y) {
-        return x >= 1 && x <= width && y >= 1 && y <= width;
+        return x >= 0 && x < width && y >= 0 && y < width;
     }
 
     public int getUsersCount() {

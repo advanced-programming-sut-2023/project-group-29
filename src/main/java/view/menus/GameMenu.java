@@ -81,10 +81,6 @@ public class GameMenu extends Application {
                 if (selectBuilding(matcher).equals(GameMenuMessages.SUCCESS))
                     return MenuNames.SELECT_BUILDING_MENU;
             }
-            else if ((matcher = Command.getMatcher(input, Command.SELECT_UNIT)) != null) {
-                if (selectUnit(matcher).equals(GameMenuMessages.SUCCESS))
-                    return MenuNames.SELECT_UNIT_MENU;
-            }
             else if (Command.getMatcher(input, Command.NEXT_TURN) != null) {
                 if (!GameMenuController.nextTurn()) {
                     GameMenuController.showWinner();
@@ -224,25 +220,6 @@ public class GameMenu extends Application {
             case EMPTY_CELL -> System.out.println("This cell is empty!");
             case OTHERS_BUILDINGS -> System.out.println("This building belongs to others!");
             case SUCCESS -> System.out.println("The building is selected successfully!");
-        }
-        return result;
-    }
-
-    private static GameMenuMessages selectUnit(Matcher matcher) {
-        String input = matcher.group(0);
-        Matcher xMatcher = Pattern.compile("-x\\s+(\\d+)").matcher(input);
-        Matcher yMatcher = Pattern.compile("-y\\s+(\\d+)").matcher(input);
-        if (!(xMatcher.find() && yMatcher.find())) {
-            return GameMenuMessages.INVALID_COMMAND;
-        }
-        int xPosition = Integer.parseInt(xMatcher.group(1));
-        int yPosition = Integer.parseInt(yMatcher.group(1));
-
-        GameMenuMessages result = GameMenuController.selectUnit(xPosition, yPosition);
-        switch (result) {
-            case INVALID_POSITION -> System.out.println("You have chosen an Invalid amount of x or y!");
-            case EMPTY_CELL -> System.out.println("You have no troop in this cell!");
-            case SUCCESS -> System.out.println("The unit was selected successfully!");
         }
         return result;
     }

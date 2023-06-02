@@ -10,8 +10,9 @@ public class GameData {
     private final ArrayList<Empire> empires = new ArrayList<>();
     private Map map;
     private PlayerNumber playerOfTurn = PlayerNumber.FIRST;
-    private int selectedCellX;
-    private int selectedCellY;
+    private Pair<Integer,Integer> startSelectedCellsPosition=new Pair<>();
+    private Pair<Integer,Integer> endSelectedCellsPosition=new Pair<>();
+    private Pair<Integer,Integer> destinationCellPosition=new Pair<>();
     private GameState gameState=GameState.VIEW_MAP;
     private int tileWidth = 20;
     private int tileHeight = 20;
@@ -37,21 +38,18 @@ public class GameData {
 
     public void incrementTurn() {
     }
-
+    public Pair<Integer, Integer> getDestinationCellPosition() {
+        return destinationCellPosition;
+    }
+    public void setDestinationCellPosition(Pair<Integer, Integer> destinationCellPosition) {
+        this.destinationCellPosition = destinationCellPosition;
+    }
     public PlayerNumber getPlayerOfTurn() {
         return playerOfTurn;
     }
 
     public void setPlayerOfTurn(PlayerNumber playerOfTurn) {
         this.playerOfTurn = playerOfTurn;
-    }
-
-    public int getSelectedCellX() {
-        return selectedCellX;
-    }
-
-    public int getSelectedCellY() {
-        return selectedCellY;
     }
 
     public int getNumberOfPlayers() {
@@ -85,9 +83,20 @@ public class GameData {
         GameMenuController.notify("player number " + (index + 1) + " is playing");
     }
 
-    public void setSelectedCell(int selectedCellX, int selectedCellY) {
-        this.selectedCellX = selectedCellX;
-        this.selectedCellY = selectedCellY;
+    public Pair<Integer, Integer> getEndSelectedCellsPosition() {
+        return endSelectedCellsPosition;
+    }
+
+    public Pair<Integer, Integer> getStartSelectedCellsPosition() {
+        return startSelectedCellsPosition;
+    }
+
+    public void setEndSelectedCellsPosition(Pair<Integer, Integer> endSelectedCellsPosition) {
+        this.endSelectedCellsPosition = endSelectedCellsPosition;
+    }
+
+    public void setStartSelectedCellsPosition(Pair<Integer, Integer> startSelectedCellsPosition) {
+        this.startSelectedCellsPosition = startSelectedCellsPosition;
     }
 
     public GameState getGameState() {

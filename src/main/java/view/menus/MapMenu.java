@@ -80,6 +80,20 @@ public class MapMenu extends Application {
                     }
                 });
 
+                tiles[i][j].setOnMouseDragged(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        mouseDragStartHandle(mouseEvent,i_dup,j_dup);
+                    }
+                });
+
+                tiles[i][j].setOnMouseDragReleased(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        mouseDragEndHandle(mouseEvent,i_dup,j_dup);
+                    }
+                });
+
                 tiles[i][j].hoverProperty().addListener((observable, oldValue, newValue) -> {
                     if (newValue) {
                         showDetails(i_dup,j_dup);
@@ -127,13 +141,28 @@ public class MapMenu extends Application {
 
     private void mouseClickHandle(MouseEvent mouseEvent,int tileX,int tileY) {
         switch (gameData.getGameState()) {
-            case VIEW_MAP -> {
-
+            case VIEW_MAP, CELL_SELECTED -> {
+                gameData.setStartSelectedCellsPosition(new Pair<>(tileX,tileY));
+                gameData.setEndSelectedCellsPosition(new Pair<>(tileX,tileY));
             }
         }
     }
 
-
+    private void mouseDragStartHandle(MouseEvent mouseEvent,int tileX,int tileY) {
+        switch (gameData.getGameState()) {
+            case VIEW_MAP, CELL_SELECTED -> {
+                gameData.setStartSelectedCellsPosition(new Pair<>(tileX,tileY));
+                gameData.setEndSelectedCellsPosition(new Pair<>(tileX,tileY));
+            }
+        }
+    }
+    private void mouseDragEndHandle(MouseEvent mouseEvent,int tileX,int tileY) {
+        switch (gameData.getGameState()) {
+            case VIEW_MAP, CELL_SELECTED -> {
+                gameData.setEndSelectedCellsPosition(new Pair<>(tileX,tileY));
+            }
+        }
+    }
 
 
 
