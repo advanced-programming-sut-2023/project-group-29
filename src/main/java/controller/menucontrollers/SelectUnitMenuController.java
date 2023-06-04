@@ -390,7 +390,7 @@ public class SelectUnitMenuController {
         if (!map.isIndexValid(x, y))
             return SelectUnitMenuMessages.INVALID_INDEX;
 
-        Cell currentCell = map.getCells()[gameData.getSelectedCellX()][gameData.getSelectedCellY()];
+        Cell currentCell = map.getCells()[gameData.getStartSelectedCellsPosition().first][gameData.getStartSelectedCellsPosition().first];
 
         ArrayList<Offensive> attackingUnits = currentCell.getAttackingListOfPlayerNumber(gameData.getPlayerOfTurn());
         Soldier tunneler = null;
@@ -494,8 +494,8 @@ public class SelectUnitMenuController {
 
     public static String buildEquipment(String equipmentName) {
         GameData gameData = GameMenuController.getGameData();
-        int x = gameData.getSelectedCellX();
-        int y = gameData.getSelectedCellY();
+        int x = 1;
+        int y = 1;//todo
         Cell selectedCell = gameData.getMap().getCells()[x][y];
         PlayerNumber currentPlayer = gameData.getPlayerOfTurn();
 

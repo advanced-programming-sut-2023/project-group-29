@@ -109,7 +109,7 @@ public class GameMenuController {
             return GameMenuMessages.OTHERS_BUILDINGS;
         }
 
-        gameData.setSelectedCell(xPosition, yPosition);
+        gameData.setStartSelectedCellsPosition(new Pair<Integer,Integer>(xPosition, yPosition));
         SelectBuildingMenuController.setSelectedBuilding(building);
         return GameMenuMessages.SUCCESS;
     }
