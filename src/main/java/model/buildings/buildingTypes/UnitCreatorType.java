@@ -2,26 +2,27 @@ package model.buildings.buildingTypes;
 
 import model.buildings.Building;
 import model.buildings.BuildingType;
+import model.buildings.Category;
 
 public enum UnitCreatorType implements BuildType {
     BARRACK( //سربازخانه
-            new BuildingType(50, 0, new int[]{0, 15, 0, 0}, "Brrck"),
+            new BuildingType(50, 0, new int[]{0, 15, 0, 0}, "Brrck", Category.CASTLE),
             50, "barrack"
     ),
     MERCENARY_POST( // سربازخانه مزدوران
-            new BuildingType(30, 0, new int[]{0, 0, 10, 0}, "MPost"),
+            new BuildingType(30, 0, new int[]{0, 0, 10, 0}, "MPost", Category.CASTLE),
             30, "mercenaryPost"
     ),
     ENGINEER_GUILD( // صنف مهندسان
-            new BuildingType(30, 0, new int[]{100, 0, 10, 0}, "EngnG"),
+            new BuildingType(30, 0, new int[]{100, 0, 10, 0}, "EngnG", Category.CASTLE),
             60, "engineerGuild"
     ),
     CHURCH( // کلیسا
-            new BuildingType(150, 0, new int[]{250, 0, 0, 0}, "Chrch"),
+            new BuildingType(150, 0, new int[]{250, 0, 0, 0}, "Chrch", Category.TOWN),
             30, "church"
     ),
     CATHEDRAL( // کلیسای جامع
-            new BuildingType(300, 0, new int[]{1000, 0, 0, 0}, "Ctdrl"),
+            new BuildingType(300, 0, new int[]{1000, 0, 0, 0}, "Ctdrl", Category.TOWN),
             30, "cathedral"
     ),
     ;
