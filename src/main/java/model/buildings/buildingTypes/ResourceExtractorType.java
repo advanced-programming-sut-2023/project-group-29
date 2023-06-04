@@ -2,23 +2,24 @@ package model.buildings.buildingTypes;
 
 import model.buildings.Building;
 import model.buildings.BuildingType;
+import model.buildings.Category;
 import model.dealing.Resource;
 
 public enum ResourceExtractorType implements BuildType {
     PITCH_RIG( // دکل قیر
-            new BuildingType(80, 1, new int[]{0, 0, 20, 0}, "PtchR"),
+            new BuildingType(80, 1, new int[]{0, 0, 20, 0}, "PtchR", Category.INDUSTRY),
             30, Resource.PITCH, "pitchRig"
     ),
     QUARRY( // معدن سنگ
-            new BuildingType(80, 3, new int[]{0, 0, 20, 0}, "Quary"),
+            new BuildingType(80, 3, new int[]{0, 0, 20, 0}, "Quary", Category.INDUSTRY),
             20, Resource.STONE, "quarry"
     ),
     WOOD_CUTTER( //چوب بر
-            new BuildingType(30, 1, new int[]{0, 0, 3, 0}, "WdCut"),
+            new BuildingType(30, 1, new int[]{0, 0, 3, 0}, "WdCut", Category.INDUSTRY),
             25, Resource.WOOD, "woodCutter"
     ),
     IRON_MINE(//معدن آهن
-            new BuildingType(80, 2, new int[]{0, 0, 20, 0}, "IrnMn"),
+            new BuildingType(80, 2, new int[]{0, 0, 20, 0}, "IrnMn", Category.INDUSTRY),
             15, Resource.IRON, "ironMine"
     );
     //کارخانه ذوب

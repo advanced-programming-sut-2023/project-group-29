@@ -2,25 +2,30 @@ package model.buildings.buildingTypes;
 
 import model.buildings.Building;
 import model.buildings.BuildingType;
+import model.buildings.Category;
 import model.dealing.Food;
 import model.dealing.Product;
 import model.dealing.Tradable;
 
 public enum ProductProcessorType implements BuildType {
     MILL( //آسیاب
-            new BuildingType(60, 3, new int[]{0, 0, 20, 0}, "Mill_"),
+            new BuildingType(60, 3, new int[]{0, 0, 20, 0},
+                    "Mill_", Category.FOOD_PROCESSING),
             10, Product.WHEAT, Product.FLOUR, "mill"
     ),
     BAKERY( //نانوایی
-            new BuildingType(40, 1, new int[]{0, 0, 10, 0}, "Bkery"),
+            new BuildingType(40, 1, new int[]{0, 0, 10, 0},
+                            "Bkery", Category.FOOD_PROCESSING),
             10, Product.FLOUR, Food.BREAD, "bakery"
     ),
     BEER_BREWING(// آبجوسازی
-            new BuildingType(40, 1, new int[]{0, 0, 10, 0}, "BeerB"),
+            new BuildingType(40, 1, new int[]{0, 0, 10, 0},
+                    "BeerB", Category.FOOD_PROCESSING),
             10, Product.GRAIN, Product.BEER, "beerBrewing"
     ),
     INN( //مسافرخانه
-            new BuildingType(60, 1, new int[]{100, 0, 20, 0}, "Inn__"),
+            new BuildingType(60, 1, new int[]{100, 0, 20, 0},
+                    "Inn__", Category.FOOD_PROCESSING),
             10, Product.BEER, null, "inn"
     ),
     ;

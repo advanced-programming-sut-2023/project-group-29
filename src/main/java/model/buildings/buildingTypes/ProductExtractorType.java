@@ -2,33 +2,34 @@ package model.buildings.buildingTypes;
 
 import model.buildings.Building;
 import model.buildings.BuildingType;
+import model.buildings.Category;
 import model.dealing.Food;
 import model.dealing.Product;
 import model.dealing.Tradable;
 
 public enum ProductExtractorType implements BuildType {
     STABLE(//اصطبل
-            new BuildingType(100, 0, new int[]{400, 0, 20, 0}, "Stble"),
+            new BuildingType(100, 0, new int[]{400, 0, 20, 0}, "Stble", Category.CASTLE),
             4, Product.HORSE, "stable"
     ),
     APPLE_GARDEN( //باغ سیب
-            new BuildingType(30, 1, new int[]{0, 0, 5, 0}, "ApGdn"),
+            new BuildingType(30, 1, new int[]{0, 0, 5, 0}, "ApGdn", Category.FARM),
             12, Food.APPLE, "appleGarden"
     ),
     DAIRY_PRODUCTS( //لبنیاتی
-            new BuildingType(50, 1, new int[]{0, 0, 10, 0}, "Dairy"),
+            new BuildingType(50, 1, new int[]{0, 0, 10, 0}, "Dairy", Category.FARM),
             15, Food.CHEESE, "dairyProducts"
     ),
     GRAIN_FARM(// مزرعه جو
-            new BuildingType(60, 1, new int[]{0, 0, 15, 0}, "GFarm"),
+            new BuildingType(60, 1, new int[]{0, 0, 15, 0}, "GFarm", Category.FARM),
             20, Product.GRAIN, "grainFarm"
     ),
     HUNTING_POST(// پست شکار
-            new BuildingType(30, 1, new int[]{0, 0, 5, 0}, "HPost"),
+            new BuildingType(30, 1, new int[]{0, 0, 5, 0}, "HPost", Category.FARM),
             10, Food.MEAT, "huntingPost"
     ),
     WHEAT_FARM( //مزرعه گندم
-            new BuildingType(60, 1, new int[]{0, 0, 15, 0}, "WFarm"),
+            new BuildingType(60, 1, new int[]{0, 0, 15, 0}, "WFarm", Category.FARM),
             30, Product.WHEAT, "wheatFarm"
     ),
     ;
