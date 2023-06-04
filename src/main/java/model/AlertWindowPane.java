@@ -10,7 +10,7 @@ import javafx.util.Duration;
 
 public class AlertWindowPane extends Pane {
     private final Pane mainPain;
-    public AlertWindowPane(Pane mainPane, int x,int y,Color color){
+    public AlertWindowPane(Pane mainPane,Color color){
         this.mainPain=mainPane;
         setBackground(new Background(new BackgroundFill(color,null,null)));
 
@@ -18,8 +18,8 @@ public class AlertWindowPane extends Pane {
         setMinWidth(200);
         setMinHeight(100);
 
-        setLayoutX(x);
-        setLayoutY(y);
+        setLayoutX(mainPane.getWidth()/2-100);
+        setLayoutY(20);
     }
     public void showAndWait(){
         this.setVisible(false);

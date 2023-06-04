@@ -190,10 +190,7 @@ public class GameMenuController {
         int minimumEnemiesToAttack = unitState.equals(UnitState.DEFENSIVE) ? 3 : 1;
 
         for (Direction direction : Direction.values()) {
-            int x = engineerWithOil.getPositionX();
-            int y = engineerWithOil.getPositionY();
-
-            if (SelectUnitMenuController.oneUnitPourOil(engineerWithOil, direction.getString(), x, y, minimumEnemiesToAttack).equals(SelectUnitMenuMessages.SUCCESSFUL))
+            if (SelectUnitMenuController.oneUnitPourOil(engineerWithOil, direction, minimumEnemiesToAttack).equals(SelectUnitMenuMessages.SUCCESSFUL))
                 return;
         }
     }
@@ -271,43 +268,13 @@ public class GameMenuController {
                 Offensive.AttackingResult attackingResult = attacker.canAttack
                         (gameData.getMap(), currentX + i, currentY + j, false);
                 if (attackingResult.equals(Offensive.AttackingResult.SUCCESSFUL)) {
-                    if (oneUnitAttack(attacker, currentX, currentY, currentX + i, currentY + j))
+                    if (SelectUnitMenuController.makeOneUnitAttack(attacker,new Pair<>(currentX + i, currentY + j))
+                            .equals(SelectUnitMenuMessages.SUCCESSFUL))
                         return true;
                 }
             }
 
         return false;
-    }
-
-    private static boolean oneUnitAttack(Offensive attacker, int currentX, int currentY, int targetX, int targetY) {
-        Map map = gameData.getMap();
-
-        Asset attackerAsset = (Asset) attacker;
-        PlayerNumber currentPlayer = attackerAsset.getOwnerNumber();
-
-        ArrayList<Offensive> currentPlayerAttackers = new ArrayList<>(List.of(attacker));
-
-        //create enemy objects list
-        Cell targetCell = map.getCells()[targetX][targetY];
-        ArrayList<Asset> enemies = targetCell.getEnemiesOfPlayerInCell(currentPlayer);
-        if (targetCell.hasBuilding())
-            enemies.add(targetCell.getBuilding());
-
-        if (enemies.size() == 0)
-            return false;
-
-        //apply attack
-        //if a unit is near to death or not, makes no change for others
-
-        Cell currentCell = gameData.getMap().getCells()[currentX][currentY];
-        HeightOfAsset heightOfAttackers = currentCell.heightOfUnitsOfPlayer();
-
-        SelectUnitMenuController.DamageStruct totalDamage = SelectUnitMenuController.findTotalDamage
-                (heightOfAttackers, currentPlayerAttackers, map, targetX, targetY, false);
-        applyAttackDamage(enemies, totalDamage, targetCell);
-        targetCell.removeDeadUnitsAndBuilding();
-
-        return true;
     }
 
     private static void resetActsOfUnits() {

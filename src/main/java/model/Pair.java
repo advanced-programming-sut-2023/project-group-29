@@ -12,4 +12,10 @@ public class Pair<T1,T2> {
     public Pair(){
 
     }
+
+    public boolean isEqualTo(Pair<T1,T2> secondPair){
+        if(this.first.equals(secondPair.first) && this.second.equals(secondPair.second))
+            return true;
+        return false;
+    }
 }

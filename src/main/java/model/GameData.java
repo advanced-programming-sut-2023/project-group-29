@@ -3,6 +3,8 @@ package model;
 import controller.menucontrollers.GameMenuController;
 import model.gamestates.GameState;
 import model.map.Map;
+import view.menus.GameGraphicFunctions;
+import view.menus.MapMenu;
 
 import java.util.ArrayList;
 
@@ -13,12 +15,15 @@ public class GameData {
     private Pair<Integer,Integer> startSelectedCellsPosition=new Pair<>();
     private Pair<Integer,Integer> endSelectedCellsPosition=new Pair<>();
     private Pair<Integer,Integer> destinationCellPosition=new Pair<>();
+    private ArrayList<Asset> selectedUnits=new ArrayList<>();//todo set and edit
     private GameState gameState=GameState.VIEW_MAP;
     private int tileWidth = 20;
     private int tileHeight = 20;
     private Pair<Integer,Integer> cornerCellIndex=new Pair<>(1,1);
     private int numberOfTilesShowingInRow = AppData.getScreenWidth() / tileWidth;
     private int numberOfTilesShowingInColumn = AppData.getScreenHeight() / tileHeight;
+    private MapMenu mapMenu;
+    private GameGraphicFunctions gameGraphicFunctions;
 
     public void addEmpire(Empire empire) {
         empires.add(empire);
@@ -157,5 +162,25 @@ public class GameData {
 
     public void setNumberOfTilesShowingInColumn(int numberOfTilesShowingInColumn) {
         this.numberOfTilesShowingInColumn = numberOfTilesShowingInColumn;
+    }
+
+    public ArrayList<Asset> getSelectedUnits() {
+        return selectedUnits;
+    }
+
+    public MapMenu getMapMenu() {
+        return mapMenu;
+    }
+
+    public void setMapMenu(MapMenu mapMenu) {
+        this.mapMenu = mapMenu;
+    }
+
+    public GameGraphicFunctions getGameGraphicFunctions() {
+        return gameGraphicFunctions;
+    }
+
+    public void setGameGraphicFunctions(GameGraphicFunctions gameGraphicFunctions) {
+        this.gameGraphicFunctions = gameGraphicFunctions;
     }
 }
