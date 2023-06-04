@@ -183,4 +183,18 @@ public class GameData {
     public void setGameGraphicFunctions(GameGraphicFunctions gameGraphicFunctions) {
         this.gameGraphicFunctions = gameGraphicFunctions;
     }
+
+    public int getSelectedCellX() {
+        return 0;
+        //todo modify
+    }
+
+    public int getSelectedCellY() {
+        return 0;
+        //todo modify
+    }
+
+    public void setSelectedCell(int xPosition, int yPosition) {
+        //todo modify
+    }
 }

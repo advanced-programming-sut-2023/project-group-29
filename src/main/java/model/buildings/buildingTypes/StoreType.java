@@ -2,18 +2,20 @@ package model.buildings.buildingTypes;
 
 import model.buildings.Building;
 import model.buildings.BuildingType;
+import model.buildings.Category;
 
 public enum StoreType implements BuildType {
     ARMOURY( //اسلحه خانه
-            new BuildingType(60, 0, new int[]{0, 0, 5, 0}, "Armry"),
+            new BuildingType(60, 0, new int[]{0, 0, 5, 0}, "Armry", Category.CASTLE),
             100, "armoury"
     ),
     FOOD_STORE( //انبار غذا
-            new BuildingType(60, 0, new int[]{0, 0, 5, 0}, "FStor"),
+            new BuildingType(60, 0, new int[]{0, 0, 5, 0},
+                    "FStor", Category.FOOD_PROCESSING),
             200, "foodStore"
     ),
     STOCK_PILE( //انبار
-            new BuildingType(60, 0, new int[]{0, 0, 5, 0}, "SPile"),
+            new BuildingType(60, 0, new int[]{0, 0, 5, 0}, "SPile", Category.INDUSTRY),
             500, "stockPile"
     ),
     ;

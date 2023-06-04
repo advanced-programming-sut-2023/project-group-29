@@ -2,26 +2,27 @@ package model.buildings.buildingTypes;
 
 import model.buildings.Building;
 import model.buildings.BuildingType;
+import model.buildings.Category;
 
 public enum AttackingBuildingType implements BuildType {
     LOOKOUT_TOWER( // برج دیدبانی
-            new BuildingType(70, 0, new int[]{0, 10, 0, 0}, "LookT"),
+            new BuildingType(70, 0, new int[]{0, 10, 0, 0}, "LookT", Category.CASTLE),
             30, "lookoutTower"
     ),
     CIRCLE_TOWER( // برچ دایره‌ای
-            new BuildingType(150, 0, new int[]{0, 40, 0, 0}, "CrclT"),
+            new BuildingType(150, 0, new int[]{0, 40, 0, 0}, "CrclT", Category.CASTLE),
             100, "circleTower"
     ),
     PERIMETER_TOWER( // برج محیطی
-            new BuildingType(70, 0, new int[]{0, 10, 0, 0}, "PeriT"),
+            new BuildingType(70, 0, new int[]{0, 10, 0, 0}, "PeriT", Category.CASTLE),
             30, "perimeterTower"
     ),
     SQUARE_TOWER( // برج مربعی
-            new BuildingType(140, 0, new int[]{0, 35, 0, 0}, "SqreT"),
+            new BuildingType(140, 0, new int[]{0, 35, 0, 0}, "SqreT", Category.CASTLE),
             90, "squareTower"
     ),
     DEFENCE_TURRET( //برجک دفاعی
-            new BuildingType(90, 0, new int[]{0, 15, 0, 0}, "DefTr"),
+            new BuildingType(90, 0, new int[]{0, 15, 0, 0}, "DefTr", Category.CASTLE),
             40, "defenceTurret"
     ),
     ;

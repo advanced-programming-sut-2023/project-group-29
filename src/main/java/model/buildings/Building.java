@@ -10,6 +10,7 @@ import java.util.HashMap;
 public abstract class Building extends Asset {
 
     private static final HashMap<BuildType, Integer> buildingTypesAndTheirGroup = new HashMap<>();
+    private Category category;
     protected int numberOfWorkers;
     protected int[] neededResources;
     protected int maxHp;
@@ -20,6 +21,7 @@ public abstract class Building extends Asset {
         this.hp = buildingType.hp();
         this.numberOfWorkers = buildingType.numberOfWorkers();
         this.maxHp = hp;
+        this.category = buildingType.category();
     }
 
     public static BuildType getBuildTypeByName(String buildingName) {
