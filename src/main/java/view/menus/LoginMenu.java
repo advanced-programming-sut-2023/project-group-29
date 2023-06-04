@@ -35,7 +35,7 @@ public class LoginMenu extends Application {
             Matcher matcher;
             String input = scanner.nextLine();
             if ((matcher = Command.getMatcher(input, Command.USER_CREATE)) != null) {
-                System.out.println(LoginMenuController.createUser(matcher));
+                //System.out.println(LoginMenuController.createUser(matcher));
             }
             else if (Command.getMatcher(input, Command.EXIT) != null) {
                 return MenuNames.EXIT;
