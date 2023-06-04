@@ -1,4 +1,4 @@
-package model;
+package model.unitfeatures;
 
 public enum HeightOfAsset {
     UP(2),

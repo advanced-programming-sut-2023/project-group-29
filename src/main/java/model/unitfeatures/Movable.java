@@ -1,5 +1,7 @@
-package model;
+package model.unitfeatures;
 
+import model.Asset;
+import model.Pair;
 import model.map.Cell;
 import model.map.CellType;
 import model.map.Map;

@@ -1,5 +1,6 @@
-package model;
+package model.unitfeatures;
 
+import model.Asset;
 import model.map.Cell;
 import model.map.Map;
 import model.weapons.weaponClasses.StaticOffensiveWeapons;

@@ -1,6 +1,6 @@
 package model;
 
-import controller.menucontrollers.GameMenuController;
+import controller.menucontrollers.GameController;
 import model.buildings.Building;
 import model.buildings.buildingClasses.*;
 import model.buildings.buildingTypes.ProductProcessorType;
@@ -225,7 +225,7 @@ public class Empire {
         int numberOfFoodEaten = (foodRate + 2) / 2 * getPopulation();
         if (numberOfFoodEaten > storage[0][0]) {
             foodRate = -2;
-            GameMenuController.notify("Your food rate was automatically set on -2 because of lack of food!");
+            GameController.notify("Your food rate was automatically set on -2 because of lack of food!");
         }
         else {
             getRidOfFood(numberOfFoodEaten);
@@ -413,7 +413,7 @@ public class Empire {
 
     private ArrayList<Building> getBuildings() {
         ArrayList<Building> buildings = new ArrayList<>();
-        Map map = GameMenuController.getGameData().getMap();
+        Map map = GameController.getGameData().getMap();
         for (int i = 1; i <= map.getWidth(); i++) {
             for (int j = 1; j <= map.getWidth(); j++) {
                 Cell cell = map.getCells()[i][j];

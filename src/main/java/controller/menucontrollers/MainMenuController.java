@@ -8,7 +8,7 @@ import model.PlayerNumber;
 public class MainMenuController {
     public static void createGameData() {
         GameData gameData = new GameData();
-        GameMenuController.setGameData(gameData);
+        GameController.setGameData(gameData);
         gameData.addEmpire(new Empire(AppData.getCurrentUser()));
         gameData.setPlayerOfTurn(PlayerNumber.FIRST);
     }

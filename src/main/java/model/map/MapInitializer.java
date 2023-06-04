@@ -1,6 +1,6 @@
 package model.map;
 
-import controller.menucontrollers.MapMenuController;
+import controller.menucontrollers.MapFunctions;
 import model.GameData;
 import model.buildings.buildingTypes.AccommodationType;
 import model.buildings.buildingTypes.StoreType;
@@ -37,22 +37,22 @@ public class MapInitializer {
             }
         }
         gameData.setMap(firstMap);
-        MapMenuController.dropBuildingAsAdmin(25, 50, AccommodationType.MAIN_KEEP.getName(), 1);
-        MapMenuController.dropBuildingAsAdmin(75, 50, AccommodationType.MAIN_KEEP.getName(), 2);
-        MapMenuController.dropBuildingAsAdmin(125, 50, AccommodationType.MAIN_KEEP.getName(), 3);
-        MapMenuController.dropBuildingAsAdmin(175, 50, AccommodationType.MAIN_KEEP.getName(), 4);
-        MapMenuController.dropBuildingAsAdmin(25, 150, AccommodationType.MAIN_KEEP.getName(), 5);
-        MapMenuController.dropBuildingAsAdmin(75, 150, AccommodationType.MAIN_KEEP.getName(), 6);
-        MapMenuController.dropBuildingAsAdmin(125, 150, AccommodationType.MAIN_KEEP.getName(), 7);
-        MapMenuController.dropBuildingAsAdmin(175, 150, AccommodationType.MAIN_KEEP.getName(), 8);
-        MapMenuController.dropBuildingAsAdmin(26, 50, StoreType.STOCK_PILE.getName(), 1);
-        MapMenuController.dropBuildingAsAdmin(76, 50, StoreType.STOCK_PILE.getName(), 2);
-        MapMenuController.dropBuildingAsAdmin(126, 50, StoreType.STOCK_PILE.getName(), 3);
-        MapMenuController.dropBuildingAsAdmin(176, 50, StoreType.STOCK_PILE.getName(), 4);
-        MapMenuController.dropBuildingAsAdmin(26, 150, StoreType.STOCK_PILE.getName(), 5);
-        MapMenuController.dropBuildingAsAdmin(76, 150, StoreType.STOCK_PILE.getName(), 6);
-        MapMenuController.dropBuildingAsAdmin(126, 150, StoreType.STOCK_PILE.getName(), 7);
-        MapMenuController.dropBuildingAsAdmin(176, 150, StoreType.STOCK_PILE.getName(), 8);
+        MapFunctions.dropBuildingAsAdmin(25, 50, AccommodationType.MAIN_KEEP.getName(), 1);
+        MapFunctions.dropBuildingAsAdmin(75, 50, AccommodationType.MAIN_KEEP.getName(), 2);
+        MapFunctions.dropBuildingAsAdmin(125, 50, AccommodationType.MAIN_KEEP.getName(), 3);
+        MapFunctions.dropBuildingAsAdmin(175, 50, AccommodationType.MAIN_KEEP.getName(), 4);
+        MapFunctions.dropBuildingAsAdmin(25, 150, AccommodationType.MAIN_KEEP.getName(), 5);
+        MapFunctions.dropBuildingAsAdmin(75, 150, AccommodationType.MAIN_KEEP.getName(), 6);
+        MapFunctions.dropBuildingAsAdmin(125, 150, AccommodationType.MAIN_KEEP.getName(), 7);
+        MapFunctions.dropBuildingAsAdmin(175, 150, AccommodationType.MAIN_KEEP.getName(), 8);
+        MapFunctions.dropBuildingAsAdmin(26, 50, StoreType.STOCK_PILE.getName(), 1);
+        MapFunctions.dropBuildingAsAdmin(76, 50, StoreType.STOCK_PILE.getName(), 2);
+        MapFunctions.dropBuildingAsAdmin(126, 50, StoreType.STOCK_PILE.getName(), 3);
+        MapFunctions.dropBuildingAsAdmin(176, 50, StoreType.STOCK_PILE.getName(), 4);
+        MapFunctions.dropBuildingAsAdmin(26, 150, StoreType.STOCK_PILE.getName(), 5);
+        MapFunctions.dropBuildingAsAdmin(76, 150, StoreType.STOCK_PILE.getName(), 6);
+        MapFunctions.dropBuildingAsAdmin(126, 150, StoreType.STOCK_PILE.getName(), 7);
+        MapFunctions.dropBuildingAsAdmin(176, 150, StoreType.STOCK_PILE.getName(), 8);
         return firstMap;
     }
 
@@ -75,21 +75,21 @@ public class MapInitializer {
 
         gameData.setMap(secondMap);
 
-        MapMenuController.dropBuildingAsAdmin(5, 10, AccommodationType.MAIN_KEEP.getName(), 1);
-        MapMenuController.dropBuildingAsAdmin(100, 100, AccommodationType.MAIN_KEEP.getName(), 2);
-        MapMenuController.dropBuildingAsAdmin(185, 190, AccommodationType.MAIN_KEEP.getName(), 3);
+        MapFunctions.dropBuildingAsAdmin(5, 10, AccommodationType.MAIN_KEEP.getName(), 1);
+        MapFunctions.dropBuildingAsAdmin(100, 100, AccommodationType.MAIN_KEEP.getName(), 2);
+        MapFunctions.dropBuildingAsAdmin(185, 190, AccommodationType.MAIN_KEEP.getName(), 3);
 
-        MapMenuController.dropBuildingAsAdmin(6, 10, StoreType.STOCK_PILE.getName(), 1);
-        MapMenuController.dropBuildingAsAdmin(101, 100, StoreType.STOCK_PILE.getName(), 2);
-        MapMenuController.dropBuildingAsAdmin(186, 190, StoreType.STOCK_PILE.getName(), 3);
+        MapFunctions.dropBuildingAsAdmin(6, 10, StoreType.STOCK_PILE.getName(), 1);
+        MapFunctions.dropBuildingAsAdmin(101, 100, StoreType.STOCK_PILE.getName(), 2);
+        MapFunctions.dropBuildingAsAdmin(186, 190, StoreType.STOCK_PILE.getName(), 3);
 
-        MapMenuController.dropUnit(7, 10, SoldierType.ENGINEER.getName(), 2, 1);
-        MapMenuController.dropUnit(102, 100, SoldierType.ENGINEER.getName(), 2, 2);
-        MapMenuController.dropUnit(187, 190, SoldierType.ENGINEER.getName(), 2, 3);
+        MapFunctions.dropUnit(7, 10, SoldierType.ENGINEER.getName(), 2, 1);
+        MapFunctions.dropUnit(102, 100, SoldierType.ENGINEER.getName(), 2, 2);
+        MapFunctions.dropUnit(187, 190, SoldierType.ENGINEER.getName(), 2, 3);
 
-        MapMenuController.dropUnit(8, 10, SoldierType.ARCHER.getName(), 2, 1);
-        MapMenuController.dropUnit(103, 100, SoldierType.ARCHER.getName(), 2, 2);
-        MapMenuController.dropUnit(188, 190, SoldierType.ARCHER.getName(), 2, 3);
+        MapFunctions.dropUnit(8, 10, SoldierType.ARCHER.getName(), 2, 1);
+        MapFunctions.dropUnit(103, 100, SoldierType.ARCHER.getName(), 2, 2);
+        MapFunctions.dropUnit(188, 190, SoldierType.ARCHER.getName(), 2, 3);
 
 
         return secondMap;

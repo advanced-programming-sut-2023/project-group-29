@@ -1,6 +1,6 @@
 package model;
 
-import controller.menucontrollers.GameMenuController;
+import controller.menucontrollers.GameController;
 import model.gamestates.GameState;
 import model.map.Map;
 import view.menus.GameGraphicFunctions;
@@ -85,7 +85,7 @@ public class GameData {
             changePlayingPlayer();
             return;
         }
-        GameMenuController.notify("player number " + (index + 1) + " is playing");
+        GameController.notify("player number " + (index + 1) + " is playing");
     }
 
     public Pair<Integer, Integer> getEndSelectedCellsPosition() {

@@ -7,6 +7,7 @@ import model.buildings.buildingTypes.AttackingBuildingType;
 import model.buildings.buildingTypes.OtherBuildingsType;
 import model.people.humanClasses.Soldier;
 import model.people.humanTypes.SoldierType;
+import model.unitfeatures.Movable;
 
 import java.util.*;
 

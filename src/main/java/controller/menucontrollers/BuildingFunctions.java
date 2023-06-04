@@ -15,11 +15,11 @@ import model.people.Human;
 import model.people.humanTypes.SoldierType;
 import view.messages.SelectBuildingMenuMessages;
 
-public class SelectBuildingMenuController {
+public class BuildingFunctions {
     private static Building selectedBuilding;
 
     public static void setSelectedBuilding(Building selectedBuilding) {
-        SelectBuildingMenuController.selectedBuilding = selectedBuilding;
+        BuildingFunctions.selectedBuilding = selectedBuilding;
     }
 
 
@@ -62,7 +62,7 @@ public class SelectBuildingMenuController {
 
     private static void createUnitsAndDecreaseCoinAndWeapon
             (String unitType, int count, Empire ownerEmpire, SoldierType soldierType, UnitCreator building) {
-        PlayerNumber playerNumber = GameMenuController.getGameData().getPlayerOfTurn();
+        PlayerNumber playerNumber = GameController.getGameData().getPlayerOfTurn();
         for (int i = 0; i < count; i++) {
             Human.createUnitByName(unitType, playerNumber, building.getPositionX(), building.getPositionY());
         }
@@ -108,7 +108,7 @@ public class SelectBuildingMenuController {
 
     private static boolean isEnemyNearIt(Building building) {
         int x = building.getPositionX(), y = building.getPositionY();
-        Map map = GameMenuController.getGameData().getMap();
+        Map map = GameController.getGameData().getMap();
         return isEnemyInThisCell(map, x + 1, y) ||
                 isEnemyInThisCell(map, x + 1, y) ||
                 isEnemyInThisCell(map, x - 1, y) ||
@@ -119,7 +119,7 @@ public class SelectBuildingMenuController {
     private static boolean isEnemyInThisCell(Map map, int x, int y) {
         if (!map.isIndexValid(x, y)) return false;
         Cell cell = map.getCells()[x][y];
-        PlayerNumber myPlayerNumber = GameMenuController.getGameData().getPlayerOfTurn();
+        PlayerNumber myPlayerNumber = GameController.getGameData().getPlayerOfTurn();
         return (cell.getNumberOfStrangeUnits(myPlayerNumber) > 0);
     }
 

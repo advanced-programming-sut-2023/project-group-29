@@ -1,6 +1,6 @@
 package model;
 
-import controller.menucontrollers.GameMenuController;
+import controller.menucontrollers.GameController;
 import model.map.Cell;
 import model.map.Map;
 
@@ -41,7 +41,7 @@ public enum PlayerNumber {
     }
 
     public void setAliveOrNot() {
-        Empire empire = GameMenuController.getGameData().getEmpireByPlayerNumber(this);
+        Empire empire = GameController.getGameData().getEmpireByPlayerNumber(this);
         if (empire.getNumberOfBuildingType("mainKeep") > 0) isAlive = true;
         else {
             isAlive = false;
@@ -50,10 +50,10 @@ public enum PlayerNumber {
     }
 
     public void dead() {
-        GameMenuController.notify("Player number" + this.number + "\n" +
+        GameController.notify("Player number" + this.number + "\n" +
                 "You have lost your main keep and you can't play any more!");
-        Map map = GameMenuController.getGameData().getMap();
-        Empire deadEmpire = GameMenuController.getGameData().getEmpireByPlayerNumber(this);
+        Map map = GameController.getGameData().getMap();
+        Empire deadEmpire = GameController.getGameData().getEmpireByPlayerNumber(this);
         for (int i = 1; i <= map.getWidth(); i++) {
             for (int j = 1; j <= map.getWidth(); j++) {
                 Cell cell = map.getCells()[i][j];

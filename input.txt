@@ -1,0 +1,14 @@
+monday:
+jasbi:
+    right menu
+    building image
+
+
+faratin:
+    login
+    simple menus
+
+
+abbasfar:
+    edit select list
+

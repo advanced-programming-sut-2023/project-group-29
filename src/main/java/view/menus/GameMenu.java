@@ -1,10 +1,9 @@
 package view.menus;
 
 import controller.MenuNames;
-import controller.menucontrollers.GameMenuController;
-import controller.menucontrollers.MapMenuController;
+import controller.menucontrollers.GameController;
+import controller.menucontrollers.MapFunctions;
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -82,8 +81,8 @@ public class GameMenu extends Application {
                     return MenuNames.SELECT_BUILDING_MENU;
             }
             else if (Command.getMatcher(input, Command.NEXT_TURN) != null) {
-                if (!GameMenuController.nextTurn()) {
-                    GameMenuController.showWinner();
+                if (!GameController.nextTurn()) {
+                    GameController.showWinner();
                     return MenuNames.MAIN_MENU;
                 }
             }
@@ -92,7 +91,7 @@ public class GameMenu extends Application {
                 return MenuNames.TRADE_MENU;
             }
             else if (Command.getMatcher(input, Command.ENTER_SHOP_MENU) != null) {
-                if (!GameMenuController.isAnyMarket()) {
+                if (!GameController.isAnyMarket()) {
                     System.out.println("You don't have any market!");
                     continue;
                 }
@@ -119,7 +118,7 @@ public class GameMenu extends Application {
     }
 
     private static void enterTradeMenu() {
-        GameData gameData = GameMenuController.getGameData();
+        GameData gameData = GameController.getGameData();
         System.out.println("You entered trade menu");
         System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - -");
         for (int i = 0; i < gameData.getEmpires().size(); i++) {
@@ -151,7 +150,7 @@ public class GameMenu extends Application {
         int positionX = Integer.parseInt(xMatcher.group(1));
         int positionY = Integer.parseInt(yMatcher.group(1));
 
-        MapMenuMessages result = MapMenuController.setShowingMapIndexes(positionX, positionY);
+        MapMenuMessages result = MapFunctions.setShowingMapIndexes(positionX, positionY);
         if (result == MapMenuMessages.INVALID_INDEX) {
             System.out.println("Invalid index!");
         }
@@ -159,28 +158,28 @@ public class GameMenu extends Application {
     }
 
     private static void showPopularityFactors() {
-        System.out.println(GameMenuController.showPopularityFactors());
+        System.out.println(GameController.showPopularityFactors());
     }
 
     private static void showPopularity() {
-        System.out.println(GameMenuController.showPopularity());
+        System.out.println(GameController.showPopularity());
     }
 
     private static void showFoodList() {
-        System.out.println(GameMenuController.showFoodList());
+        System.out.println(GameController.showFoodList());
     }
 
     private static void showFoodRate() {
-        System.out.println(GameMenuController.showFoodRate());
+        System.out.println(GameController.showFoodRate());
     }
 
     private static void showTaxRate() {
-        System.out.println(GameMenuController.showTaxRate());
+        System.out.println(GameController.showTaxRate());
     }
 
     private static void setFoodRate(Matcher matcher) {
         int foodRate = Integer.parseInt(matcher.group("rate"));
-        GameMenuMessages result = GameMenuController.determinationOfFoodRate(foodRate);
+        GameMenuMessages result = GameController.determinationOfFoodRate(foodRate);
         switch (result) {
             case SUCCESS -> System.out.println("Food rate has been set successfully!");
             case RATE_OUT_OF_RANGE -> System.out.println("The chosen rate is out of range");
@@ -189,7 +188,7 @@ public class GameMenu extends Application {
 
     private static void setTaxRate(Matcher matcher) {
         int taxRate = Integer.parseInt(matcher.group("rate"));
-        GameMenuMessages result = GameMenuController.determinationOfTaxRate(taxRate);
+        GameMenuMessages result = GameController.determinationOfTaxRate(taxRate);
         switch (result) {
             case SUCCESS -> System.out.println("Tax rate has been set successfully!");
             case RATE_OUT_OF_RANGE -> System.out.println("The chosen rate is out of range");
@@ -198,7 +197,7 @@ public class GameMenu extends Application {
 
     private static void setFearRate(Matcher matcher) {
         int fearRate = Integer.parseInt(matcher.group("rate"));
-        GameMenuMessages result = GameMenuController.determinationOfFearRate(fearRate);
+        GameMenuMessages result = GameController.determinationOfFearRate(fearRate);
         switch (result) {
             case SUCCESS -> System.out.println("Fear rate has been set successfully!");
             case RATE_OUT_OF_RANGE -> System.out.println("The chosen rate is out of range");
@@ -214,7 +213,7 @@ public class GameMenu extends Application {
         }
         int x = Integer.parseInt(xMatcher.group(1));
         int y = Integer.parseInt(yMatcher.group(1));
-        GameMenuMessages result = GameMenuController.selectBuilding(x, y);
+        GameMenuMessages result = GameController.selectBuilding(x, y);
         switch (result) {
             case INVALID_POSITION -> System.out.println("You have chosen an Invalid amount of x or y!");
             case EMPTY_CELL -> System.out.println("This cell is empty!");
@@ -225,11 +224,11 @@ public class GameMenu extends Application {
     }
 
     private static void showWealth() {
-        System.out.println(GameMenuController.showWealth());
+        System.out.println(GameController.showWealth());
     }
 
     private static void showCommodity() {
-        System.out.print(GameMenuController.showCommodity());
+        System.out.print(GameController.showCommodity());
     }
 
     public static void print(String message) {

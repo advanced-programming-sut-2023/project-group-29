@@ -1,6 +1,6 @@
 package model;
 
-import controller.menucontrollers.GameMenuController;
+import controller.menucontrollers.GameController;
 
 public class User {
 
@@ -84,7 +84,7 @@ public class User {
     }
 
     public Empire getEmpire() {
-        GameData gameData = GameMenuController.getGameData();
+        GameData gameData = GameController.getGameData();
         for (Empire empire : gameData.getEmpires()) {
             if (empire.getUser().equals(this)) return empire;
         }

@@ -1,7 +1,7 @@
 package model.weapons.weaponClasses;
 
-import model.Movable;
-import model.Patrol;
+import model.unitfeatures.Movable;
+import model.unitfeatures.Patrol;
 import model.PlayerNumber;
 import model.map.Map;
 import model.weapons.Weapon;

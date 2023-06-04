@@ -1,8 +1,8 @@
 package model.people;
 
 import model.Asset;
-import model.Movable;
-import model.Patrol;
+import model.unitfeatures.Movable;
+import model.unitfeatures.Patrol;
 import model.PlayerNumber;
 import model.map.Map;
 import model.people.humanClasses.Soldier;

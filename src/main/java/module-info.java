@@ -14,4 +14,5 @@ module project {
 
     exports model;
     exports model.gamestates;
+    exports model.unitfeatures;
 }

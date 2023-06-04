@@ -1,4 +1,4 @@
-package model;
+package model.unitfeatures;
 
 public enum UnitState {
     STANDING("standing"),

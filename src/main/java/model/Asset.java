@@ -1,8 +1,7 @@
 package model;
 
-import controller.menucontrollers.GameMenuController;
+import controller.menucontrollers.GameController;
 import javafx.scene.image.Image;
-import view.Main;
 import view.menus.LoginMenu;
 
 public class Asset {
@@ -20,7 +19,7 @@ public class Asset {
     }
 
     public Empire getOwnerEmpire() {
-        return GameMenuController.getGameData().getEmpireByPlayerNumber(ownerNumber);
+        return GameController.getGameData().getEmpireByPlayerNumber(ownerNumber);
     }
 
     public PlayerNumber getOwnerNumber() {

@@ -1,7 +1,7 @@
 package view.menus;
 
 import controller.MenuNames;
-import controller.menucontrollers.SelectBuildingMenuController;
+import controller.menucontrollers.BuildingFunctions;
 import view.Command;
 import view.messages.SelectBuildingMenuMessages;
 
@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public class SelectBuildingMenu {
     public static MenuNames run(Scanner scanner) {
         System.out.println("You have entered select building menu");
-        System.out.println(SelectBuildingMenuController.getBuildingHp());
+        System.out.println(BuildingFunctions.getBuildingHp());
         while (true) {
             Matcher matcher;
             String input = scanner.nextLine();
@@ -35,7 +35,7 @@ public class SelectBuildingMenu {
     }
 
     private static void changeBridgeState() {
-        SelectBuildingMenuMessages result = SelectBuildingMenuController.changeBridgeState();
+        SelectBuildingMenuMessages result = BuildingFunctions.changeBridgeState();
         switch (result) {
             case UNRELATED -> System.out.println("You can't change state of this building!");
             case SUCCESS -> System.out.println("Your unit was successfully created!");
@@ -52,7 +52,7 @@ public class SelectBuildingMenu {
         }
         String unitType = typeMatcher.group(1);
         int count = Integer.parseInt(countMatcher.group(1));
-        SelectBuildingMenuMessages result = SelectBuildingMenuController.createUnit(unitType, count);
+        SelectBuildingMenuMessages result = BuildingFunctions.createUnit(unitType, count);
         switch (result) {
             case INVALID_TYPE -> System.out.println("We have no unit with this name!");
             case LACK_OF_COINS -> System.out.println("You don't have enough coin to create this unit!");
@@ -64,7 +64,7 @@ public class SelectBuildingMenu {
     }
 
     private static void repairBuilding() {
-        SelectBuildingMenuMessages result = SelectBuildingMenuController.repairBuilding();
+        SelectBuildingMenuMessages result = BuildingFunctions.repairBuilding();
         switch (result) {
             case LACK_OF_STONE -> System.out.println("You don't have enough stone to repair your building!");
             case ENEMY_IS_NEAR -> System.out.println("You can't repair your buildings while Enemies are near them!");

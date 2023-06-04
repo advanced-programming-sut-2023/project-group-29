@@ -10,17 +10,19 @@ import model.map.CellType;
 import model.map.Map;
 import model.people.humanClasses.Soldier;
 import model.people.humanTypes.SoldierType;
+import model.unitfeatures.Movable;
+import model.unitfeatures.Offensive;
+import model.unitfeatures.UnitState;
 import model.weapons.weaponClasses.Trap;
 import view.menus.GameMenu;
 import view.messages.GameMenuMessages;
 import view.messages.SelectUnitMenuMessages;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import static controller.menucontrollers.SelectUnitMenuController.applyAttackDamage;
+import static controller.menucontrollers.UnitFunctions.applyAttackDamage;
 
-public class GameMenuController {
+public class GameController {
     private static GameData gameData = null;
 
     public static GameData getGameData() {
@@ -28,7 +30,7 @@ public class GameMenuController {
     }
 
     public static void setGameData(GameData gameData) {
-        GameMenuController.gameData = gameData;
+        GameController.gameData = gameData;
     }
 
     public static String showPopularityFactors() {
@@ -110,7 +112,7 @@ public class GameMenuController {
         }
 
         gameData.setStartSelectedCellsPosition(new Pair<Integer,Integer>(xPosition, yPosition));
-        SelectBuildingMenuController.setSelectedBuilding(building);
+        BuildingFunctions.setSelectedBuilding(building);
         return GameMenuMessages.SUCCESS;
     }
 
@@ -164,7 +166,7 @@ public class GameMenuController {
                 Cell currentCell = map.getCells()[i][j];
                 if (currentCell.hasTrap()) {
                     if (currentCell.getMovingObjects().size() > 0) {
-                        SelectUnitMenuController.DamageStruct damageStruct = new SelectUnitMenuController.DamageStruct();
+                        UnitFunctions.DamageStruct damageStruct = new UnitFunctions.DamageStruct();
 
                         Trap trap = currentCell.getTrap();
                         damageStruct.groundDamage = trap.getDamage();
@@ -190,7 +192,7 @@ public class GameMenuController {
         int minimumEnemiesToAttack = unitState.equals(UnitState.DEFENSIVE) ? 3 : 1;
 
         for (Direction direction : Direction.values()) {
-            if (SelectUnitMenuController.oneUnitPourOil(engineerWithOil, direction, minimumEnemiesToAttack).equals(SelectUnitMenuMessages.SUCCESSFUL))
+            if (UnitFunctions.oneUnitPourOil(engineerWithOil, direction, minimumEnemiesToAttack).equals(SelectUnitMenuMessages.SUCCESSFUL))
                 return;
         }
     }
@@ -268,7 +270,7 @@ public class GameMenuController {
                 Offensive.AttackingResult attackingResult = attacker.canAttack
                         (gameData.getMap(), currentX + i, currentY + j, false);
                 if (attackingResult.equals(Offensive.AttackingResult.SUCCESSFUL)) {
-                    if (SelectUnitMenuController.makeOneUnitAttack(attacker,new Pair<>(currentX + i, currentY + j))
+                    if (UnitFunctions.makeOneUnitAttack(attacker,new Pair<>(currentX + i, currentY + j))
                             .equals(SelectUnitMenuMessages.SUCCESSFUL))
                         return true;
                 }
@@ -294,14 +296,14 @@ public class GameMenuController {
     }
 
     public static int showWealth() {
-        return GameMenuController.getGameData().getEmpireByPlayerNumber
-                (GameMenuController.gameData.getPlayerOfTurn()).getWealth();
+        return GameController.getGameData().getEmpireByPlayerNumber
+                (GameController.gameData.getPlayerOfTurn()).getWealth();
     }
 
     public static String showCommodity() {
         String output = "Your recourse: \n";
-        Empire empire = GameMenuController.getGameData().getEmpireByPlayerNumber
-                (GameMenuController.gameData.getPlayerOfTurn());
+        Empire empire = GameController.getGameData().getEmpireByPlayerNumber
+                (GameController.gameData.getPlayerOfTurn());
         for (Tradable tradable : empire.getTradableAmounts().keySet()) {
             int amount = empire.getTradableAmount(tradable);
             output += tradable.getName() + ": " + amount + "\n";

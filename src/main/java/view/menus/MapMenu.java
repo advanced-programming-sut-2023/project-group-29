@@ -1,17 +1,12 @@
 package view.menus;
 
-import controller.MenuNames;
-import controller.menucontrollers.GameMenuController;
-import controller.menucontrollers.MapMenuController;
+import controller.menucontrollers.GameController;
+import controller.menucontrollers.MapFunctions;
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.input.DragEvent;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -20,17 +15,8 @@ import model.GameKeyConstants;
 import model.Pair;
 import model.gamestates.GameState;
 import model.map.Cell;
-import model.map.CellType;
-import model.people.humanTypes.SoldierType;
-import view.Command;
-import view.messages.MapMenuMessages;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class MapMenu extends Application {
     private Pane mainPane=null;
@@ -41,7 +27,7 @@ public class MapMenu extends Application {
     public void start(Stage stage) throws Exception {
         URL url = LoginMenu.class.getResource("/FXML/MapMenu.fxml");
         mainPane = FXMLLoader.load(url);
-        this.gameData = GameMenuController.getGameData();
+        this.gameData = GameController.getGameData();
         gameData.setMapMenu(this);
 
         gameGraphicFunctions=new GameGraphicFunctions(mainPane);
@@ -58,7 +44,7 @@ public class MapMenu extends Application {
     }
 
     private void setUpAndShowMap(){
-        tiles=MapMenuController.showMap(0, 0, mainPane);
+        tiles= MapFunctions.showMap(0, 0, mainPane);
         setTilesListeners();
     }
 
@@ -153,13 +139,13 @@ public class MapMenu extends Application {
             }
             case VIEW_MAP -> {
                 if(keyEvent.getCode().equals(GameKeyConstants.mapMoveLeft))
-                    MapMenuController.moveMap(0,0,0,1);
+                    MapFunctions.moveMap(0,0,0,1);
                 else if(keyEvent.getCode().equals(GameKeyConstants.mapMoveRight))
-                    MapMenuController.moveMap(0,1,0,0);
+                    MapFunctions.moveMap(0,1,0,0);
                 else if(keyEvent.getCode().equals(GameKeyConstants.mapMoveDown))
-                    MapMenuController.moveMap(0,0,1,0);
+                    MapFunctions.moveMap(0,0,1,0);
                 else if(keyEvent.getCode().equals(GameKeyConstants.mapMoveUp))
-                    MapMenuController.moveMap(1,1,0,0);
+                    MapFunctions.moveMap(1,1,0,0);
 
                 setUpAndShowMap();
             }

@@ -2,28 +2,23 @@ package view.menus;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import model.AppData;
 import view.Command;
 
-import java.io.IOException;
 import java.net.URL;
-import java.nio.file.DirectoryStream;
 
 public class EnterMenu extends Application {
 
-    Background background1 = new Background(new BackgroundImage(new Image(EnterMenu.class.getResource("/images/EnterMenuBackGroundSelect1.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT));
+    Background background1 = new Background(new BackgroundImage(new Image(EnterMenu.class.getResource("/images/menus/EnterMenuBackGroundSelect1.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT));
 
-    Background background2 = new Background(new BackgroundImage(new Image(EnterMenu.class.getResource("/images/EnterMenuBackGroundSelect2.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT));
+    Background background2 = new Background(new BackgroundImage(new Image(EnterMenu.class.getResource("/images/menus/EnterMenuBackGroundSelect2.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT));
     @Override
     public void start(Stage stage) throws Exception {
         AppData.setStage(stage);

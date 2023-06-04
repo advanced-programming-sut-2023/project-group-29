@@ -17,12 +17,9 @@ import model.weapons.Weapon;
 import model.weapons.weaponClasses.Equipments;
 import model.weapons.weaponClasses.OffensiveWeapons;
 import model.weapons.weaponClasses.StaticOffensiveWeapons;
-import view.menus.MapMenu;
 import view.messages.MapMenuMessages;
 
-import java.util.ArrayList;
-
-public class MapMenuController {
+public class MapFunctions {
     private static final int tileWidth = 20;
     private static final int tileHeight = 20;//todo should get from gamedata
     private static final int tileCapacityForShowingUnits=10;//todo should update with zoom level
@@ -32,7 +29,7 @@ public class MapMenuController {
     private static int showingMapIndexY = 1;
 
     public static MapMenuMessages setShowingMapIndexes(int indexX, int indexY) {
-        Map map = GameMenuController.getGameData().getMap();
+        Map map = GameController.getGameData().getMap();
         if (!map.isIndexValid(indexX, indexY))
             return MapMenuMessages.INVALID_INDEX;
 
@@ -43,7 +40,7 @@ public class MapMenuController {
     }
 
     public static Pane[][] showMap(int indexX, int indexY, Pane rootPane) {
-        Map map = GameMenuController.getGameData().getMap();
+        Map map = GameController.getGameData().getMap();
         Pane[][] tiles=new Pane[numberOfTilesShowingInRow][numberOfTilesShowingInColumn];
 
         for (int i = 0; i < numberOfTilesShowingInRow; i++) {
@@ -62,7 +59,7 @@ public class MapMenuController {
     }
 
     public static Pane createTile(int indexX, int indexY) {
-        GameData gameData = GameMenuController.getGameData();
+        GameData gameData = GameController.getGameData();
         Cell cell = gameData.getMap().getCells()[indexX][indexY];
 
         Pane tile = new Pane();
@@ -77,7 +74,7 @@ public class MapMenuController {
         //building or trap
         if (cell.hasBuilding())
             fitImageInTile(cell.getBuilding().getShowingImage(), tile);
-        else if (cell.hasTrap() && cell.getTrap().getOwnerNumber().equals(GameMenuController.getGameData().getPlayerOfTurn()))
+        else if (cell.hasTrap() && cell.getTrap().getOwnerNumber().equals(GameController.getGameData().getPlayerOfTurn()))
             fitImageInTile(cell.getTrap().getShowingImage(), tile);
 
         //other units
@@ -112,8 +109,8 @@ public class MapMenuController {
 
 
     public static String showDetails(int indexX, int indexY) {
-        Map map = GameMenuController.getGameData().getMap();
-        PlayerNumber currentPlayer = GameMenuController.getGameData().getPlayerOfTurn();
+        Map map = GameController.getGameData().getMap();
+        PlayerNumber currentPlayer = GameController.getGameData().getPlayerOfTurn();
 
         if (!map.isIndexValid(indexX, indexY))
             return "Index is invalid!\n";
@@ -180,7 +177,7 @@ public class MapMenuController {
     }
 
     public static void moveMap(int upMovements, int rightMovements, int downMovements, int leftMovements) {
-        Map map = GameMenuController.getGameData().getMap();
+        Map map = GameController.getGameData().getMap();
 
         int newShowingMapIndexX = showingMapIndexX + rightMovements - leftMovements;
         int newShowingMapIndexY = showingMapIndexY + downMovements - upMovements;
@@ -192,30 +189,30 @@ public class MapMenuController {
     }
 
     public static String setBlockTexture(CellType cellType, int x, int y) {
-        if (GameMenuController.getGameData().getMap().getCells()[x][y].hasBuilding()) {
+        if (GameController.getGameData().getMap().getCells()[x][y].hasBuilding()) {
             return "You can't change texture of this cell!";
         }
-        GameMenuController.getGameData().getMap().getCells()[x][y].setCellType(cellType);
+        GameController.getGameData().getMap().getCells()[x][y].setCellType(cellType);
         return "Type of the cell was successfully changed";
     }
 
     public static String setPartOfBlockTexture(CellType cellType, int x1, int y1, int x2, int y2) {
         for (int i = x1; i <= x2; i++) {
             for (int j = y1; j <= y2; j++) {
-                if (GameMenuController.getGameData().getMap().getCells()[i][j].hasBuilding()) {
+                if (GameController.getGameData().getMap().getCells()[i][j].hasBuilding()) {
                     continue;
                 }
-                GameMenuController.getGameData().getMap().getCells()[i][j].setCellType(cellType);
+                GameController.getGameData().getMap().getCells()[i][j].setCellType(cellType);
             }
         }
         return "Type of the cells were successfully changed";
     }
 
     public static String clear(int xPosition, int yPosition) {
-        if (GameMenuController.getGameData().getMap().getCells()[xPosition][yPosition].hasBuilding()) {
+        if (GameController.getGameData().getMap().getCells()[xPosition][yPosition].hasBuilding()) {
             return "You can't change texture of this cell!";
         }
-        GameMenuController.getGameData().getMap().getCells()[xPosition][yPosition].setCellType(CellType.PLAIN_GROUND);
+        GameController.getGameData().getMap().getCells()[xPosition][yPosition].setCellType(CellType.PLAIN_GROUND);
         return "Type of the cell was successfully cleared";
     }
 
@@ -230,7 +227,7 @@ public class MapMenuController {
     }
 
     public static MapMenuMessages dropTree(int xPosition, int yPosition, String name) {
-        GameData gameData = GameMenuController.getGameData();
+        GameData gameData = GameController.getGameData();
         TreeType treeType = TreeType.getTreeTypeByName(name);
         if (treeType == null) {
             return MapMenuMessages.INVALID_TYPE;
@@ -247,7 +244,7 @@ public class MapMenuController {
     public static MapMenuMessages dropUnit
             (int positionX, int positionY, String type, int count, int ownerPlayerNumberInt) {
 
-        Map map = GameMenuController.getGameData().getMap();
+        Map map = GameController.getGameData().getMap();
 
         PlayerNumber ownerPlayerNumber = PlayerNumber.getPlayerByIndex(ownerPlayerNumberInt - 1);
         Human unit = Human.createUnitByName(type, ownerPlayerNumber, positionX, positionY);
@@ -277,7 +274,7 @@ public class MapMenuController {
     }
 
     public static MapMenuMessages buildBuilding(int x, int y, String buildingName) {
-        GameData gameData = GameMenuController.getGameData();
+        GameData gameData = GameController.getGameData();
         PlayerNumber ownerPlayerNumber = gameData.getPlayerOfTurn();
         Cell chosenCell = gameData.getMap().getCells()[x][y];
         Empire empire = gameData.getEmpireByPlayerNumber(ownerPlayerNumber);
@@ -300,7 +297,7 @@ public class MapMenuController {
     }
 
     public static MapMenuMessages dropBuildingAsAdmin(int x, int y, String buildingName, int ownerNumber) {
-        GameData gameData = GameMenuController.getGameData();
+        GameData gameData = GameController.getGameData();
         Cell chosenCell = gameData.getMap().getCells()[x][y];
         PlayerNumber ownerPlayerNumber = PlayerNumber.getPlayerByIndex(ownerNumber - 1);
 
@@ -314,7 +311,7 @@ public class MapMenuController {
     }
 
     private static MapMenuMessages buildErrorCheck(int x, int y, String buildingName, PlayerNumber ownerPlayerNumber) {
-        GameData gameData = GameMenuController.getGameData();
+        GameData gameData = GameController.getGameData();
         Empire empire = gameData.getEmpireByPlayerNumber(ownerPlayerNumber);
         if (!gameData.getMap().isIndexValid(x, y)) {
             return MapMenuMessages.INVALID_INDEX;
@@ -368,7 +365,7 @@ public class MapMenuController {
 
     private static boolean thisTypeIsInThisCell(int x, int y, String buildingName, Empire empire) {
 
-        Map map = GameMenuController.getGameData().getMap();
+        Map map = GameController.getGameData().getMap();
 
         if (!map.isIndexValid(x, y)) return false;
         Cell chosenCell = map.getCells()[x][y];

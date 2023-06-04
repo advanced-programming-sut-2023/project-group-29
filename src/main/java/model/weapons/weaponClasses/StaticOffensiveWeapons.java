@@ -1,9 +1,9 @@
 package model.weapons.weaponClasses;
 
-import controller.menucontrollers.GameMenuController;
-import model.Offensive;
+import controller.menucontrollers.GameController;
+import model.unitfeatures.Offensive;
 import model.PlayerNumber;
-import model.UnitState;
+import model.unitfeatures.UnitState;
 import model.buildings.buildingClasses.AttackingBuilding;
 import model.map.Cell;
 import model.map.Map;
@@ -36,7 +36,7 @@ public class StaticOffensiveWeapons extends Weapon implements Offensive {
 
     public int getAimRange() {
         if (isArcherType()) {
-            Cell currentCell = GameMenuController.getGameData().getMap().getCells()[getPositionX()][getPositionY()];
+            Cell currentCell = GameController.getGameData().getMap().getCells()[getPositionX()][getPositionY()];
             if (currentCell.hasBuilding() && currentCell.getBuilding() instanceof AttackingBuilding attackingBuilding)
                 return Math.max(aimRange, attackingBuilding.getFireRange());
         }

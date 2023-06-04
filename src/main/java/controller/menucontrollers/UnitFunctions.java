@@ -10,6 +10,10 @@ import model.map.Map;
 import model.people.Human;
 import model.people.humanClasses.Soldier;
 import model.people.humanTypes.SoldierType;
+import model.unitfeatures.HeightOfAsset;
+import model.unitfeatures.Movable;
+import model.unitfeatures.Offensive;
+import model.unitfeatures.UnitState;
 import model.weapons.Weapon;
 import model.weapons.weaponClasses.OffensiveWeapons;
 import model.weapons.weaponClasses.Trap;
@@ -20,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SelectUnitMenuController {
+public class UnitFunctions {
     private static final int maximumLengthOfTunnel = 3;
     public static void moveUnits(ArrayList<Asset> movingUnits){
         for(Asset movingUnit:movingUnits){
@@ -29,11 +33,11 @@ public class SelectUnitMenuController {
             if(path==null)
                 return;
 
-            GameMenuController.getGameData().getGameGraphicFunctions().moveAnimate(movingUnit,path);
+            GameController.getGameData().getGameGraphicFunctions().moveAnimate(movingUnit,path);
         }
     }
     public static ArrayList<Pair<Integer, Integer>> moveOneUnit(Asset movingUnit) {
-        GameData gameData = GameMenuController.getGameData();
+        GameData gameData = GameController.getGameData();
         Map map = gameData.getMap();
 
         Pair<Integer, Integer> destinationCellPosition = gameData.getDestinationCellPosition();
@@ -58,7 +62,7 @@ public class SelectUnitMenuController {
     }
 
     public static SelectUnitMenuMessages moveUnitsCheckError(ArrayList<Asset> movingUnits, Pair<Integer, Integer> destination) {
-        GameData gameData = GameMenuController.getGameData();
+        GameData gameData = GameController.getGameData();
         Map map = gameData.getMap();
 
         if (destination == null || destination.first == null || destination.second == null)
@@ -84,7 +88,7 @@ public class SelectUnitMenuController {
 
     public static void setUnitsPatrolling(ArrayList<Movable> movables, int firstX, int firstY, int secondX, int secondY) {
 
-        Map map = GameMenuController.getGameData().getMap();
+        Map map = GameController.getGameData().getMap();
 
         for (Movable movingObject : movables) {
             if (!movingObject.checkForMoveErrors(map, firstX, firstY).equals(Movable.MovingResult.SUCCESSFUL)) {
@@ -118,7 +122,7 @@ public class SelectUnitMenuController {
 
     public static SelectUnitMenuMessages makeOneUnitAttack(Offensive attacker, Pair<Integer, Integer> target) {
 
-        GameData gameData = GameMenuController.getGameData();
+        GameData gameData = GameController.getGameData();
         Map map = gameData.getMap();
 
         Asset attackerAsset = (Asset) attacker;
@@ -152,7 +156,7 @@ public class SelectUnitMenuController {
 
     public static int makeUnitsAttacking(ArrayList<Offensive> attackers, Pair<Integer, Integer> target) {
 
-        GameData gameData = GameMenuController.getGameData();
+        GameData gameData = GameController.getGameData();
         Map map = gameData.getMap();
 
         if (!map.isIndexValid(target.first, target.second))
@@ -314,7 +318,7 @@ public class SelectUnitMenuController {
 
     public static int pourOil(ArrayList<Offensive> engineersWithOil) {
 
-        GameData gameData = GameMenuController.getGameData();
+        GameData gameData = GameController.getGameData();
         Map map = gameData.getMap();
 
         if (engineersWithOil.size() == 0)
@@ -341,7 +345,7 @@ public class SelectUnitMenuController {
 
     public static SelectUnitMenuMessages oneUnitPourOil(Offensive engineerWithOil, Direction direction, int minimumUnitToAttack) {
 
-        GameData gameData = GameMenuController.getGameData();
+        GameData gameData = GameController.getGameData();
         Map map = gameData.getMap();
 
         int deltaX = 0, deltaY = 0;
@@ -384,7 +388,7 @@ public class SelectUnitMenuController {
 
     public static SelectUnitMenuMessages digTunnel(int x, int y) {
 
-        GameData gameData = GameMenuController.getGameData();
+        GameData gameData = GameController.getGameData();
         Map map = gameData.getMap();
 
         if (!map.isIndexValid(x, y))
@@ -493,7 +497,7 @@ public class SelectUnitMenuController {
     }
 
     public static String buildEquipment(String equipmentName) {
-        GameData gameData = GameMenuController.getGameData();
+        GameData gameData = GameController.getGameData();
         int x = 1;
         int y = 1;//todo
         Cell selectedCell = gameData.getMap().getCells()[x][y];
@@ -536,7 +540,7 @@ public class SelectUnitMenuController {
             disbandOneUnit(human);
     }
     public static void disbandOneUnit(Human human) {
-        GameData gameData = GameMenuController.getGameData();
+        GameData gameData = GameController.getGameData();
         int x = human.getPositionX();
         int y = human.getPositionY();
 
@@ -561,7 +565,7 @@ public class SelectUnitMenuController {
         if(!ladderMan.getSoldierType().equals(SoldierType.LADDER_MAN))
             return false;
 
-        GameData gameData = GameMenuController.getGameData();
+        GameData gameData = GameController.getGameData();
         int currentX = ladderMan.getPositionX();
         int currentY = ladderMan.getPositionY();
         Cell currentCell = gameData.getMap().getCells()[currentX][currentY];

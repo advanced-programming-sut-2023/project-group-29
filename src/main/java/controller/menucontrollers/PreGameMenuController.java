@@ -8,7 +8,7 @@ import view.messages.PreGameMenuMessages;
 public class PreGameMenuController {
 
     public static PreGameMenuMessages addUserToGame(String username) {
-        GameData gameData = GameMenuController.getGameData();
+        GameData gameData = GameController.getGameData();
         User user;
         if ((user = AppData.getUserByUsername(username)) == null) {
             return PreGameMenuMessages.INVALID_USER;
@@ -27,20 +27,20 @@ public class PreGameMenuController {
         if (index > MapInitializer.getDefaultMapCounts() || index == 0) {
             return PreGameMenuMessages.OUT_OF_RANGE;
         }
-        Map map = MapInitializer.initialize(index, GameMenuController.getGameData());
+        Map map = MapInitializer.initialize(index, GameController.getGameData());
         if (map == null) return PreGameMenuMessages.FEW_PLAYER;
         return PreGameMenuMessages.SUCCESS;
     }
 
     public static PreGameMenuMessages isGameDataReady() {
-        GameData gameData = GameMenuController.getGameData();
+        GameData gameData = GameController.getGameData();
         if (gameData.getMap() == null) {
             return PreGameMenuMessages.NOT_CHOSEN_MAP;
         }
         else if (gameData.getNumberOfPlayers() == 1) {
             return PreGameMenuMessages.FEW_PLAYER;
         }
-        GameMenuController.updateEmpire(PlayerNumber.FIRST);
+        GameController.updateEmpire(PlayerNumber.FIRST);
         return PreGameMenuMessages.READY;
     }
 

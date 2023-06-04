@@ -8,6 +8,9 @@ import model.buildings.buildingClasses.*;
 import model.buildings.buildingTypes.*;
 import model.people.humanClasses.Soldier;
 import model.people.humanTypes.SoldierType;
+import model.unitfeatures.HeightOfAsset;
+import model.unitfeatures.Movable;
+import model.unitfeatures.Offensive;
 import model.weapons.weaponClasses.Equipments;
 import model.weapons.weaponClasses.Trap;
 import model.weapons.weaponTypes.EquipmentsType;
@@ -36,7 +39,7 @@ public class Cell {
         if(detailsWindowPane!=null)
             detailsWindowPane.hide();
 
-        detailsWindowPane=new AlertWindowPane(mainPane,980,50, Color.BEIGE);
+        detailsWindowPane=new AlertWindowPane(mainPane, Color.BEIGE);
 
         detailsWindowPane.addTitle("Information of this cell:");
         detailsWindowPane.addText("details ...");

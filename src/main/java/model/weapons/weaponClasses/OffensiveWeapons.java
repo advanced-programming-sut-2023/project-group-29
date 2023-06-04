@@ -1,10 +1,14 @@
 package model.weapons.weaponClasses;
 
-import controller.menucontrollers.GameMenuController;
+import controller.menucontrollers.GameController;
 import model.*;
 import model.buildings.buildingClasses.AttackingBuilding;
 import model.map.Cell;
 import model.map.Map;
+import model.unitfeatures.Movable;
+import model.unitfeatures.Offensive;
+import model.unitfeatures.Patrol;
+import model.unitfeatures.UnitState;
 import model.weapons.Weapon;
 import model.weapons.weaponTypes.OffensiveWeaponsType;
 
@@ -47,7 +51,7 @@ public class OffensiveWeapons extends Weapon implements Movable, Offensive {
 
     public int getAimRange() {
         if (isArcherType()) {
-            Cell currentCell = GameMenuController.getGameData().getMap().getCells()[getPositionX()][getPositionY()];
+            Cell currentCell = GameController.getGameData().getMap().getCells()[getPositionX()][getPositionY()];
             if (currentCell.hasBuilding() && currentCell.getBuilding() instanceof AttackingBuilding attackingBuilding)
                 return Math.max(aimRange, attackingBuilding.getFireRange());
         }

@@ -1,5 +1,6 @@
-package model;
+package model.unitfeatures;
 
+import model.Pair;
 import model.map.Map;
 
 public class Patrol {

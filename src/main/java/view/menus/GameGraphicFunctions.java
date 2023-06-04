@@ -1,16 +1,16 @@
 package view.menus;
 
 import controller.MenuNames;
-import controller.menucontrollers.GameMenuController;
-import controller.menucontrollers.SelectUnitMenuController;
-import javafx.animation.PathTransition;
+import controller.menucontrollers.GameController;
+import controller.menucontrollers.UnitFunctions;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.util.Duration;
 import model.*;
 import model.people.Human;
 import model.people.humanClasses.Soldier;
 import model.people.humanTypes.SoldierType;
+import model.unitfeatures.Movable;
+import model.unitfeatures.Offensive;
 import view.Command;
 import view.messages.SelectUnitMenuMessages;
 
@@ -24,7 +24,7 @@ public class GameGraphicFunctions {
     private final GameData gameData;
     public GameGraphicFunctions(Pane mainPane) {
         this.mainPane = mainPane;
-        this.gameData=GameMenuController.getGameData();
+        this.gameData= GameController.getGameData();
     }
 
     public void attackUnits() {
@@ -33,9 +33,9 @@ public class GameGraphicFunctions {
             if (asset instanceof Offensive attacker)
                 attackers.add(attacker);
 
-        SelectUnitMenuMessages result=SelectUnitMenuController.unitsAttackingCheckError(attackers, gameData.getDestinationCellPosition());
+        SelectUnitMenuMessages result= UnitFunctions.unitsAttackingCheckError(attackers, gameData.getDestinationCellPosition());
         if (result.equals(SelectUnitMenuMessages.SUCCESSFUL)) {
-            int failures = SelectUnitMenuController.makeUnitsAttacking(attackers, gameData.getDestinationCellPosition());
+            int failures = UnitFunctions.makeUnitsAttacking(attackers, gameData.getDestinationCellPosition());
             AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, Color.YELLOW);
             alertWindowPane.addTitle("Attacking results:");
             alertWindowPane.addText(failures+"attack failed!");
@@ -58,9 +58,9 @@ public class GameGraphicFunctions {
             if (asset instanceof Movable)
                 movingUnits.add(asset);
 
-        SelectUnitMenuMessages result=SelectUnitMenuController.moveUnitsCheckError(movingUnits, gameData.getDestinationCellPosition());
+        SelectUnitMenuMessages result= UnitFunctions.moveUnitsCheckError(movingUnits, gameData.getDestinationCellPosition());
         if (result.equals(SelectUnitMenuMessages.SUCCESSFUL)) {
-            SelectUnitMenuController.moveUnits(movingUnits);
+            UnitFunctions.moveUnits(movingUnits);
         }
         else {
             AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, Color.RED);
@@ -101,7 +101,7 @@ public class GameGraphicFunctions {
             return;
         }
 
-        int successes=SelectUnitMenuController.pourOil(engineersWithOil);
+        int successes= UnitFunctions.pourOil(engineersWithOil);
         int failures=engineerArrayListSize-successes;
 
         AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, Color.YELLOW);
@@ -124,7 +124,7 @@ public class GameGraphicFunctions {
             alertWindowPane.show();
         }
         else {
-            int failures = SelectUnitMenuController.ladderMenDropLadders(soldiers);
+            int failures = UnitFunctions.ladderMenDropLadders(soldiers);
 
             AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, Color.YELLOW);
             alertWindowPane.addTitle("Dropping ladder results:");
@@ -146,7 +146,7 @@ public class GameGraphicFunctions {
             alertWindowPane.show();
         }
         else {
-            SelectUnitMenuController.disbandUnits(humans);
+            UnitFunctions.disbandUnits(humans);
 
             AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, Color.GREEN);
             alertWindowPane.addTitle("Disband results:");

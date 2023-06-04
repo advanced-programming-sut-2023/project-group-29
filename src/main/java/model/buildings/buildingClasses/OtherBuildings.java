@@ -1,7 +1,7 @@
 package model.buildings.buildingClasses;
 
-import controller.menucontrollers.GameMenuController;
-import controller.menucontrollers.MapMenuController;
+import controller.menucontrollers.GameController;
+import controller.menucontrollers.MapFunctions;
 import model.Asset;
 import model.PlayerNumber;
 import model.buildings.Building;
@@ -36,7 +36,7 @@ public class OtherBuildings extends Building {
     }
 
     public void update() {
-        Cell currentCell = GameMenuController.getGameData().getMap().getCells()[getPositionX()][getPositionY()];
+        Cell currentCell = GameController.getGameData().getMap().getCells()[getPositionX()][getPositionY()];
         if (otherBuildingsType.equals(OtherBuildingsType.OIL_SMELTER)) {
             Soldier engineer = findEngineer(currentCell);
             if (engineer != null) {
@@ -46,9 +46,9 @@ public class OtherBuildings extends Building {
     }
 
     private void convertEngineerToEngineerWithOil(Soldier soldier, Cell currentCell) {
-        PlayerNumber playerNumber = GameMenuController.getGameData().getPlayerOfTurn();
+        PlayerNumber playerNumber = GameController.getGameData().getPlayerOfTurn();
         currentCell.getMovingObjects().remove(soldier);
-        MapMenuController.dropUnit(getPositionX(), getPositionY(),
+        MapFunctions.dropUnit(getPositionX(), getPositionY(),
                 "engineerWithOil", 1, playerNumber.getNumber() + 1);
     }
 
