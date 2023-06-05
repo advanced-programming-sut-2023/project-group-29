@@ -24,7 +24,6 @@ public class GameData {
     private int numberOfTilesShowingInColumn = AppData.getScreenHeight() / tileHeight;
     private MapMenu mapMenu;
     private GameGraphicFunctions gameGraphicFunctions;
-
     public void addEmpire(Empire empire) {
         empires.add(empire);
     }

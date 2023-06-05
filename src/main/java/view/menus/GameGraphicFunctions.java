@@ -3,6 +3,7 @@ package view.menus;
 import controller.MenuNames;
 import controller.menucontrollers.GameController;
 import controller.menucontrollers.UnitFunctions;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import model.*;
@@ -12,19 +13,22 @@ import model.people.humanTypes.SoldierType;
 import model.unitfeatures.Movable;
 import model.unitfeatures.Offensive;
 import view.Command;
+import view.menus.gamepopupmenus.CellDetailsWindowGraphics;
 import view.messages.SelectUnitMenuMessages;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class GameGraphicFunctions {
-
     private final Pane mainPane;
     private final GameData gameData;
+    private GamePopUpMenus popUpMenu = null;
+
     public GameGraphicFunctions(Pane mainPane) {
         this.mainPane = mainPane;
-        this.gameData= GameController.getGameData();
+        this.gameData = GameController.getGameData();
     }
 
     public void attackUnits() {
@@ -33,18 +37,18 @@ public class GameGraphicFunctions {
             if (asset instanceof Offensive attacker)
                 attackers.add(attacker);
 
-        SelectUnitMenuMessages result= UnitFunctions.unitsAttackingCheckError(attackers, gameData.getDestinationCellPosition());
+        SelectUnitMenuMessages result = UnitFunctions.unitsAttackingCheckError(attackers, gameData.getDestinationCellPosition());
         if (result.equals(SelectUnitMenuMessages.SUCCESSFUL)) {
             int failures = UnitFunctions.makeUnitsAttacking(attackers, gameData.getDestinationCellPosition());
             AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, Color.YELLOW);
             alertWindowPane.addTitle("Attacking results:");
-            alertWindowPane.addText(failures+"attack failed!");
+            alertWindowPane.addText(failures + "attack failed!");
             alertWindowPane.show();
         }
         else {
             AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, Color.RED);
             alertWindowPane.addTitle("Attacking failed");
-            switch (result){
+            switch (result) {
                 case NO_ENEMY_THERE -> alertWindowPane.addText("There is no enemy in target cell");
             }
             alertWindowPane.show();
@@ -58,24 +62,26 @@ public class GameGraphicFunctions {
             if (asset instanceof Movable)
                 movingUnits.add(asset);
 
-        SelectUnitMenuMessages result= UnitFunctions.moveUnitsCheckError(movingUnits, gameData.getDestinationCellPosition());
+        SelectUnitMenuMessages result = UnitFunctions.moveUnitsCheckError(movingUnits, gameData.getDestinationCellPosition());
         if (result.equals(SelectUnitMenuMessages.SUCCESSFUL)) {
             UnitFunctions.moveUnits(movingUnits);
         }
         else {
             AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, Color.RED);
             alertWindowPane.addTitle("moving failed!");
-            switch (result){
+            switch (result) {
                 case NO_DESTINATION_SELECTED -> alertWindowPane.addText("No cell has been selected for destination!");
-                case EMPTY_MOVING_UNIT_ARRAY_LIST -> alertWindowPane.addText("There is no moving unit in selected cell(s)!");
-                case BAD_PLACE_TO_MOVE_ON -> alertWindowPane.addText("The Selected cell is not proper for destination of moving!");
+                case EMPTY_MOVING_UNIT_ARRAY_LIST ->
+                        alertWindowPane.addText("There is no moving unit in selected cell(s)!");
+                case BAD_PLACE_TO_MOVE_ON ->
+                        alertWindowPane.addText("The Selected cell is not proper for destination of moving!");
             }
             alertWindowPane.show();
         }
 
     }
 
-    public void moveAnimate(Asset asset,ArrayList<Pair<Integer, Integer>> path){
+    public void moveAnimate(Asset asset, ArrayList<Pair<Integer, Integer>> path) {
 //        PathTransition movingTransition=new PathTransition();
 //        movingTransition.setDuration(Duration.seconds(2));
 //        movingTransition.setNode(asset);
@@ -84,16 +90,16 @@ public class GameGraphicFunctions {
     }
 
     public void engineersPourOil() {
-        ArrayList<Offensive> engineersWithOil=new ArrayList<>();
-        for(Asset asset:gameData.getSelectedUnits())
-            if(asset instanceof Soldier soldier &&
+        ArrayList<Offensive> engineersWithOil = new ArrayList<>();
+        for (Asset asset : gameData.getSelectedUnits())
+            if (asset instanceof Soldier soldier &&
                     soldier.getSoldierType().equals(SoldierType.ENGINEER_WITH_OIL))
                 engineersWithOil.add(soldier);
 
 
-        int engineerArrayListSize=engineersWithOil.size();
+        int engineerArrayListSize = engineersWithOil.size();
 
-        if(engineersWithOil.size()==0){
+        if (engineersWithOil.size() == 0) {
             AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, Color.RED);
             alertWindowPane.addTitle("Pour oil failed!");
             alertWindowPane.addText("There is no engineer with oil in selected cells!");
@@ -101,23 +107,23 @@ public class GameGraphicFunctions {
             return;
         }
 
-        int successes= UnitFunctions.pourOil(engineersWithOil);
-        int failures=engineerArrayListSize-successes;
+        int successes = UnitFunctions.pourOil(engineersWithOil);
+        int failures = engineerArrayListSize - successes;
 
         AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, Color.YELLOW);
         alertWindowPane.addTitle("Pour oil results:");
-        alertWindowPane.addText(failures+" pouring oil failed!");
+        alertWindowPane.addText(failures + " pouring oil failed!");
         alertWindowPane.show();
     }
 
     public void dropLadders() {
-        ArrayList<Soldier> soldiers=new ArrayList<>();
-        for(Asset asset:gameData.getSelectedUnits())
-            if(asset instanceof Soldier soldier &&
+        ArrayList<Soldier> soldiers = new ArrayList<>();
+        for (Asset asset : gameData.getSelectedUnits())
+            if (asset instanceof Soldier soldier &&
                     soldier.getSoldierType().equals(SoldierType.LADDER_MAN))
                 soldiers.add(soldier);
 
-        if(soldiers.size()==0){
+        if (soldiers.size() == 0) {
             AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, Color.RED);
             alertWindowPane.addTitle("Dropping ladder failed");
             alertWindowPane.addText("You have no laddermen in selected cell(s)!");
@@ -128,18 +134,18 @@ public class GameGraphicFunctions {
 
             AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, Color.YELLOW);
             alertWindowPane.addTitle("Dropping ladder results:");
-            alertWindowPane.addText(failures+" ladder dropping failed!");
+            alertWindowPane.addText(failures + " ladder dropping failed!");
             alertWindowPane.show();
         }
     }
 
     public void disbandUnits() {
-        ArrayList<Human> humans=new ArrayList<>();
-        for(Asset asset:gameData.getSelectedUnits())
-            if(asset instanceof Human human)
+        ArrayList<Human> humans = new ArrayList<>();
+        for (Asset asset : gameData.getSelectedUnits())
+            if (asset instanceof Human human)
                 humans.add(human);
 
-        if(humans.size()==0){
+        if (humans.size() == 0) {
             AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, Color.RED);
             alertWindowPane.addTitle("Disband failed");
             alertWindowPane.addText("You have no units in selected cell(s)!");
@@ -157,8 +163,8 @@ public class GameGraphicFunctions {
 
     public void buildEquipments() {
 
-        if(gameData.getEndSelectedCellsPosition()!=null &&
-                !gameData.getEndSelectedCellsPosition().isEqualTo(gameData.getStartSelectedCellsPosition())){
+        if (gameData.getEndSelectedCellsPosition() != null &&
+                !gameData.getEndSelectedCellsPosition().isEqualTo(gameData.getStartSelectedCellsPosition())) {
             AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, Color.RED);
             alertWindowPane.addTitle("Build equipment failed!");
             alertWindowPane.addText("You cannot select multiple cells for building an equipment!");
@@ -198,6 +204,29 @@ public class GameGraphicFunctions {
             else if ((matcher = Command.getMatcher(input, Command.DROP_UNIT)) != null) {
                 dropUnit(matcher);
             }
+        }
+    }
+
+    public void showDetail(Pane mainPane) {
+
+        FXMLLoader cellDetailsPaneLoader = new FXMLLoader(EnterMenu.class.getResource("/FXML/CellDetailsWindow.fxml"));
+
+        Pane cellDetailsPane = null;
+        try {
+            cellDetailsPane = cellDetailsPaneLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        CellDetailsWindowGraphics cellDetailsWindowGraphics = cellDetailsPaneLoader.getController();
+
+        popUpMenu = new GamePopUpMenus(mainPane, cellDetailsPane, GamePopUpMenus.PopUpType.CELL_DETAILS);
+        popUpMenu.showAndWait();
+    }
+
+    public void hideDetails() {
+        if (popUpMenu != null && popUpMenu.getPopUpType().equals(GamePopUpMenus.PopUpType.CELL_DETAILS)) {
+            popUpMenu.hide();
+            popUpMenu = null;
         }
     }
 
@@ -243,11 +272,8 @@ public class GameGraphicFunctions {
 //        }
     }
 
-    private void showDetails(Matcher matcher) {
-//        MapMenuController.showDetails(positionX, positionY));
-    }
-
     private void dropBuilding(Matcher matcher) {
 //        MapMenuController.dropBuildingAsAdmin(x, y, buildingName, n);
     }
+
 }

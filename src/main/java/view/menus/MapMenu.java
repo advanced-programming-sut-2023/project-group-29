@@ -16,6 +16,7 @@ import model.Pair;
 import model.gamestates.GameState;
 import model.map.Cell;
 
+import java.io.IOException;
 import java.net.URL;
 
 public class MapMenu extends Application {
@@ -99,12 +100,10 @@ public class MapMenu extends Application {
     private void showDetails(int x,int y){
         Cell cell=gameData.getMap().getCells()[x][y];
 
-        cell.showDetail(mainPane);
+        gameGraphicFunctions.showDetail(mainPane);
     }
     private void hideDetails(int x,int y){
-        Cell cell=gameData.getMap().getCells()[x][y];
-
-        cell.hideDetails();
+        gameGraphicFunctions.hideDetails();
     }
 
     private void keyHandle(KeyEvent keyEvent) {
