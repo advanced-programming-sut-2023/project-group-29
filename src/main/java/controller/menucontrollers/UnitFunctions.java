@@ -570,11 +570,12 @@ public class UnitFunctions {
         int currentY = ladderMan.getPositionY();
         Cell currentCell = gameData.getMap().getCells()[currentX][currentY];
 
-        if (currentCell.hasBuilding() || currentCell.hasTrap() || !currentCell.getCellType().isAbleToBuildOn(OtherBuildingsType.LADDER.getName()))
+        if (currentCell.hasBuilding() || currentCell.hasTrap() ||
+                !currentCell.getCellType().isAbleToBuildOn(OtherBuildingsType.LADDER.getBuildingType().name()))
             return false;
 
         //successful
-        currentCell.makeBuilding(OtherBuildingsType.LADDER.getName(), gameData.getPlayerOfTurn());
+        currentCell.makeBuilding(OtherBuildingsType.LADDER.getBuildingType().name(), gameData.getPlayerOfTurn());
         disbandOneUnit(ladderMan);
 
         return true;

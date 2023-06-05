@@ -1,27 +1,34 @@
 package view.menus;
 
+import controller.Controller;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
-import model.CircleImage;
 import model.Empire;
+import model.buildings.Building;
+import model.buildings.Category;
+import model.buildings.buildingTypes.BuildType;
+import view.shape.BuildingIcon;
+import view.shape.CircleImage;
 
 import java.net.URL;
+import java.util.HashMap;
 
 public class GameMenuGraphic extends Application {
     private Pane pane;
     private Stage stage;
-    private Popup popularityPopup = new Popup();
+    private final Popup popularityPopup = new Popup();
+    private final Popup buildingPopup = new Popup();
+    private final HashMap<Category, VBox> subMenus = new HashMap<>();
 
     public static void main(String[] args) {
         launch(args);
@@ -29,18 +36,83 @@ public class GameMenuGraphic extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        Controller.buildEnums();
         this.stage = stage;
         URL url = new URL(GameMenuGraphic.class.getResource("/FXML/GameMenu.fxml").toString());
         pane = FXMLLoader.load(url);
         stage.setScene(new Scene(pane));
         stage.show();
         buildPopularity();
+        buildingPopup.show(stage);
         makeBuildingBar();
     }
 
     private void makeBuildingBar() {
-        VBox vBox = new VBox();
+        VBox vBox = makeVBox(1020,180, new VBox());
+        for (Category category : Category.values()) {
+            if (category.equals(Category.UNBUILDABLE)) continue;
+            subMenus.put(category, new VBox());
+            makeSubMenu(category);
+            BuildingIcon icon = addIcon(vBox, "/images/buildings/" + category.name() + ".png");
+            setFunctionOnClick(icon, category);
+        }
         pane.getChildren().add(vBox);
+    }
+
+    private void setFunctionOnClick(BuildingIcon icon, Category category) {
+        icon.setOnMouseClicked(mouseEvent -> {
+            buildingPopup.setX(stage.getX() + 955);
+            buildingPopup.setY(stage.getY() + 200);
+            if (buildingPopup.getContent().size() != 0){
+                ScrollPane scrollPane = (ScrollPane) buildingPopup.getContent().get(0);
+                boolean againClick = scrollPane.getContent().equals(subMenus.get(category));
+                buildingPopup.getContent().clear();
+                if (!againClick) addToPopup(category);
+            }
+            else{
+
+                addToPopup(category);
+            }
+        });
+    }
+
+    private void addToPopup(Category category) {
+        ScrollPane scrollPane = new ScrollPane(subMenus.get(category));
+        scrollPane.setMaxHeight(400);
+        scrollPane.setPrefSize(70,400);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        buildingPopup.getContent().add(scrollPane);
+    }
+
+    private void makeSubMenu(Category category) {
+        VBox subMenu = subMenus.get(category);
+        makeVBox(0, 0, subMenu);
+        for (BuildType buildType : Building.getBuildingTypesAndTheirGroup().keySet()) {
+            if (buildType.getBuildingType().category().equals(category)) {
+                String add = "/images/buildings/" + category.name() + "/" + buildType.getBuildingType().name() + ".png";
+                try {
+                    addIcon(subMenu, add);
+                }
+                catch (Exception e) {
+                    System.out.println("no such file in this address:");
+                    System.out.println(add);
+                }
+            }
+        }
+    }
+
+    private VBox makeVBox(int xTranslate, int yTranslate, VBox vBox) {
+        vBox.setPrefWidth(50);
+        vBox.setSpacing(5);
+        vBox.setTranslateX(xTranslate);
+        vBox.setTranslateY(yTranslate);
+        return vBox;
+    }
+
+    private BuildingIcon addIcon(VBox vBox, String address) {
+        BuildingIcon buildingIcon = new BuildingIcon(50, address);
+        vBox.getChildren().add(buildingIcon);
+        return buildingIcon;
     }
 
     private void buildPopularity() {
@@ -85,10 +157,10 @@ public class GameMenuGraphic extends Application {
         });
         CircleImage circleImage = new CircleImage("/images/green.png", 20); //todo change
         Button button = makeButton();
-        makeHbox(text, circleImage, button);
+        makeHBox(text, circleImage, button);
     }
 
-    private void makeHbox(Text text, Node circleImage, Button button) {
+    private void makeHBox(Text text, Node circleImage, Button button) {
         HBox hBox = new HBox(text, circleImage, button);
         hBox.setAlignment(Pos.CENTER);
         hBox.setTranslateX(340);
@@ -103,14 +175,11 @@ public class GameMenuGraphic extends Application {
         Button button = new Button("change factors");
         button.setStyle("-fx-background-radius: 5px; -fx-border-radius: 5px;" +
                 " -fx-background-color: lightYellow; -fx-border-color: black;");
-        button.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                try {
-                    new SetFactorsMenu().start(new Stage());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        button.setOnMouseClicked(mouseEvent -> {
+            try {
+                new SetFactorsMenu().start(new Stage());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
         return button;

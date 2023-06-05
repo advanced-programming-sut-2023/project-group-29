@@ -25,12 +25,6 @@ public class ProductProcessor extends Building {
     }
 
     @Override
-    public String getName() {
-        return productProcessorType.getName();
-    }
-
-
-    @Override
     public void setShowingSignInMap() {
         showingSignInMap = productProcessorType.getBuildingType().abbreviation() + (getOwnerNumber().getNumber() + 1);
     }

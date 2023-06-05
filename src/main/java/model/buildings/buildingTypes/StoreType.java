@@ -6,29 +6,26 @@ import model.buildings.Category;
 
 public enum StoreType implements BuildType {
     ARMOURY( //اسلحه خانه
-            new BuildingType(60, 0, new int[]{0, 0, 5, 0}, "Armry", Category.CASTLE),
-            100, "armoury"
+            new BuildingType(60, 0, new int[]{0, 0, 5, 0},
+                    "armoury", "Armry", Category.CASTLE), 100
     ),
     FOOD_STORE( //انبار غذا
             new BuildingType(60, 0, new int[]{0, 0, 5, 0},
-                    "FStor", Category.FOOD_PROCESSING),
-            200, "foodStore"
+                    "foodStore", "FStor", Category.FOOD_PROCESSING), 200
     ),
     STOCK_PILE( //انبار
-            new BuildingType(60, 0, new int[]{0, 0, 5, 0}, "SPile", Category.INDUSTRY),
-            500, "stockPile"
+            new BuildingType(60, 0, new int[]{0, 0, 5, 0},
+                    "stockPile", "SPile", Category.INDUSTRY), 500
     ),
     ;
     private final int capacity;
     private final BuildingType buildingType;
-    private final String name;
     private final int[] neededResources;
 
 
-    StoreType(BuildingType buildingType, int capacity, String buildingName) {
+    StoreType(BuildingType buildingType, int capacity) {
         this.capacity = capacity;
         this.buildingType = buildingType;
-        this.name = buildingName;
         this.neededResources = buildingType.neededResources();
         Building.addToValidBuildingNames(this, 8);
     }
@@ -38,7 +35,7 @@ public enum StoreType implements BuildType {
 
     public static StoreType getTypeByBuildingName(String buildingName) {
         for (StoreType storeType : StoreType.values()) {
-            if (storeType.name.equals(buildingName)) return storeType;
+            if (storeType.getBuildingType().name().equals(buildingName)) return storeType;
         }
         return null;
     }
@@ -49,10 +46,6 @@ public enum StoreType implements BuildType {
 
     public BuildingType getBuildingType() {
         return buildingType;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public int getNeededResources(int i) {

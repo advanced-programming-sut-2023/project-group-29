@@ -4,8 +4,10 @@ import model.buildings.BuildingType;
 
 public interface BuildType {
     BuildingType getBuildingType();
-
-    String getName();
-
     int getNeededResources(int i);
+    default String getShowingImageFilePath(){
+        return "/images/buildings/" +
+                this.getBuildingType().category().name() + "/" + getBuildingType().name() + ".png";
+    }
+
 }

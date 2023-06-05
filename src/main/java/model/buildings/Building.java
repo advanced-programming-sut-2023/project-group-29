@@ -14,6 +14,7 @@ public abstract class Building extends Asset {
     protected int numberOfWorkers;
     protected int[] neededResources;
     protected int maxHp;
+    protected String name;
 
     protected Building(BuildingType buildingType, PlayerNumber playerNumber, int positionX, int positionY) {
         super(playerNumber, positionX, positionY);
@@ -22,11 +23,16 @@ public abstract class Building extends Asset {
         this.numberOfWorkers = buildingType.numberOfWorkers();
         this.maxHp = hp;
         this.category = buildingType.category();
+        this.name = buildingType.name();
+        this.showingImageFilePath = "/images/buildings/" + category.name() + "/" + name + ".png";
     }
 
+    public static HashMap<BuildType, Integer> getBuildingTypesAndTheirGroup(){
+        return buildingTypesAndTheirGroup;
+    }
     public static BuildType getBuildTypeByName(String buildingName) {
         for (BuildType buildType : buildingTypesAndTheirGroup.keySet()) {
-            if (buildType.getName().equals(buildingName)) return buildType;
+            if (buildType.getBuildingType().name().equals(buildingName)) return buildType;
         }
         return null;
     }
@@ -38,14 +44,14 @@ public abstract class Building extends Asset {
     public static boolean isBuildingNameValid(String buildingName) {
         if (buildingName.equals("wallWithStair") || buildingName.equals("ladder")) return false;
         for (BuildType buildType : buildingTypesAndTheirGroup.keySet()) {
-            if (buildType.getName().equals(buildingName)) return true;
+            if (buildType.getBuildingType().name().equals(buildingName)) return true;
         }
         return false;
     }
 
     public static int getGroupNumberByBuildingName(String buildingName) {
         for (BuildType buildType : buildingTypesAndTheirGroup.keySet()) {
-            if (buildType.getName().equals(buildingName)) {
+            if (buildType.getBuildingType().name().equals(buildingName)) {
                 return buildingTypesAndTheirGroup.get(buildType);
             }
         }
@@ -54,14 +60,15 @@ public abstract class Building extends Asset {
 
     public static int getNeededResource(int i, String buildingName) {
         for (BuildType buildType : buildingTypesAndTheirGroup.keySet()) {
-            if (buildType.getName().equals(buildingName)) return buildType.getNeededResources(i);
+            if (buildType.getBuildingType().name().equals(buildingName)) return buildType.getNeededResources(i);
         }
         return 0;
     }
 
     public static int getNumberOfWorkers(String buildingName) {
         for (BuildType buildType : buildingTypesAndTheirGroup.keySet()) {
-            if (buildType.getName().equals(buildingName)) return buildType.getBuildingType().numberOfWorkers();
+            if (buildType.getBuildingType().name().equals(buildingName))
+                return buildType.getBuildingType().numberOfWorkers();
         }
         return 0;
     }
@@ -75,7 +82,9 @@ public abstract class Building extends Asset {
         hp = maxHp;
     }
 
-    public abstract String getName();
+    public String getName() {
+        return name;
+    }
 
     public int getMaxHp() {
         return maxHp;

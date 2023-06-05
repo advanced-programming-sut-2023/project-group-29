@@ -37,22 +37,22 @@ public class MapInitializer {
             }
         }
         gameData.setMap(firstMap);
-        MapFunctions.dropBuildingAsAdmin(25, 50, AccommodationType.MAIN_KEEP.getName(), 1);
-        MapFunctions.dropBuildingAsAdmin(75, 50, AccommodationType.MAIN_KEEP.getName(), 2);
-        MapFunctions.dropBuildingAsAdmin(125, 50, AccommodationType.MAIN_KEEP.getName(), 3);
-        MapFunctions.dropBuildingAsAdmin(175, 50, AccommodationType.MAIN_KEEP.getName(), 4);
-        MapFunctions.dropBuildingAsAdmin(25, 150, AccommodationType.MAIN_KEEP.getName(), 5);
-        MapFunctions.dropBuildingAsAdmin(75, 150, AccommodationType.MAIN_KEEP.getName(), 6);
-        MapFunctions.dropBuildingAsAdmin(125, 150, AccommodationType.MAIN_KEEP.getName(), 7);
-        MapFunctions.dropBuildingAsAdmin(175, 150, AccommodationType.MAIN_KEEP.getName(), 8);
-        MapFunctions.dropBuildingAsAdmin(26, 50, StoreType.STOCK_PILE.getName(), 1);
-        MapFunctions.dropBuildingAsAdmin(76, 50, StoreType.STOCK_PILE.getName(), 2);
-        MapFunctions.dropBuildingAsAdmin(126, 50, StoreType.STOCK_PILE.getName(), 3);
-        MapFunctions.dropBuildingAsAdmin(176, 50, StoreType.STOCK_PILE.getName(), 4);
-        MapFunctions.dropBuildingAsAdmin(26, 150, StoreType.STOCK_PILE.getName(), 5);
-        MapFunctions.dropBuildingAsAdmin(76, 150, StoreType.STOCK_PILE.getName(), 6);
-        MapFunctions.dropBuildingAsAdmin(126, 150, StoreType.STOCK_PILE.getName(), 7);
-        MapFunctions.dropBuildingAsAdmin(176, 150, StoreType.STOCK_PILE.getName(), 8);
+        MapFunctions.dropBuildingAsAdmin(25, 50, "mainKeep", 1);
+        MapFunctions.dropBuildingAsAdmin(75, 50, "mainKeep", 2);
+        MapFunctions.dropBuildingAsAdmin(125, 50, "mainKeep", 3);
+        MapFunctions.dropBuildingAsAdmin(175, 50, "mainKeep", 4);
+        MapFunctions.dropBuildingAsAdmin(25, 150, "mainKeep", 5);
+        MapFunctions.dropBuildingAsAdmin(75, 150, "mainKeep", 6);
+        MapFunctions.dropBuildingAsAdmin(125, 150, "mainKeep", 7);
+        MapFunctions.dropBuildingAsAdmin(175, 150, "mainKeep", 8);
+        MapFunctions.dropBuildingAsAdmin(26, 50, "stockPile", 1);
+        MapFunctions.dropBuildingAsAdmin(76, 50, "stockPile", 2);
+        MapFunctions.dropBuildingAsAdmin(126, 50, "stockPile", 3);
+        MapFunctions.dropBuildingAsAdmin(176, 50, "stockPile", 4);
+        MapFunctions.dropBuildingAsAdmin(26, 150, "stockPile", 5);
+        MapFunctions.dropBuildingAsAdmin(76, 150, "stockPile", 6);
+        MapFunctions.dropBuildingAsAdmin(126, 150, "stockPile", 7);
+        MapFunctions.dropBuildingAsAdmin(176, 150, "stockPile", 8);
         return firstMap;
     }
 
@@ -75,13 +75,13 @@ public class MapInitializer {
 
         gameData.setMap(secondMap);
 
-        MapFunctions.dropBuildingAsAdmin(5, 10, AccommodationType.MAIN_KEEP.getName(), 1);
-        MapFunctions.dropBuildingAsAdmin(100, 100, AccommodationType.MAIN_KEEP.getName(), 2);
-        MapFunctions.dropBuildingAsAdmin(185, 190, AccommodationType.MAIN_KEEP.getName(), 3);
+        MapFunctions.dropBuildingAsAdmin(5, 10, "mainKeep", 1);
+        MapFunctions.dropBuildingAsAdmin(100, 100, "mainKeep", 2);
+        MapFunctions.dropBuildingAsAdmin(185, 190, "mainKeep", 3);
 
-        MapFunctions.dropBuildingAsAdmin(6, 10, StoreType.STOCK_PILE.getName(), 1);
-        MapFunctions.dropBuildingAsAdmin(101, 100, StoreType.STOCK_PILE.getName(), 2);
-        MapFunctions.dropBuildingAsAdmin(186, 190, StoreType.STOCK_PILE.getName(), 3);
+        MapFunctions.dropBuildingAsAdmin(6, 10, "stockPile", 1);
+        MapFunctions.dropBuildingAsAdmin(101, 100, "stockPile", 2);
+        MapFunctions.dropBuildingAsAdmin(186, 190, "stockPile", 3);
 
         MapFunctions.dropUnit(7, 10, SoldierType.ENGINEER.getName(), 2, 1);
         MapFunctions.dropUnit(102, 100, SoldierType.ENGINEER.getName(), 2, 2);

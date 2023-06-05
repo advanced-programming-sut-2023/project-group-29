@@ -17,11 +17,6 @@ public class Store extends Building {
     }
 
     @Override
-    public String getName() {
-        return storeType.getName();
-    }
-
-    @Override
     public void setShowingSignInMap() {
         showingSignInMap = storeType.getBuildingType().abbreviation() + (getOwnerNumber().getNumber() + 1);
     }

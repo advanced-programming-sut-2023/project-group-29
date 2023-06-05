@@ -1,0 +1,12 @@
+
+.label{
+    -fx-font-size: 150px;
+    -fx-font-family: "Palace Script MT";
+}
+.btn{
+    -fx-background-color:
+            linear-gradient(#fafafa, #55aaff),
+            linear-gradient(#fafafa 0%, #fbfbfb 33%, #00aaff 100%);
+    -fx-font-family: "Brush Script MT";
+    -fx-font-size: 50px;
+}
