@@ -98,15 +98,21 @@ public class MapMenu extends Application {
     }
 
     private void showDetails(int x,int y){
+        if(gameData.isPauseMainPane()) return;
+
         Cell cell=gameData.getMap().getCells()[x][y];
 
         gameGraphicFunctions.showDetail(mainPane);
     }
     private void hideDetails(int x,int y){
+        if(gameData.isPauseMainPane()) return;
+
         gameGraphicFunctions.hideDetails();
     }
 
     private void keyHandle(KeyEvent keyEvent) {
+        if(gameData.isPauseMainPane()) return;
+
         switch (gameData.getGameState()) {
             case CELL_SELECTED -> {
                 if(keyEvent.getCode().equals(GameKeyConstants.cancelKey)) {
@@ -152,6 +158,8 @@ public class MapMenu extends Application {
     }
 
     private void mouseClickHandle(MouseEvent mouseEvent,int tileX,int tileY) {
+        if(gameData.isPauseMainPane()) return;
+
         switch (gameData.getGameState()) {
             case VIEW_MAP, CELL_SELECTED -> {
                 gameData.setStartSelectedCellsPosition(new Pair<>(tileX,tileY));
@@ -161,6 +169,8 @@ public class MapMenu extends Application {
     }
 
     private void mouseDragStartHandle(MouseEvent mouseEvent,int tileX,int tileY) {
+        if(gameData.isPauseMainPane()) return;
+
         switch (gameData.getGameState()) {
             case VIEW_MAP, CELL_SELECTED -> {
                 gameData.setStartSelectedCellsPosition(new Pair<>(tileX,tileY));
@@ -169,6 +179,8 @@ public class MapMenu extends Application {
         }
     }
     private void mouseDragEndHandle(MouseEvent mouseEvent,int tileX,int tileY) {
+        if(gameData.isPauseMainPane()) return;
+
         switch (gameData.getGameState()) {
             case VIEW_MAP, CELL_SELECTED -> {
                 gameData.setEndSelectedCellsPosition(new Pair<>(tileX,tileY));

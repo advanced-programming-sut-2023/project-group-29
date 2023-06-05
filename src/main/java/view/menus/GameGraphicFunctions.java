@@ -176,6 +176,13 @@ public class GameGraphicFunctions {
         //todo a menu should appear and user should choose one of equipments
     }
 
+    public void alertMessage(Color color,String title,String text) {
+        AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, color);
+        alertWindowPane.addTitle(title);
+        alertWindowPane.addText(text);
+        alertWindowPane.show();
+    }
+
     public MenuNames run(Scanner scanner) {
         while (true) {
             Matcher matcher;

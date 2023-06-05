@@ -1,5 +1,6 @@
 package model;
 
+import controller.menucontrollers.GameController;
 import javafx.animation.FadeTransition;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -29,6 +30,7 @@ public class GamePopUpMenus extends Pane{
         fadeTransition.setOnFinished(actionEvent -> this.setVisible(true));
 
         fadeTransition.play();
+        GameController.getGameData().setPauseMainPane(true);
     }
 
     //todo abbasfar fix hovering fast. starting hide animation before show complete!!!
@@ -40,6 +42,7 @@ public class GamePopUpMenus extends Pane{
         fadeTransition.setOnFinished(actionEvent -> mainPain.getChildren().remove(this));
 
         fadeTransition.play();
+        GameController.getGameData().setPauseMainPane(false);
     }
 
     public Pane getPopUpPane() {

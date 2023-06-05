@@ -7,6 +7,4 @@ public enum Category {
     FARM,
     TOWN,
     WEAPON,
-    OTHER,
-    UNBUILDABLE
 }

@@ -1,5 +1,16 @@
 static menus
-where is issue?
-
-
 set map 0_base
+
+monday:
+jasbi:
+    drag and drop buildings
+
+
+faratin:
+    login
+    simple menus
+
+
+abbasfar:
+    edit select list
+

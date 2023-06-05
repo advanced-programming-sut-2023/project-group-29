@@ -5,5 +5,6 @@ public record WeaponTypes(
         Weapon.BuilderType builderType,
         int hp,
         int builderNeededCount,
-        String showingSignInMap) {
+        String showingSignInMap,
+        String showingImageFilePath) {
 }

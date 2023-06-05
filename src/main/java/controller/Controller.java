@@ -48,7 +48,7 @@ public class Controller {
         }
     }
 
-    public static void buildEnums() {
+    private static void buildEnums() {
         AccommodationType.enumBuilder();
         AttackingBuildingType.enumBuilder();
         OtherBuildingsType.enumBuilder();
@@ -58,5 +58,5 @@ public class Controller {
         ResourceProcessorType.enumBuilder();
         StoreType.enumBuilder();
         UnitCreatorType.enumBuilder();
-    } //todo back to private
+    }
 }
