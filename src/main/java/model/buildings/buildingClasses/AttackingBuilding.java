@@ -18,11 +18,6 @@ public class AttackingBuilding extends Building {
     }
 
     @Override
-    public String getName() {
-        return attackingBuildingType.getName();
-    }
-
-    @Override
     public void setShowingSignInMap() {
         showingSignInMap = attackingBuildingType.getBuildingType().abbreviation() + (getOwnerNumber().getNumber() + 1);
     }

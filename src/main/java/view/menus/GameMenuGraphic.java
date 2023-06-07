@@ -14,6 +14,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import model.Empire;
+import view.shape.CircleImage;
 
 import java.net.URL;
 
