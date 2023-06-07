@@ -8,7 +8,7 @@ public enum OtherBuildingsType implements BuildType {
     DRAW_BRIDGE( // پل متحرک
             new BuildingType(50, 0, new int[]{0, 0, 10, 0},
                     "drawBridge", "DBrgD", Category.CASTLE)
-    ), //todo draw bridge up and down
+    ), //todo jasbi draw bridge up and down
     MARKET( // فروشگاه
             new BuildingType(30, 1, new int[]{0, 0, 5, 0},
                     "market", "Mrket", Category.INDUSTRY)
@@ -34,19 +34,19 @@ public enum OtherBuildingsType implements BuildType {
                     "moat", "Moat_", Category.CASTLE)
     ),
     LADDER( //نردبان
-            new BuildingType(30, 0, new int[]{0, 0, 10, 0},//todo category correction?
+            new BuildingType(30, 0, new int[]{0, 0, 10, 0},
                     "ladder", "Lader", Category.OTHER)
     ),
     STAIR( //پله
-            new BuildingType(30, 0, new int[]{0, 20, 0, 0},//todo category correction?
+            new BuildingType(30, 0, new int[]{0, 20, 0, 0},
                     "stair", "Stair", Category.OTHER)
     ),
     SHORT_WALL( //دیوار
-            new BuildingType(70, 0, new int[]{70, 0, 0, 0}, //todo category correction?
+            new BuildingType(70, 0, new int[]{70, 0, 0, 0},
                     "shortWall", "SWall_", Category.OTHER)
     ),
     TALL_WALL( //دیوار
-            new BuildingType(100, 0, new int[]{100, 0, 0, 0},//todo category correction?
+            new BuildingType(100, 0, new int[]{100, 0, 0, 0},
                     "tallWall", "TWall_", Category.OTHER)
     ),
     WALL_WITH_STAIR( //دیوار با پله
