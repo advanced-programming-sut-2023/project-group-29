@@ -317,7 +317,7 @@ public class MapFunctions {
             return MapMenuMessages.INVALID_INDEX;
         }
         Cell chosenCell = gameData.getMap().getCells()[x][y];
-        String mainKeepName = AccommodationType.MAIN_KEEP.getName();
+        String mainKeepName = AccommodationType.MAIN_KEEP.getBuildingType().name();
         if (buildingName.equals(mainKeepName)
                 && empire.getNumberOfBuildingType(mainKeepName) > 0) {
             return MapMenuMessages.TWO_MAIN_KEEP;
@@ -351,7 +351,7 @@ public class MapFunctions {
 
     private static boolean buildingTypeIsStore(String buildingName) {
         for (StoreType storeType : StoreType.values()) {
-            if (storeType.getName().equals(buildingName)) return true;
+            if (storeType.getBuildingType().name().equals(buildingName)) return true;
         }
         return false;
     }

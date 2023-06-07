@@ -22,11 +22,6 @@ public class ResourceExtractor extends Building {
     }
 
     @Override
-    public String getName() {
-        return resourceExtractorType.getName();
-    }
-
-    @Override
     public void setShowingSignInMap() {
         showingSignInMap = resourceExtractorType.getBuildingType().abbreviation() + (getOwnerNumber().getNumber() + 1);
     }

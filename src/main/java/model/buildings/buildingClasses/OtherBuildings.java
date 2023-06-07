@@ -20,12 +20,6 @@ public class OtherBuildings extends Building {
         setShowingSignInMap();
     }
 
-
-    @Override
-    public String getName() {
-        return otherBuildingsType.getName();
-    }
-
     @Override
     public void setShowingSignInMap() {
         showingSignInMap = otherBuildingsType.getBuildingType().abbreviation() + (getOwnerNumber().getNumber() + 1);

@@ -17,11 +17,6 @@ public class Accommodation extends Building {
     }
 
     @Override
-    public String getName() {
-        return accommodationType.getName();
-    }
-
-    @Override
     public void setShowingSignInMap() {
         showingSignInMap = accommodationType.getBuildingType().abbreviation() + (getOwnerNumber().getNumber() + 1);
     }

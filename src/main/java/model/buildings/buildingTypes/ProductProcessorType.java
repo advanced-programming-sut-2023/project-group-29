@@ -9,28 +9,23 @@ import model.dealing.Tradable;
 
 public enum ProductProcessorType implements BuildType {
     MILL( //آسیاب
-            new BuildingType(60, 3, new int[]{0, 0, 20, 0},
-                    "Mill_", Category.FOOD_PROCESSING),
-            10, Product.WHEAT, Product.FLOUR, "mill"
+            new BuildingType(60, 3, new int[]{0, 0, 20, 0}, "mill",
+                    "Mill_", Category.FOOD_PROCESSING), 10, Product.WHEAT, Product.FLOUR
     ),
     BAKERY( //نانوایی
-            new BuildingType(40, 1, new int[]{0, 0, 10, 0},
-                            "Bkery", Category.FOOD_PROCESSING),
-            10, Product.FLOUR, Food.BREAD, "bakery"
+            new BuildingType(40, 1, new int[]{0, 0, 10, 0}, "bakery",
+                            "Bkery", Category.FOOD_PROCESSING), 10, Product.FLOUR, Food.BREAD
     ),
     BEER_BREWING(// آبجوسازی
-            new BuildingType(40, 1, new int[]{0, 0, 10, 0},
-                    "BeerB", Category.FOOD_PROCESSING),
-            10, Product.GRAIN, Product.BEER, "beerBrewing"
+            new BuildingType(40, 1, new int[]{0, 0, 10, 0}, "beerBrewing",
+                    "BeerB", Category.FOOD_PROCESSING), 10, Product.GRAIN, Product.BEER
     ),
     INN( //مسافرخانه
-            new BuildingType(60, 1, new int[]{100, 0, 20, 0},
-                    "Inn__", Category.FOOD_PROCESSING),
-            10, Product.BEER, null, "inn"
+            new BuildingType(60, 1, new int[]{100, 0, 20, 0}, "inn",
+                    "Inn__", Category.FOOD_PROCESSING), 10, Product.BEER, null
     ),
     ;
 
-    private final String name;
     private final int rate;
     private final Product consumingProduct;
     private final Tradable producingTradable;
@@ -39,12 +34,11 @@ public enum ProductProcessorType implements BuildType {
 
 
     ProductProcessorType(BuildingType buildingType, int rate,
-                         Product consumingProduct, Tradable producingTradable, String buildingName) {
+                         Product consumingProduct, Tradable producingTradable) {
         this.rate = rate;
         this.consumingProduct = consumingProduct;
         this.producingTradable = producingTradable;
         this.buildingType = buildingType;
-        this.name = buildingName;
         this.neededResources = buildingType.neededResources();
         Building.addToValidBuildingNames(this, 5);
     }
@@ -54,7 +48,7 @@ public enum ProductProcessorType implements BuildType {
 
     public static ProductProcessorType getTypeByBuildingName(String buildingName) {
         for (ProductProcessorType productProcessorType : ProductProcessorType.values()) {
-            if (productProcessorType.name.equals(buildingName)) return productProcessorType;
+            if (productProcessorType.getBuildingType().name().equals(buildingName)) return productProcessorType;
         }
         return null;
     }
@@ -73,10 +67,6 @@ public enum ProductProcessorType implements BuildType {
 
     public Tradable getProducingTradable() {
         return producingTradable;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public int getNeededResources(int i) {

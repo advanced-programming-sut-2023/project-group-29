@@ -7,30 +7,28 @@ import model.buildings.Category;
 public enum AccommodationType implements BuildType {
 
     BIG_STONE_GATEHOUSE( // دروازه سنگی بزرگ
-            new BuildingType(200, 0, new int[]{0, 20, 0, 0}, "BSGat", Category.CASTLE),
-            10, "bigStoneGatehouse"
+            new BuildingType(200, 0, new int[]{0, 20, 0, 0},
+                    "bigStoneGatehouse", "BSGat", Category.CASTLE), 10
     ),
     SMALL_STONE_GATEHOUSE( //دروازه سنگی کوچک
-            new BuildingType(150, 0, new int[]{0, 15, 0, 0}, "SSGat", Category.CASTLE),
-            8, "smallStoneGatehouse"
+            new BuildingType(150, 0, new int[]{0, 15, 0, 0},
+                    "smallStoneGatehouse","SSGat", Category.CASTLE), 8
     ),
     HOVEL( // خانه
-            new BuildingType(100, 0, new int[]{0, 0, 6, 0}, "Hovel", Category.TOWN),
-            8, "hovel"
+            new BuildingType(100, 0, new int[]{0, 0, 6, 0},
+                    "hovel", "Hovel", Category.TOWN), 8
     ),
     MAIN_KEEP( // مقر اصلی
-            new BuildingType(500, 0, new int[]{0, 0, 0, 0}, "MKeep", null),
-            30, "mainKeep"
+            new BuildingType(500, 0, new int[]{0, 0, 0, 0},
+                    "mainKeep", "MKeep", Category.UNBUILDABLE), 30
     );
     private final int numberOfSettler;
     private final BuildingType buildingType;
-    private final String name;
     private final int[] neededResources;
 
-    AccommodationType(BuildingType buildingType, int numberOfSettler, String buildingName) {
+    AccommodationType(BuildingType buildingType, int numberOfSettler) {
         this.buildingType = buildingType;
         this.numberOfSettler = numberOfSettler;
-        this.name = buildingName;
         this.neededResources = buildingType.neededResources();
         Building.addToValidBuildingNames(this, 1);
     }
@@ -40,7 +38,7 @@ public enum AccommodationType implements BuildType {
 
     public static AccommodationType getTypeByBuildingName(String buildingName) {
         for (AccommodationType accommodationType : AccommodationType.values()) {
-            if (accommodationType.name.equals(buildingName)) return accommodationType;
+            if (accommodationType.getBuildingType().name().equals(buildingName)) return accommodationType;
         }
         return null;
     }
@@ -51,10 +49,6 @@ public enum AccommodationType implements BuildType {
 
     public BuildingType getBuildingType() {
         return buildingType;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public int getNeededResources(int i) {
