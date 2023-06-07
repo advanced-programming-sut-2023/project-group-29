@@ -3,6 +3,7 @@ package view.menus;
 import controller.MenuNames;
 import controller.menucontrollers.GameController;
 import controller.menucontrollers.UnitFunctions;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import model.*;
@@ -12,8 +13,10 @@ import model.people.humanTypes.SoldierType;
 import model.unitfeatures.Movable;
 import model.unitfeatures.Offensive;
 import view.Command;
+import view.menus.gamepopupmenus.CellDetailsWindowGraphics;
 import view.messages.SelectUnitMenuMessages;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -22,6 +25,8 @@ public class GameGraphicFunctions {
 
     private final Pane mainPane;
     private final GameData gameData;
+    private GamePopUpMenus popUpMenu = null;
+
     public GameGraphicFunctions(Pane mainPane) {
         this.mainPane = mainPane;
         this.gameData= GameController.getGameData();
@@ -157,8 +162,8 @@ public class GameGraphicFunctions {
 
     public void buildEquipments() {
 
-        if(gameData.getEndSelectedCellsPosition()!=null &&
-                !gameData.getEndSelectedCellsPosition().isEqualTo(gameData.getStartSelectedCellsPosition())){
+        if (gameData.getEndSelectedCellsPosition() != null &&
+                !gameData.getEndSelectedCellsPosition().isEqualTo(gameData.getStartSelectedCellsPosition())) {
             AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, Color.RED);
             alertWindowPane.addTitle("Build equipment failed!");
             alertWindowPane.addText("You cannot select multiple cells for building an equipment!");
@@ -168,6 +173,13 @@ public class GameGraphicFunctions {
         }
 
         //todo a menu should appear and user should choose one of equipments
+    }
+
+    public void alertMessage(Color color,String title,String text) {
+        AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, color);
+        alertWindowPane.addTitle(title);
+        alertWindowPane.addText(text);
+        alertWindowPane.show();
     }
 
     public MenuNames run(Scanner scanner) {
@@ -198,6 +210,29 @@ public class GameGraphicFunctions {
             else if ((matcher = Command.getMatcher(input, Command.DROP_UNIT)) != null) {
                 dropUnit(matcher);
             }
+        }
+    }
+
+    public void showDetail(Pane mainPane) {
+
+        FXMLLoader cellDetailsPaneLoader = new FXMLLoader(EnterMenu.class.getResource("/FXML/CellDetailsWindow.fxml"));
+
+        Pane cellDetailsPane = null;
+        try {
+            cellDetailsPane = cellDetailsPaneLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        CellDetailsWindowGraphics cellDetailsWindowGraphics = cellDetailsPaneLoader.getController();
+
+        popUpMenu = new GamePopUpMenus(mainPane, cellDetailsPane, GamePopUpMenus.PopUpType.CELL_DETAILS);
+        popUpMenu.showAndWait();
+    }
+
+    public void hideDetails() {
+        if (popUpMenu != null && popUpMenu.getPopUpType().equals(GamePopUpMenus.PopUpType.CELL_DETAILS)) {
+            popUpMenu.hide();
+            popUpMenu = null;
         }
     }
 

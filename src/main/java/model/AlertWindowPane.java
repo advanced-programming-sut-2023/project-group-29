@@ -1,6 +1,8 @@
 package model;
 
 import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -21,30 +23,26 @@ public class AlertWindowPane extends Pane {
         setLayoutX(mainPane.getWidth()/2-100);
         setLayoutY(20);
     }
-    public void showAndWait(){
+
+    public void show(){
+
+        //fade in
         this.setVisible(false);
         mainPain.getChildren().add(this);
 
-        FadeTransition fadeTransition=new FadeTransition(Duration.seconds(1),this);
-        fadeTransition.setFromValue(0);
-        fadeTransition.setToValue(1);
-        fadeTransition.setOnFinished(actionEvent -> this.setVisible(true));
+        FadeTransition fadeInTransition=new FadeTransition(Duration.seconds(1),this);
+        fadeInTransition.setFromValue(0);
+        fadeInTransition.setToValue(1);
+        fadeInTransition.setOnFinished(actionEvent -> this.setVisible(true));
+        fadeInTransition.play();
 
-        fadeTransition.play();
-    }
-    public void show(){
-        //todo abbasfar complete
-    }
-
-    //todo abbasfar fix hovering fast. starting hide animation before show complete!!!
-    public void hide(){
-
-        FadeTransition fadeTransition=new FadeTransition(Duration.seconds(1),this);
-        fadeTransition.setFromValue(1);
-        fadeTransition.setToValue(0);
-        fadeTransition.setOnFinished(actionEvent -> mainPain.getChildren().remove(this));
-
-        fadeTransition.play();
+        //fade out
+        FadeTransition fadeOutTransition=new FadeTransition(Duration.seconds(1),this);
+        fadeOutTransition.setFromValue(1);
+        fadeOutTransition.setToValue(0);
+        fadeOutTransition.setOnFinished(actionEvent -> mainPain.getChildren().remove(this));
+        fadeOutTransition.setDelay(Duration.seconds(3));
+        fadeOutTransition.play();
     }
 
     public void addTitle(String text){

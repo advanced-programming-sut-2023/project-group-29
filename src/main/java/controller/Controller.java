@@ -16,7 +16,6 @@ public class Controller {
 //        User[] users = SaveAndLoad.loadArrayData(AppData.getUsersDataBaseFilePath(), User[].class);
 //        if (users != null)
 //            AppData.setUsers(new ArrayList<>(Arrays.asList(users)));
-        //todo why they are comment??
         buildEnums();
         Scanner scanner = new Scanner(System.in);
         MenuNames menuNames;

@@ -26,31 +26,12 @@ public class Cell {
     private Trap trap = null;
     private Building building = null;
     private CellType cellType;
-    private AlertWindowPane detailsWindowPane=null;
     private boolean hasTunnel = false;
 
     public Cell(CellType cellType, int xPosition, int yPosition) {
         this.cellType = cellType;
         this.xPosition = xPosition;
         this.yPosition = yPosition;
-    }
-
-    public void showDetail(Pane mainPane){
-        if(detailsWindowPane!=null)
-            detailsWindowPane.hide();
-
-        detailsWindowPane=new AlertWindowPane(mainPane, Color.BEIGE);
-
-        detailsWindowPane.addTitle("Information of this cell:");
-        detailsWindowPane.addText("details ...");
-
-        detailsWindowPane.showAndWait();
-    }
-    public void hideDetails(){
-        if(detailsWindowPane!=null) {
-            detailsWindowPane.hide();
-            detailsWindowPane=null;
-        }
     }
 
     public void removeDeadUnitsAndBuilding() {

@@ -98,13 +98,10 @@ public class MapMenu extends Application {
 
     private void showDetails(int x,int y){
         Cell cell=gameData.getMap().getCells()[x][y];
-
-        cell.showDetail(mainPane);
+        //todo handle all pop up menus - pause game and specially these functions
     }
     private void hideDetails(int x,int y){
         Cell cell=gameData.getMap().getCells()[x][y];
-
-        cell.hideDetails();
     }
 
     private void keyHandle(KeyEvent keyEvent) {

@@ -24,7 +24,7 @@ public class GameData {
     private int numberOfTilesShowingInColumn = AppData.getScreenHeight() / tileHeight;
     private MapMenu mapMenu;
     private GameGraphicFunctions gameGraphicFunctions;
-
+    private boolean pauseMainPane =false;
     public void addEmpire(Empire empire) {
         empires.add(empire);
     }
@@ -196,5 +196,8 @@ public class GameData {
 
     public void setSelectedCell(int xPosition, int yPosition) {
         //todo modify
+    }
+
+    public void setPauseMainPane(boolean b) {
     }
 }
