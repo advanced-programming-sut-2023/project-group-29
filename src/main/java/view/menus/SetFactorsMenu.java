@@ -37,14 +37,14 @@ public class SetFactorsMenu extends Application {
         stackPane.getChildren().add(vBox);
         vBox.setSpacing(20);
         vBox.setAlignment(Pos.TOP_CENTER);
-        resetRates();
+        resetRateMap();
         addSliders(vBox);
     }
 
-    private void resetRates() {
+    private void resetRateMap() {
         for (Empire.PopularityFactors factor : Empire.PopularityFactors.values()) {
             if (factor.equals(Empire.PopularityFactors.RELIGION)) continue;
-            rates.replace(factor, 0);//todo jasbi now correct number
+            rates.replace(factor, 0);//todo correct number
         }
     }
 

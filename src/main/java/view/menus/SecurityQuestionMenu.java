@@ -16,6 +16,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.AppData;
+import model.SaveAndLoad;
+import model.User;
 import view.Command;
 
 import java.net.URL;
@@ -152,7 +155,25 @@ public class SecurityQuestionMenu extends Application {
                     return;
                 }
                 captcha.setVisible(true);
+                //TODO captcha
+                if(checkBox1.isSelected()) {
+                    LoginMenuController.getCurrentUser().setSecurityQuestion("1 " + answerTextField.getText());
+                }
+                else if(checkBox2.isSelected()) {
+                    LoginMenuController.getCurrentUser().setSecurityQuestion("2 " + answerTextField.getText());
+                }
+                else if(checkBox3.isSelected()) {
+                    LoginMenuController.getCurrentUser().setSecurityQuestion("3 " + answerTextField.getText());
+                }
+                SaveAndLoad.saveData(AppData.getUsers(), AppData.getUsersDataBaseFilePath());
+                LoginMenuController.setCurrentUser(null);
+                try {
+                    new EnterMenu().start(AppData.getStage());
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
+
         });
     }
 }

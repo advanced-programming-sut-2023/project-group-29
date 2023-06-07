@@ -2,12 +2,29 @@ package view.menus;
 
 import controller.MenuNames;
 import controller.menucontrollers.ProfileMenuController;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import model.AppData;
 import view.Command;
 
+import java.net.URL;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
-public class ProfileMenu {
+public class ProfileMenu extends Application {
+    @Override
+    public void start(Stage stage) throws Exception {
+        URL url = Command.class.getResource("/FXML/ProfileMenu.fxml");
+        Pane pane = FXMLLoader.load(url);
+        Scene scene = new Scene(pane);
+        stage.setScene(scene);
+        stage.show();
+    }
+
     public static MenuNames run(Scanner scanner) {
         System.out.println("You have entered profile menu");
         while (true) {
@@ -52,4 +69,7 @@ public class ProfileMenu {
         }
     }
 
+    public void back(MouseEvent mouseEvent) throws Exception {
+        new MainMenu().start(AppData.getStage());
+    }
 }

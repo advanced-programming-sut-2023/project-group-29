@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.AppData;
 import view.Command;
@@ -16,10 +17,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class LoginMenu extends Application {
+    private static Pane pane;
     @Override
     public void start(Stage stage) throws Exception {
         URL url = Command.class.getResource("/FXML/LoginMenu.fxml");
-        BorderPane borderPane = FXMLLoader.load(url);
+        Pane borderPane = FXMLLoader.load(url);
+        pane = borderPane;
         Scene scene = new Scene(borderPane);
         stage.setScene(scene);
         stage.show();
@@ -41,7 +44,7 @@ public class LoginMenu extends Application {
                 return MenuNames.EXIT;
             }
             else if ((matcher = Command.getMatcher(input, Command.LOGIN)) != null) {
-                String output = LoginMenuController.login(matcher);
+                /*String output = LoginMenuController.login(matcher);
                 System.out.println(output);
                 if (output.equals("user logged in successfully!")) {
                     AppData.setDelayInLogin(0);
@@ -54,10 +57,10 @@ public class LoginMenu extends Application {
 
                     } catch (Exception e) {
                     }
-                }
+                }*/
             }
             else if ((matcher = Command.getMatcher(input, Command.FORGET_PASSWORD)) != null) {
-                System.out.println(LoginMenuController.forgottenPassword(matcher));
+                //System.out.println(LoginMenuController.forgottenPassword(matcher));
             }
             else {
                 System.out.println("Invalid command!");
@@ -138,4 +141,10 @@ public class LoginMenu extends Application {
         }
         return scanner.nextLine();
     }
+
+    public static Pane getPane() {
+        return pane;
+    }
+
+
 }

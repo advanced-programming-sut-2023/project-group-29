@@ -1,6 +1,5 @@
 package controller.menucontrollers;
 
-import javafx.scene.paint.Color;
 import model.*;
 import model.buildings.Building;
 import model.buildings.buildingClasses.AttackingBuilding;
@@ -497,17 +496,16 @@ public class UnitFunctions {
         return numberOfAdjacentTunnels;
     }
 
-    public static void buildEquipment(String equipmentName) {
+    public static String buildEquipment(String equipmentName) {
         GameData gameData = GameController.getGameData();
-        int x = gameData.getStartSelectedCellsPosition().first;
-        int y = gameData.getStartSelectedCellsPosition().second;
-
+        int x = 1;
+        int y = 1;//todo
         Cell selectedCell = gameData.getMap().getCells()[x][y];
         PlayerNumber currentPlayer = gameData.getPlayerOfTurn();
 
         Weapon weapon = Weapon.createWeaponByWeaponTypeString(equipmentName, currentPlayer, x, y);
         if (weapon == null)
-            return;
+            return "This is not a valid name of an equipment!";
 
         ArrayList<Movable> movingObjects = selectedCell.getMovingObjectsOfPlayer(currentPlayer);
 
@@ -518,18 +516,12 @@ public class UnitFunctions {
                     soldier.getOwnerNumber().equals(currentPlayer))
                 engineers.add(movingUnit);
 
-        if (engineers.size() < weapon.getBuilderNeededCount()) {
-            gameData.getGameGraphicFunctions().alertMessage(Color.RED
-                    ,"Building equipment failed"
-                    ,"You do not have enough engineers in selected cell");
-        }
+        if (engineers.size() < weapon.getBuilderNeededCount())
+            return "You do not have enough engineers here to build this equipment!";
 
         if (weapon instanceof Trap)
-            if (selectedCell.hasBuilding() || selectedCell.getMovingObjects().size() > weapon.getBuilderNeededCount()){
-                gameData.getGameGraphicFunctions().alertMessage(Color.RED
-                        ,"Building equipment failed"
-                        ,"You can not build a trap while there are some units here!");
-            }
+            if (selectedCell.hasBuilding() || selectedCell.getMovingObjects().size() > weapon.getBuilderNeededCount())
+                return "You can not build a trap while there are some units here!";
 
         for (int i = 0; i < weapon.getBuilderNeededCount(); i++)
             selectedCell.getMovingObjects().remove((Asset) (engineers.get(i)));
@@ -540,10 +532,7 @@ public class UnitFunctions {
         else {
             selectedCell.getMovingObjects().add(weapon);
         }
-
-        gameData.getGameGraphicFunctions().alertMessage(Color.GREEN
-                ,"Building equipment successful"
-                ,"The equipment was successfully built!");
+        return "Equipment was successfully built!";
     }
 
     public static void disbandUnits(ArrayList<Human> humans){
@@ -581,12 +570,11 @@ public class UnitFunctions {
         int currentY = ladderMan.getPositionY();
         Cell currentCell = gameData.getMap().getCells()[currentX][currentY];
 
-        if (currentCell.hasBuilding() || currentCell.hasTrap() ||
-                !currentCell.getCellType().isAbleToBuildOn(OtherBuildingsType.LADDER.getBuildingType().name()))
+        if (currentCell.hasBuilding() || currentCell.hasTrap() || !currentCell.getCellType().isAbleToBuildOn(OtherBuildingsType.LADDER.getName()))
             return false;
 
         //successful
-        currentCell.makeBuilding(OtherBuildingsType.LADDER.getBuildingType().name(), gameData.getPlayerOfTurn());
+        currentCell.makeBuilding(OtherBuildingsType.LADDER.getName(), gameData.getPlayerOfTurn());
         disbandOneUnit(ladderMan);
 
         return true;

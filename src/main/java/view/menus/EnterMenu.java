@@ -10,9 +10,14 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import model.AppData;
+import model.SaveAndLoad;
+import model.User;
 import view.Command;
+import view.Main;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class EnterMenu extends Application {
 
@@ -21,6 +26,9 @@ public class EnterMenu extends Application {
     Background background2 = new Background(new BackgroundImage(new Image(EnterMenu.class.getResource("/images/menus/EnterMenuBackGroundSelect2.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT));
     @Override
     public void start(Stage stage) throws Exception {
+        User[] users = SaveAndLoad.loadArrayData(AppData.getUsersDataBaseFilePath(), User[].class);
+        if (users != null)
+            AppData.setUsers(new ArrayList<>(Arrays.asList(users)));
         AppData.setStage(stage);
         URL url = Command.class.getResource("/FXML/EnterMenu.fxml");
         Pane pane = FXMLLoader.load(url);

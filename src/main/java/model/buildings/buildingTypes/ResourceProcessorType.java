@@ -8,20 +8,20 @@ import model.dealing.Resource;
 
 public enum ResourceProcessorType implements BuildType {
     ARMOURER( // زره سازی
-            new BuildingType(80, 1, new int[]{100, 0, 20, 0},
-                    "Armourer", "Armrr", Category.WEAPON), 10, Resource.IRON, Product.ARMOUR
+            new BuildingType(80, 1, new int[]{100, 0, 20, 0}, "Armrr", Category.WEAPON),
+            10, Resource.IRON, Product.ARMOUR, "Armourer"
     ),
     BLACK_SMITH( // ساختمان آهنگری
-            new BuildingType(80, 1, new int[]{100, 0, 20, 0},
-                    "blackSmith", "BSmth", Category.WEAPON), 10, Resource.IRON, Product.SWORD
+            new BuildingType(80, 1, new int[]{100, 0, 20, 0}, "BSmth", Category.WEAPON),
+            10, Resource.IRON, Product.SWORD, "blackSmith"
     ),
     FLETCHER( // کمان سازی
-            new BuildingType(80, 1, new int[]{100, 0, 20, 0},
-                    "fletcher", "Fltch", Category.WEAPON), 10, Resource.WOOD, Product.BOW
+            new BuildingType(80, 1, new int[]{100, 0, 20, 0}, "Fltch", Category.WEAPON),
+            10, Resource.WOOD, Product.BOW, "fletcher"
     ),
     POLETURNER( // نیزه سازی
-            new BuildingType(80, 1, new int[]{100, 0, 10, 0},
-                    "poleturner", "Ptrnr", Category.WEAPON), 10, Resource.WOOD, Product.PIKE
+            new BuildingType(80, 1, new int[]{100, 0, 10, 0}, "Ptrnr", Category.WEAPON),
+            10, Resource.WOOD, Product.PIKE, "poleturner"
     ),
     ;
 
@@ -29,14 +29,17 @@ public enum ResourceProcessorType implements BuildType {
     private final Resource resource;
     private final Product product;
     private final BuildingType buildingType;
+    private final String name;
     private final int[] neededResources;
 
 
-    ResourceProcessorType(BuildingType buildingType, int rate, Resource resource, Product product) {
+    ResourceProcessorType(BuildingType buildingType, int rate,
+                          Resource resource, Product product, String buildingName) {
         this.rate = rate;
         this.resource = resource;
         this.buildingType = buildingType;
         this.product = product;
+        this.name = buildingName;
         this.neededResources = buildingType.neededResources();
         Building.addToValidBuildingNames(this, 7);
     }
@@ -46,7 +49,7 @@ public enum ResourceProcessorType implements BuildType {
 
     public static ResourceProcessorType getTypeByBuildingName(String buildingName) {
         for (ResourceProcessorType processorType : ResourceProcessorType.values()) {
-            if (processorType.getBuildingType().name().equals(buildingName)) return processorType;
+            if (processorType.name.equals(buildingName)) return processorType;
         }
         return null;
     }
@@ -65,6 +68,10 @@ public enum ResourceProcessorType implements BuildType {
 
     public BuildingType getBuildingType() {
         return buildingType;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public int getNeededResources(int i) {

@@ -313,7 +313,7 @@ public class GameController {
 
     public static boolean isAnyMarket() {
         Empire empire = gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn());
-        return empire.getNumberOfBuildingType(OtherBuildingsType.MARKET.getBuildingType().name()) > 0;
+        return empire.getNumberOfBuildingType(OtherBuildingsType.MARKET.getName()) > 0;
     }
 
     public static void showWinner() {

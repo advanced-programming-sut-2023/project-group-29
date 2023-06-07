@@ -15,6 +15,4 @@ module project {
     exports model;
     exports model.gamestates;
     exports model.unitfeatures;
-    exports view.menus.gamepopupmenus;
-    opens view.menus.gamepopupmenus to javafx.fxml;
 }

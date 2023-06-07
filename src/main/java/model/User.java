@@ -4,7 +4,7 @@ import controller.menucontrollers.GameController;
 
 public class User {
 
-    public final String securityQuestion;
+    public String securityQuestion;
     public String username;
     public String password;
     public String nickname;
@@ -97,5 +97,9 @@ public class User {
 
     public void setStayLoggedIn(int stayLoggedIn) {
         this.stayLoggedIn = stayLoggedIn;
+    }
+
+    public void setSecurityQuestion(String securityQuestion) {
+        this.securityQuestion = securityQuestion;
     }
 }

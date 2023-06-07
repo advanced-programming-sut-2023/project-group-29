@@ -8,7 +8,7 @@
 
 <Pane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="view.Main"
+            fx:controller="view.menus.MainMenu"
             prefHeight="720.0" prefWidth="1080.0">
 
 </Pane>

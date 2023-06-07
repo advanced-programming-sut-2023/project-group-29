@@ -23,7 +23,6 @@ public class Weapon extends Asset {
         this.builderType = weaponTypes.builderType();
         this.builderNeededCount = weaponTypes.builderNeededCount();
         this.showingSignInMap = weaponTypes.showingSignInMap() + "__" + (playerNumber.getNumber() + 1);
-        this.showingImageFilePath= weaponTypes.showingImageFilePath();
     }
 
     public static Weapon createWeaponByWeaponTypeString(String weaponName, PlayerNumber ownerNumber, int positionX, int positionY) {

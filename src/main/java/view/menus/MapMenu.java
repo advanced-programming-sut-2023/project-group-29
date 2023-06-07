@@ -16,7 +16,6 @@ import model.Pair;
 import model.gamestates.GameState;
 import model.map.Cell;
 
-import java.io.IOException;
 import java.net.URL;
 
 public class MapMenu extends Application {
@@ -98,21 +97,17 @@ public class MapMenu extends Application {
     }
 
     private void showDetails(int x,int y){
-        if(gameData.isPauseMainPane()) return;
-
         Cell cell=gameData.getMap().getCells()[x][y];
 
-        gameGraphicFunctions.showDetail(mainPane);
+        cell.showDetail(mainPane);
     }
     private void hideDetails(int x,int y){
-        if(gameData.isPauseMainPane()) return;
+        Cell cell=gameData.getMap().getCells()[x][y];
 
-        gameGraphicFunctions.hideDetails();
+        cell.hideDetails();
     }
 
     private void keyHandle(KeyEvent keyEvent) {
-        if(gameData.isPauseMainPane()) return;
-
         switch (gameData.getGameState()) {
             case CELL_SELECTED -> {
                 if(keyEvent.getCode().equals(GameKeyConstants.cancelKey)) {
@@ -158,8 +153,6 @@ public class MapMenu extends Application {
     }
 
     private void mouseClickHandle(MouseEvent mouseEvent,int tileX,int tileY) {
-        if(gameData.isPauseMainPane()) return;
-
         switch (gameData.getGameState()) {
             case VIEW_MAP, CELL_SELECTED -> {
                 gameData.setStartSelectedCellsPosition(new Pair<>(tileX,tileY));
@@ -169,8 +162,6 @@ public class MapMenu extends Application {
     }
 
     private void mouseDragStartHandle(MouseEvent mouseEvent,int tileX,int tileY) {
-        if(gameData.isPauseMainPane()) return;
-
         switch (gameData.getGameState()) {
             case VIEW_MAP, CELL_SELECTED -> {
                 gameData.setStartSelectedCellsPosition(new Pair<>(tileX,tileY));
@@ -179,8 +170,6 @@ public class MapMenu extends Application {
         }
     }
     private void mouseDragEndHandle(MouseEvent mouseEvent,int tileX,int tileY) {
-        if(gameData.isPauseMainPane()) return;
-
         switch (gameData.getGameState()) {
             case VIEW_MAP, CELL_SELECTED -> {
                 gameData.setEndSelectedCellsPosition(new Pair<>(tileX,tileY));

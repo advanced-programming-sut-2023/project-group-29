@@ -6,18 +6,18 @@ import model.weapons.Weapon;
 import model.weapons.WeaponTypes;
 
 public enum OffensiveWeaponsType {
-    GATE_DESTROYER(new WeaponTypes("gateDestroyer", Weapon.BuilderType.ENGINEER, 50, 4, "GTD","/images/units/weapons/batteringraws.png"), SpeedEnum.TOO_SLOW, 100, AimRangeEnum.NON_ARCHER),
-    CATAPULT(new WeaponTypes("catapult", Weapon.BuilderType.ENGINEER, 50, 2, "CAP","/images/units/weapons/catapult.png"), SpeedEnum.TOO_SLOW, 70, AimRangeEnum.SHORT_CATAPULT_RANGE),
-    FIRE_STONE_THROWER(new WeaponTypes("fireStoneThrower", Weapon.BuilderType.ENGINEER, 50, 3, "FRS","/images/units/weapons/fireballista.png"), SpeedEnum.TOO_SLOW, 90, AimRangeEnum.LONG_RANGE_ARCHER);
+    GATE_DESTROYER(new WeaponTypes("gateDestroyer",Weapon.BuilderType.ENGINEER, 50, 4,"GTD"),SpeedEnum.TOO_SLOW, 100,AimRangeEnum.NON_ARCHER),
+    CATAPULT(new WeaponTypes("catapult",Weapon.BuilderType.ENGINEER, 50, 2,"CAP"),SpeedEnum.TOO_SLOW, 70,AimRangeEnum.SHORT_CATAPULT_RANGE),
+    FIRE_STONE_THROWER(new WeaponTypes("fireStoneThrower",Weapon.BuilderType.ENGINEER, 50, 3,"FRS"),SpeedEnum.TOO_SLOW, 90,AimRangeEnum.LONG_RANGE_ARCHER);
 
     private final int damage;
     private final int speed;
     private final int aimRange;
     private final WeaponTypes weaponTypes;
 
-    OffensiveWeaponsType(WeaponTypes weaponTypes, SpeedEnum speed, int damage, AimRangeEnum aimRange) {
+    OffensiveWeaponsType(WeaponTypes weaponTypes,SpeedEnum speed, int damage, AimRangeEnum aimRange) {
         this.weaponTypes = weaponTypes;
-        this.speed = speed.getSpeedValue();
+        this.speed=speed.getSpeedValue();
         this.damage = damage;
         this.aimRange = aimRange.getRange();
     }
@@ -37,7 +37,6 @@ public enum OffensiveWeaponsType {
     public int getSpeed() {
         return speed;
     }
-
     public String getName() {
         return weaponTypes.name();
     }

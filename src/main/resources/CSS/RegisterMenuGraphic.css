@@ -1,5 +1,5 @@
 .background{
-    -fx-background-image: url("../images/RegisterMenuBackground.jpg");
+    -fx-background-image: url("../images/menus/RegisterMenuBackground.jpg");
     -fx-background-repeat: stretch;
     -fx-background-position: center center;
     -fx-background-size: 1080 720;

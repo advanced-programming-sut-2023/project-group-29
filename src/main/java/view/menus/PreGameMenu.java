@@ -2,13 +2,31 @@ package view.menus;
 
 import controller.MenuNames;
 import controller.menucontrollers.PreGameMenuController;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import model.AppData;
 import view.Command;
 import view.messages.PreGameMenuMessages;
 
+import java.net.URL;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
-public class PreGameMenu {
+public class PreGameMenu extends Application {
+    @Override
+    public void start(Stage stage) throws Exception {
+        URL url = Command.class.getResource("/FXML/PreGameMenu.fxml");
+        Pane pane = FXMLLoader.load(url);
+        Scene scene = new Scene(pane);
+        stage.setScene(scene);
+        stage.show();
+    }
+
     public static MenuNames run(Scanner scanner) {
         System.out.println("Please choose your opponents and map:");
         while (true) {
@@ -72,5 +90,14 @@ public class PreGameMenu {
             }
         }
         return false;
+    }
+
+    public void back(MouseEvent mouseEvent) throws Exception {
+        new MainMenu().start(AppData.getStage());
+    }
+
+    public void play(MouseEvent mouseEvent) throws Exception {
+
+        new MapMenu().start(AppData.getStage());
     }
 }

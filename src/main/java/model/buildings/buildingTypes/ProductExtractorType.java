@@ -9,37 +9,39 @@ import model.dealing.Tradable;
 
 public enum ProductExtractorType implements BuildType {
     STABLE(//اصطبل
-            new BuildingType(100, 0, new int[]{400, 0, 20, 0},
-                    "stable", "Stble", Category.CASTLE),
-            4, Product.HORSE
+            new BuildingType(100, 0, new int[]{400, 0, 20, 0}, "Stble", Category.CASTLE),
+            4, Product.HORSE, "stable"
     ),
     APPLE_GARDEN( //باغ سیب
-            new BuildingType(30, 1, new int[]{0, 0, 5, 0},
-                    "appleGarden", "ApGdn", Category.FARM), 12, Food.APPLE
+            new BuildingType(30, 1, new int[]{0, 0, 5, 0}, "ApGdn", Category.FARM),
+            12, Food.APPLE, "appleGarden"
     ),
     DAIRY_PRODUCTS( //لبنیاتی
-            new BuildingType(50, 1, new int[]{0, 0, 10, 0},
-                    "dairyProducts", "Dairy", Category.FARM), 15, Food.CHEESE
+            new BuildingType(50, 1, new int[]{0, 0, 10, 0}, "Dairy", Category.FARM),
+            15, Food.CHEESE, "dairyProducts"
     ),
     GRAIN_FARM(// مزرعه جو
-            new BuildingType(60, 1, new int[]{0, 0, 15, 0},
-                    "grainFarm", "GFarm", Category.FARM), 20, Product.GRAIN
+            new BuildingType(60, 1, new int[]{0, 0, 15, 0}, "GFarm", Category.FARM),
+            20, Product.GRAIN, "grainFarm"
     ),
     HUNTING_POST(// پست شکار
-            new BuildingType(30, 1, new int[]{0, 0, 5, 0},
-                    "huntingPost", "HPost", Category.FARM), 10, Food.MEAT
+            new BuildingType(30, 1, new int[]{0, 0, 5, 0}, "HPost", Category.FARM),
+            10, Food.MEAT, "huntingPost"
     ),
     WHEAT_FARM( //مزرعه گندم
-            new BuildingType(60, 1, new int[]{0, 0, 15, 0},
-                    "wheatFarm", "WFarm", Category.FARM), 30, Product.WHEAT
+            new BuildingType(60, 1, new int[]{0, 0, 15, 0}, "WFarm", Category.FARM),
+            30, Product.WHEAT, "wheatFarm"
     ),
     ;
+    private final String name;
     private final int rate;
     private final Tradable producingTradable;
     private final BuildingType buildingType;
     private final int[] neededResources;
 
-    ProductExtractorType(BuildingType buildingType, int rate, Tradable producingTradable) {
+    ProductExtractorType(BuildingType buildingType, int rate,
+                         Tradable producingTradable, String buildingName) {
+        this.name = buildingName;
         this.rate = rate;
         this.producingTradable = producingTradable;
         this.buildingType = buildingType;
@@ -52,7 +54,7 @@ public enum ProductExtractorType implements BuildType {
 
     public static ProductExtractorType getTypeByBuildingName(String buildingName) {
         for (ProductExtractorType productExtractorType : ProductExtractorType.values()) {
-            if (productExtractorType.getBuildingType().name().equals(buildingName)) return productExtractorType;
+            if (productExtractorType.name.equals(buildingName)) return productExtractorType;
         }
         return null;
     }
@@ -67,6 +69,10 @@ public enum ProductExtractorType implements BuildType {
 
     public BuildingType getBuildingType() {
         return buildingType;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public int getNeededResources(int i) {

@@ -17,6 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class LoginMenuController {
+    private static User currentUser;
 
     public static int checkWeakPassword(String password) {
         Matcher matcherCapital = Pattern.compile("[A-Z]").matcher(password);
@@ -184,39 +185,28 @@ public class LoginMenuController {
         alert.setTitle("Successful Operation");
         alert.setContentText("User was successfully created");
         alert.showAndWait();
+        User user = new User(username, SaveAndLoad.hashString(password), nickname, email, slogan, "");
+        AppData.addUser(user);
+        currentUser = user;
+        SaveAndLoad.saveData(AppData.getUsers(), AppData.getUsersDataBaseFilePath());
         new SecurityQuestionMenu().start(AppData.getStage());
     }
 
-    public static String login(Matcher matcher) {
-        String input = matcher.group(0);
-        Pattern patternPassword = Pattern.compile("\\s*-p\\s+(\\S+)\\s*");
-        Matcher matcherUsername = Pattern.compile("\\s*-u\\s+(\\S+)\\s*").matcher(input);
-        Matcher matcherPassword = patternPassword.matcher(input);
-        if (!(matcherUsername.find() && matcherPassword.find())) {
-            return "Invalid command!";
-        }
-        String username = matcherUsername.group(1);
-        String password = matcherPassword.group(1);
+    public static String login(String username, String password) {
         if (AppData.getUserByUsername(username) == null) {
             return "User with this username doesn't exist!";
         }
         else if (!AppData.getUserByUsername(username).getPassword().equals(SaveAndLoad.hashString(password))) {
             return "Username and password didn't match!";
         }
-        /*if (!captcha()) {
-            return "You can't logged in!";
-        }*/
-        Matcher matcherStayLoggedIn = Pattern.compile("--stay-logged-in").matcher(input);
-        if (matcherStayLoggedIn.find()) {
-            AppData.getUserByUsername(username).setStayLoggedIn(1);
-        }
+        //TODO captcha
         AppData.setCurrentUser(AppData.getUserByUsername(username));
         SaveAndLoad.saveData(AppData.getUsers(), AppData.getUsersDataBaseFilePath());
+        AppData.setDelayInLogin(0);
         return "user logged in successfully!";
     }
 
-    public static String forgottenPassword(Matcher matcher) {
-        String username = matcher.group(1);
+    public static String forgottenPassword(String username) {
         if (AppData.getUserByUsername(username) == null) {
             return "User with this username doesn't exist!";
         }
@@ -341,5 +331,13 @@ public class LoginMenuController {
         }
 
         return output[0] + "\n" + output[1] + "\n" + output[2] + "\n" + output[3] + "\n" + output[4];
+    }
+
+    public static User getCurrentUser() {
+        return currentUser;
+    }
+
+    public static void setCurrentUser(User currentUser) {
+        LoginMenuController.currentUser = currentUser;
     }
 }

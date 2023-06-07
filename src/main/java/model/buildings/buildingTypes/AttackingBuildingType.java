@@ -6,34 +6,37 @@ import model.buildings.Category;
 
 public enum AttackingBuildingType implements BuildType {
     LOOKOUT_TOWER( // برج دیدبانی
-            new BuildingType(70, 0, new int[]{0, 10, 0, 0},
-                    "lookoutTower", "LookT", Category.CASTLE), 30
+            new BuildingType(70, 0, new int[]{0, 10, 0, 0}, "LookT", Category.CASTLE),
+            30, "lookoutTower"
     ),
     CIRCLE_TOWER( // برچ دایره‌ای
-            new BuildingType(150, 0, new int[]{0, 40, 0, 0},
-                    "circleTower", "CrclT", Category.CASTLE), 100
+            new BuildingType(150, 0, new int[]{0, 40, 0, 0}, "CrclT", Category.CASTLE),
+            100, "circleTower"
     ),
     PERIMETER_TOWER( // برج محیطی
-            new BuildingType(70, 0, new int[]{0, 10, 0, 0},
-                    "perimeterTower", "PeriT", Category.CASTLE), 30
+            new BuildingType(70, 0, new int[]{0, 10, 0, 0}, "PeriT", Category.CASTLE),
+            30, "perimeterTower"
     ),
     SQUARE_TOWER( // برج مربعی
-            new BuildingType(140, 0, new int[]{0, 35, 0, 0},
-                    "squareTower", "SqreT", Category.CASTLE), 90
+            new BuildingType(140, 0, new int[]{0, 35, 0, 0}, "SqreT", Category.CASTLE),
+            90, "squareTower"
     ),
     DEFENCE_TURRET( //برجک دفاعی
-            new BuildingType(90, 0, new int[]{0, 15, 0, 0},
-                    "defenceTurret", "DefTr", Category.CASTLE), 40
+            new BuildingType(90, 0, new int[]{0, 15, 0, 0}, "DefTr", Category.CASTLE),
+            40, "defenceTurret"
     ),
     ;
+
     private final int fireRange;
     private final BuildingType buildingType;
+    private final String name;
     private final int[] neededResources;
 
 
-    AttackingBuildingType(BuildingType buildingType, int fireRange) {
+    AttackingBuildingType(BuildingType buildingType, int fireRange, String buildingName) {
         this.fireRange = fireRange;
         this.buildingType = buildingType;
+        this.name = buildingName;
         this.neededResources = buildingType.neededResources();
         Building.addToValidBuildingNames(this, 2);
     }
@@ -43,7 +46,7 @@ public enum AttackingBuildingType implements BuildType {
 
     public static AttackingBuildingType getTypeByBuildingName(String buildingName) {
         for (AttackingBuildingType attackingBuildingType : AttackingBuildingType.values()) {
-            if (attackingBuildingType.getBuildingType().name().equals(buildingName)) return attackingBuildingType;
+            if (attackingBuildingType.name.equals(buildingName)) return attackingBuildingType;
         }
         return null;
     }
@@ -54,6 +57,10 @@ public enum AttackingBuildingType implements BuildType {
 
     public BuildingType getBuildingType() {
         return buildingType;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public int getNeededResources(int i) {

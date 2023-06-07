@@ -22,6 +22,11 @@ public class ProductExtractor extends Building {
     }
 
     @Override
+    public String getName() {
+        return productExtractorType.getName();
+    }
+
+    @Override
     public void setShowingSignInMap() {
         showingSignInMap = productExtractorType.getBuildingType().abbreviation() + (getOwnerNumber().getNumber() + 1);
     }

@@ -13,9 +13,6 @@ import java.util.Scanner;
 
 public class Controller {
     public static void run() throws Exception {
-        User[] users = SaveAndLoad.loadArrayData(AppData.getUsersDataBaseFilePath(), User[].class);
-        if (users != null)
-            AppData.setUsers(new ArrayList<>(Arrays.asList(users)));
         buildEnums();
         Scanner scanner = new Scanner(System.in);
         MenuNames menuNames;
@@ -48,7 +45,7 @@ public class Controller {
         }
     }
 
-    public static void buildEnums() {//todo jasbi convert to private
+    private static void buildEnums() {
         AccommodationType.enumBuilder();
         AttackingBuildingType.enumBuilder();
         OtherBuildingsType.enumBuilder();

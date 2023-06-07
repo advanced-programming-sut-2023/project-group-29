@@ -24,6 +24,11 @@ public class ResourceProcessor extends Building {
     }
 
     @Override
+    public String getName() {
+        return resourceProcessorType.getName();
+    }
+
+    @Override
     public void setShowingSignInMap() {
         showingSignInMap = resourceProcessorType.getBuildingType().abbreviation() +
                 (getOwnerNumber().getNumber() + 1);
