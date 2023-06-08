@@ -20,26 +20,27 @@ import model.weapons.weaponClasses.StaticOffensiveWeapons;
 import view.messages.MapMenuMessages;
 
 public class MapFunctions {
-    private static final int tileWidth = 20;
-    private static final int tileHeight = 20;//todo should get from gamedata
     private static final int tileCapacityForShowingUnits=10;//todo should update with zoom level
-    private static final int numberOfTilesShowingInRow = AppData.getScreenWidth() / tileWidth;
-    private static final int numberOfTilesShowingInColumn = AppData.getScreenHeight() / tileHeight;
-    private static int showingMapIndexX = 1;
-    private static int showingMapIndexY = 1;
-
     public static MapMenuMessages setShowingMapIndexes(int indexX, int indexY) {
-        Map map = GameController.getGameData().getMap();
-        if (!map.isIndexValid(indexX, indexY))
-            return MapMenuMessages.INVALID_INDEX;
-
-        showingMapIndexX = indexX;
-        showingMapIndexY = indexY;
+//        Map map = GameController.getGameData().getMap();
+//        if (!map.isIndexValid(indexX, indexY))
+//            return MapMenuMessages.INVALID_INDEX;
+//
+//        showingMapIndexX = indexX;
+//        showingMapIndexY = indexY;
+        //todo for mini map
 
         return MapMenuMessages.SUCCESSFUL;
     }
 
     public static Pane[][] showMap(int indexX, int indexY, Pane rootPane) {
+        GameData gameData=GameController.getGameData();
+        int tileWidth=gameData.getTileWidth();
+        int tileHeight=gameData.getTileHeight();
+
+        int numberOfTilesShowingInRow = AppData.getScreenWidth() / tileWidth;
+        int numberOfTilesShowingInColumn = AppData.getScreenHeight() / tileHeight;
+
         Map map = GameController.getGameData().getMap();
         Pane[][] tiles=new Pane[numberOfTilesShowingInRow][numberOfTilesShowingInColumn];
 
@@ -59,8 +60,11 @@ public class MapFunctions {
     }
 
     public static Pane createTile(int indexX, int indexY) {
+
         GameData gameData = GameController.getGameData();
         Cell cell = gameData.getMap().getCells()[indexX][indexY];
+        int tileWidth=gameData.getTileWidth();
+        int tileHeight=gameData.getTileHeight();
 
         Pane tile = new Pane();
         tile.setMaxWidth(tileWidth);
@@ -68,14 +72,15 @@ public class MapFunctions {
         tile.setMaxHeight(tileHeight);
         tile.setMinHeight(tileHeight);
 
-        tile.setBackground(new Background(new BackgroundImage(cell.getCellType().getImage(), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+        BackgroundSize backgroundSize=new BackgroundSize(tileWidth,tileHeight,false,false,false,false);
+        tile.setBackground(new Background(new BackgroundImage(cell.getCellType().getImage(), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize)));
         //todo handle trees
 
         //building or trap
         if (cell.hasBuilding())
-            fitImageInTile(cell.getBuilding().getShowingImage(), tile);
+            fitImageInTile(cell.getBuilding().getShowingImage(), tile,tileWidth,tileHeight);
         else if (cell.hasTrap() && cell.getTrap().getOwnerNumber().equals(GameController.getGameData().getPlayerOfTurn()))
-            fitImageInTile(cell.getTrap().getShowingImage(), tile);
+            fitImageInTile(cell.getTrap().getShowingImage(), tile,tileWidth,tileHeight);
 
         //other units
         int index = 0;
@@ -103,8 +108,10 @@ public class MapFunctions {
         //todo
     }
 
-    private static void fitImageInTile(Image image, Pane tile) {
-        tile.getChildren().add(new ImageView(image));
+    private static void fitImageInTile(Image image, Pane tile,int tileWidth,int tileHeight) {
+        ImageView imageView=new ImageView(image);
+        ImagePracticalFunctions.fitWidthHeight(imageView,tileWidth,tileHeight);
+        tile.getChildren().add(imageView);
     }
 
 
@@ -177,14 +184,15 @@ public class MapFunctions {
     }
 
     public static void moveMap(int upMovements, int rightMovements, int downMovements, int leftMovements) {
-        Map map = GameController.getGameData().getMap();
+        GameData gameData=GameController.getGameData();
+        Map map = gameData.getMap();
+        Pair<Integer,Integer> mapCornerPosition=gameData.getCornerCellIndex();
 
-        int newShowingMapIndexX = showingMapIndexX + rightMovements - leftMovements;
-        int newShowingMapIndexY = showingMapIndexY + downMovements - upMovements;
+        int newShowingMapIndexX = mapCornerPosition.first + rightMovements - leftMovements;
+        int newShowingMapIndexY = mapCornerPosition.second + downMovements - upMovements;
 
         if (map.isIndexValid(newShowingMapIndexX, newShowingMapIndexY)) {
-            showingMapIndexX = newShowingMapIndexX;
-            showingMapIndexY=newShowingMapIndexY;
+            gameData.setCornerCellIndex(new Pair<>(newShowingMapIndexX,newShowingMapIndexY));
         }
     }
 

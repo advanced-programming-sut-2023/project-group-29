@@ -17,8 +17,8 @@ public class GameData {
     private Pair<Integer,Integer> destinationCellPosition=new Pair<>();
     private ArrayList<Asset> selectedUnits=new ArrayList<>();//todo set and edit
     private GameState gameState=GameState.VIEW_MAP;
-    private int tileWidth = 20;
-    private int tileHeight = 20;
+    private int tileWidth = 50;
+    private int tileHeight = 50;
     private Pair<Integer,Integer> cornerCellIndex=new Pair<>(1,1);
     private int numberOfTilesShowingInRow = AppData.getScreenWidth() / tileWidth;
     private int numberOfTilesShowingInColumn = AppData.getScreenHeight() / tileHeight;
@@ -200,4 +200,5 @@ public class GameData {
 
     public void setPauseMainPane(boolean b) {
     }
+
 }

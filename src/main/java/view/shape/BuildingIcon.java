@@ -1,19 +1,18 @@
 package view.shape;
 
-import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.input.*;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import model.buildings.buildingTypes.BuildType;
-import view.menus.GameMenuGraphic;
+import view.menus.MapMenu;
 
 public class BuildingIcon extends Rectangle {
     private Image image;
     public BuildingIcon(int width, String address) {
         this.setWidth(width);
         this.setHeight(width);
-        Image image = new Image(GameMenuGraphic.class.getResource(address).toString());
+        Image image = new Image(MapMenu.class.getResource(address).toString());
         this.setFill(new ImagePattern(image));
         this.image = image;
     }

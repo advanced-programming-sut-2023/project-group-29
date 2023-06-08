@@ -23,8 +23,8 @@ public class MapInitializer {
             return null;
         }
         Cell[][] cells = firstMap.getCells();
-        for (int i = 1; i < cells.length; i++) {
-            for (int j = 1; j < cells.length; j++) {
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells.length; j++) {
                 if ((i + j) % 3 == 0) {
                     cells[i][j] = new Cell(CellType.PLAIN_GROUND, i, j);
                 }
@@ -63,8 +63,8 @@ public class MapInitializer {
         }
         Cell[][] cells = secondMap.getCells();
 
-        for (int i = 1; i < cells.length; i++)
-            for (int j = 1; j < cells.length; j++) {
+        for (int i = 0; i < cells.length; i++)
+            for (int j = 0; j < cells.length; j++) {
                 if ((i % 2) == 0) {
                     cells[i][j] = new Cell(CellType.PLAIN_GROUND, i, j);
                 }
