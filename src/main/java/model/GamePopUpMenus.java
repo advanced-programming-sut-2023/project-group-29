@@ -2,16 +2,14 @@ package model;
 
 import controller.menucontrollers.GameController;
 import javafx.animation.FadeTransition;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 public class GamePopUpMenus extends Pane{
     private final Pane mainPain;
     private final Pane popUpPane;
     private final PopUpType popUpType;
+    private boolean isShowing = false; //todo abbasfar: set default is true or false
     public GamePopUpMenus(Pane mainPane, Pane popUpPane,PopUpType popUpType){
         this.mainPain=mainPane;
         this.popUpPane=popUpPane;
@@ -31,6 +29,7 @@ public class GamePopUpMenus extends Pane{
 
         fadeTransition.play();
         GameController.getGameData().setPauseMainPane(true);
+        isShowing = true;
     }
 
     //todo abbasfar fix hovering fast. starting hide animation before show complete!!!
@@ -43,6 +42,7 @@ public class GamePopUpMenus extends Pane{
 
         fadeTransition.play();
         GameController.getGameData().setPauseMainPane(false);
+        isShowing = false;
     }
 
     public Pane getPopUpPane() {
@@ -53,9 +53,15 @@ public class GamePopUpMenus extends Pane{
         return popUpType;
     }
 
-    public enum PopUpType{
-        PAUSE,
+    public boolean isShowing() {
+        return isShowing;
+    }
+
+    public enum PopUpType {
+        BUILDING_ICONS_COLUMN,
+        POPULARITY_DETAIL,
         CELL_DETAILS,
+        PAUSE,
 
     }
 }

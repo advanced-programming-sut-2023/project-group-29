@@ -1,6 +1,5 @@
 package view.menus;
 
-import controller.Controller;
 import controller.menucontrollers.GameController;
 import controller.menucontrollers.MapFunctions;
 import javafx.application.Application;
@@ -9,20 +8,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
-import model.Empire;
-import model.GameData;
-import model.GameKeyConstants;
-import model.Pair;
+import model.*;
 import model.buildings.Building;
 import model.buildings.Category;
 import model.buildings.buildingTypes.BuildType;
@@ -40,8 +36,8 @@ public class MapMenu extends Application {
     private Pane[][] tiles=null;
     private GameGraphicFunctions gameGraphicFunctions;
     private Stage stage;
-    private final Popup popularityPopup = new Popup();
-    private final Popup buildingPopup = new Popup();
+    private GamePopUpMenus popularityPopup;
+    private GamePopUpMenus buildingPopup;
     private final HashMap<Category, VBox> subMenus = new HashMap<>();
     @Override
     public void start(Stage stage) throws Exception {
@@ -64,11 +60,11 @@ public class MapMenu extends Application {
         });
 
         setUpAndShowMap();
-        //setDragFunctions(); todo add this function to ordinary cells
+        //setDragFunctions(); todo jasbi add this function to ordinary cells
 
         buildPopularity();
-        buildingPopup.show(stage);
         makeBuildingBar();
+        buildingPopup.showAndWait();
 
         stage.setScene(scene);
         stage.show();
@@ -201,6 +197,8 @@ public class MapMenu extends Application {
     }
 
     private void makeBuildingBar() {
+        buildingPopup = new GamePopUpMenus(mainPane, new Pane(), GamePopUpMenus.PopUpType.BUILDING_ICONS_COLUMN);
+        //todo abbasfar: check if the constructor above is correctly used
         VBox vBox = makeVBox(1020,180, new VBox());
         for (Category category : Category.values()) {
             if (category.equals(Category.UNBUILDABLE)) continue;
@@ -214,12 +212,12 @@ public class MapMenu extends Application {
 
     private void setFunctionOnClick(BuildingIcon icon, Category category) {
         icon.setOnMouseClicked(mouseEvent -> {
-            buildingPopup.setX(stage.getX() + 955);
-            buildingPopup.setY(stage.getY() + 200);
-            if (buildingPopup.getContent().size() != 0){
-                ScrollPane scrollPane = (ScrollPane) buildingPopup.getContent().get(0);
+            buildingPopup.setTranslateX(940);
+            buildingPopup.setTranslateY(170);
+            if (buildingPopup.getChildren().size() != 0){
+                ScrollPane scrollPane = (ScrollPane) buildingPopup.getChildren().get(0);
                 boolean againClick = scrollPane.getContent().equals(subMenus.get(category));
-                buildingPopup.getContent().clear();
+                buildingPopup.getChildren().clear();
                 if (!againClick) addToPopup(category);
             }
             else{
@@ -234,7 +232,7 @@ public class MapMenu extends Application {
         scrollPane.setMaxHeight(400);
         scrollPane.setPrefSize(70,400);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        buildingPopup.getContent().add(scrollPane);
+        buildingPopup.getChildren().add(scrollPane);
     }
 
     private void makeSubMenu(Category category) {
@@ -270,7 +268,9 @@ public class MapMenu extends Application {
     }
 
     private void buildPopularity() {
-        //todo faratin beautify
+        //todo maybe faratin beautify
+        popularityPopup = new GamePopUpMenus(mainPane,new Pane(), GamePopUpMenus.PopUpType.POPULARITY_DETAIL);
+        //todo abbasfar: check if the constructor above is correctly completed
         makeMainPopularity();
         makeFactorsTable();
     }
@@ -284,10 +284,10 @@ public class MapMenu extends Application {
         factorsHBox.setAlignment(Pos.CENTER);
         outerBox.getChildren().add(text1);
         outerBox.getChildren().add(factorsHBox);
-        for (int i = 1; i <= 4; i++) addVbox(factorsHBox, i);
+        for (int i = 1; i <= 4; i++) addPopularityPopUpVbox(factorsHBox, i);
         Text text = new Text("change for next turn: " + 0); //todo jasbi correct number
         outerBox.getChildren().add(text);
-        popularityPopup.getContent().add(outerBox);
+        popularityPopup.getChildren().add(outerBox);
     }
 
     private VBox makeOuterBox() {
@@ -304,17 +304,17 @@ public class MapMenu extends Application {
         text.setStyle("-fx-font: 18 arial;");
         text.setOnMouseClicked(mouseEvent -> {
             if (!popularityPopup.isShowing()) {
-                popularityPopup.setAnchorX(347 + stage.getX());
-                popularityPopup.setAnchorY(570 + stage.getY());
-                popularityPopup.show(stage);
+                popularityPopup.setTranslateX(340);
+                popularityPopup.setTranslateY(530);
+                popularityPopup.showAndWait();
             } else popularityPopup.hide();
         });
         CircleImage circleImage = new CircleImage("/images/green.png", 20); //todo jasbi change
-        Button button = makeButton();
+        Rectangle button = makeButton();
         makeHBox(text, circleImage, button);
     }
 
-    private void makeHBox(Text text, Node circleImage, Button button) {
+    private void makeHBox(Text text, Node circleImage, Rectangle button) {
         HBox hBox = new HBox(text, circleImage, button);
         hBox.setAlignment(Pos.CENTER);
         hBox.setTranslateX(340);
@@ -325,10 +325,12 @@ public class MapMenu extends Application {
         mainPane.getChildren().add(hBox);
     }
 
-    private static Button makeButton() {
-        Button button = new Button("change factors");
-        button.setStyle("-fx-background-radius: 5px; -fx-border-radius: 5px;" +
-                " -fx-background-color: lightYellow; -fx-border-color: black;");
+    private static Rectangle makeButton() {
+        Rectangle button = new Rectangle(90,30);
+        button.setArcHeight(30.0);
+        button.setArcWidth(30.0);
+        Image image = new Image(MapMenu.class.getResource("/images/menus/changeFactors.png").toString());
+        button.setFill(new ImagePattern(image));
         button.setOnMouseClicked(mouseEvent -> {
             try {
                 new SetFactorsMenu().start(new Stage());
@@ -339,7 +341,7 @@ public class MapMenu extends Application {
         return button;
     }
 
-    private void addVbox(HBox factorsHBox, int switcher) {
+    private void addPopularityPopUpVbox(HBox factorsHBox, int switcher) {
         VBox vBox = new VBox();
         vBox.setSpacing(5);
         factorsHBox.getChildren().add(vBox);

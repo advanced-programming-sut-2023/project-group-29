@@ -4,7 +4,8 @@ set map 0_base
 monday:
 jasbi:
     drag and drop buildings
-
+    اصلاح اسم توابع
+    استفاده از pop up
 
 faratin:
     login
