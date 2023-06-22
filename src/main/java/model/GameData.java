@@ -12,9 +12,9 @@ public class GameData {
     private final ArrayList<Empire> empires = new ArrayList<>();
     private Map map;
     private PlayerNumber playerOfTurn = PlayerNumber.FIRST;
-    private Pair<Integer,Integer> startSelectedCellsPosition=new Pair<>();
-    private Pair<Integer,Integer> endSelectedCellsPosition=new Pair<>();
-    private Pair<Integer,Integer> destinationCellPosition=new Pair<>();
+    private Pair<Integer,Integer> startSelectedCellsPosition=null;
+    private Pair<Integer,Integer> endSelectedCellsPosition=null;
+    private Pair<Integer,Integer> destinationCellPosition=null;
     private ArrayList<Asset> selectedUnits=new ArrayList<>();//todo set and edit
     private GameState gameState=GameState.VIEW_MAP;
     private int tileWidth = 50;

@@ -9,12 +9,10 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -27,6 +25,7 @@ import model.map.Cell;
 import view.shape.BuildingIcon;
 import view.shape.CircleImage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 
@@ -36,8 +35,8 @@ public class MapMenu extends Application {
     private Pane[][] tiles=null;
     private GameGraphicFunctions gameGraphicFunctions;
     private Stage stage;
-    private GamePopUpMenus popularityPopup;
-    private GamePopUpMenus buildingPopup;
+    private Pane popularityPopupPane;
+    private Pane buildingPopupPane;
     private final HashMap<Category, VBox> subMenus = new HashMap<>();
     @Override
     public void start(Stage stage) throws Exception {
@@ -55,7 +54,11 @@ public class MapMenu extends Application {
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
-                keyHandle(keyEvent);
+                try {
+                    keyHandle(keyEvent);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -64,7 +67,9 @@ public class MapMenu extends Application {
 
         buildPopularity();
         makeBuildingBar();
-        buildingPopup.showAndWait();
+
+        GamePopUpMenus buildingPopUp=new GamePopUpMenus(mainPane,buildingPopupPane, GamePopUpMenus.PopUpType.BUILDING_ICONS_COLUMN);
+        buildingPopUp.showAndWait();
 
         stage.setScene(scene);
         stage.show();
@@ -74,6 +79,8 @@ public class MapMenu extends Application {
         tiles= MapFunctions.showMap(gameData.getCornerCellIndex().first, gameData.getCornerCellIndex().second, mainPane);
         setTilesListeners();
     }
+
+
 
     private void setTilesListeners(){
         for(int i=0;i<gameData.getNumberOfTilesShowingInRow();i++)
@@ -122,9 +129,7 @@ public class MapMenu extends Application {
         Cell cell=gameData.getMap().getCells()[x][y];
     }
 
-    private void keyHandle(KeyEvent keyEvent) {
-        System.out.println(gameData.getGameState());
-
+    private void keyHandle(KeyEvent keyEvent) throws IOException {
         switch (gameData.getGameState()) {
             case CELL_SELECTED -> {
                 if(keyEvent.getCode().equals(GameKeyConstants.cancelKey)) {
@@ -134,11 +139,9 @@ public class MapMenu extends Application {
                 }
                 else if(keyEvent.getCode().equals(GameKeyConstants.attackKey)) {
                     gameData.setGameState(GameState.ATTACKING);
-                    gameGraphicFunctions.attackUnits();
                 }
                 else if(keyEvent.getCode().equals(GameKeyConstants.moveKey)) {
                     gameData.setGameState(GameState.MOVING);
-                    gameGraphicFunctions.moveUnits();
                 }
                 else if(keyEvent.getCode().equals(GameKeyConstants.pourOilKey)) {
                     gameData.setGameState(GameState.POURING_OIL);
@@ -162,9 +165,21 @@ public class MapMenu extends Application {
                 else if(keyEvent.getCode().equals(GameKeyConstants.mapMoveDown))
                     MapFunctions.moveMap(0,0,1,0);
                 else if(keyEvent.getCode().equals(GameKeyConstants.mapMoveUp))
-                    MapFunctions.moveMap(1,1,0,0);
+                    MapFunctions.moveMap(1,0,0,0);
 
                 setUpAndShowMap();
+            }
+            case MOVING -> {
+                if(keyEvent.getCode().equals(GameKeyConstants.moveFinalize)) {
+                    gameData.setGameState(GameState.CELL_SELECTED);
+                    gameGraphicFunctions.moveUnits();
+                }
+            }
+            case ATTACKING -> {
+                if(keyEvent.getCode().equals(GameKeyConstants.attackFinalize)) {
+                    gameData.setGameState(GameState.ATTACKING);
+                    gameGraphicFunctions.attackUnits();
+                }
             }
         }
     }
@@ -197,7 +212,7 @@ public class MapMenu extends Application {
     }
 
     private void makeBuildingBar() {
-        buildingPopup = new GamePopUpMenus(mainPane, new Pane(), GamePopUpMenus.PopUpType.BUILDING_ICONS_COLUMN);
+        buildingPopupPane = new Pane();
         //todo abbasfar: check if the constructor above is correctly used
         VBox vBox = makeVBox(1020,180, new VBox());
         for (Category category : Category.values()) {
@@ -212,12 +227,12 @@ public class MapMenu extends Application {
 
     private void setFunctionOnClick(BuildingIcon icon, Category category) {
         icon.setOnMouseClicked(mouseEvent -> {
-            buildingPopup.setTranslateX(940);
-            buildingPopup.setTranslateY(170);
-            if (buildingPopup.getChildren().size() != 0){
-                ScrollPane scrollPane = (ScrollPane) buildingPopup.getChildren().get(0);
+            buildingPopupPane.setTranslateX(940);
+            buildingPopupPane.setTranslateY(170);
+            if (buildingPopupPane.getChildren().size() != 0){
+                ScrollPane scrollPane = (ScrollPane) buildingPopupPane.getChildren().get(0);
                 boolean againClick = scrollPane.getContent().equals(subMenus.get(category));
-                buildingPopup.getChildren().clear();
+                buildingPopupPane.getChildren().clear();
                 if (!againClick) addToPopup(category);
             }
             else{
@@ -232,7 +247,7 @@ public class MapMenu extends Application {
         scrollPane.setMaxHeight(400);
         scrollPane.setPrefSize(70,400);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        buildingPopup.getChildren().add(scrollPane);
+        buildingPopupPane.getChildren().add(scrollPane);
     }
 
     private void makeSubMenu(Category category) {
@@ -269,7 +284,7 @@ public class MapMenu extends Application {
 
     private void buildPopularity() {
         //todo maybe faratin beautify
-        popularityPopup = new GamePopUpMenus(mainPane,new Pane(), GamePopUpMenus.PopUpType.POPULARITY_DETAIL);
+        popularityPopupPane = new Pane();
         //todo abbasfar: check if the constructor above is correctly completed
         makeMainPopularity();
         makeFactorsTable();
@@ -287,7 +302,7 @@ public class MapMenu extends Application {
         for (int i = 1; i <= 4; i++) addPopularityPopUpVbox(factorsHBox, i);
         Text text = new Text("change for next turn: " + 0); //todo jasbi correct number
         outerBox.getChildren().add(text);
-        popularityPopup.getChildren().add(outerBox);
+        popularityPopupPane.getChildren().add(outerBox);
     }
 
     private VBox makeOuterBox() {
@@ -300,14 +315,15 @@ public class MapMenu extends Application {
     }
 
     private void makeMainPopularity() {
+        GamePopUpMenus popularityPopUp=new GamePopUpMenus(mainPane,popularityPopupPane, GamePopUpMenus.PopUpType.POPULARITY_DETAIL);
         Text text = new Text("Popularity : " + 0);//correct number
         text.setStyle("-fx-font: 18 arial;");
         text.setOnMouseClicked(mouseEvent -> {
-            if (!popularityPopup.isShowing()) {
-                popularityPopup.setTranslateX(340);
-                popularityPopup.setTranslateY(530);
-                popularityPopup.showAndWait();
-            } else popularityPopup.hide();
+            if (!popularityPopUp.isShowing()) {
+                popularityPopupPane.setTranslateX(340);
+                popularityPopupPane.setTranslateY(530);
+                popularityPopUp.showAndWait();
+            } else popularityPopUp.hide();
         });
         CircleImage circleImage = new CircleImage("/images/green.png", 20); //todo jasbi change
         Rectangle button = makeButton();
@@ -329,8 +345,8 @@ public class MapMenu extends Application {
         Rectangle button = new Rectangle(90,30);
         button.setArcHeight(30.0);
         button.setArcWidth(30.0);
-        Image image = new Image(MapMenu.class.getResource("/images/menus/changeFactors.png").toString());
-        button.setFill(new ImagePattern(image));
+//        Image image = new Image(MapMenu.class.getResource("/images/menus/changeFactors.png").toString());
+//        button.setFill(new ImagePattern(image));
         button.setOnMouseClicked(mouseEvent -> {
             try {
                 new SetFactorsMenu().start(new Stage());

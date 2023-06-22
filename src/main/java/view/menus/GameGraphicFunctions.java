@@ -38,6 +38,14 @@ public class GameGraphicFunctions {
             if (asset instanceof Offensive attacker)
                 attackers.add(attacker);
 
+        if(gameData.getDestinationCellPosition()==null){
+            AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, Color.RED);
+            alertWindowPane.addTitle("Attacking failed");
+            alertWindowPane.addText("Please specify your target cell");
+            alertWindowPane.show();
+            return;
+        }
+
         SelectUnitMenuMessages result= UnitFunctions.unitsAttackingCheckError(attackers, gameData.getDestinationCellPosition());
         if (result.equals(SelectUnitMenuMessages.SUCCESSFUL)) {
             int failures = UnitFunctions.makeUnitsAttacking(attackers, gameData.getDestinationCellPosition());
@@ -160,7 +168,7 @@ public class GameGraphicFunctions {
         }
     }
 
-    public void buildEquipments() {
+    public void buildEquipments() throws IOException {
 
         if (gameData.getEndSelectedCellsPosition() != null &&
                 !gameData.getEndSelectedCellsPosition().isEqualTo(gameData.getStartSelectedCellsPosition())) {
@@ -172,7 +180,12 @@ public class GameGraphicFunctions {
             return;
         }
 
-        //todo a menu should appear and user should choose one of equipments
+        Pane equipmentPane=FXMLLoader.load(MapMenu.class.getResource("/FXML/BuildEquipmentWindow.fxml"));
+
+        popUpMenu=new GamePopUpMenus(mainPane,equipmentPane, GamePopUpMenus.PopUpType.BUILD_EQUIPMENT);
+        popUpMenu.makePaneCenter(750,500);
+
+        popUpMenu.showAndWait();
     }
 
     public void alertMessage(Color color,String title,String text) {
@@ -284,5 +297,9 @@ public class GameGraphicFunctions {
 
     private void dropBuilding(Matcher matcher) {
 //        MapMenuController.dropBuildingAsAdmin(x, y, buildingName, n);
+    }
+
+    public void exitPopUp() {
+        popUpMenu.hide();
     }
 }

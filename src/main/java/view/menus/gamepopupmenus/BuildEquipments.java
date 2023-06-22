@@ -7,6 +7,8 @@ import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import model.GameData;
 import model.ImagePracticalFunctions;
 import model.weapons.weaponTypes.EquipmentsType;
 import model.weapons.weaponTypes.OffensiveWeaponsType;
@@ -15,8 +17,11 @@ import model.weapons.weaponTypes.TrapType;
 import view.menus.EnterMenu;
 
 public class BuildEquipments {
-    public void exitPopUp(MouseEvent mouseEvent) {
+    @FXML
+    private HBox equipmentHBox;
 
+    public void exitPopUp(MouseEvent mouseEvent) {
+        GameController.getGameData().getGameGraphicFunctions().exitPopUp();
     }
 
     @FXML
@@ -45,9 +50,8 @@ public class BuildEquipments {
     }
     public void setupImage(Image image,int index,String typeName){
         ImageView imageView=new ImageView(image);
-        ImagePracticalFunctions.fitWidthHeight(imageView,20,20);
-        imageView.setLayoutY(35);
-        imageView.setLayoutX(20*index+5);
+        ImagePracticalFunctions.fitWidthHeight(imageView,70,70);
+        imageView.setLayoutX(50*index+5);
 
         imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -55,5 +59,7 @@ public class BuildEquipments {
                 UnitFunctions.buildEquipment(typeName);
             }
         });
+
+        equipmentHBox.getChildren().add(imageView);
     }
 }
