@@ -12,17 +12,14 @@
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="view.menus.gamepopupmenus.CellDetailsWindowGraphics"
       styleClass="background"
-      stylesheets="@../CSS/GamePopUpMenus.css"
-      prefHeight="200.0" prefWidth="300.0">
+      stylesheets="@../CSS/CellDetailsPopUpMenus.css"
+      prefHeight="600.0" prefWidth="300.0">
 
-    <ImageView layoutX="260" layoutY="20" onMouseClicked="#exitPopUp">
-        <Image url="@../images/menus/XButton.png" requestedWidth="20" requestedHeight="20"/>
-    </ImageView>
-
-    <Label layoutX="20" layoutY="20" styleClass="headerLabel" fx:id="headerLabel">
+    <Label layoutX="20" layoutY="20" styleClass="headerLabel" fx:id="headerLabel" text="Cell Details">
     </Label>
 
-    <Label layoutX="20" layoutY="50" styleClass="textLabel" fx:id="textLabel">
+    <Label layoutX="20" layoutY="60" styleClass="textLabel" fx:id="textLabel">
     </Label>
+
 
 </Pane>

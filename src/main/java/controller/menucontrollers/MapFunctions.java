@@ -1,5 +1,6 @@
 package controller.menucontrollers;
 
+import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -33,7 +34,7 @@ public class MapFunctions {
         return MapMenuMessages.SUCCESSFUL;
     }
 
-    public static Pane[][] showMap(int indexX, int indexY, Pane rootPane) {
+    public static Pane[][] showMap(int indexX, int indexY, Group rootPane) {
         GameData gameData=GameController.getGameData();
         int tileWidth=gameData.getTileWidth();
         int tileHeight=gameData.getTileHeight();

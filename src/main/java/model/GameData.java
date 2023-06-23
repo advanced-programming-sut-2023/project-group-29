@@ -20,11 +20,25 @@ public class GameData {
     private int tileWidth = 50;
     private int tileHeight = 50;
     private Pair<Integer,Integer> cornerCellIndex=new Pair<>(1,1);
-    private int numberOfTilesShowingInRow = AppData.getScreenWidth() / tileWidth;
-    private int numberOfTilesShowingInColumn = AppData.getScreenHeight() / tileHeight;
     private MapMenu mapMenu;
     private GameGraphicFunctions gameGraphicFunctions;
     private boolean pauseMainPane =false;
+
+    public void zoomIn(){
+        if(tileWidth>=100)
+            return;
+
+        tileWidth+=10;
+        tileHeight+=10;
+    }
+
+    public void zoomOut(){
+        if(tileWidth<=50)
+            return;
+
+        tileWidth-=10;
+        tileHeight-=10;
+    }
     public void addEmpire(Empire empire) {
         empires.add(empire);
     }
@@ -131,15 +145,6 @@ public class GameData {
 
         return cellIndex;
     }
-
-    public void setTileHeight(int tileHeight) {
-        this.tileHeight = tileHeight;
-    }
-
-    public void setTileWidth(int tileWidth) {
-        this.tileWidth = tileWidth;
-    }
-
     public Pair<Integer, Integer> getCornerCellIndex() {
         return cornerCellIndex;
     }
@@ -149,19 +154,11 @@ public class GameData {
     }
 
     public int getNumberOfTilesShowingInRow() {
-        return numberOfTilesShowingInRow;
-    }
-
-    public void setNumberOfTilesShowingInRow(int numberOfTilesShowingInRow) {
-        this.numberOfTilesShowingInRow = numberOfTilesShowingInRow;
+        return 1000 / tileWidth;
     }
 
     public int getNumberOfTilesShowingInColumn() {
-        return numberOfTilesShowingInColumn;
-    }
-
-    public void setNumberOfTilesShowingInColumn(int numberOfTilesShowingInColumn) {
-        this.numberOfTilesShowingInColumn = numberOfTilesShowingInColumn;
+        return AppData.getScreenHeight() / tileHeight;
     }
 
     public ArrayList<Asset> getSelectedUnits() {
@@ -199,6 +196,10 @@ public class GameData {
     }
 
     public void setPauseMainPane(boolean b) {
+        pauseMainPane=b;
     }
 
+    public boolean isPauseMainPane() {
+        return pauseMainPane;
+    }
 }

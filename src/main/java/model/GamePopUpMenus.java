@@ -33,6 +33,8 @@ public class GamePopUpMenus {
         //todo debug fade transition
         GameController.getGameData().setPauseMainPane(true);
         isShowing = true;
+
+        GameController.getGameData().setPauseMainPane(true);
     }
 
     //todo abbasfar fix hovering fast. starting hide animation before show complete!!!
@@ -46,6 +48,8 @@ public class GamePopUpMenus {
         fadeTransition.play();
         GameController.getGameData().setPauseMainPane(false);
         isShowing = false;
+
+        GameController.getGameData().setPauseMainPane(false);
     }
 
     public Pane getPopUpPane() {

@@ -17,4 +17,7 @@ faratin:
 
 abbasfar:
     edit select list
+    hover on cell details blinking
+    add special cell funcitons
+    wrap cell details
 

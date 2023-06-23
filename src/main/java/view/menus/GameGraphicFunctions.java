@@ -2,11 +2,15 @@ package view.menus;
 
 import controller.MenuNames;
 import controller.menucontrollers.GameController;
+import controller.menucontrollers.MapFunctions;
 import controller.menucontrollers.UnitFunctions;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import model.*;
+import model.map.Cell;
 import model.people.Human;
 import model.people.humanClasses.Soldier;
 import model.people.humanTypes.SoldierType;
@@ -180,7 +184,7 @@ public class GameGraphicFunctions {
             return;
         }
 
-        Pane equipmentPane=FXMLLoader.load(MapMenu.class.getResource("/FXML/BuildEquipmentWindow.fxml"));
+        Pane equipmentPane=FXMLLoader.load(EnterMenu.class.getResource("/FXML/BuildEquipmentWindow.fxml"));
 
         popUpMenu=new GamePopUpMenus(mainPane,equipmentPane, GamePopUpMenus.PopUpType.BUILD_EQUIPMENT);
         popUpMenu.makePaneCenter(750,500);
@@ -226,29 +230,6 @@ public class GameGraphicFunctions {
         }
     }
 
-    public void showDetail(Pane mainPane) {
-
-        FXMLLoader cellDetailsPaneLoader = new FXMLLoader(EnterMenu.class.getResource("/FXML/CellDetailsWindow.fxml"));
-
-        Pane cellDetailsPane = null;
-        try {
-            cellDetailsPane = cellDetailsPaneLoader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        CellDetailsWindowGraphics cellDetailsWindowGraphics = cellDetailsPaneLoader.getController();
-
-        popUpMenu = new GamePopUpMenus(mainPane, cellDetailsPane, GamePopUpMenus.PopUpType.CELL_DETAILS);
-        popUpMenu.showAndWait();
-    }
-
-    public void hideDetails() {
-        if (popUpMenu != null && popUpMenu.getPopUpType().equals(GamePopUpMenus.PopUpType.CELL_DETAILS)) {
-            popUpMenu.hide();
-            popUpMenu = null;
-        }
-    }
-
     private void createBuilding(Matcher matcher) {
 
         //MapMenuMessages result = MapMenuController.buildBuilding(x, y, buildingName);
@@ -290,16 +271,35 @@ public class GameGraphicFunctions {
 //            case SUCCESSFUL -> System.out.println("You dropped your unit successfully!");
 //        }
     }
-
-    private void showDetails(Matcher matcher) {
-//        MapMenuController.showDetails(positionX, positionY));
-    }
-
     private void dropBuilding(Matcher matcher) {
 //        MapMenuController.dropBuildingAsAdmin(x, y, buildingName, n);
     }
 
     public void exitPopUp() {
         popUpMenu.hide();
+    }
+
+    public void showDetails(int x,int y){
+        FXMLLoader cellDetailsPaneLoader = new FXMLLoader(EnterMenu.class.getResource("/FXML/CellDetailsWindow.fxml"));
+
+        Pane cellDetailsPane = null;
+        try {
+            cellDetailsPane = cellDetailsPaneLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        CellDetailsWindowGraphics cellDetailsWindowGraphics = cellDetailsPaneLoader.getController();
+        cellDetailsWindowGraphics.initializeText(MapFunctions.showDetails(x,y));
+
+        popUpMenu=new GamePopUpMenus(mainPane,cellDetailsPane, GamePopUpMenus.PopUpType.CELL_DETAILS);
+        popUpMenu.makePaneCenter(300,600);
+        popUpMenu.showAndWait();
+    }
+    public void hideDetails() {
+        if (popUpMenu != null && popUpMenu.getPopUpType().equals(GamePopUpMenus.PopUpType.CELL_DETAILS)) {
+            popUpMenu.hide();
+            popUpMenu = null;
+        }
     }
 }

@@ -17,6 +17,8 @@ public class GameKeyConstants {
     public static final KeyCode mapMoveDown=KeyCode.DOWN;
     public static final KeyCode mapMoveUp=KeyCode.UP;
     public static final KeyCode mapMoveRight=KeyCode.RIGHT;
+    public static final KeyCode mapZoomIn=KeyCode.Z;
+    public static final KeyCode mapZoomOut=KeyCode.X;
 
     //others
     public static final KeyCode cancelKey=KeyCode.ESCAPE;
