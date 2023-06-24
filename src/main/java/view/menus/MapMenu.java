@@ -24,6 +24,7 @@ import model.buildings.Building;
 import model.buildings.Category;
 import model.buildings.buildingTypes.BuildType;
 import model.gamestates.GameState;
+import model.map.Cell;
 import view.shape.BuildingIcon;
 import view.shape.CircleImage;
 
@@ -82,7 +83,7 @@ public class MapMenu extends Application {
         stage.show();
     }
 
-    private void setUpAndShowMap() {
+    public void setUpAndShowMap() {
         tilesGroupInMainPainChildren.getChildren().clear();
         tiles = MapFunctions.showMap(gameData.getCornerCellIndex().first, gameData.getCornerCellIndex().second, tilesGroupInMainPainChildren);
         setTilesListeners();
@@ -102,53 +103,50 @@ public class MapMenu extends Application {
                     }
                 });
 
-                tiles[i][j].setOnMouseDragged(new EventHandler<MouseEvent>() {
+                tiles[i][j].setOnDragDetected(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
                         mouseDragStartHandle(mouseEvent, i_dup, j_dup);
                     }
                 });
 
-                tiles[i][j].setOnMouseDragReleased(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent mouseEvent) {
-                        mouseDragEndHandle(mouseEvent, i_dup, j_dup);
-                    }
-                });
+//                tiles[i][j].setOnMouseDragReleased(new EventHandler<MouseEvent>() {
+//                    @Override
+//                    public void handle(MouseEvent mouseEvent) {
+//                        mouseDragEndHandle(mouseEvent, i_dup, j_dup);
+//                    }
+//                });
 
-                tiles[i][j].setOnMouseEntered(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent mouseEvent) {
-                        gameGraphicFunctions.showDetails(i_dup + gameData.getCornerCellIndex().first, j_dup + gameData.getCornerCellIndex().second);
-                    }
-                });
-                tiles[i][j].setOnMouseExited(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent mouseEvent) {
-                        gameGraphicFunctions.hideDetails();
-                    }
-                });
+//                tiles[i][j].setOnMouseEntered(new EventHandler<MouseEvent>() {
+//                    @Override
+//                    public void handle(MouseEvent mouseEvent) {
+//                        gameGraphicFunctions.showDetails(i_dup + gameData.getCornerCellIndex().first, j_dup + gameData.getCornerCellIndex().second);
+//                    }
+//                });
+//                tiles[i][j].setOnMouseExited(new EventHandler<MouseEvent>() {
+//                    @Override
+//                    public void handle(MouseEvent mouseEvent) {
+//                        gameGraphicFunctions.hideDetails();
+//                    }
+//                });
                 tiles[i][j].setOnDragDropped(dragEvent -> {
                     if (dragEvent.getDragboard().hasImage()) {
+                        System.out.println(555);
                         dragEvent.setDropCompleted(true);
-                    }
+                        MapFunctions.buildBuilding(i_dup+gameData.getCornerCellIndex().first,j_dup+gameData.getCornerCellIndex().second,null);//todo jasbi handle name of building
+                    } else mouseDragEndHandle(i_dup, j_dup);
+
                     dragEvent.consume();
                 });
                 tiles[i][j].setOnDragExited(dragEvent -> {
                     if (dragEvent.getDragboard().hasImage()) {
-                        ColorAdjust colorAdjust = new ColorAdjust();
-                        colorAdjust.setHue(0);
-                        colorAdjust.setSaturation(0);
-                        tiles[i_dup][j_dup].setEffect(colorAdjust);
+                        effectTile(tiles[i_dup][j_dup],0,0);
                     }
                     dragEvent.consume();
                 });
                 tiles[i][j].setOnDragEntered(dragEvent -> {
                     if (dragEvent.getDragboard().hasImage()) {
-                        ColorAdjust colorAdjust = new ColorAdjust();
-                        colorAdjust.setHue(0.2);
-                        colorAdjust.setSaturation(0.2);
-                        tiles[i_dup][j_dup].setEffect(colorAdjust);
+                        effectTile(tiles[i_dup][j_dup],0.2,0.2);
                     }
                     dragEvent.consume();
                 });
@@ -168,6 +166,7 @@ public class MapMenu extends Application {
                     gameData.setGameState(GameState.VIEW_MAP);
                     gameData.setStartSelectedCellsPosition(null);
                     gameData.setEndSelectedCellsPosition(null);
+                    resetAllSelectedColors();
                 }
                 else if (keyEvent.getCode().equals(GameKeyConstants.attackKey)) {
                     gameData.setGameState(GameState.ATTACKING);
@@ -188,6 +187,18 @@ public class MapMenu extends Application {
                 else if (keyEvent.getCode().equals(GameKeyConstants.buildEquipmentKey)) {
                     gameGraphicFunctions.buildEquipments();
                 }
+                else if (keyEvent.getCode().equals(GameKeyConstants.addRemoveUnit)) {
+                    gameGraphicFunctions.addOrRemoveSelectedUnits();
+                }
+                else if (keyEvent.getCode().equals(GameKeyConstants.dropUnit)) {
+                    gameGraphicFunctions.dropUnit();
+                }
+                else if (keyEvent.getCode().equals(GameKeyConstants.dropBuilding)) {
+                    gameGraphicFunctions.dropBuilding();
+                }
+                else if (keyEvent.getCode().equals(GameKeyConstants.setTexture)) {
+                    gameGraphicFunctions.setTexture();
+                }
             }
             case VIEW_MAP -> {
                 if (keyEvent.getCode().equals(GameKeyConstants.mapMoveLeft))
@@ -207,17 +218,24 @@ public class MapMenu extends Application {
             }
             case MOVING -> {
                 if (keyEvent.getCode().equals(GameKeyConstants.moveFinalize)) {
-                    gameData.setGameState(GameState.CELL_SELECTED);
+                    gameData.setGameState(GameState.VIEW_MAP);
                     gameGraphicFunctions.moveUnits();
                 }
             }
             case ATTACKING -> {
                 if (keyEvent.getCode().equals(GameKeyConstants.attackFinalize)) {
-                    gameData.setGameState(GameState.ATTACKING);
+                    gameData.setGameState(GameState.VIEW_MAP);
                     gameGraphicFunctions.attackUnits();
                 }
             }
+            case POURING_OIL -> {
+                if (keyEvent.getCode().equals(GameKeyConstants.pourOilFinalize)) {
+                    gameData.setGameState(GameState.VIEW_MAP);
+                    gameGraphicFunctions.engineersPourOil();
+                }
+            }
         }
+        setUpAndShowMap();
     }
 
     private void mouseClickHandle(MouseEvent mouseEvent, int tileX, int tileY) {
@@ -227,24 +245,37 @@ public class MapMenu extends Application {
                 gameData.setStartSelectedCellsPosition(new Pair<>(tileX, tileY));
                 gameData.setEndSelectedCellsPosition(new Pair<>(tileX, tileY));
 
+                Cell cell= gameData.getMap().getCells()
+                        [tileX+gameData.getCornerCellIndex().first][tileY+gameData.getCornerCellIndex().second];
+
+                gameData.getSelectedUnits().clear();
+                gameData.getAllUnitsInSelectedCells().clear();
+
+                gameData.getAllUnitsInSelectedCells().addAll(cell.getMovingObjectsOfPlayer(gameData.getPlayerOfTurn()));
+                gameData.getSelectedUnits().addAll(cell.getMovingObjectsOfPlayer(gameData.getPlayerOfTurn()));
+
                 resetAllSelectedColors();
 
-                ColorAdjust colorAdjust = new ColorAdjust();
-                colorAdjust.setHue(0.6);
-                colorAdjust.setSaturation(0.2);
-                tiles[tileX][tileY].setEffect(colorAdjust);
+                effectTile(tiles[tileX][tileY],0.6,0.2);
+            }
+            case ATTACKING, POURING_OIL ,MOVING -> {
+                resetAllSelectedColors();
+                effectTile(tiles[tileX][tileY],-0.2,0.2);
+                gameData.setDestinationCellPosition(new Pair<>(tileX,tileY));
             }
         }
+    }
+    public void effectTile(Pane tile,double hue,double saturation){
+        ColorAdjust colorAdjust = new ColorAdjust();
+        colorAdjust.setHue(hue);
+        colorAdjust.setSaturation(saturation);
+        tile.setEffect(colorAdjust);
     }
 
     public void resetAllSelectedColors() {
         for (Pane[] panes : tiles)
-            for (Pane pane : panes) {
-                ColorAdjust colorAdjust = new ColorAdjust();
-                colorAdjust.setHue(0);
-                colorAdjust.setSaturation(0);
-                pane.setEffect(colorAdjust);
-            }
+            for (Pane pane : panes)
+                effectTile(pane,0,0);
     }
 
     private void mouseDragStartHandle(MouseEvent mouseEvent, int tileX, int tileY) {
@@ -259,17 +290,28 @@ public class MapMenu extends Application {
         }
     }
 
-    private void mouseDragEndHandle(MouseEvent mouseEvent, int tileX, int tileY) {
+    private void mouseDragEndHandle(int tileX, int tileY) {
         switch (gameData.getGameState()) {
             case VIEW_MAP, CELL_SELECTED -> {
-                gameData.setEndSelectedCellsPosition(new Pair<>(tileX, tileY));
+
+                if(tileX<gameData.getStartSelectedCellsPosition().first ||
+                    tileY<gameData.getStartSelectedCellsPosition().second)
+                    gameData.setEndSelectedCellsPosition(
+                            new Pair<>(gameData.getStartSelectedCellsPosition().first,gameData.getStartSelectedCellsPosition().second)
+                    );
+                else gameData.setEndSelectedCellsPosition(new Pair<>(tileX, tileY));
+
+                gameData.getSelectedUnits().clear();
+                gameData.getAllUnitsInSelectedCells().clear();
 
                 for (int i = gameData.getStartSelectedCellsPosition().first; i <= gameData.getEndSelectedCellsPosition().first; i++)
                     for (int j = gameData.getStartSelectedCellsPosition().second; j <= gameData.getEndSelectedCellsPosition().second; j++) {
-                        ColorAdjust colorAdjust = new ColorAdjust();
-                        colorAdjust.setHue(0.6);
-                        colorAdjust.setSaturation(0.2);
-                        tiles[tileX][tileY].setEffect(colorAdjust);
+                        effectTile(tiles[i][j],0.6,0.2);
+
+                        Cell cell= gameData.getMap().getCells()
+                                [i+gameData.getCornerCellIndex().first][j+gameData.getCornerCellIndex().second];
+                        gameData.getAllUnitsInSelectedCells().addAll(cell.getMovingObjectsOfPlayer(gameData.getPlayerOfTurn()));
+                        gameData.getSelectedUnits().addAll(cell.getMovingObjectsOfPlayer(gameData.getPlayerOfTurn()));
                     }
             }
         }

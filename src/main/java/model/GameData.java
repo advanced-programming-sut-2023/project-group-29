@@ -3,6 +3,10 @@ package model;
 import controller.menucontrollers.GameController;
 import model.gamestates.GameState;
 import model.map.Map;
+import model.people.humanClasses.Soldier;
+import model.people.humanTypes.SoldierType;
+import model.weapons.weaponClasses.Equipments;
+import model.weapons.weaponTypes.EquipmentsType;
 import view.menus.GameGraphicFunctions;
 import view.menus.MapMenu;
 
@@ -12,33 +16,35 @@ public class GameData {
     private final ArrayList<Empire> empires = new ArrayList<>();
     private Map map;
     private PlayerNumber playerOfTurn = PlayerNumber.FIRST;
-    private Pair<Integer,Integer> startSelectedCellsPosition=null;
-    private Pair<Integer,Integer> endSelectedCellsPosition=null;
-    private Pair<Integer,Integer> destinationCellPosition=null;
-    private ArrayList<Asset> selectedUnits=new ArrayList<>();//todo set and edit
-    private GameState gameState=GameState.VIEW_MAP;
+    private Pair<Integer, Integer> startSelectedCellsPosition = null;
+    private Pair<Integer, Integer> endSelectedCellsPosition = null;
+    private Pair<Integer, Integer> destinationCellPosition = null;
+    private ArrayList<Asset> allUnitsInSelectedCells = new ArrayList<>();
+    private ArrayList<Asset> selectedUnits = new ArrayList<>();
+    private GameState gameState = GameState.VIEW_MAP;
     private int tileWidth = 50;
     private int tileHeight = 50;
-    private Pair<Integer,Integer> cornerCellIndex=new Pair<>(1,1);
+    private Pair<Integer, Integer> cornerCellIndex = new Pair<>(1, 1);
     private MapMenu mapMenu;
     private GameGraphicFunctions gameGraphicFunctions;
-    private boolean pauseMainPane =false;
+    private boolean pauseMainPane = false;
 
-    public void zoomIn(){
-        if(tileWidth>=100)
+    public void zoomIn() {
+        if (tileWidth >= 100)
             return;
 
-        tileWidth+=10;
-        tileHeight+=10;
+        tileWidth += 10;
+        tileHeight += 10;
     }
 
-    public void zoomOut(){
-        if(tileWidth<=50)
+    public void zoomOut() {
+        if (tileWidth <= 50)
             return;
 
-        tileWidth-=10;
-        tileHeight-=10;
+        tileWidth -= 10;
+        tileHeight -= 10;
     }
+
     public void addEmpire(Empire empire) {
         empires.add(empire);
     }
@@ -57,12 +63,15 @@ public class GameData {
 
     public void incrementTurn() {
     }
+
     public Pair<Integer, Integer> getDestinationCellPosition() {
         return destinationCellPosition;
     }
+
     public void setDestinationCellPosition(Pair<Integer, Integer> destinationCellPosition) {
         this.destinationCellPosition = destinationCellPosition;
     }
+
     public PlayerNumber getPlayerOfTurn() {
         return playerOfTurn;
     }
@@ -134,17 +143,17 @@ public class GameData {
         return tileWidth;
     }
 
-    public Pair<Integer,Integer> mousePositionToCellIndex(Pair<Double,Double> mousePosition)
-    {
-        Pair<Integer,Integer> cellIndex=new Pair<>();
-        cellIndex.first=((Double)(mousePosition.first/tileWidth)).intValue();
-        cellIndex.second=((Double)(mousePosition.first/tileHeight)).intValue();
+    public Pair<Integer, Integer> mousePositionToCellIndex(Pair<Double, Double> mousePosition) {
+        Pair<Integer, Integer> cellIndex = new Pair<>();
+        cellIndex.first = ((Double) (mousePosition.first / tileWidth)).intValue();
+        cellIndex.second = ((Double) (mousePosition.first / tileHeight)).intValue();
 
-        cellIndex.first+=cornerCellIndex.first;
-        cellIndex.second+=cornerCellIndex.second;
+        cellIndex.first += cornerCellIndex.first;
+        cellIndex.second += cornerCellIndex.second;
 
         return cellIndex;
     }
+
     public Pair<Integer, Integer> getCornerCellIndex() {
         return cornerCellIndex;
     }
@@ -196,10 +205,32 @@ public class GameData {
     }
 
     public void setPauseMainPane(boolean b) {
-        pauseMainPane=b;
+        pauseMainPane = b;
     }
 
     public boolean isPauseMainPane() {
         return pauseMainPane;
+    }
+
+    public ArrayList<Asset> getAllUnitsInSelectedCells() {
+        return allUnitsInSelectedCells;
+    }
+
+    public int getCountOfSoldierTypeOnArrayList(ArrayList<Asset> units, SoldierType type) {
+        int count=0;
+        for(Asset asset:units)
+            if(asset instanceof Soldier soldier && soldier.getSoldierType().equals(type))
+                count++;
+
+        return count;
+    }
+
+    public int getCountOfEquipmentTypeOnArrayList(ArrayList<Asset> units, EquipmentsType type) {
+        int count=0;
+        for(Asset asset:units)
+            if(asset instanceof Equipments equipments && equipments.getEquipmentsType().equals(type))
+                count++;
+
+        return count;
     }
 }

@@ -8,7 +8,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import model.GameData;
 import model.ImagePracticalFunctions;
 import model.weapons.weaponTypes.EquipmentsType;
 import model.weapons.weaponTypes.OffensiveWeaponsType;
@@ -16,7 +15,7 @@ import model.weapons.weaponTypes.StaticOffensiveWeaponsType;
 import model.weapons.weaponTypes.TrapType;
 import view.menus.EnterMenu;
 
-public class BuildEquipments {
+public class SetTextureGraphics {
     @FXML
     private HBox equipmentHBox;
 

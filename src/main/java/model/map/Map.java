@@ -147,6 +147,7 @@ public class Map {
         path.add(new Pair<>(secondX,secondY));
 
         Pair<Integer,Integer> nextParent=parents[secondX][secondY];
+
         while(nextParent.first!=firstX || nextParent.second!=firstY){
             path.add(nextParent);
             nextParent=parents[nextParent.first][nextParent.second];
@@ -216,7 +217,7 @@ public class Map {
             for (int j = -assassinVisibilityRadius; j <= assassinVisibilityRadius; j++)
                 if (isIndexValid(assassinCellX + i, assassinCellY + j) &&
                         (i + j) <= assassinVisibilityRadius &&
-                        cells[assassinCellX + i][assassinCellY + j].getMovingObjectsOfPlayer(playerNumber).size() > 0)
+                        cells[assassinCellX + i][assassinCellY + j].getMovablesOfPlayer(playerNumber).size() > 0)
                     return true;
         return false;
     }

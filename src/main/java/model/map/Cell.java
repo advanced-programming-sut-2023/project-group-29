@@ -1,7 +1,5 @@
 package model.map;
 
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import model.*;
 import model.buildings.Building;
 import model.buildings.buildingClasses.*;
@@ -78,7 +76,17 @@ public class Cell {
         return LevelChanger.NON;
     }
 
-    public ArrayList<Movable> getMovingObjectsOfPlayer(PlayerNumber playerNumber) {
+    public ArrayList<Asset> getMovingObjectsOfPlayer(PlayerNumber playerNumber){
+        ArrayList<Asset> assets = new ArrayList<>();
+        for (Asset movingObject : movingObjects) {
+            if (movingObject.getOwnerNumber().equals(playerNumber))
+                assets.add(movingObject);
+        }
+
+        return assets;
+    }
+
+    public ArrayList<Movable> getMovablesOfPlayer(PlayerNumber playerNumber) {
         ArrayList<Movable> movables = new ArrayList<>();
         for (Asset movingObject : movingObjects) {
             if (movingObject.getOwnerNumber().equals(playerNumber))

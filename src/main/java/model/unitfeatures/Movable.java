@@ -75,6 +75,14 @@ public interface Movable {
     boolean isAbleToClimbStairs();
 
     boolean isAbleToClimbLadder();
+    public static ArrayList<Movable> getMovablesOfUnits(ArrayList<Asset> units){
+        ArrayList<Movable> movables=new ArrayList<>();
+        for(Asset asset:units)
+            if(asset instanceof Movable movable)
+                movables.add(movable);
+
+        return movables;
+    }
 
     int getSpeed();
 

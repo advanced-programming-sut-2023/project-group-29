@@ -17,6 +17,9 @@ module project {
     exports model.unitfeatures;
     exports view.shape;
     exports view.menus.gamepopupmenus;
+    exports model.weapons.weaponTypes;
 
     opens view.menus.gamepopupmenus;
+    opens model.weapons.weaponTypes;
+
 }

@@ -16,8 +16,17 @@ faratin:
 
 
 abbasfar:
-    edit select list
+
     hover on cell details blinking
-    add special cell funcitons
+    menu sometimes not close when cell detail show on it
+    multiple select show
+
+    edit select list
+    drop building drop unit change texture
+    pouroil and attack test and complete
+    pictures complete
+    new logics
+    state of units
+
     wrap cell details
 

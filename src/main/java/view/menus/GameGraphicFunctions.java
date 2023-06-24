@@ -4,11 +4,13 @@ import controller.MenuNames;
 import controller.menucontrollers.GameController;
 import controller.menucontrollers.MapFunctions;
 import controller.menucontrollers.UnitFunctions;
+import javafx.animation.PathTransition;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 import model.*;
 import model.map.Cell;
 import model.people.Human;
@@ -96,8 +98,7 @@ public class GameGraphicFunctions {
 //        PathTransition movingTransition=new PathTransition();
 //        movingTransition.setDuration(Duration.seconds(2));
 //        movingTransition.setNode(asset);
-
-        //todo abbasfar
+        //todo pointive
     }
 
     public void engineersPourOil() {
@@ -192,11 +193,43 @@ public class GameGraphicFunctions {
         popUpMenu.showAndWait();
     }
 
+    public void addOrRemoveSelectedUnits() throws IOException {
+        Pane equipmentPane=FXMLLoader.load(EnterMenu.class.getResource("/FXML/AddOrRemoveSelectedUnits.fxml"));
+
+        popUpMenu=new GamePopUpMenus(mainPane,equipmentPane, GamePopUpMenus.PopUpType.EDIT_SELECTED_UNITS);
+        popUpMenu.makePaneCenter(750,500);
+
+        popUpMenu.showAndWait();
+    }
+
     public void alertMessage(Color color,String title,String text) {
         AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, color);
         alertWindowPane.addTitle(title);
         alertWindowPane.addText(text);
         alertWindowPane.show();
+    }
+
+    public void dropUnit() throws IOException {
+        Pane equipmentPane=FXMLLoader.load(EnterMenu.class.getResource("/FXML/DropUnits.fxml"));
+
+        popUpMenu=new GamePopUpMenus(mainPane,equipmentPane, GamePopUpMenus.PopUpType.DROP_UNITS);
+        popUpMenu.makePaneCenter(750,500);
+
+        popUpMenu.showAndWait();
+    }
+
+    public void dropBuilding() throws IOException {
+        //todo complete
+        Pane equipmentPane=FXMLLoader.load(EnterMenu.class.getResource("/FXML/AddOrRemoveSelectedUnits.fxml"));
+
+        popUpMenu=new GamePopUpMenus(mainPane,equipmentPane, GamePopUpMenus.PopUpType.EDIT_SELECTED_UNITS);
+        popUpMenu.makePaneCenter(750,500);
+
+        popUpMenu.showAndWait();
+    }
+
+    public void setTexture(){
+        //todo handle this for texture and trees and rocks
     }
 
     public MenuNames run(Scanner scanner) {

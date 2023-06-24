@@ -106,7 +106,27 @@ public class MapFunctions {
     }
 
     private static void addUnitInTile(Image image, Pane tile, int indexOfUnitInTile) {
-        //todo
+        GameData gameData = GameController.getGameData();
+        int unitWidth=30;
+        int unitHeight=30;
+
+        ImageView unitImage=new ImageView(image);
+        ImagePracticalFunctions.fitWidthHeight(unitImage,unitWidth,unitHeight);
+
+        int numberOfUnitsInRow=(gameData.getTileWidth()-unitWidth)/5+1;
+        numberOfUnitsInRow=Math.max(numberOfUnitsInRow,1);
+
+        int unitIndexInRow=indexOfUnitInTile%numberOfUnitsInRow;
+        unitImage.setLayoutX(unitIndexInRow*5);
+
+
+        int numberOfUnitsInColumn=(gameData.getTileHeight()/2-unitHeight)/5+1;
+        numberOfUnitsInColumn=Math.max(numberOfUnitsInColumn,1);
+
+        int unitIndexInColumn=(indexOfUnitInTile/numberOfUnitsInRow)%numberOfUnitsInColumn;
+        unitImage.setLayoutY(unitIndexInColumn*5+gameData.getTileHeight()/2);
+
+        tile.getChildren().add(unitImage);
     }
 
     private static void fitImageInTile(Image image, Pane tile,int tileWidth,int tileHeight) {
@@ -250,8 +270,7 @@ public class MapFunctions {
     }
 
 
-    public static MapMenuMessages dropUnit
-            (int positionX, int positionY, String type, int count, int ownerPlayerNumberInt) {
+    public static MapMenuMessages dropUnit(int positionX, int positionY, String type, int count, int ownerPlayerNumberInt) {
 
         Map map = GameController.getGameData().getMap();
 

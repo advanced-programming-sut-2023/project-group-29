@@ -1,5 +1,6 @@
 package controller.menucontrollers;
 
+import javafx.scene.paint.Color;
 import model.*;
 import model.buildings.Building;
 import model.buildings.buildingClasses.AttackingBuilding;
@@ -28,6 +29,7 @@ public class UnitFunctions {
     private static final int maximumLengthOfTunnel = 3;
     public static void moveUnits(ArrayList<Asset> movingUnits){
         for(Asset movingUnit:movingUnits){
+
             ArrayList<Pair<Integer, Integer>> path=moveOneUnit(movingUnit);
 
             if(path==null)
@@ -40,13 +42,16 @@ public class UnitFunctions {
         GameData gameData = GameController.getGameData();
         Map map = gameData.getMap();
 
-        Pair<Integer, Integer> destinationCellPosition = gameData.getDestinationCellPosition();
+        Pair<Integer, Integer> destinationCellPosition = new Pair<>(gameData.getDestinationCellPosition().first+gameData.getCornerCellIndex().first,
+                gameData.getDestinationCellPosition().second+gameData.getCornerCellIndex().second);
         Pair<Integer, Integer> currentCellPosition = new Pair<>(movingUnit.getPositionX(), movingUnit.getPositionY());
 
         Cell currentCell = map.getCells()[currentCellPosition.first][currentCellPosition.second];
+        Cell destinationCell = map.getCells()[destinationCellPosition.first][destinationCellPosition.second];
 
         Movable movableUnit = (Movable) movingUnit;
 
+        ArrayList<Pair<Integer,Integer>> path=Movable.pathToDestination(map, movingUnit, destinationCellPosition.first, destinationCellPosition.second);
         Movable.MovingResult movingResult = movableUnit.move(map, destinationCellPosition.first, destinationCellPosition.second);
         switch (movingResult) {
             case TOO_FAR, HAS_MOVED -> {
@@ -54,7 +59,8 @@ public class UnitFunctions {
             }
             case SUCCESSFUL -> {
                 currentCell.getMovingObjects().remove(movingUnit);
-                return Movable.pathToDestination(map, movingUnit, destinationCellPosition.first, destinationCellPosition.second);
+                destinationCell.getMovingObjects().add(movingUnit);
+                return path;
             }
         }
 
@@ -496,18 +502,21 @@ public class UnitFunctions {
         return numberOfAdjacentTunnels;
     }
 
-    public static String buildEquipment(String equipmentName) {
+    public static void buildEquipment(String equipmentName) {
         GameData gameData = GameController.getGameData();
-        int x = 1;
-        int y = 1;//todo
+
+        int x = gameData.getStartSelectedCellsPosition().first+gameData.getCornerCellIndex().first;
+        int y = gameData.getStartSelectedCellsPosition().second+gameData.getCornerCellIndex().second;
         Cell selectedCell = gameData.getMap().getCells()[x][y];
         PlayerNumber currentPlayer = gameData.getPlayerOfTurn();
 
         Weapon weapon = Weapon.createWeaponByWeaponTypeString(equipmentName, currentPlayer, x, y);
-        if (weapon == null)
-            return "This is not a valid name of an equipment!";
+        if (weapon == null) {
+            gameData.getGameGraphicFunctions().alertMessage(Color.RED,"building failed","This is not a valid name of an equipment!");
+            return;
+        }
 
-        ArrayList<Movable> movingObjects = selectedCell.getMovingObjectsOfPlayer(currentPlayer);
+        ArrayList<Movable> movingObjects = selectedCell.getMovablesOfPlayer(currentPlayer);
 
         ArrayList<Movable> engineers = new ArrayList<>();
         for (Movable movingUnit : movingObjects)
@@ -516,12 +525,16 @@ public class UnitFunctions {
                     soldier.getOwnerNumber().equals(currentPlayer))
                 engineers.add(movingUnit);
 
-        if (engineers.size() < weapon.getBuilderNeededCount())
-            return "You do not have enough engineers here to build this equipment!";
+        if (engineers.size() < weapon.getBuilderNeededCount()) {
+            gameData.getGameGraphicFunctions().alertMessage(Color.RED,"building failed","You do not have enough engineers here to build this equipment!");
+            return;
+        }
 
         if (weapon instanceof Trap)
-            if (selectedCell.hasBuilding() || selectedCell.getMovingObjects().size() > weapon.getBuilderNeededCount())
-                return "You can not build a trap while there are some units here!";
+            if (selectedCell.hasBuilding() || selectedCell.getMovingObjects().size() > weapon.getBuilderNeededCount()){
+                gameData.getGameGraphicFunctions().alertMessage(Color.RED,"building failed", "You can not build a trap while there are some units here!");
+                return;
+            }
 
         for (int i = 0; i < weapon.getBuilderNeededCount(); i++)
             selectedCell.getMovingObjects().remove((Asset) (engineers.get(i)));
@@ -532,7 +545,6 @@ public class UnitFunctions {
         else {
             selectedCell.getMovingObjects().add(weapon);
         }
-        return "Equipment was successfully built!";
     }
 
     public static void disbandUnits(ArrayList<Human> humans){

@@ -70,6 +70,10 @@ public class GamePopUpMenus {
         POPULARITY_DETAIL,
         CELL_DETAILS,
         PAUSE,
+        EDIT_SELECTED_UNITS,
+        DROP_UNITS,
+        DROP_BUILDING,
+        SET_TEXTURE,
 
     }
 }

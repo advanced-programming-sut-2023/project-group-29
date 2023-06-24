@@ -6,6 +6,8 @@ import model.map.Map;
 import model.weapons.weaponClasses.StaticOffensiveWeapons;
 import model.weapons.weaponTypes.StaticOffensiveWeaponsType;
 
+import java.util.ArrayList;
+
 public interface Offensive {
     int decreasingFactorForAirDamageDueToShield = 2;
 
@@ -57,6 +59,14 @@ public interface Offensive {
 
     int getAimRange();
 
+    public static ArrayList<Offensive> getOffensivesOfUnits(ArrayList<Asset> units){
+        ArrayList<Offensive> attackers=new ArrayList<>();
+        for(Asset asset:units)
+            if(asset instanceof Offensive attacker)
+                attackers.add(attacker);
+
+        return attackers;
+    }
     enum AttackingResult {
         SUCCESSFUL,
         INVALID_INDEX,
