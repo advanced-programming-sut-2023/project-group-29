@@ -52,9 +52,12 @@ public class GameGraphicFunctions {
             return;
         }
 
-        SelectUnitMenuMessages result= UnitFunctions.unitsAttackingCheckError(attackers, gameData.getDestinationCellPosition());
+        Pair<Integer,Integer> destination=new Pair<>(gameData.getDestinationCellPosition().first+gameData.getCornerCellIndex().first,
+                gameData.getDestinationCellPosition().second+gameData.getCornerCellIndex().second);
+
+        SelectUnitMenuMessages result= UnitFunctions.unitsAttackingCheckError(attackers, destination);
         if (result.equals(SelectUnitMenuMessages.SUCCESSFUL)) {
-            int failures = UnitFunctions.makeUnitsAttacking(attackers, gameData.getDestinationCellPosition());
+            int failures = UnitFunctions.makeUnitsAttacking(attackers, destination);
             AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, Color.YELLOW);
             alertWindowPane.addTitle("Attacking results:");
             alertWindowPane.addText(failures+"attack failed!");
@@ -77,7 +80,10 @@ public class GameGraphicFunctions {
             if (asset instanceof Movable)
                 movingUnits.add(asset);
 
-        SelectUnitMenuMessages result= UnitFunctions.moveUnitsCheckError(movingUnits, gameData.getDestinationCellPosition());
+        Pair<Integer,Integer> destination=new Pair<>(gameData.getDestinationCellPosition().first+gameData.getCornerCellIndex().first,
+                gameData.getDestinationCellPosition().second+gameData.getCornerCellIndex().second);
+
+        SelectUnitMenuMessages result= UnitFunctions.moveUnitsCheckError(movingUnits, destination);
         if (result.equals(SelectUnitMenuMessages.SUCCESSFUL)) {
             UnitFunctions.moveUnits(movingUnits);
         }
@@ -321,6 +327,8 @@ public class GameGraphicFunctions {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        cellDetailsPane.setMouseTransparent(true);
 
         CellDetailsWindowGraphics cellDetailsWindowGraphics = cellDetailsPaneLoader.getController();
         cellDetailsWindowGraphics.initializeText(MapFunctions.showDetails(x,y));

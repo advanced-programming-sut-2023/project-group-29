@@ -17,16 +17,16 @@ faratin:
 
 abbasfar:
 
-    hover on cell details blinking
     menu sometimes not close when cell detail show on it
     multiple select show
 
     edit select list
-    drop building drop unit change texture
+    drop building change texture drop unit errors
     pouroil and attack test and complete
-    pictures complete
     new logics
     state of units
+    disband unit check
 
+    pictures complete
     wrap cell details
 

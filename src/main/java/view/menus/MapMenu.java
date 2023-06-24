@@ -11,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.ColorAdjust;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
@@ -103,41 +104,39 @@ public class MapMenu extends Application {
                     }
                 });
 
-                tiles[i][j].setOnDragDetected(new EventHandler<MouseEvent>() {
+
+                tiles[i][j].setOnDragDetected(mouseEvent -> {
+                    System.out.println(111);
+                    tiles[i_dup][j_dup].startDragAndDrop(TransferMode.ANY);
+                    mouseDragStartHandle(i_dup, j_dup);
+                });
+
+                tiles[i][j].setOnMouseEntered(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
-                        mouseDragStartHandle(mouseEvent, i_dup, j_dup);
+                        gameGraphicFunctions.showDetails(i_dup + gameData.getCornerCellIndex().first, j_dup + gameData.getCornerCellIndex().second);
+                    }
+                });
+                tiles[i][j].setOnMouseExited(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        gameGraphicFunctions.hideDetails();
                     }
                 });
 
-//                tiles[i][j].setOnMouseDragReleased(new EventHandler<MouseEvent>() {
-//                    @Override
-//                    public void handle(MouseEvent mouseEvent) {
-//                        mouseDragEndHandle(mouseEvent, i_dup, j_dup);
-//                    }
-//                });
-
-//                tiles[i][j].setOnMouseEntered(new EventHandler<MouseEvent>() {
-//                    @Override
-//                    public void handle(MouseEvent mouseEvent) {
-//                        gameGraphicFunctions.showDetails(i_dup + gameData.getCornerCellIndex().first, j_dup + gameData.getCornerCellIndex().second);
-//                    }
-//                });
-//                tiles[i][j].setOnMouseExited(new EventHandler<MouseEvent>() {
-//                    @Override
-//                    public void handle(MouseEvent mouseEvent) {
-//                        gameGraphicFunctions.hideDetails();
-//                    }
-//                });
                 tiles[i][j].setOnDragDropped(dragEvent -> {
+                    System.out.println(222);
+
+                    mouseDragEndHandle(i_dup, j_dup);
+
                     if (dragEvent.getDragboard().hasImage()) {
-                        System.out.println(555);
                         dragEvent.setDropCompleted(true);
                         MapFunctions.buildBuilding(i_dup+gameData.getCornerCellIndex().first,j_dup+gameData.getCornerCellIndex().second,null);//todo jasbi handle name of building
-                    } else mouseDragEndHandle(i_dup, j_dup);
+                    }
 
                     dragEvent.consume();
                 });
+
                 tiles[i][j].setOnDragExited(dragEvent -> {
                     if (dragEvent.getDragboard().hasImage()) {
                         effectTile(tiles[i_dup][j_dup],0,0);
@@ -278,7 +277,7 @@ public class MapMenu extends Application {
                 effectTile(pane,0,0);
     }
 
-    private void mouseDragStartHandle(MouseEvent mouseEvent, int tileX, int tileY) {
+    private void mouseDragStartHandle(int tileX, int tileY) {
         switch (gameData.getGameState()) {
             case VIEW_MAP, CELL_SELECTED -> {
                 gameData.setGameState(GameState.CELL_SELECTED);
@@ -295,11 +294,15 @@ public class MapMenu extends Application {
             case VIEW_MAP, CELL_SELECTED -> {
 
                 if(tileX<gameData.getStartSelectedCellsPosition().first ||
-                    tileY<gameData.getStartSelectedCellsPosition().second)
+                    tileY<gameData.getStartSelectedCellsPosition().second) {
                     gameData.setEndSelectedCellsPosition(
-                            new Pair<>(gameData.getStartSelectedCellsPosition().first,gameData.getStartSelectedCellsPosition().second)
+                            new Pair<>(gameData.getStartSelectedCellsPosition().first, gameData.getStartSelectedCellsPosition().second)
                     );
+                }
                 else gameData.setEndSelectedCellsPosition(new Pair<>(tileX, tileY));
+
+                System.out.println(gameData.getStartSelectedCellsPosition().first+" "+gameData.getStartSelectedCellsPosition().second);
+                System.out.println(gameData.getEndSelectedCellsPosition().first+" "+gameData.getEndSelectedCellsPosition().second);
 
                 gameData.getSelectedUnits().clear();
                 gameData.getAllUnitsInSelectedCells().clear();
