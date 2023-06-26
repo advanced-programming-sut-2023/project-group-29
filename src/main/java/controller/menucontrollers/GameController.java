@@ -97,8 +97,7 @@ public class GameController {
         Cell chosenCell = gameData.getMap().getCells()[xPosition][yPosition];
         if ((building = chosenCell.getBuilding()) == null) {
             return GameMenuMessages.EMPTY_CELL;
-        }
-        else if (!building.getOwnerEmpire().equals(currentPlayerEmpire)) {
+        } else if (!building.getOwnerEmpire().equals(currentPlayerEmpire)) {
             return GameMenuMessages.OTHERS_BUILDINGS;
         }
 
@@ -118,9 +117,10 @@ public class GameController {
         Map map = gameData.getMap();
         if (gameIsFinished()) return false;
         gameData.changePlayingPlayer();
+        randomSickness(0.01);
         setNumberOfUnits(map, gameData.getPlayerOfTurn());
         updateEmpire(gameData.getPlayerOfTurn());
-
+        //todo abbasfar: is it 0 base?
         //patrol apply
         for (int i = 1; i <= map.getWidth(); i++)
             for (int j = 1; j <= map.getWidth(); j++)
@@ -174,6 +174,17 @@ public class GameController {
         resetActsOfUnits();
 
         return true;
+    }
+
+    private static void randomSickness(double sickNessPossibility) {
+        int r = (int)(1/sickNessPossibility);
+        Map map = GameController.gameData.getMap();
+        for (int i = 1; i <= map.getWidth(); i++) {
+            for (int j = 1; j <= map.getWidth(); j++) {
+                Cell cell = map.getCells()[i][j];
+                if ((int)(Math.random() * r) % r == 0) cell.setSick(true);
+            }
+        }
     }
 
     private static void applyStateForEngineerWithOil(UnitState unitState, Soldier engineerWithOil) {
@@ -261,7 +272,7 @@ public class GameController {
                 Offensive.AttackingResult attackingResult = attacker.canAttack
                         (gameData.getMap(), currentX + i, currentY + j, false);
                 if (attackingResult.equals(Offensive.AttackingResult.SUCCESSFUL)) {
-                    if (UnitFunctions.makeOneUnitAttack(attacker,new Pair<>(currentX + i, currentY + j))
+                    if (UnitFunctions.makeOneUnitAttack(attacker, new Pair<>(currentX + i, currentY + j))
                             .equals(SelectUnitMenuMessages.SUCCESSFUL))
                         return true;
                 }

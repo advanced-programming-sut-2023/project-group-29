@@ -25,6 +25,7 @@ public class Empire {
     private int fearRate = 0;
     private int foodRate = -2;
     private int popularity = 50;
+    private int sickRate = 0;
     private int worklessPopulation = 20;
     private int numberOfUnits = 0;
 
@@ -33,13 +34,13 @@ public class Empire {
         popularityChange.put(PopularityFactors.TAX, 0);
         popularityChange.put(PopularityFactors.FEAR, 0);
         popularityChange.put(PopularityFactors.FOOD, 0);
+        popularityChange.put(PopularityFactors.SICK, 0);
         InitializeTradables();
     }
 
     public Empire(User user) {
         this.user = user;
     }
-
 
     public User getUser() {
         return user;
@@ -52,6 +53,7 @@ public class Empire {
     public void setPopularity() {
         popularity += popularityChange.get(PopularityFactors.RELIGION);
         popularity += popularityChange.get(PopularityFactors.TAX);
+        popularity += popularityChange.get(PopularityFactors.SICK);
         popularity += popularityChange.get(PopularityFactors.FEAR);
         popularity += popularityChange.get(PopularityFactors.FOOD);
         if (popularity < 0) popularity = 0;
@@ -226,8 +228,7 @@ public class Empire {
         if (numberOfFoodEaten > storage[0][0]) {
             foodRate = -2;
             GameController.notify("Your food rate was automatically set on -2 because of lack of food!");
-        }
-        else {
+        } else {
             getRidOfFood(numberOfFoodEaten);
         }
     }
@@ -390,13 +391,19 @@ public class Empire {
     }
 
     private void setPopularityFactors() {
-        int varietyOfFood = getVarietyOfFood();
+        computeSicknessAffect();
         wealth += getChangeWealthByTaxRate(taxRate);
         removeEatenFood();
+        transferFactorAffectToHashMap();
+    }
+
+    public void transferFactorAffectToHashMap() {
+        int varietyOfFood = getVarietyOfFood();
         changePopularityFactor(PopularityFactors.RELIGION, this.getEffectOfReligiousBuildings());
         changePopularityFactor(PopularityFactors.FOOD, foodRate * 4 + varietyOfFood - 1);
         changePopularityFactor(PopularityFactors.TAX, getChangePopularityByTaxRate(taxRate));
         changePopularityFactor(PopularityFactors.FEAR, -fearRate);
+        changePopularityFactor(PopularityFactors.SICK, -sickRate);
     }
 
     private int getEffectOfReligiousBuildings() {
@@ -447,11 +454,9 @@ public class Empire {
         float changeByPerson;
         if (rate < 0) {
             changeByPerson = (float) (rate * 0.2 - 0.4);
-        }
-        else if (rate == 0) {
+        } else if (rate == 0) {
             changeByPerson = 0;
-        }
-        else {
+        } else {
             changeByPerson = (float) (rate * 0.2 + 0.4);
         }
         return (int) Math.floor(changeByPerson * getPopulation());
@@ -465,8 +470,7 @@ public class Empire {
         int growAccordingToFood, growAccordingToSpace;
         if (storage[0][0] * 2 >= getPopulation()) {
             growAccordingToFood = storage[0][0] * 2 - getPopulation();
-        }
-        else {
+        } else {
             growAccordingToFood = 0;
         }
         growAccordingToSpace = possiblePopulation - worklessPopulation;
@@ -489,13 +493,35 @@ public class Empire {
             case FOOD -> getFoodRate();
             case FEAR -> getFearRate();
             case TAX -> getTaxRate();
+            case SICK -> getSickRate();
         };
     }
 
-    public enum PopularityFactors {
-        RELIGION,
-        TAX,
-        FEAR,
-        FOOD
+    private int getSickRate() {
+        return sickRate;
     }
+
+    public void computeSicknessAffect() {
+        GameData gameData = GameController.getGameData();
+        Map map = gameData.getMap();
+        for (int i = 1; i <= map.getWidth(); i++) { //todo abbasfar: is it 0 base?
+            for (int j = 1; j <= map.getWidth(); j++) {
+                Cell cell = map.getCells()[i][j];
+                if (cell.hasBuilding()) {
+                    Empire empire = cell.getBuilding().getOwnerEmpire();
+                    if (empire.equals(gameData.getPlayingEmpire())){
+                        if (cell.isSick()) sickRate++;
+                    }
+                }
+            }
+        }
+    }
+
+public enum PopularityFactors {
+    RELIGION,
+    TAX,
+    FEAR,
+    FOOD,
+    SICK
+}
 }

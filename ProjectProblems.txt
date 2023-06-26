@@ -5,7 +5,6 @@ monday:
 jasbi:
     copy and paste for buildings
     create unit
-    sickness logic
     bugs and todos
 faratin:
     login

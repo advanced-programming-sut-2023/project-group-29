@@ -41,6 +41,7 @@ public class MapMenu extends Application {
     private GameGraphicFunctions gameGraphicFunctions;
     private Stage stage;
     private Pane popularityPopupPane;
+    private GamePopUpMenus popularityPopup;
     private Pane buildingPopupPane;
     private final HashMap<Category, VBox> subMenus = new HashMap<>();
     private GamePopUpMenus currentCellDetailsPopup;
@@ -60,14 +61,11 @@ public class MapMenu extends Application {
         gameData.setGameGraphicFunctions(gameGraphicFunctions);
 
         mainPane.getChildren().add(tilesGroupInMainPainChildren);
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                try {
-                    keyHandle(keyEvent);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+        scene.setOnKeyPressed(keyEvent -> {
+            try {
+                keyHandle(keyEvent);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         });
 
@@ -401,9 +399,7 @@ public class MapMenu extends Application {
     private void buildPopularity() {
         Empire empire = gameData.getPlayingEmpire();
         //todo maybe faratin beautify
-        popularityPopupPane = new Pane();
         makeMainPopularity(empire);
-        makeFactorsTable();
     }
 
     private void makeFactorsTable() {
@@ -439,19 +435,29 @@ public class MapMenu extends Application {
     }
 
     private void makeMainPopularity(Empire empire) {
-        GamePopUpMenus popularityPopUp = new GamePopUpMenus(mainPane, popularityPopupPane, GamePopUpMenus.PopUpType.POPULARITY_DETAIL);
         Text text = new Text("Popularity : " + empire.getPopularity());
         text.setStyle("-fx-font: 18 arial;");
         text.setOnMouseClicked(mouseEvent -> {
-            if (!popularityPopUp.isShowing()) {
-                popularityPopupPane.setTranslateX(340);
-                popularityPopupPane.setTranslateY(530);
-                popularityPopUp.showAndWait();
-            } else popularityPopUp.hide();
+            if (popularityPopupPane == null) {
+                newPopularityPopup();
+            } else{
+                popularityPopup.hide();
+                popularityPopupPane = null;
+            }
         });
         CircleImage circleImage = chooseFaceColor(empire.getPopularity());
         Rectangle button = makeButton();
         makeHBox(text, circleImage, button);
+    }
+
+    private void newPopularityPopup() {
+        popularityPopupPane = new Pane();
+        makeFactorsTable();
+        popularityPopupPane.setTranslateX(340);
+        popularityPopupPane.setTranslateY(530);
+        popularityPopup = new GamePopUpMenus
+                (mainPane, popularityPopupPane, GamePopUpMenus.PopUpType.POPULARITY_DETAIL);
+        popularityPopup.showAndWait();
     }
 
     private static CircleImage chooseFaceColor(int popularity) {
@@ -496,6 +502,7 @@ public class MapMenu extends Application {
         VBox vBox = new VBox();
         vBox.setSpacing(5);
         factorsHBox.getChildren().add(vBox);
+        empire.transferFactorAffectToHashMap();
         for (Empire.PopularityFactors factor : Empire.PopularityFactors.values()) {
             switch (switcher) {
                 case 1 -> {

@@ -59,7 +59,6 @@ public class MapFunctions {
 
         return tiles;
     }
-
     public static Pane createTile(int indexX, int indexY) {
 
         GameData gameData = GameController.getGameData();
@@ -404,5 +403,12 @@ public class MapFunctions {
             return chosenCell.getBuilding().getName().equals(buildingName)
                     && chosenCell.getBuilding().getOwnerEmpire().equals(empire);
         }
+    }
+
+    public static void setPopularityFactors(int foodRate, int fearRate, int taxRate) {
+        Empire empire = GameController.getGameData().getPlayingEmpire();
+        empire.setFearRate(fearRate);
+        empire.setTaxRate(taxRate);
+        empire.setFoodRate(foodRate);
     }
 }

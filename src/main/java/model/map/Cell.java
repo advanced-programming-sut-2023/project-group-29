@@ -25,11 +25,20 @@ public class Cell {
     private Building building = null;
     private CellType cellType;
     private boolean hasTunnel = false;
+    private boolean sick = false;
 
     public Cell(CellType cellType, int xPosition, int yPosition) {
         this.cellType = cellType;
         this.xPosition = xPosition;
         this.yPosition = yPosition;
+    }
+
+    public boolean isSick() {
+        return sick;
+    }
+
+    public void setSick(boolean sick) {
+        this.sick = sick;
     }
 
     public void removeDeadUnitsAndBuilding() {
