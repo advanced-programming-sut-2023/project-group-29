@@ -18,6 +18,7 @@ import model.weapons.weaponTypes.OffensiveWeaponsType;
 import model.weapons.weaponTypes.StaticOffensiveWeaponsType;
 import model.weapons.weaponTypes.TrapType;
 import view.menus.EnterMenu;
+import view.menus.MapMenu;
 
 public class DropUnitsGraphics {
     @FXML
@@ -35,28 +36,28 @@ public class DropUnitsGraphics {
     public void initialize(){
         int index=0;
         for(SoldierType type : SoldierType.values()){
-            Image image=new Image(EnterMenu.class.getResource(type.getHumanType().showingImageFilePath()).toExternalForm());
+            Image image=new Image(MapMenu.class.getResource(type.getHumanType().showingImageFilePath()).toExternalForm());
             setupUnitImage(image,index,type.getName());
             index++;
         }
 
         for(EquipmentsType type : EquipmentsType.values()){
-            Image image=new Image(EnterMenu.class.getResource(type.getWeaponTypes().showingImageFilePath()).toExternalForm());
+            Image image=new Image(MapMenu.class.getResource(type.getWeaponTypes().showingImageFilePath()).toExternalForm());
             setupUnitImage(image,index,type.getName());
             index++;
         }
         for(OffensiveWeaponsType type : OffensiveWeaponsType.values()){
-            Image image=new Image(EnterMenu.class.getResource(type.getWeaponTypes().showingImageFilePath()).toExternalForm());
+            Image image=new Image(MapMenu.class.getResource(type.getWeaponTypes().showingImageFilePath()).toExternalForm());
             setupUnitImage(image,index,type.getName());
             index++;
         }
         for(TrapType type : TrapType.values()){
-            Image image=new Image(EnterMenu.class.getResource(type.getWeaponTypes().showingImageFilePath()).toExternalForm());
+            Image image=new Image(MapMenu.class.getResource(type.getWeaponTypes().showingImageFilePath()).toExternalForm());
             setupUnitImage(image,index,type.getName());
             index++;
         }
         for(StaticOffensiveWeaponsType type : StaticOffensiveWeaponsType.values()){
-            Image image=new Image(EnterMenu.class.getResource(type.getWeaponTypes().showingImageFilePath()).toExternalForm());
+            Image image=new Image(MapMenu.class.getResource(type.getWeaponTypes().showingImageFilePath()).toExternalForm());
             setupUnitImage(image,index,type.getName());
             index++;
         }

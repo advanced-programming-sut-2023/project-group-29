@@ -4,7 +4,7 @@ import model.weapons.Weapon;
 import model.weapons.WeaponTypes;
 
 public enum TrapType {
-    KILLING_HOLE(new WeaponTypes("killingHole", Weapon.BuilderType.ENGINEER, 20, 1, "KLH","/images/units/weapons/fireballista.png"), 150); //todo image path is incorrect
+    KILLING_HOLE(new WeaponTypes("killingHole", Weapon.BuilderType.ENGINEER, 20, 1, "KLH","/images/units/weapons/hole.png"), 150); //todo image path is incorrect
     private final int damage;
     private final WeaponTypes weaponTypes;
 

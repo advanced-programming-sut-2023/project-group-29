@@ -15,6 +15,8 @@ public class GameKeyConstants {
     public static final KeyCode dropLadderKey=KeyCode.L;
     public static final KeyCode disbandUnitKey=KeyCode.D;
     public static final KeyCode buildEquipmentKey=KeyCode.B;
+    public static final KeyCode setStateOfUnit=KeyCode.S;
+
     //map move
     public static final KeyCode mapMoveLeft=KeyCode.LEFT;
     public static final KeyCode mapMoveDown=KeyCode.DOWN;

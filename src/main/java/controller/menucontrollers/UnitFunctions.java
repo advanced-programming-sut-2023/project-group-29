@@ -332,8 +332,8 @@ public class UnitFunctions {
 
         int successes = 0;
         for (Offensive engineer : engineersWithOil) {
-            int deltaX=gameData.getDestinationCellPosition().first-((Asset)engineer).getPositionX();
-            int deltaY=gameData.getDestinationCellPosition().second-((Asset)engineer).getPositionY();
+            int deltaX=gameData.getDestinationCellPosition().first+gameData.getCornerCellIndex().first-((Asset)engineer).getPositionX();
+            int deltaY=gameData.getDestinationCellPosition().second+gameData.getCornerCellIndex().second-((Asset)engineer).getPositionY();
 
             Direction direction;
             if(deltaX==0 && deltaY>0) direction=Direction.DOWN;
@@ -356,8 +356,8 @@ public class UnitFunctions {
 
         int deltaX = 0, deltaY = 0;
         switch (direction) {
-            case UP -> deltaY=1;
-            case DOWN -> deltaY=-1;
+            case UP -> deltaY=-1;
+            case DOWN -> deltaY=1;
             case RIGHT -> deltaX=1;
             case LEFT -> deltaX=-1;
         }
@@ -375,6 +375,7 @@ public class UnitFunctions {
 
             Offensive.AttackingResult attackingResult = engineerWithOil.canAttack
                     (map, currentX + deltaX * i, currentY + deltaY * i, false);
+
             switch (attackingResult) {
                 case HAS_ATTACKED:
                     return SelectUnitMenuMessages.HAS_ATTACKED;

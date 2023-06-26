@@ -5,7 +5,10 @@ import model.gamestates.GameState;
 import model.map.Map;
 import model.people.humanClasses.Soldier;
 import model.people.humanTypes.SoldierType;
+import model.weapons.Weapon;
 import model.weapons.weaponClasses.Equipments;
+import model.weapons.weaponClasses.OffensiveWeapons;
+import model.weapons.weaponClasses.StaticOffensiveWeapons;
 import model.weapons.weaponTypes.EquipmentsType;
 import view.menus.GameGraphicFunctions;
 import view.menus.MapMenu;
@@ -216,20 +219,18 @@ public class GameData {
         return allUnitsInSelectedCells;
     }
 
-    public int getCountOfSoldierTypeOnArrayList(ArrayList<Asset> units, SoldierType type) {
+    public int getCountOfUnitTypeOnArrayList(ArrayList<Asset> units, String typeName) {
         int count=0;
-        for(Asset asset:units)
-            if(asset instanceof Soldier soldier && soldier.getSoldierType().equals(type))
+        for(Asset asset:units) {
+            if (asset instanceof Soldier soldier && soldier.getSoldierType().getName().equals(typeName))
                 count++;
-
-        return count;
-    }
-
-    public int getCountOfEquipmentTypeOnArrayList(ArrayList<Asset> units, EquipmentsType type) {
-        int count=0;
-        for(Asset asset:units)
-            if(asset instanceof Equipments equipments && equipments.getEquipmentsType().equals(type))
+            else if(asset instanceof OffensiveWeapons offensiveWeapons && offensiveWeapons.getOffensiveWeaponsType().getName().equals(typeName))
                 count++;
+            else if(asset instanceof StaticOffensiveWeapons staticOffensiveWeapons && staticOffensiveWeapons.getStaticOffensiveWeaponsType().getName().equals(typeName))
+                count++;
+            else if(asset instanceof Equipments equipments && equipments.getEquipmentsType().getName().equals(typeName))
+                count++;
+        }
 
         return count;
     }

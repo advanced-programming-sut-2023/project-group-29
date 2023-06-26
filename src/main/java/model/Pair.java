@@ -18,4 +18,13 @@ public class Pair<T1,T2> {
             return true;
         return false;
     }
+
+    public static boolean notNull(Pair<Integer,Integer> pair){
+        if(pair==null)
+            return false;
+        if(pair.first==null || pair.second==null)
+            return false;
+
+        return true;
+    }
 }

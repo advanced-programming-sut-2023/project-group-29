@@ -74,6 +74,7 @@ public class GamePopUpMenus {
         DROP_UNITS,
         DROP_BUILDING,
         SET_TEXTURE,
+        UNIT_STATE
 
     }
 }

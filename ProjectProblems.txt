@@ -17,16 +17,14 @@ faratin:
 
 abbasfar:
 
-    menu sometimes not close when cell detail show on it
-    multiple select show
+    not build when multiple selecting and other debuggings
 
-    edit select list
-    drop building change texture drop unit errors
-    pouroil and attack test and complete
     new logics
-    state of units
-    disband unit check
+    drop building change texture drop unit error
 
-    pictures complete
+    some of functions like pour oil not use selected in gamedata
+    mini map//?????
+    trees pictures
+    pictures logic rock and trees
     wrap cell details
 

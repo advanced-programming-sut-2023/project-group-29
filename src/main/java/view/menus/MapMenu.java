@@ -11,10 +11,8 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.ColorAdjust;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
+import javafx.scene.image.Image;
+import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -106,15 +104,18 @@ public class MapMenu extends Application {
 
 
                 tiles[i][j].setOnDragDetected(mouseEvent -> {
-                    System.out.println(111);
-                    tiles[i_dup][j_dup].startDragAndDrop(TransferMode.ANY);
+                    Dragboard dragboard=tiles[i_dup][j_dup].startDragAndDrop(TransferMode.ANY);
+                    ClipboardContent content = new ClipboardContent();
+                    content.putImage(new Image(EnterMenu.class.getResource("/images/drag.png").toExternalForm()));
+                    dragboard.setContent(content);
                     mouseDragStartHandle(i_dup, j_dup);
                 });
 
                 tiles[i][j].setOnMouseEntered(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
-                        gameGraphicFunctions.showDetails(i_dup + gameData.getCornerCellIndex().first, j_dup + gameData.getCornerCellIndex().second);
+                        if(gameData.getGameState().equals(GameState.VIEW_MAP))
+                            gameGraphicFunctions.showDetails(i_dup + gameData.getCornerCellIndex().first, j_dup + gameData.getCornerCellIndex().second);
                     }
                 });
                 tiles[i][j].setOnMouseExited(new EventHandler<MouseEvent>() {
@@ -125,8 +126,6 @@ public class MapMenu extends Application {
                 });
 
                 tiles[i][j].setOnDragDropped(dragEvent -> {
-                    System.out.println(222);
-
                     mouseDragEndHandle(i_dup, j_dup);
 
                     if (dragEvent.getDragboard().hasImage()) {
@@ -175,7 +174,6 @@ public class MapMenu extends Application {
                 }
                 else if (keyEvent.getCode().equals(GameKeyConstants.pourOilKey)) {
                     gameData.setGameState(GameState.POURING_OIL);
-                    gameGraphicFunctions.engineersPourOil();
                 }
                 else if (keyEvent.getCode().equals(GameKeyConstants.dropLadderKey)) {
                     gameGraphicFunctions.dropLadders();
@@ -197,6 +195,9 @@ public class MapMenu extends Application {
                 }
                 else if (keyEvent.getCode().equals(GameKeyConstants.setTexture)) {
                     gameGraphicFunctions.setTexture();
+                }
+                else if (keyEvent.getCode().equals(GameKeyConstants.setStateOfUnit)) {
+                    gameGraphicFunctions.setStateOfUnits();
                 }
             }
             case VIEW_MAP -> {
@@ -300,9 +301,6 @@ public class MapMenu extends Application {
                     );
                 }
                 else gameData.setEndSelectedCellsPosition(new Pair<>(tileX, tileY));
-
-                System.out.println(gameData.getStartSelectedCellsPosition().first+" "+gameData.getStartSelectedCellsPosition().second);
-                System.out.println(gameData.getEndSelectedCellsPosition().first+" "+gameData.getEndSelectedCellsPosition().second);
 
                 gameData.getSelectedUnits().clear();
                 gameData.getAllUnitsInSelectedCells().clear();

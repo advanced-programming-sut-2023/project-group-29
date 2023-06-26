@@ -19,7 +19,7 @@ public enum SoldierType {
     TUNNELER(new HumanType("tunneler", 20, false, true, SpeedEnum.FAST, "TUN","/images/units/europian/tunneler.png"), DamageEnum.NORMAL, DamageEnum.TOO_WEAK, AimRangeEnum.NON_ARCHER),
     LADDER_MAN(new HumanType("ladderman", 20, false, true, SpeedEnum.FAST, "LAD","/images/units/europian/ladderman.png"), DamageEnum.NO_DAMAGE, DamageEnum.TOO_WEAK, AimRangeEnum.NON_ARCHER),
     ENGINEER(new HumanType("engineer", 20, false, true, SpeedEnum.NORMAL, "ENG","/images/units/europian/engineer.png"), DamageEnum.NO_DAMAGE, DamageEnum.TOO_WEAK, AimRangeEnum.NON_ARCHER),
-    BLACK_MONK(new HumanType("blackMonk", 50, false, true, SpeedEnum.SLOW, "BMN",""), DamageEnum.NORMAL, DamageEnum.NORMAL, AimRangeEnum.NON_ARCHER),//todo abbasfar complete image source
+    BLACK_MONK(new HumanType("blackMonk", 50, false, true, SpeedEnum.SLOW, "BMN","/images/units/europian/blackmonk.png"), DamageEnum.NORMAL, DamageEnum.NORMAL, AimRangeEnum.NON_ARCHER),
     ARCHER_BOW(new HumanType("archerBow", 20, false, true, SpeedEnum.FAST, "RCB","/images/units/arabian/arabianbow.png"), DamageEnum.WEAK, DamageEnum.WEAK, AimRangeEnum.LONG_RANGE_ARCHER),
     SLAVE(new HumanType("slave", 20, false, true, SpeedEnum.FAST, "SLV","/images/units/arabian/slave.png"), DamageEnum.WEAK, DamageEnum.ALMOST_ZERO, AimRangeEnum.NON_ARCHER),
     SLINGER(new HumanType("slinger", 30, false, true, SpeedEnum.FAST, "SLG","/images/units/arabian/slinger.png"), DamageEnum.WEAK, DamageEnum.TOO_WEAK, AimRangeEnum.SHORT_RANGE_ARCHER),
@@ -27,7 +27,7 @@ public enum SoldierType {
     HORSE_ARCHER(new HumanType("horseArcher", 70, false, false, SpeedEnum.TOO_FAST, "HRC","/images/units/arabian/horsearcher.png"), DamageEnum.WEAK, DamageEnum.NORMAL, AimRangeEnum.LONG_RANGE_ARCHER),
     ARABIAN_SWORDSMAN(new HumanType("arabianSwordsman", 60, true, true, SpeedEnum.TOO_FAST, "RSW","/images/units/arabian/arabianswordsman.png"), DamageEnum.STRONG, DamageEnum.STRONG, AimRangeEnum.NON_ARCHER),
     FIRE_THROWER(new HumanType("fireThrower", 30, true, true, SpeedEnum.TOO_FAST, "FTR","/images/units/arabian/firethrower.png"), DamageEnum.STRONG, DamageEnum.WEAK, AimRangeEnum.SHORT_RANGE_ARCHER),
-    ENGINEER_WITH_OIL(new HumanType("engineerWithOil", 20, false, true, SpeedEnum.SLOW, "ENO",""), DamageEnum.STRONG, DamageEnum.STRONG, AimRangeEnum.SHORT_RANGE_ARCHER),//todo abbasfar complete image source
+    ENGINEER_WITH_OIL(new HumanType("engineerWithOil", 20, false, true, SpeedEnum.SLOW, "ENO","/images/units/europian/engineerWithOil.png"), DamageEnum.STRONG, DamageEnum.STRONG, AimRangeEnum.SHORT_RANGE_ARCHER),
     ;
     private final int attackDamage;
     private final int defenseDamage;
