@@ -207,7 +207,7 @@ public class MapMenu extends Application {
                     gameGraphicFunctions.setTexture();
                 }
                 else if (keyEvent.getCode().equals(GameKeyConstants.setStateOfUnit)) {
-                    //gameGraphicFunctions.setStateOfUnits();
+                    gameGraphicFunctions.setStateOfUnits();
                 }
             }
             case VIEW_MAP -> {

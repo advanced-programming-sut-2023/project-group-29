@@ -4,12 +4,9 @@ set map 0_base
 monday:
 jasbi:
     copy and paste for buildings
-    select building
-    fire logic
-    fire graphic
+    create unit
     sickness logic
-    sickness graphic
-    shop menu
+    bugs and todos
 faratin:
     login
     simple menus
