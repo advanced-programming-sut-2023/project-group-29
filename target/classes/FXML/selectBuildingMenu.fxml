@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<Pane xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="view.menus.SelectBuildingMenu"
+      styleClass="background"
+      stylesheets="@../CSS/GamePopUpMenus.css"
+      prefHeight="500.0" prefWidth="750.0">
+
+    <ImageView layoutX="690" layoutY="20" onMouseClicked="#exitPopUp">
+        <Image url="@../images/menus/XButton.png" requestedWidth="40" requestedHeight="40"/>
+    </ImageView>
+    <VBox spacing="20" alignment="TOP_LEFT" translateY="170" translateX="20">
+        <Button text="repair" fx:id="repairButton" styleClass="butn"/>
+        <Button text="createUnit" fx:id="createUnitButton" styleClass="butn"/>
+    </VBox>
+</Pane>

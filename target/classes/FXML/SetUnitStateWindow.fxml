@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<Pane xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="view.menus.gamepopupmenus.SetUnitState"
+      styleClass="background"
+      stylesheets="@../CSS/GamePopUpMenus.css"
+      prefHeight="500.0" prefWidth="750.0">
+
+    <ImageView layoutX="690" layoutY="20" onMouseClicked="#exitPopUp">
+        <Image url="@../images/menus/XButton.png" requestedWidth="40" requestedHeight="40"/>
+    </ImageView>
+    <Label layoutX="40" layoutY="20" styleClass="headerLabel" text="state of unit"/>
+    <ImageView layoutX="100" layoutY="150" fitWidth="150" fitHeight="150" onMouseClicked="#offensive">
+        <Image url="@../images/units/states/swords.png"/>
+    </ImageView>
+    <ImageView layoutX="300" layoutY="150" fitWidth="150" fitHeight="150" onMouseClicked="#deffensive">
+        <Image url="@../images/units/states/sheild.png"/>
+    </ImageView>
+    <ImageView layoutX="500" layoutY="150" fitWidth="150" fitHeight="150" onMouseClicked="#standing">
+        <Image url="@../images/units/states/whiteFlag.png"/>
+    </ImageView>
+
+
+</Pane>

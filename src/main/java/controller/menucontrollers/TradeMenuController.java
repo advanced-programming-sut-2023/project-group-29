@@ -39,7 +39,7 @@ public class TradeMenuController {
         }
         int amountInt = Integer.parseInt(amount);
         GameData gameData = GameController.getGameData();
-        Empire empire = gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn());
+        Empire empire = gameData.getPlayingEmpire();
         if (empire.getTradableAmount(tradable) < amountInt) {
             return "You don't have enough commodity!\n";
         }
@@ -60,7 +60,7 @@ public class TradeMenuController {
 
     public static String showTradeList() {
         GameData gameData = GameController.getGameData();
-        ArrayList<Trade> trades = gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn()).getTrades();
+        ArrayList<Trade> trades = gameData.getPlayingEmpire().getTrades();
         return makeOutput(trades);
     }
 
@@ -80,13 +80,12 @@ public class TradeMenuController {
 
     public static String showTradeHistory() {
         GameData gameData = GameController.getGameData();
-        ArrayList<Trade> trades = gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn()).getTradesHistory();
+        ArrayList<Trade> trades = gameData.getPlayingEmpire().getTradesHistory();
         return makeOutput(trades);
     }
 
     public static String acceptTrade(int id) {
-        ArrayList<Trade> trades = GameController.getGameData().
-                getEmpireByPlayerNumber(GameController.getGameData().getPlayerOfTurn()).getTrades();
+        ArrayList<Trade> trades = GameController.getGameData().getPlayingEmpire().getTrades();
         if (id < 1 || id > trades.size()) {
             return "Wrong id!";
         }
@@ -96,21 +95,19 @@ public class TradeMenuController {
         for (int i = 0; i < trades.size(); i++) {
             if (i == id - 1) {
                 trade = trades.get(i);
-                if (trade.getCount() * trade.getPrice() >
-                        gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn()).getWealth()) {
+                if (trade.getCount() * trade.getPrice() > gameData.getPlayingEmpire().getWealth()) {
                     return "Your wealth is less than the price of your dealing!";
                 }
                 Empire senderEmpire = gameData.getEmpireByPlayerNumber(trade.getSenderPlayer());
                 if (senderEmpire.getTradableAmount(trade.getCommodity()) < trade.getCount()) {
                     return "The sender doesn't have enough commodity now!";
                 }
-                gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn()).
-                        getTradesHistory().add(trades.get(i));
+                gameData.getPlayingEmpire().getTradesHistory().add(trades.get(i));
                 continue;
             }
             modernTrades.add(trades.get(i));
         }
-        gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn()).setTrades(modernTrades);
+        gameData.getPlayingEmpire().setTrades(modernTrades);
         Empire reciverEmpire = gameData.getEmpireByPlayerNumber(trade.getReceiverPlayer());
         Empire senderEmpire = gameData.getEmpireByPlayerNumber(trade.getSenderPlayer());
         reciverEmpire.changeTradableAmount(trade.getCommodity(), trade.getCount());

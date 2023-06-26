@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -24,6 +25,7 @@ import model.buildings.Category;
 import model.buildings.buildingTypes.BuildType;
 import model.gamestates.GameState;
 import model.map.Cell;
+import view.messages.MapMenuMessages;
 import view.shape.BuildingIcon;
 import view.shape.CircleImage;
 
@@ -70,8 +72,6 @@ public class MapMenu extends Application {
         });
 
         setUpAndShowMap();
-        //setDragFunctions(); todo jasbi add this function to ordinary cells
-
         buildPopularity();
         makeBuildingBar();
 
@@ -129,8 +129,8 @@ public class MapMenu extends Application {
                     mouseDragEndHandle(i_dup, j_dup);
 
                     if (dragEvent.getDragboard().hasImage()) {
+                        callBuildBuilding(i_dup, j_dup);
                         dragEvent.setDropCompleted(true);
-                        MapFunctions.buildBuilding(i_dup+gameData.getCornerCellIndex().first,j_dup+gameData.getCornerCellIndex().second,null);//todo jasbi handle name of building
                     }
 
                     dragEvent.consume();
@@ -155,6 +155,14 @@ public class MapMenu extends Application {
                     }
                 });
             }
+    }
+
+    private void callBuildBuilding(int i_dup, int j_dup) {
+        int x = i_dup + gameData.getCornerCellIndex().first;
+        int y = j_dup + gameData.getCornerCellIndex().second;
+        MapMenuMessages result = MapFunctions.buildBuilding(x, y, BuildingIcon.getDraggingBuildingName());
+        //todo abbasfar show building in map
+        //todo jasbi result
     }
 
     private void keyHandle(KeyEvent keyEvent) throws IOException {
@@ -186,6 +194,8 @@ public class MapMenu extends Application {
                 }
                 else if (keyEvent.getCode().equals(GameKeyConstants.addRemoveUnit)) {
                     gameGraphicFunctions.addOrRemoveSelectedUnits();
+                }else if (keyEvent.getCode().equals(GameKeyConstants.selectBuilding)) {
+                    gameGraphicFunctions.selectBuilding();
                 }
                 else if (keyEvent.getCode().equals(GameKeyConstants.dropUnit)) {
                     gameGraphicFunctions.dropUnit();
@@ -197,7 +207,7 @@ public class MapMenu extends Application {
                     gameGraphicFunctions.setTexture();
                 }
                 else if (keyEvent.getCode().equals(GameKeyConstants.setStateOfUnit)) {
-                    gameGraphicFunctions.setStateOfUnits();
+                    //gameGraphicFunctions.setStateOfUnits();
                 }
             }
             case VIEW_MAP -> {
@@ -365,7 +375,7 @@ public class MapMenu extends Application {
                 String add = "/images/buildings/" + category.name() + "/" + buildType.getBuildingType().name() + ".png";
                 try {
                     BuildingIcon icon = addIcon(subMenu, add);
-                    icon.setDragFunctions(buildType);
+                    icon.setDragFunctions(buildType.getBuildingType().name());
                 } catch (Exception e) {
                     System.out.println("no such file in this address:");
                     System.out.println(add);
@@ -389,10 +399,10 @@ public class MapMenu extends Application {
     }
 
     private void buildPopularity() {
+        Empire empire = gameData.getPlayingEmpire();
         //todo maybe faratin beautify
         popularityPopupPane = new Pane();
-        //todo abbasfar: check if the constructor above is correctly completed
-        makeMainPopularity();
+        makeMainPopularity(empire);
         makeFactorsTable();
     }
 
@@ -405,10 +415,18 @@ public class MapMenu extends Application {
         factorsHBox.setAlignment(Pos.CENTER);
         outerBox.getChildren().add(text1);
         outerBox.getChildren().add(factorsHBox);
-        for (int i = 1; i <= 4; i++) addPopularityPopUpVbox(factorsHBox, i);
-        Text text = new Text("change for next turn: " + 0); //todo jasbi correct number
+        Empire empire = gameData.getPlayingEmpire();
+        for (int i = 1; i <= 4; i++) addPopularityPopUpVbox(factorsHBox, i, empire);
+        Text text = makeTextForSumOfChanges(empire);
         outerBox.getChildren().add(text);
         popularityPopupPane.getChildren().add(outerBox);
+    }
+
+    private static Text makeTextForSumOfChanges(Empire empire) {
+        int popularityChange = 0;
+        for (Empire.PopularityFactors factor : Empire.PopularityFactors.values())
+            popularityChange += empire.getPopularityChange(factor);
+        return new Text("change for next turn: " + popularityChange);
     }
 
     private VBox makeOuterBox() {
@@ -420,21 +438,31 @@ public class MapMenu extends Application {
         return outerBox;
     }
 
-    private void makeMainPopularity() {
+    private void makeMainPopularity(Empire empire) {
         GamePopUpMenus popularityPopUp = new GamePopUpMenus(mainPane, popularityPopupPane, GamePopUpMenus.PopUpType.POPULARITY_DETAIL);
-        Text text = new Text("Popularity : " + 0);//correct number
+        Text text = new Text("Popularity : " + empire.getPopularity());
         text.setStyle("-fx-font: 18 arial;");
         text.setOnMouseClicked(mouseEvent -> {
             if (!popularityPopUp.isShowing()) {
                 popularityPopupPane.setTranslateX(340);
                 popularityPopupPane.setTranslateY(530);
                 popularityPopUp.showAndWait();
-            }
-            else popularityPopUp.hide();
+            } else popularityPopUp.hide();
         });
-        CircleImage circleImage = new CircleImage("/images/green.png", 20); //todo jasbi change
+        CircleImage circleImage = chooseFaceColor(empire.getPopularity());
         Rectangle button = makeButton();
         makeHBox(text, circleImage, button);
+    }
+
+    private static CircleImage chooseFaceColor(int popularity) {
+        //todo jasbi correct image
+        if (popularity > 60) {
+            return new CircleImage("/images/empirefactors/green.png", 20);
+        } else if (popularity > 30) {
+            return new CircleImage("/images/empirefactors/yellow.png", 20);
+        } else {
+            return new CircleImage("/images/empirefactors/red.png", 20);
+        }
     }
 
     private void makeHBox(Text text, Node circleImage, Rectangle button) {
@@ -452,8 +480,8 @@ public class MapMenu extends Application {
         Rectangle button = new Rectangle(90, 30);
         button.setArcHeight(30.0);
         button.setArcWidth(30.0);
-//        Image image = new Image(MapMenu.class.getResource("/images/menus/changeFactors.png").toString());
-//        button.setFill(new ImagePattern(image));
+        Image image = new Image(MapMenu.class.getResource("/images/menus/changeFactors.png").toString());
+        button.setFill(new ImagePattern(image));
         button.setOnMouseClicked(mouseEvent -> {
             try {
                 new SetFactorsMenu().start(new Stage());
@@ -464,7 +492,7 @@ public class MapMenu extends Application {
         return button;
     }
 
-    private void addPopularityPopUpVbox(HBox factorsHBox, int switcher) {
+    private void addPopularityPopUpVbox(HBox factorsHBox, int switcher, Empire empire) {
         VBox vBox = new VBox();
         vBox.setSpacing(5);
         factorsHBox.getChildren().add(vBox);
@@ -475,20 +503,29 @@ public class MapMenu extends Application {
                     vBox.getChildren().add(text);
                 }
                 case 2 -> {
-                    Text text = new Text(": " + 0);
+                    Text text = new Text(": " + empire.getMeasureOfFactor(factor));
                     vBox.getChildren().add(text);
-                    //todo jasbi correct numbers
                 }
                 case 3 -> {
-                    CircleImage circleImage = new CircleImage("/images/green.png", 8); //todo jasbi change
+                    CircleImage circleImage = chooseEachFactorFaceColor(empire, factor);
                     vBox.getChildren().add(circleImage);
                 }
                 case 4 -> {
-                    Text text = new Text("affect --> " + 0);
+                    Text text = new Text("affect --> " + empire.getPopularityChange(factor));
                     vBox.getChildren().add(text);
-                    //todo jasbi correct numbers
                 }
             }
+        }
+    }
+
+    private static CircleImage chooseEachFactorFaceColor(Empire empire, Empire.PopularityFactors factor) {
+        int factorAffect = empire.getMeasureOfFactor(factor);
+        if (factorAffect>0) {
+            return new CircleImage("/images/empirefactors/green.png", 8);
+        } else if (factorAffect < 0) {
+            return new CircleImage("/images/empirefactors/red.png", 8);
+        } else {
+            return new CircleImage("/images/empirefactors/yellow.png", 8);
         }
     }
 

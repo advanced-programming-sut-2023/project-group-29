@@ -8,6 +8,7 @@ import model.buildings.buildingTypes.BuildType;
 import view.menus.MapMenu;
 
 public class BuildingIcon extends Rectangle {
+    private static String draggingBuildingName = null;
     private Image image;
     public BuildingIcon(int width, String address) {
         this.setWidth(width);
@@ -17,25 +18,23 @@ public class BuildingIcon extends Rectangle {
         this.image = image;
     }
 
+    public static String getDraggingBuildingName() {
+        return draggingBuildingName;
+    }
+
     public Image getImage() {
         return image;
     }
 
 
-    public void setDragFunctions(BuildType buildType) {
+    public void setDragFunctions(String buildingName) {
         this.setOnDragDetected(mouseEvent -> {
+            draggingBuildingName = buildingName;
             Dragboard dragboard = startDragAndDrop(TransferMode.ANY);
             ClipboardContent content = new ClipboardContent();
             content.putImage(image);
             dragboard.setContent(content);
             mouseEvent.consume();
-        });
-        this.setOnDragDone(dragEvent -> {
-            if (dragEvent.getTransferMode() == TransferMode.MOVE){
-                //todo jasbi build building(buildType)
-                System.out.println("built!");
-            }
-            dragEvent.consume();
         });
     }
 }

@@ -47,7 +47,7 @@ public class Controller {
         }
     }
 
-    public static void buildEnums() {//todo jasbi convert to private
+    public static void buildEnums() {
         AccommodationType.enumBuilder();
         AttackingBuildingType.enumBuilder();
         OtherBuildingsType.enumBuilder();

@@ -65,6 +65,7 @@ public class GamePopUpMenus {
     }
 
     public enum PopUpType {
+        SELECT_BUILDING,
         BUILD_EQUIPMENT,
         BUILDING_ICONS_COLUMN,
         POPULARITY_DETAIL,

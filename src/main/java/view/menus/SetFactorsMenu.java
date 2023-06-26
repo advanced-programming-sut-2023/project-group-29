@@ -1,5 +1,6 @@
 package view.menus;
 
+import controller.menucontrollers.GameController;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -13,6 +14,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import model.Empire;
+import model.GameData;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -44,7 +46,9 @@ public class SetFactorsMenu extends Application {
     private void resetRates() {
         for (Empire.PopularityFactors factor : Empire.PopularityFactors.values()) {
             if (factor.equals(Empire.PopularityFactors.RELIGION)) continue;
-            rates.replace(factor, 0);//todo jasbi now correct number
+            GameData gameData = GameController.getGameData();
+            Empire empire = gameData.getPlayingEmpire();
+            rates.replace(factor, empire.getMeasureOfFactor(factor));
         }
     }
 
@@ -74,11 +78,7 @@ public class SetFactorsMenu extends Application {
         slider.setShowTickLabels(true);
         slider.setMajorTickUnit(1);
         slider.setBlockIncrement(1);
-        slider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
-                slider.setValue(newValue.intValue());
-            }
-        });
+        slider.setStyle("-fx-font: 20 arial; -fx-color-label-visible: #69434e");
+        slider.valueProperty().addListener((observableValue, oldValue, newValue) -> slider.setValue(newValue.intValue()));
     }
 }

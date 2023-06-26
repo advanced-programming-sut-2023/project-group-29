@@ -34,8 +34,7 @@ public class GameController {
     }
 
     public static String showPopularityFactors() {
-        PlayerNumber playerNumber = gameData.getPlayerOfTurn();
-        Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
+        Empire empire = gameData.getPlayingEmpire();
         String output = "popularity factors:\n";
         output += "factor 1: religion -> " + empire.getPopularityChange(Empire.PopularityFactors.RELIGION) + "\n";
         output += "factor 2: tax rate -> " + empire.getPopularityChange(Empire.PopularityFactors.TAX) + "\n";
@@ -45,14 +44,12 @@ public class GameController {
     }
 
     public static String showPopularity() {
-        PlayerNumber playerNumber = gameData.getPlayerOfTurn();
-        Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
+        Empire empire = gameData.getPlayingEmpire();
         return "Your popularity: " + empire.getPopularity();
     }
 
     public static String showFoodList() {
-        PlayerNumber playerNumber = gameData.getPlayerOfTurn();
-        Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
+        Empire empire = gameData.getPlayingEmpire();
         String output = "food list:\n";
         for (Food food : Food.values()) {
             output += food.getName() + " -> count: " + empire.getFoodsCount(food) + "\n";
@@ -62,44 +59,38 @@ public class GameController {
 
     public static GameMenuMessages determinationOfFoodRate(int foodRate) {
         if (foodRate < -2 || foodRate > 2) return GameMenuMessages.RATE_OUT_OF_RANGE;
-        PlayerNumber playerNumber = gameData.getPlayerOfTurn();
-        Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
+        Empire empire = gameData.getPlayingEmpire();
         empire.setFoodRate(foodRate);
         return GameMenuMessages.SUCCESS;
     }
 
     public static String showFoodRate() {
-        PlayerNumber playerNumber = gameData.getPlayerOfTurn();
-        Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
+        Empire empire = gameData.getPlayingEmpire();
         return "Your food rate: " + empire.getFoodRate();
     }
 
     public static GameMenuMessages determinationOfTaxRate(int taxRate) {
         if (taxRate < -3 || taxRate > 8) return GameMenuMessages.RATE_OUT_OF_RANGE;
-        PlayerNumber playerNumber = gameData.getPlayerOfTurn();
-        Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
+        Empire empire = gameData.getPlayingEmpire();
         empire.setTaxRate(taxRate);
         return GameMenuMessages.SUCCESS;
     }
 
     public static String showTaxRate() {
-        PlayerNumber playerNumber = gameData.getPlayerOfTurn();
-        Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
+        Empire empire = gameData.getPlayingEmpire();
         return "Your tax rate: " + empire.getTaxRate();
     }
 
     public static GameMenuMessages determinationOfFearRate(int fearRate) {
         if (fearRate < -5 || fearRate > 5) return GameMenuMessages.RATE_OUT_OF_RANGE;
-        PlayerNumber playerNumber = gameData.getPlayerOfTurn();
-        Empire empire = gameData.getEmpireByPlayerNumber(playerNumber);
+        Empire empire = gameData.getPlayingEmpire();
         empire.setFearRate(fearRate);
         return GameMenuMessages.SUCCESS;
     }
 
     public static GameMenuMessages selectBuilding(int xPosition, int yPosition) {
         Building building;
-        PlayerNumber playerNumber = gameData.getPlayerOfTurn();
-        Empire currentPlayerEmpire = gameData.getEmpireByPlayerNumber(playerNumber);
+        Empire currentPlayerEmpire = gameData.getPlayingEmpire();
         if (positionIsInvalid(xPosition, yPosition)) {
             return GameMenuMessages.INVALID_POSITION;
         }
@@ -111,7 +102,7 @@ public class GameController {
             return GameMenuMessages.OTHERS_BUILDINGS;
         }
 
-        gameData.setStartSelectedCellsPosition(new Pair<Integer,Integer>(xPosition, yPosition));
+        gameData.setStartSelectedCellsPosition(new Pair<>(xPosition, yPosition));
         BuildingFunctions.setSelectedBuilding(building);
         return GameMenuMessages.SUCCESS;
     }
@@ -296,14 +287,12 @@ public class GameController {
     }
 
     public static int showWealth() {
-        return GameController.getGameData().getEmpireByPlayerNumber
-                (GameController.gameData.getPlayerOfTurn()).getWealth();
+        return GameController.getGameData().getPlayingEmpire().getWealth();
     }
 
     public static String showCommodity() {
         String output = "Your recourse: \n";
-        Empire empire = GameController.getGameData().getEmpireByPlayerNumber
-                (GameController.gameData.getPlayerOfTurn());
+        Empire empire = gameData.getPlayingEmpire();
         for (Tradable tradable : empire.getTradableAmounts().keySet()) {
             int amount = empire.getTradableAmount(tradable);
             output += tradable.getName() + ": " + amount + "\n";
@@ -312,7 +301,7 @@ public class GameController {
     }
 
     public static boolean isAnyMarket() {
-        Empire empire = gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn());
+        Empire empire = gameData.getPlayingEmpire();
         return empire.getNumberOfBuildingType(OtherBuildingsType.MARKET.getBuildingType().name()) > 0;
     }
 

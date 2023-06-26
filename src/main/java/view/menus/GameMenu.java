@@ -126,7 +126,7 @@ public class GameMenu extends Application {
         }
         System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - -");
         System.out.println("New Trade For You:");
-        ArrayList<Trade> trades = gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn()).getNewTrades();
+        ArrayList<Trade> trades = gameData.getPlayingEmpire().getNewTrades();
         for (int i = 0; i < trades.size(); i++) {
             System.out.print((i + 1) + ") sender player: " + (trades.get(i).getSenderPlayer().getNumber() + 1));
             System.out.print(" | commodity: " + trades.get(i).getCommodity().getName());
@@ -136,7 +136,7 @@ public class GameMenu extends Application {
             System.out.println("\n");
         }
         ArrayList<Trade> myTrades = new ArrayList<>();
-        gameData.getEmpireByPlayerNumber(gameData.getPlayerOfTurn()).setNewTrades(myTrades);
+        gameData.getPlayingEmpire().setNewTrades(myTrades);
     }
 
     private static int showMap(Matcher matcher) {

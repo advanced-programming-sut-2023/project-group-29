@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<Pane xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="view.menus.gamepopupmenus.CellDetailsWindowGraphics"
+      styleClass="background"
+      stylesheets="@../CSS/CellDetailsPopUpMenus.css"
+      prefHeight="600.0" prefWidth="300.0">
+
+    <Label layoutX="20" layoutY="20" styleClass="headerLabel" fx:id="headerLabel" text="Cell Details">
+    </Label>
+
+    <Label layoutX="20" layoutY="60" styleClass="textLabel" fx:id="textLabel">
+    </Label>
+
+
+</Pane>

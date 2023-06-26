@@ -2,6 +2,13 @@ package view.menus;
 
 import controller.MenuNames;
 import controller.menucontrollers.BuildingFunctions;
+import controller.menucontrollers.GameController;
+import javafx.application.Application;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import view.Command;
 import view.messages.SelectBuildingMenuMessages;
 
@@ -10,30 +17,29 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SelectBuildingMenu {
-    public static MenuNames run(Scanner scanner) {
-        System.out.println("You have entered select building menu");
-        System.out.println(BuildingFunctions.getBuildingHp());
-        while (true) {
-            Matcher matcher;
-            String input = scanner.nextLine();
-            if ((matcher = Command.getMatcher(input, Command.CREATE_UNIT)) != null) {
-                createUnit(matcher);
-            }
-            else if (Command.getMatcher(input, Command.REPAIR_BUILDING) != null) {
-                repairBuilding();
-            }
-            else if (Command.getMatcher(input, Command.CHANGE_BRIDGE_STATE) != null) {
-                changeBridgeState();
-            }
-            else if (Command.getMatcher(input, Command.BACK_GAME_MENU) != null) {
-                return MenuNames.GAME_MENU;
-            }
-            else {
-                System.out.println("Invalid command!");
-            }
-        }
+    @FXML
+    private Button createUnitButton;
+    @FXML
+    private Button repairButton;
+
+    public void exitPopUp(MouseEvent mouseEvent) {
+        GameController.getGameData().getGameGraphicFunctions().exitPopUp();
     }
 
+    @FXML
+    public void initialize() {
+        repairButton.setOnMouseClicked(mouseEvent -> {
+            SelectBuildingMenuMessages result = BuildingFunctions.repairBuilding();
+            //todo result
+        });
+        createUnitButton.setOnMouseClicked(mouseEvent -> {
+            //todo enter drop unit menu
+        });
+    }
+
+    public void hideCreateUnit(){
+        createUnitButton.setVisible(false);
+    }
     private static void changeBridgeState() {
         SelectBuildingMenuMessages result = BuildingFunctions.changeBridgeState();
         switch (result) {
@@ -71,4 +77,9 @@ public class SelectBuildingMenu {
             case SUCCESS -> System.out.println("Your building was successfully repaired!");
         }
     }
+
+    public static MenuNames run(Scanner scanner) {
+        return null;
+    }
+
 }

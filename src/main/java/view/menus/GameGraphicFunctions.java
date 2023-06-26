@@ -1,6 +1,7 @@
 package view.menus;
 
 import controller.MenuNames;
+import controller.menucontrollers.BuildingFunctions;
 import controller.menucontrollers.GameController;
 import controller.menucontrollers.MapFunctions;
 import controller.menucontrollers.UnitFunctions;
@@ -12,6 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import model.*;
+import model.buildings.Building;
 import model.map.Cell;
 import model.people.Human;
 import model.people.humanClasses.Soldier;
@@ -32,7 +34,6 @@ public class GameGraphicFunctions {
     private final Pane mainPane;
     private final GameData gameData;
     private GamePopUpMenus popUpMenu = null;
-    private GamePopUpMenus cellDetailsPopUp=null;
 
     public GameGraphicFunctions(Pane mainPane) {
         this.mainPane = mainPane;
@@ -46,7 +47,10 @@ public class GameGraphicFunctions {
                 attackers.add(attacker);
 
         if(gameData.getDestinationCellPosition()==null){
-            alertMessage(Color.YELLOW,"Attacking failed","Please specify your target cell");
+            AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, Color.RED);
+            alertWindowPane.addTitle("Attacking failed");
+            alertWindowPane.addText("Please specify your target cell");
+            alertWindowPane.show();
             return;
         }
 
@@ -56,7 +60,10 @@ public class GameGraphicFunctions {
         SelectUnitMenuMessages result= UnitFunctions.unitsAttackingCheckError(attackers, destination);
         if (result.equals(SelectUnitMenuMessages.SUCCESSFUL)) {
             int failures = UnitFunctions.makeUnitsAttacking(attackers, destination);
-            alertMessage(Color.YELLOW,"Attacking results:","attack failed");
+            AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, Color.YELLOW);
+            alertWindowPane.addTitle("Attacking results:");
+            alertWindowPane.addText(failures+"attack failed!");
+            alertWindowPane.show();
         }
         else {
             AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, Color.RED);
@@ -109,23 +116,24 @@ public class GameGraphicFunctions {
                     soldier.getSoldierType().equals(SoldierType.ENGINEER_WITH_OIL))
                 engineersWithOil.add(soldier);
 
-        if(!Pair.notNull(gameData.getDestinationCellPosition())) {
-            alertMessage(Color.RED,"Pour oil failed!","please specify the target cell");
-            return;
-        }
-
 
         int engineerArrayListSize=engineersWithOil.size();
 
         if(engineersWithOil.size()==0){
-            alertMessage(Color.RED,"Pour oil failed!","There is no engineer with oil in selected cells!");
+            AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, Color.RED);
+            alertWindowPane.addTitle("Pour oil failed!");
+            alertWindowPane.addText("There is no engineer with oil in selected cells!");
+            alertWindowPane.show();
             return;
         }
 
         int successes= UnitFunctions.pourOil(engineersWithOil);
         int failures=engineerArrayListSize-successes;
 
-        alertMessage(Color.YELLOW,"Pour oil results:",failures+" pouring oil failed!");
+        AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, Color.YELLOW);
+        alertWindowPane.addTitle("Pour oil results:");
+        alertWindowPane.addText(failures+" pouring oil failed!");
+        alertWindowPane.show();
     }
 
     public void dropLadders() {
@@ -136,12 +144,18 @@ public class GameGraphicFunctions {
                 soldiers.add(soldier);
 
         if(soldiers.size()==0){
-            alertMessage(Color.RED,"Dropping ladder failed","You have no laddermen in selected cell(s)!");
+            AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, Color.RED);
+            alertWindowPane.addTitle("Dropping ladder failed");
+            alertWindowPane.addText("You have no laddermen in selected cell(s)!");
+            alertWindowPane.show();
         }
         else {
             int failures = UnitFunctions.ladderMenDropLadders(soldiers);
 
-            alertMessage(Color.YELLOW,"Dropping ladder results:",failures+" ladder dropping failed!");
+            AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, Color.YELLOW);
+            alertWindowPane.addTitle("Dropping ladder results:");
+            alertWindowPane.addText(failures+" ladder dropping failed!");
+            alertWindowPane.show();
         }
     }
 
@@ -152,37 +166,30 @@ public class GameGraphicFunctions {
                 humans.add(human);
 
         if(humans.size()==0){
-            alertMessage(Color.RED,"Disband failed","You have no units in selected cell(s)!");
+            AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, Color.RED);
+            alertWindowPane.addTitle("Disband failed");
+            alertWindowPane.addText("You have no units in selected cell(s)!");
+            alertWindowPane.show();
         }
         else {
             UnitFunctions.disbandUnits(humans);
 
-            alertMessage(Color.GREEN,"Disband results:","All units disbanded successfully");
+            AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, Color.GREEN);
+            alertWindowPane.addTitle("Disband results:");
+            alertWindowPane.addText("All units disbanded successfully");
+            alertWindowPane.show();
         }
-    }
-
-    public void setStateOfUnits() throws IOException {
-        ArrayList<Offensive> attackers=Offensive.getOffensivesOfUnits(gameData.getSelectedUnits());
-
-        if(attackers.size()==0){
-            alertMessage(Color.RED,"setting state failed","you have no attacking unit here");
-            return;
-        }
-
-        Pane statePane=FXMLLoader.load(EnterMenu.class.getResource("/FXML/SetUnitStateWindow.fxml"));
-
-        popUpMenu=new GamePopUpMenus(mainPane,statePane, GamePopUpMenus.PopUpType.UNIT_STATE);
-        popUpMenu.makePaneCenter(750,500);
-
-        popUpMenu.showAndWait();
     }
 
     public void buildEquipments() throws IOException {
 
         if (gameData.getEndSelectedCellsPosition() != null &&
                 !gameData.getEndSelectedCellsPosition().isEqualTo(gameData.getStartSelectedCellsPosition())) {
+            AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, Color.RED);
+            alertWindowPane.addTitle("Build equipment failed!");
+            alertWindowPane.addText("You cannot select multiple cells for building an equipment!");
+            alertWindowPane.show();
 
-            alertMessage(Color.RED,"Build equipment failed!","You cannot select multiple cells for building an equipment!");
             return;
         }
 
@@ -328,14 +335,42 @@ public class GameGraphicFunctions {
         CellDetailsWindowGraphics cellDetailsWindowGraphics = cellDetailsPaneLoader.getController();
         cellDetailsWindowGraphics.initializeText(MapFunctions.showDetails(x,y));
 
-        cellDetailsPopUp=new GamePopUpMenus(mainPane,cellDetailsPane, GamePopUpMenus.PopUpType.CELL_DETAILS);
-        cellDetailsPopUp.makePaneCenter(300,600);
-        cellDetailsPopUp.showAndWait();
+        popUpMenu=new GamePopUpMenus(mainPane,cellDetailsPane, GamePopUpMenus.PopUpType.CELL_DETAILS);
+        popUpMenu.makePaneCenter(300,600);
+        popUpMenu.showAndWait();
     }
     public void hideDetails() {
-        if (cellDetailsPopUp != null && cellDetailsPopUp.getPopUpType().equals(GamePopUpMenus.PopUpType.CELL_DETAILS)) {
-            cellDetailsPopUp.hide();
-            cellDetailsPopUp = null;
+        if (popUpMenu != null && popUpMenu.getPopUpType().equals(GamePopUpMenus.PopUpType.CELL_DETAILS)) {
+            popUpMenu.hide();
+            popUpMenu = null;
+        }
+    }
+
+    public void selectBuilding() throws IOException {
+        GameData gameData = GameController.getGameData();
+        if (gameData.getStartSelectedCellsPosition().isEqualTo(gameData.getEndSelectedCellsPosition())) {
+            int x = gameData.getStartSelectedCellsPosition().first + gameData.getCornerCellIndex().first;
+            int y = gameData.getStartSelectedCellsPosition().second + gameData.getCornerCellIndex().second;
+            Cell selectedCell = gameData.getMap().getCells()[x][y];
+            if (selectedCell.getBuilding() == null) {
+                //todo jasbi
+                System.out.println("no building");
+            } else {
+                BuildingFunctions.setSelectedBuilding(selectedCell.getBuilding());
+                Pane selectBuildingPane = FXMLLoader.load
+                        (SelectBuildingMenu.class.getResource("/FXML/selectBuildingMenu.fxml"));
+                popUpMenu = new GamePopUpMenus(mainPane, selectBuildingPane, GamePopUpMenus.PopUpType.SELECT_BUILDING);
+                popUpMenu.makePaneCenter(750, 500);
+                popUpMenu.showAndWait();
+                String name = selectedCell.getBuilding().getName();
+                if (Building.getGroupNumberByBuildingName(name) != 9) {
+                    //todo jasbi: selectBuildingMenu.
+                }
+                System.out.println(selectedCell.getBuilding().getName());
+            }
+        } else {
+            //داده های تجمعی
+            //todo jasbi
         }
     }
 }

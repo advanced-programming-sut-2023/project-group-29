@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane prefHeight="720.0" prefWidth="1080.0" styleClass="background" stylesheets="@../CSS/RegisterMenuGraphic.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menus.LoginMenuGraphic">
+        <VBox alignment="CENTER" spacing="40" />
+         <Label fx:id="welcomeText" layoutX="297.0" layoutY="34.0" styleClass="label" text="Login Menu" textFill="white" />
+         <TextField fx:id="username" layoutX="465.0" layoutY="232.0" maxWidth="200" promptText="Username" style="-fx-effect: dropshadow(gaussian, black, 10, 0, 0, 0);
+    -fx-background-insets: 50; -fx-border-color: linear-gradient(#ffffff, #000000); -fx-text-fill: white;
+    -fx-prompt-text-fill: white"/>
+         <PasswordField fx:id="password" layoutX="465.0" layoutY="295.0" maxWidth="200" promptText="Password" style="-fx-effect: dropshadow(gaussian, black, 10, 0, 0, 0);
+    -fx-background-insets: 50; -fx-border-color: linear-gradient(#ffffff, #000000); -fx-text-fill: white;
+    -fx-prompt-text-fill: white"/>
+             <Button layoutX="389.0" layoutY="364.0" maxWidth="300" minWidth="300" onMouseClicked="#login" styleClass="btn" text="Login" textAlignment="CENTER" />
+             <Button layoutX="389.0" layoutY="464.0" maxWidth="300" minWidth="300" onMouseClicked="#forgotPassword" styleClass="btn" text="Forgot Password" textAlignment="CENTER" />
+         <Button layoutX="490.0" layoutY="565.0" minWidth="100" onMouseClicked="#back" styleClass="btn" text="Back" textAlignment="CENTER" />
+
+</Pane>

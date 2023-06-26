@@ -483,6 +483,15 @@ public class Empire {
         worklessPopulation += change;
     }
 
+    public Integer getMeasureOfFactor(PopularityFactors factor) {
+        return switch (factor) {
+            case RELIGION -> getEffectOfReligiousBuildings();
+            case FOOD -> getFoodRate();
+            case FEAR -> getFearRate();
+            case TAX -> getTaxRate();
+        };
+    }
+
     public enum PopularityFactors {
         RELIGION,
         TAX,

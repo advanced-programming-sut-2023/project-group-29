@@ -1,0 +1,14 @@
+.background{
+    -fx-background-image: url("../images/menus/popUpMenuBackground.jpg");
+}
+
+.headerLabel{
+    -fx-font-family: "Times New Roman";
+    -fx-font-size: 60px;
+    -fx-font-weight: bold;
+}
+
+.textLabel{
+    -fx-font-family: "Times New Roman";
+    -fx-font-size: 30px;
+}

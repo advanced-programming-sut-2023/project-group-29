@@ -234,4 +234,8 @@ public class GameData {
 
         return count;
     }
+
+    public Empire getPlayingEmpire() {
+        return getEmpireByPlayerNumber(playerOfTurn);
+    }
 }

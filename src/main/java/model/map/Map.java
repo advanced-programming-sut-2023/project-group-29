@@ -21,7 +21,7 @@ public class Map {
     public Map(int width, int usersCount) {
         this.width = width;
         this.height=width;//todo initialize height
-        this.cells = new Cell[width + 1][width + 1];
+        this.cells = new Cell[width + 1][width + 1];//todo is it 0 base?
         this.usersCount = usersCount;
     }
 
