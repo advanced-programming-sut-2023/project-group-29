@@ -104,6 +104,20 @@ public class MapFunctions {
             index++;
         }
 
+        ImageView sickness=new ImageView(new Image(MapMenu.class.getResource("/images/disease.png").toExternalForm()));
+        ImagePracticalFunctions.fitWidthHeight(sickness,tileWidth/2,tileHeight/2);
+        sickness.setLayoutX(0);
+        sickness.setLayoutY(0);
+        if(cell.isSick())
+            tile.getChildren().add(sickness);
+
+        ImageView fire=new ImageView(new Image(MapMenu.class.getResource("/images/fire.png").toExternalForm()));
+        ImagePracticalFunctions.fitWidthHeight(fire,tileWidth/2,tileHeight/2);
+        fire.setLayoutX(0);
+        fire.setLayoutY(0);
+        if(cell.getFireRemainingTurns()>0)
+            tile.getChildren().add(fire);
+
         return tile;
     }
 
@@ -176,13 +190,13 @@ public class MapFunctions {
             output += "    ";
             if (asset instanceof Soldier soldier) {
                 output += "name: " + soldier.getName() + ". owner: " +
-                        soldier.getOwnerNumber() + " PLAYER. " + "hp: " + soldier.getHp() + ". ";
+                        soldier.getOwnerNumber() + " PLAYER. " + "\n        hp: " + soldier.getHp() + ". ";
                 output += soldier.hasAttackedThisTurn() ? "attacked. " : "not attacked. ";
                 output += soldier.hasMovedThisTurn() ? " moved. " : "not moved. ";
             }
             else if (asset instanceof Weapon weapon) {
                 output += "name: " + weapon.getName() + ". owner: " +
-                        weapon.getOwnerNumber() + " PLAYER. " + "hp: " + weapon.getHp() + ". ";
+                        weapon.getOwnerNumber() + " PLAYER. " + "\n        hp: " + weapon.getHp() + ". ";
 
                 if (weapon instanceof Equipments equipments) {
                     output += equipments.hasMovedThisTurn() ? " moved. " : "not moved. ";
@@ -341,6 +355,9 @@ public class MapFunctions {
         if (buildingName.equals(mainKeepName)
                 && empire.getNumberOfBuildingType(mainKeepName) > 0) {
             return MapMenuMessages.TWO_MAIN_KEEP;
+        }
+        else if (!Building.isBuildingNameValid(buildingName)) {
+            return MapMenuMessages.INVALID_TYPE;
         }
         else if (!chosenCell.getCellType().isAbleToBuildOn(buildingName)) {
             return MapMenuMessages.IMPROPER_CELL_TYPE;

@@ -17,7 +17,7 @@ public class Human extends Asset implements Movable {
     protected boolean ableToClimbStairs;
     protected int speed;
     private boolean movedThisTurn = false;
-
+    private boolean hasFire=false;
 
     protected Human(HumanType humanType, PlayerNumber playerNumber, int positionX, int positionY) {
         super(playerNumber, positionX, positionY);
@@ -82,5 +82,13 @@ public class Human extends Asset implements Movable {
     @Override
     public boolean isAbleToClimbStairs() {
         return ableToClimbStairs;
+    }
+
+    public boolean hasFire() {
+        return hasFire;
+    }
+
+    public void setHasFire(boolean hasFire) {
+        this.hasFire = hasFire;
     }
 }

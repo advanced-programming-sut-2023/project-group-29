@@ -120,18 +120,17 @@ public class GameController {
         randomSickness(0.01);
         setNumberOfUnits(map, gameData.getPlayerOfTurn());
         updateEmpire(gameData.getPlayerOfTurn());
-        //todo abbasfar: is it 0 base?
         //patrol apply
-        for (int i = 1; i <= map.getWidth(); i++)
-            for (int j = 1; j <= map.getWidth(); j++)
+        for (int i = 0; i < map.getWidth(); i++)
+            for (int j = 0; j < map.getWidth(); j++)
                 for (Asset movingUnit : map.getCells()[i][j].getMovingObjects())
                     if (movingUnit instanceof Movable movable && movable.getPatrol().isPatrolling())
                         movable.getPatrol().patrol(movable, map);
 
         //act according to unit state
         ArrayList<Asset> trash = new ArrayList<>();
-        for (int i = 1; i <= map.getWidth(); i++)
-            for (int j = 1; j <= map.getWidth(); j++) {
+        for (int i = 0; i < map.getWidth(); i++)
+            for (int j = 0; j < map.getWidth(); j++) {
                 trash.clear();
                 for (Asset movingUnit : map.getCells()[i][j].getMovingObjects()) {
                     if (movingUnit instanceof Soldier soldier && soldier.getSoldierType().equals(SoldierType.ENGINEER_WITH_OIL)) {
@@ -152,8 +151,8 @@ public class GameController {
             }
 
         //trap and plain check
-        for (int i = 1; i <= map.getWidth(); i++)
-            for (int j = 1; j <= map.getWidth(); j++) {
+        for (int i = 0; i < map.getWidth(); i++)
+            for (int j = 0; j < map.getWidth(); j++) {
                 Cell currentCell = map.getCells()[i][j];
                 if (currentCell.hasTrap()) {
                     if (currentCell.getMovingObjects().size() > 0) {
@@ -169,6 +168,26 @@ public class GameController {
                 if (currentCell.getCellType().equals(CellType.PLAIN))
                     currentCell.getMovingObjects().clear();
             }
+
+
+        int fireDamage=15;
+        //apply firings
+        for (int i = 0; i < map.getWidth(); i++)
+            for (int j = 0; j < map.getWidth(); j++) {
+                Cell currentCell=gameData.getMap().getCells()[i][j];
+                if (currentCell.getFireRemainingTurns() > 0) {
+                    currentCell.decrementFireRemainingTurns();
+                    for (Asset asset: currentCell.getMovingObjects())
+                        asset.decreaseHp(fireDamage);
+                    if(currentCell.hasTrap())
+                        currentCell.getTrap().decreaseHp(fireDamage);
+                    if(currentCell.hasBuilding())
+                        currentCell.getBuilding().decreaseHp(fireDamage);
+
+                    currentCell.removeDeadUnitsAndBuilding();
+                }
+            }
+
 
         //reset hasAttacked and hasMoved
         resetActsOfUnits();

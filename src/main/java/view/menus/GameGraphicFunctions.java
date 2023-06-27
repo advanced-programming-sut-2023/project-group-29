@@ -5,16 +5,27 @@ import controller.menucontrollers.BuildingFunctions;
 import controller.menucontrollers.GameController;
 import controller.menucontrollers.MapFunctions;
 import controller.menucontrollers.UnitFunctions;
+import javafx.animation.PathTransition;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 import model.*;
 import model.buildings.Building;
-import model.buildings.buildingClasses.ProductExtractor;
-import model.buildings.buildingClasses.ProductProcessor;
-import model.buildings.buildingClasses.ResourceExtractor;
-import model.buildings.buildingClasses.ResourceProcessor;
+import model.buildings.buildingClasses.*;
+import model.buildings.buildingTypes.OtherBuildingsType;
 import model.map.Cell;
 import model.people.Human;
 import model.people.humanClasses.Soldier;
@@ -33,6 +44,7 @@ import java.awt.datatransfer.DataFlavor;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
@@ -56,6 +68,7 @@ public class GameGraphicFunctions {
     }
 
     public void attackUnits() {
+        popUpMenu.hide();
         ArrayList<Offensive> attackers = new ArrayList<>();
         for (Asset asset : gameData.getSelectedUnits())
             if (asset instanceof Offensive attacker)
@@ -73,7 +86,8 @@ public class GameGraphicFunctions {
         if (result.equals(SelectUnitMenuMessages.SUCCESSFUL)) {
             int failures = UnitFunctions.makeUnitsAttacking(attackers, destination);
             alertMessage(Color.YELLOW, "Attacking results:", "attack failed");
-        } else {
+        }
+        else {
             AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, Color.RED);
             alertWindowPane.addTitle("Attacking failed");
             switch (result) {
@@ -96,7 +110,8 @@ public class GameGraphicFunctions {
         SelectUnitMenuMessages result = UnitFunctions.moveUnitsCheckError(movingUnits, destination);
         if (result.equals(SelectUnitMenuMessages.SUCCESSFUL)) {
             UnitFunctions.moveUnits(movingUnits);
-        } else {
+        }
+        else {
             AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, Color.RED);
             alertWindowPane.addTitle("moving failed!");
             switch (result) {
@@ -111,11 +126,86 @@ public class GameGraphicFunctions {
 
     }
 
-    public void moveAnimate(Asset asset, ArrayList<Pair<Integer, Integer>> path) {
-//        PathTransition movingTransition=new PathTransition();
-//        movingTransition.setDuration(Duration.seconds(2));
-//        movingTransition.setNode(asset);
-        //todo pointive
+    public void moveAnimate(Asset asset, ArrayList<Pair<Integer, Integer>> path,int targetX,int targetY) {
+
+        Path pathForTransition = new Path();
+        if (path.size() == 0)
+            return;
+
+        float first=(path.get(0).first - gameData.getCornerCellIndex().first) * gameData.getTileWidth() + gameData.getTileWidth() / 2;
+        float second=(path.get(0).second - gameData.getCornerCellIndex().second) * gameData.getTileHeight() + gameData.getTileHeight() / 2;
+        pathForTransition.getElements().add(new MoveTo(first,second));
+
+        for (Pair<Integer, Integer> pair : path) {
+            float firstElement = (pair.first - gameData.getCornerCellIndex().first) * gameData.getTileWidth() + gameData.getTileWidth() / 2;
+            float secondElement = (pair.second - gameData.getCornerCellIndex().second) * gameData.getTileHeight() + gameData.getTileHeight() / 2;
+            pathForTransition.getElements().add(new LineTo(firstElement, secondElement));
+        }
+
+        PathTransition pathTransition = new PathTransition();
+        pathTransition.setDuration(Duration.seconds(3));
+
+        ImageView imageView = new ImageView(asset.getShowingImage());
+        ImagePracticalFunctions.fitWidthHeight(imageView, 30, 30);
+        mainPane.getChildren().add(imageView);
+
+        pathTransition.setNode(imageView);
+        pathTransition.setPath(pathForTransition);
+        pathTransition.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                mainPane.getChildren().remove(imageView);
+                gameData.getMap().getCells()[targetX][targetY].addMovingObject(asset);
+            }
+        });
+
+        pathTransition.play();
+    }
+
+    public void patrolUnits() {
+        ArrayList<Movable> patrollers = new ArrayList<>();
+        for (Asset asset : gameData.getSelectedUnits())
+            if (asset instanceof Movable movable)
+                patrollers.add(movable);
+
+        if (!Pair.notNull(gameData.getDestinationCellPosition())) {
+            alertMessage(Color.RED, "patrol failed!", "please specify the destination cell");
+            return;
+        }
+
+        if (patrollers.size() == 0) {
+            alertMessage(Color.RED, "patrol failed!", "There is no proper unit in selected cells!");
+            return;
+        }
+
+        UnitFunctions.setUnitsPatrolling(patrollers, gameData.getDestinationCellPosition().first, gameData.getDestinationCellPosition().second);
+    }
+
+    public void digTunnel() {
+
+        if (!Pair.notNull(gameData.getDestinationCellPosition())) {
+            alertMessage(Color.RED, "digging failed!", "please specify the target cell");
+            return;
+        }
+
+        Offensive tunneler = null;
+        for (Asset asset : gameData.getSelectedUnits())
+            if (asset instanceof Soldier soldier && soldier.getSoldierType().equals(SoldierType.TUNNELER)) {
+                tunneler = soldier;
+                break;
+            }
+
+        if (tunneler == null) {
+            alertMessage(Color.RED, "digging failed!", "there is no tunnelers in selected units");
+            return;
+        }
+
+        SelectUnitMenuMessages messages=UnitFunctions.digTunnel(tunneler,gameData.getDestinationCellPosition().first,gameData.getDestinationCellPosition().second);
+        switch (messages){
+            case HAS_ATTACKED -> alertMessage(Color.RED,"digging failed","please specify a not-attacked tunneler");
+            case INVALID_PLACE_FOR_DIGGING_TUNNEL -> alertMessage(Color.RED,"digging failed","you can not dig tunnel there");
+            case SUCCESSFUL -> alertMessage(Color.GREEN,"digging successful","tunnel was successfully digged");
+        }
     }
 
     public void engineersPourOil() {
@@ -129,7 +219,6 @@ public class GameGraphicFunctions {
             alertMessage(Color.RED, "Pour oil failed!", "please specify the target cell");
             return;
         }
-
 
         int engineerArrayListSize = engineersWithOil.size();
 
@@ -153,7 +242,8 @@ public class GameGraphicFunctions {
 
         if (soldiers.size() == 0) {
             alertMessage(Color.RED, "Dropping ladder failed", "You have no laddermen in selected cell(s)!");
-        } else {
+        }
+        else {
             int failures = UnitFunctions.ladderMenDropLadders(soldiers);
 
             alertMessage(Color.YELLOW, "Dropping ladder results:", failures + " ladder dropping failed!");
@@ -168,7 +258,8 @@ public class GameGraphicFunctions {
 
         if (humans.size() == 0) {
             alertMessage(Color.RED, "Disband failed", "You have no units in selected cell(s)!");
-        } else {
+        }
+        else {
             UnitFunctions.disbandUnits(humans);
 
             alertMessage(Color.GREEN, "Disband results:", "All units disbanded successfully");
@@ -254,17 +345,23 @@ public class GameGraphicFunctions {
 
             if ((matcher = Command.getMatcher(input, Command.SET_BLOCK_TEXTURE)) != null) {
                 setBlockTexture(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.SET_PART_OF_BLOCK_TEXTURE)) != null) {
+            }
+            else if ((matcher = Command.getMatcher(input, Command.SET_PART_OF_BLOCK_TEXTURE)) != null) {
                 setPartOfBlockTexture(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.CLEAR)) != null) {
+            }
+            else if ((matcher = Command.getMatcher(input, Command.CLEAR)) != null) {
                 clear(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.DROP_ROCK)) != null) {
+            }
+            else if ((matcher = Command.getMatcher(input, Command.DROP_ROCK)) != null) {
                 dropRock(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.DROP_TREE)) != null) {
+            }
+            else if ((matcher = Command.getMatcher(input, Command.DROP_TREE)) != null) {
                 dropTree(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.DROP_BUILDING)) != null) {
+            }
+            else if ((matcher = Command.getMatcher(input, Command.DROP_BUILDING)) != null) {
                 dropBuilding(matcher);
-            } else if ((matcher = Command.getMatcher(input, Command.DROP_UNIT)) != null) {
+            }
+            else if ((matcher = Command.getMatcher(input, Command.DROP_UNIT)) != null) {
                 dropUnit(matcher);
             }
         }
@@ -364,15 +461,14 @@ public class GameGraphicFunctions {
             case SUCCESSFUL -> alertMessage
                     (Color.GREEN, "success", "The building was successfully built");
         }
-        //todo abbasfar show building in map
-        //todo abbasfar bugs
     }
 
     public void selectBuilding() throws IOException {
         GameData gameData = GameController.getGameData();
         if (gameData.getStartSelectedCellsPosition().isEqualTo(gameData.getEndSelectedCellsPosition())) {
             selectOneBuilding(gameData);
-        } else {
+        }
+        else {
             selectManyBuilding(gameData);
         }
     }
@@ -394,13 +490,17 @@ public class GameGraphicFunctions {
                     int rate;
                     if (building instanceof ProductExtractor building2) {
                         rate = building2.getRate();
-                    } else if (building instanceof ProductProcessor building2) {
+                    }
+                    else if (building instanceof ProductProcessor building2) {
                         rate = building2.getRate();
-                    } else if (building instanceof ResourceExtractor building2) {
+                    }
+                    else if (building instanceof ResourceExtractor building2) {
                         rate = building2.getRate();
-                    } else if (building instanceof ResourceProcessor building2) {
+                    }
+                    else if (building instanceof ResourceProcessor building2) {
                         rate = building2.getRate();
-                    } else continue;
+                    }
+                    else continue;
                     if (rate > maxProductionRate) maxProductionRate = rate;
                     if (rate < minProductionRate || minProductionRate == 0) minProductionRate = rate;
                     n++;
@@ -409,7 +509,7 @@ public class GameGraphicFunctions {
             }
         }
         float averageProductionRate = 0;
-        if (n!= 0) averageProductionRate = (float) sumProductionRate / n;
+        if (n != 0) averageProductionRate = (float) sumProductionRate / n;
         averageProductionRate = (float) ((int) (averageProductionRate * 100)) / 100;
         show(maxProductionRate, minProductionRate, averageProductionRate);
     }
@@ -428,7 +528,8 @@ public class GameGraphicFunctions {
         Cell selectedCell = gameData.getMap().getCells()[x][y];
         if (selectedCell.getBuilding() == null) {
             alertMessage(Color.YELLOW, "No building", "There is no building in the cell chosen!");
-        } else {
+        }
+        else {
             BuildingFunctions.setSelectedBuilding(selectedCell.getBuilding());
             Pane selectBuildingPane = FXMLLoader.load
                     (SelectBuildingMenu.class.getResource("/FXML/SelectBuildingMenu.fxml"));
@@ -448,7 +549,8 @@ public class GameGraphicFunctions {
             int y = gameData.getStartSelectedCellsPosition().second;
             if (Building.isBuildingNameValid(buildingName)) {
                 callBuildBuilding(x, y, buildingName);
-            } else {
+            }
+            else {
                 alertMessage(Color.RED, "false building name",
                         "The sequence in your clipboard is not name of a building");
             }
@@ -456,5 +558,19 @@ public class GameGraphicFunctions {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void showAttackPopUp() {
+        Pane pane = new Pane();
+        pane.setPrefWidth(100);
+        pane.setPrefHeight(50);
+        pane.getChildren().add(new Label("attacking..."));
+
+        popUpMenu = new GamePopUpMenus(mainPane, pane, GamePopUpMenus.PopUpType.ATTACKING);
+        pane.setLayoutX(500);
+        pane.setLayoutY(50);
+        pane.setMouseTransparent(true);
+        pane.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+        popUpMenu.showAndWait();
     }
 }

@@ -64,6 +64,5 @@ public class OtherBuildings extends Building {
             showingSignInMap = showingSignInMap.substring(0, 4) + "D" + showingSignInMap.charAt(5);
             showingImageFilePath = "/images/buildings/CASTLE/drawBridge.png";
         }
-        //todo abbasfar: refresh map
     }
 }

@@ -504,8 +504,8 @@ public class Empire {
     public void computeSicknessAffect() {
         GameData gameData = GameController.getGameData();
         Map map = gameData.getMap();
-        for (int i = 1; i <= map.getWidth(); i++) { //todo abbasfar: is it 0 base?
-            for (int j = 1; j <= map.getWidth(); j++) {
+        for (int i = 0; i < map.getWidth(); i++) {
+            for (int j = 0; j < map.getWidth(); j++) {
                 Cell cell = map.getCells()[i][j];
                 if (cell.hasBuilding()) {
                     Empire empire = cell.getBuilding().getOwnerEmpire();

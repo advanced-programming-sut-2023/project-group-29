@@ -14,14 +14,9 @@ faratin:
 
 abbasfar:
 
-    not build when multiple selecting and other debuggings
+    delete cheat and default ...
+    delete runs
 
-    new logics
-    drop building change texture drop unit error
+    change texture,trees pictures, pictures logic rock and trees
 
-    some of functions like pour oil not use selected in gamedata
-    mini map//?????
-    trees pictures
-    pictures logic rock and trees
-    wrap cell details
 

@@ -119,6 +119,14 @@ public class MapMenu extends Application {
         tilesGroupInMainPainChildren.getChildren().clear();
         tiles = MapFunctions.showMap(gameData.getCornerCellIndex().first, gameData.getCornerCellIndex().second, tilesGroupInMainPainChildren);
         setTilesListeners();
+
+        if(Pair.notNull(gameData.getStartSelectedCellsPosition()) && Pair.notNull(gameData.getEndSelectedCellsPosition()))
+            for(int i=gameData.getStartSelectedCellsPosition().first;i<=gameData.getEndSelectedCellsPosition().first;i++)
+                for(int j=gameData.getStartSelectedCellsPosition().second;j<=gameData.getEndSelectedCellsPosition().second;j++)
+                    effectTile(tiles[i][j],0.6,0.2);
+
+        if(Pair.notNull(gameData.getDestinationCellPosition()))
+            effectTile(tiles[gameData.getDestinationCellPosition().first][gameData.getDestinationCellPosition().second], -0.2, 0.2);
     }
 
 
@@ -139,7 +147,7 @@ public class MapMenu extends Application {
                 tiles[i][j].setOnDragDetected(mouseEvent -> {
                     Dragboard dragboard = tiles[i_dup][j_dup].startDragAndDrop(TransferMode.ANY);
                     ClipboardContent content = new ClipboardContent();
-                    content.putImage(new Image(EnterMenu.class.getResource("/images/drag.png").toExternalForm()));
+                    content.putString("");
                     dragboard.setContent(content);
                     mouseDragStartHandle(i_dup, j_dup);
                 });
@@ -159,9 +167,9 @@ public class MapMenu extends Application {
                 });
 
                 tiles[i][j].setOnDragDropped(dragEvent -> {
-                    mouseDragEndHandle(i_dup, j_dup);
-
-                    if (dragEvent.getDragboard().hasImage()) {
+                    if(dragEvent.getDragboard().hasString())
+                        mouseDragEndHandle(i_dup, j_dup);
+                    else if (dragEvent.getDragboard().hasImage()) {
                         int x = i_dup + gameData.getCornerCellIndex().first;
                         int y = j_dup + gameData.getCornerCellIndex().second;
                         gameGraphicFunctions.callBuildBuilding(x, y, BuildingIcon.getDraggingBuildingName());
@@ -172,19 +180,19 @@ public class MapMenu extends Application {
                 });
 
                 tiles[i][j].setOnDragExited(dragEvent -> {
-                    if (dragEvent.getDragboard().hasImage()) {
+                    if (dragEvent.getDragboard().hasImage() || dragEvent.getDragboard().hasString()) {
                         effectTile(tiles[i_dup][j_dup], 0, 0);
                     }
                     dragEvent.consume();
                 });
                 tiles[i][j].setOnDragEntered(dragEvent -> {
-                    if (dragEvent.getDragboard().hasImage()) {
+                    if (dragEvent.getDragboard().hasImage() || dragEvent.getDragboard().hasString()) {
                         effectTile(tiles[i_dup][j_dup], 0.2, 0.2);
                     }
                     dragEvent.consume();
                 });
                 tiles[i][j].setOnDragOver(dragEvent -> {
-                    if (dragEvent.getDragboard().hasImage()) {
+                    if (dragEvent.getDragboard().hasImage() || dragEvent.getDragboard().hasString()) {
                         dragEvent.acceptTransferModes(TransferMode.COPY_OR_MOVE);
                         dragEvent.consume();
                     }
@@ -201,9 +209,14 @@ public class MapMenu extends Application {
                     gameData.setEndSelectedCellsPosition(null);
                     resetAllSelectedColors();
                 } else if (keyEvent.getCode().equals(GameKeyConstants.attackKey)) {
+                    gameGraphicFunctions.showAttackPopUp();
                     gameData.setGameState(GameState.ATTACKING);
                 } else if (keyEvent.getCode().equals(GameKeyConstants.moveKey)) {
                     gameData.setGameState(GameState.MOVING);
+                } else if (keyEvent.getCode().equals(GameKeyConstants.patrolUnit)) {
+                    gameData.setGameState(GameState.PATROLLING);
+                } else if (keyEvent.getCode().equals(GameKeyConstants.digTunnel)) {
+                    gameData.setGameState(GameState.TUNNELLING);
                 } else if (keyEvent.getCode().equals(GameKeyConstants.pourOilKey)) {
                     gameData.setGameState(GameState.POURING_OIL);
                 } else if (keyEvent.getCode().equals(GameKeyConstants.dropLadderKey)) {
@@ -248,18 +261,50 @@ public class MapMenu extends Application {
                 if (keyEvent.getCode().equals(GameKeyConstants.moveFinalize)) {
                     gameData.setGameState(GameState.VIEW_MAP);
                     gameGraphicFunctions.moveUnits();
+
+                    gameData.setDestinationCellPosition(null);
+                    gameData.setStartSelectedCellsPosition(null);
+                    gameData.setEndSelectedCellsPosition(null);
                 }
             }
             case ATTACKING -> {
                 if (keyEvent.getCode().equals(GameKeyConstants.attackFinalize)) {
                     gameData.setGameState(GameState.VIEW_MAP);
                     gameGraphicFunctions.attackUnits();
+
+                    gameData.setDestinationCellPosition(null);
+                    gameData.setStartSelectedCellsPosition(null);
+                    gameData.setEndSelectedCellsPosition(null);
+                }
+            }
+            case TUNNELLING -> {
+                if (keyEvent.getCode().equals(GameKeyConstants.diggingTunnelFinalize)) {
+                    gameData.setGameState(GameState.VIEW_MAP);
+                    gameGraphicFunctions.digTunnel();
+
+                    gameData.setDestinationCellPosition(null);
+                    gameData.setStartSelectedCellsPosition(null);
+                    gameData.setEndSelectedCellsPosition(null);
                 }
             }
             case POURING_OIL -> {
                 if (keyEvent.getCode().equals(GameKeyConstants.pourOilFinalize)) {
                     gameData.setGameState(GameState.VIEW_MAP);
                     gameGraphicFunctions.engineersPourOil();
+
+                    gameData.setDestinationCellPosition(null);
+                    gameData.setStartSelectedCellsPosition(null);
+                    gameData.setEndSelectedCellsPosition(null);
+                }
+            }
+            case PATROLLING -> {
+                if (keyEvent.getCode().equals(GameKeyConstants.patrolUnitFinalize)) {
+                    gameData.setGameState(GameState.VIEW_MAP);
+                    gameGraphicFunctions.patrolUnits();
+
+                    gameData.setDestinationCellPosition(null);
+                    gameData.setStartSelectedCellsPosition(null);
+                    gameData.setEndSelectedCellsPosition(null);
                 }
             }
         }
@@ -286,7 +331,7 @@ public class MapMenu extends Application {
 
                 effectTile(tiles[tileX][tileY], 0.6, 0.2);
             }
-            case ATTACKING, POURING_OIL, MOVING -> {
+            case ATTACKING, POURING_OIL, MOVING, PATROLLING -> {
                 resetAllSelectedColors();
                 effectTile(tiles[tileX][tileY], -0.2, 0.2);
                 gameData.setDestinationCellPosition(new Pair<>(tileX, tileY));
@@ -348,7 +393,6 @@ public class MapMenu extends Application {
 
     private void makeBuildingBar() {
         buildingPopupPane = new Pane();
-        //todo abbasfar: check if the constructor above is correctly used
         VBox vBox = makeVBox(1020, 180, new VBox());
         for (Category category : Category.values()) {
             if (category.equals(Category.UNBUILDABLE)) continue;

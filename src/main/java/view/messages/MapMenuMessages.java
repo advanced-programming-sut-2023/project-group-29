@@ -9,5 +9,6 @@ public enum MapMenuMessages {
     UNCONNECTED_STOREROOMS,
     LACK_OF_RESOURCES,
     LACK_OF_HUMAN,
-    SUCCESSFUL
+    SUCCESSFUL,
+    INVALID_TYPE
 }

@@ -16,6 +16,11 @@ public class GameKeyConstants {
     public static final KeyCode disbandUnitKey=KeyCode.D;
     public static final KeyCode buildEquipmentKey=KeyCode.B;
     public static final KeyCode setStateOfUnit=KeyCode.S;
+    public static final KeyCode digTunnel=KeyCode.I;
+    public static final KeyCode diggingTunnelFinalize=KeyCode.ENTER;
+    public static final KeyCode patrolUnit=KeyCode.O;
+    public static final KeyCode patrolUnitFinalize=KeyCode.ENTER;
+
 
     //map move
     public static final KeyCode mapMoveLeft=KeyCode.LEFT;

@@ -27,7 +27,7 @@ public class Cell {
     private CellType cellType;
     private boolean hasTunnel = false;
     private boolean sick = false;
-    //todo abbasfar show, maybe with transparency
+    private int fireRemainingTurns=0;
 
     public Cell(CellType cellType, int xPosition, int yPosition) {
         this.cellType = cellType;
@@ -261,6 +261,18 @@ public class Cell {
 
     public TreeType getTreeTypes() {
         return treeTypes;
+    }
+
+    public int getFireRemainingTurns() {
+        return fireRemainingTurns;
+    }
+    public void decrementFireRemainingTurns(){
+        if(fireRemainingTurns>0)
+            fireRemainingTurns--;
+    }
+
+    public void setFireRemainingTurns(int fireRemainingTurns) {
+        this.fireRemainingTurns = fireRemainingTurns;
     }
 
     public enum LevelChanger {

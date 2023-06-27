@@ -27,23 +27,19 @@ import java.util.List;
 
 public class UnitFunctions {
     private static final int maximumLengthOfTunnel = 3;
-    public static void moveUnits(ArrayList<Asset> movingUnits){
-        for(Asset movingUnit:movingUnits){
 
-            ArrayList<Pair<Integer, Integer>> path=moveOneUnit(movingUnit);
-
-            if(path==null)
-                return;
-
-            GameController.getGameData().getGameGraphicFunctions().moveAnimate(movingUnit,path);
+    public static void moveUnits(ArrayList<Asset> movingUnits) {
+        for (Asset movingUnit : movingUnits) {
+            moveOneUnit(movingUnit);
         }
     }
-    public static ArrayList<Pair<Integer, Integer>> moveOneUnit(Asset movingUnit) {
+
+    public static void moveOneUnit(Asset movingUnit) {
         GameData gameData = GameController.getGameData();
         Map map = gameData.getMap();
 
-        Pair<Integer, Integer> destinationCellPosition = new Pair<>(gameData.getDestinationCellPosition().first+gameData.getCornerCellIndex().first,
-                gameData.getDestinationCellPosition().second+gameData.getCornerCellIndex().second);
+        Pair<Integer, Integer> destinationCellPosition = new Pair<>(gameData.getDestinationCellPosition().first + gameData.getCornerCellIndex().first,
+                gameData.getDestinationCellPosition().second + gameData.getCornerCellIndex().second);
         Pair<Integer, Integer> currentCellPosition = new Pair<>(movingUnit.getPositionX(), movingUnit.getPositionY());
 
         Cell currentCell = map.getCells()[currentCellPosition.first][currentCellPosition.second];
@@ -51,20 +47,18 @@ public class UnitFunctions {
 
         Movable movableUnit = (Movable) movingUnit;
 
-        ArrayList<Pair<Integer,Integer>> path=Movable.pathToDestination(map, movingUnit, destinationCellPosition.first, destinationCellPosition.second);
+        ArrayList<Pair<Integer, Integer>> path = Movable.pathToDestination(map, movingUnit, destinationCellPosition.first, destinationCellPosition.second);
         Movable.MovingResult movingResult = movableUnit.move(map, destinationCellPosition.first, destinationCellPosition.second);
         switch (movingResult) {
             case TOO_FAR, HAS_MOVED -> {
-                return null;
+                return;
             }
             case SUCCESSFUL -> {
                 currentCell.getMovingObjects().remove(movingUnit);
-                destinationCell.getMovingObjects().add(movingUnit);
-                return path;
+                GameController.getGameData().getGameGraphicFunctions().moveAnimate(movingUnit, path, destinationCellPosition.first, destinationCellPosition.second);
+                return;
             }
         }
-
-        return null;
     }
 
     public static SelectUnitMenuMessages moveUnitsCheckError(ArrayList<Asset> movingUnits, Pair<Integer, Integer> destination) {
@@ -83,35 +77,22 @@ public class UnitFunctions {
         return SelectUnitMenuMessages.SUCCESSFUL;
     }
 
-    public static ArrayList<Pair<Integer, Integer>> patrolUnit(Asset asset) {
-        return null;
-        //todo abbasfar do patrol
-    }
-
     public static SelectUnitMenuMessages patrolUnitsCheckError() {
         return null;
     }
 
-    public static void setUnitsPatrolling(ArrayList<Movable> movables, int firstX, int firstY, int secondX, int secondY) {
+    public static void setUnitsPatrolling(ArrayList<Movable> movables, int destinationX, int destinaitonY) {
 
         Map map = GameController.getGameData().getMap();
 
         for (Movable movingObject : movables) {
-            if (!movingObject.checkForMoveErrors(map, firstX, firstY).equals(Movable.MovingResult.SUCCESSFUL)) {
-                continue;
-            }
 
             Asset patrollingAsset = (Asset) movingObject;
             int currentX = patrollingAsset.getPositionX();
             int currentY = patrollingAsset.getPositionY();
 
-            //todo maintain bad place, should check manually instead of distance -1;
-
-            patrollingAsset.setPositionX(firstX);
-            patrollingAsset.setPositionY(firstY);
-
-            if (movingObject.checkForMoveErrors(map, secondX, secondY).equals(Movable.MovingResult.SUCCESSFUL)) {
-                movingObject.getPatrol().startNewPatrol(firstX, firstY, secondX, secondY);
+            if (movingObject.checkForMoveErrors(map, destinationX, destinaitonY).equals(Movable.MovingResult.SUCCESSFUL)) {
+                movingObject.getPatrol().startNewPatrol(patrollingAsset.getPositionX(), patrollingAsset.getPositionY(), destinationX, destinaitonY);
             }
 
             patrollingAsset.setPositionX(currentX);
@@ -153,6 +134,10 @@ public class UnitFunctions {
             return SelectUnitMenuMessages.ATTACK_FAILED;
 
         applyAttackDamage(enemies, attackerDamage, targetCell);
+        if (((Human) attackerAsset).hasFire()) {
+            targetCell.setFireRemainingTurns(3);
+            ((Human) attackerAsset).setHasFire(false);
+        }
         return SelectUnitMenuMessages.SUCCESSFUL;
     }
 
@@ -172,35 +157,11 @@ public class UnitFunctions {
         int failures = 0;
         for (Offensive attacker : attackers) {
             SelectUnitMenuMessages result = makeOneUnitAttack(attacker, target);
-            if(!result.equals(SelectUnitMenuMessages.SUCCESSFUL))
+            if (!result.equals(SelectUnitMenuMessages.SUCCESSFUL))
                 failures++;
         }
 
-        //apply back attack
-        /*
-        {
-            DamageStruct counterAttackTotalDamage = new DamageStruct();
-            DamageStruct partialDamage;
-
-            for (PlayerNumber playerNumber : PlayerNumber.values()) {
-                if (playerNumber.equals(currentPlayer))
-                    continue;
-
-                ArrayList<Offensive> playerAttackers = targetCell.getAttackingListOfPlayerNumber(playerNumber);
-
-                heightOfAttackers = currentCell.heightOfUnitsOfPlayer();
-                partialDamage = findTotalDamage
-                        (heightOfAttackers, playerAttackers, map, currentX, currentY, false);
-                counterAttackTotalDamage.add(partialDamage);
-            }
-
-            applyAttackDamage(offensiveArrayListToAssetArrayList(currentPlayerAttackers),
-                    counterAttackTotalDamage, currentCell);
-        }
-        */
-
         return failures;
-
     }
 
     private static ArrayList<Asset> offensiveArrayListToAssetArrayList(ArrayList<Offensive> attackers) {
@@ -321,7 +282,6 @@ public class UnitFunctions {
     //todo attack complete
 
 
-
     public static int pourOil(ArrayList<Offensive> engineersWithOil) {
 
         GameData gameData = GameController.getGameData();
@@ -332,14 +292,14 @@ public class UnitFunctions {
 
         int successes = 0;
         for (Offensive engineer : engineersWithOil) {
-            int deltaX=gameData.getDestinationCellPosition().first+gameData.getCornerCellIndex().first-((Asset)engineer).getPositionX();
-            int deltaY=gameData.getDestinationCellPosition().second+gameData.getCornerCellIndex().second-((Asset)engineer).getPositionY();
+            int deltaX = gameData.getDestinationCellPosition().first + gameData.getCornerCellIndex().first - ((Asset) engineer).getPositionX();
+            int deltaY = gameData.getDestinationCellPosition().second + gameData.getCornerCellIndex().second - ((Asset) engineer).getPositionY();
 
             Direction direction;
-            if(deltaX==0 && deltaY>0) direction=Direction.DOWN;
-            else if(deltaX==0 && deltaY<0) direction=Direction.UP;
-            else if(deltaX>0 && deltaY==0) direction=Direction.RIGHT;
-            else if(deltaX<0 && deltaY==0) direction=Direction.LEFT;
+            if (deltaX == 0 && deltaY > 0) direction = Direction.DOWN;
+            else if (deltaX == 0 && deltaY < 0) direction = Direction.UP;
+            else if (deltaX > 0 && deltaY == 0) direction = Direction.RIGHT;
+            else if (deltaX < 0 && deltaY == 0) direction = Direction.LEFT;
             else continue;
 
             if (oneUnitPourOil(engineer, direction, 0).equals(SelectUnitMenuMessages.SUCCESSFUL))
@@ -356,15 +316,15 @@ public class UnitFunctions {
 
         int deltaX = 0, deltaY = 0;
         switch (direction) {
-            case UP -> deltaY=-1;
-            case DOWN -> deltaY=1;
-            case RIGHT -> deltaX=1;
-            case LEFT -> deltaX=-1;
+            case UP -> deltaY = -1;
+            case DOWN -> deltaY = 1;
+            case RIGHT -> deltaX = 1;
+            case LEFT -> deltaX = -1;
         }
 
-        Asset engineerAsset=((Asset)engineerWithOil);
-        int currentX=engineerAsset.getPositionX();
-        int currentY=engineerAsset.getPositionY();
+        Asset engineerAsset = ((Asset) engineerWithOil);
+        int currentX = engineerAsset.getPositionX();
+        int currentY = engineerAsset.getPositionY();
 
         for (int i = 1; i <= SoldierType.ENGINEER_WITH_OIL.getAimRange(); i++) {
             if (!map.isIndexValid(currentX + deltaX * i, currentY + deltaY * i))
@@ -385,7 +345,7 @@ public class UnitFunctions {
                     if (targetedCell.getEnemiesOfPlayerInCell(engineerAsset.getOwnerNumber()).size() < minimumUnitToAttack)
                         break;
 
-                    makeOneUnitAttack(engineerWithOil,new Pair<>(currentX + deltaX * i,currentY + deltaY * i));
+                    makeOneUnitAttack(engineerWithOil, new Pair<>(currentX + deltaX * i, currentY + deltaY * i));
 
                     return SelectUnitMenuMessages.SUCCESSFUL;
             }
@@ -393,28 +353,14 @@ public class UnitFunctions {
         return SelectUnitMenuMessages.NO_ENEMY_THERE;
     }
 
-    public static SelectUnitMenuMessages digTunnel(int x, int y) {
+    public static SelectUnitMenuMessages digTunnel(Offensive tunneler, int targetX, int targetY) {
 
         GameData gameData = GameController.getGameData();
         Map map = gameData.getMap();
 
-        if (!map.isIndexValid(x, y))
-            return SelectUnitMenuMessages.INVALID_INDEX;
-
         Cell currentCell = map.getCells()[gameData.getStartSelectedCellsPosition().first][gameData.getStartSelectedCellsPosition().first];
 
-        ArrayList<Offensive> attackingUnits = currentCell.getAttackingListOfPlayerNumber(gameData.getPlayerOfTurn());
-        Soldier tunneler = null;
-        for (Offensive attacker : attackingUnits)
-            if (attacker instanceof Soldier soldier && soldier.getSoldierType().equals(SoldierType.TUNNELER)) {
-                tunneler = soldier;
-                break;
-            }
-
-        if (tunneler == null)
-            return SelectUnitMenuMessages.NO_PROPER_UNIT;
-
-        Offensive.AttackingResult attackingResult = tunneler.canAttack(map, x, y, true);
+        Offensive.AttackingResult attackingResult = tunneler.canAttack(map, targetX, targetY, true);
         if (attackingResult.equals(Offensive.AttackingResult.TOO_FAR))
             return SelectUnitMenuMessages.TOO_FAR;
         else if (attackingResult.equals(Offensive.AttackingResult.HAS_ATTACKED))
@@ -437,12 +383,12 @@ public class UnitFunctions {
         for (boolean[] array : mark)
             Arrays.fill(array, false);
 
-        int numberOfAdjacentTunnelsPlusNewTunnel = dfs(map, new Pair(x, y), mark);
+        int numberOfAdjacentTunnelsPlusNewTunnel = dfs(map, new Pair(targetX, targetY), mark);
 
         if (numberOfAdjacentTunnelsPlusNewTunnel >= maximumLengthOfTunnel ||
                 currentCell.hasBuilding() ||
                 currentCell.getSiegeTowerInMovingUnits() != null)
-            destroyTunnels(map, new Pair(x, y));
+            destroyTunnels(map, new Pair(targetX, targetY));
 
         return SelectUnitMenuMessages.SUCCESSFUL;
     }
@@ -506,14 +452,14 @@ public class UnitFunctions {
     public static void buildEquipment(String equipmentName) {
         GameData gameData = GameController.getGameData();
 
-        int x = gameData.getStartSelectedCellsPosition().first+gameData.getCornerCellIndex().first;
-        int y = gameData.getStartSelectedCellsPosition().second+gameData.getCornerCellIndex().second;
+        int x = gameData.getStartSelectedCellsPosition().first + gameData.getCornerCellIndex().first;
+        int y = gameData.getStartSelectedCellsPosition().second + gameData.getCornerCellIndex().second;
         Cell selectedCell = gameData.getMap().getCells()[x][y];
         PlayerNumber currentPlayer = gameData.getPlayerOfTurn();
 
         Weapon weapon = Weapon.createWeaponByWeaponTypeString(equipmentName, currentPlayer, x, y);
         if (weapon == null) {
-            gameData.getGameGraphicFunctions().alertMessage(Color.RED,"building failed","This is not a valid name of an equipment!");
+            gameData.getGameGraphicFunctions().alertMessage(Color.RED, "building failed", "This is not a valid name of an equipment!");
             return;
         }
 
@@ -527,13 +473,13 @@ public class UnitFunctions {
                 engineers.add(movingUnit);
 
         if (engineers.size() < weapon.getBuilderNeededCount()) {
-            gameData.getGameGraphicFunctions().alertMessage(Color.RED,"building failed","You do not have enough engineers here to build this equipment!");
+            gameData.getGameGraphicFunctions().alertMessage(Color.RED, "building failed", "You do not have enough engineers here to build this equipment!");
             return;
         }
 
         if (weapon instanceof Trap)
-            if (selectedCell.hasBuilding() || selectedCell.getMovingObjects().size() > weapon.getBuilderNeededCount()){
-                gameData.getGameGraphicFunctions().alertMessage(Color.RED,"building failed", "You can not build a trap while there are some units here!");
+            if (selectedCell.hasBuilding() || selectedCell.getMovingObjects().size() > weapon.getBuilderNeededCount()) {
+                gameData.getGameGraphicFunctions().alertMessage(Color.RED, "building failed", "You can not build a trap while there are some units here!");
                 return;
             }
 
@@ -548,10 +494,11 @@ public class UnitFunctions {
         }
     }
 
-    public static void disbandUnits(ArrayList<Human> humans){
-        for(Human human:humans)
+    public static void disbandUnits(ArrayList<Human> humans) {
+        for (Human human : humans)
             disbandOneUnit(human);
     }
+
     public static void disbandOneUnit(Human human) {
         GameData gameData = GameController.getGameData();
         int x = human.getPositionX();
@@ -564,10 +511,10 @@ public class UnitFunctions {
         empire.changeWorklessPopulation(1);
     }
 
-    public static int ladderMenDropLadders(ArrayList<Soldier> ladderMen){
-        int failures=0;
-        for(Soldier ladderMan:ladderMen)
-            if(!dropLadder(ladderMan))
+    public static int ladderMenDropLadders(ArrayList<Soldier> ladderMen) {
+        int failures = 0;
+        for (Soldier ladderMan : ladderMen)
+            if (!dropLadder(ladderMan))
                 failures++;
 
         return failures;
@@ -575,7 +522,7 @@ public class UnitFunctions {
 
     public static boolean dropLadder(Soldier ladderMan) {
 
-        if(!ladderMan.getSoldierType().equals(SoldierType.LADDER_MAN))
+        if (!ladderMan.getSoldierType().equals(SoldierType.LADDER_MAN))
             return false;
 
         GameData gameData = GameController.getGameData();

@@ -7,5 +7,7 @@ public enum GameState {
     MOVING,
     BUILDING_EQUIPMENT,
     POURING_OIL,
+    PATROLLING,
+    TUNNELLING,
 
 }

@@ -9,7 +9,7 @@ public class GamePopUpMenus {
     private final Pane mainPain;
     private final Pane popUpPane;
     private final PopUpType popUpType;
-    private boolean isShowing = false; //todo abbasfar: set default is true or false
+    private boolean isShowing = false;
 
     public GamePopUpMenus(Pane mainPane, Pane popUpPane, PopUpType popUpType) {
         this.mainPain = mainPane;
@@ -37,7 +37,6 @@ public class GamePopUpMenus {
         GameController.getGameData().setPauseMainPane(true);
     }
 
-    //todo abbasfar fix hovering fast. starting hide animation before show complete!!!
     public void hide() {
 
         FadeTransition fadeTransition = new FadeTransition(Duration.seconds(1), popUpPane);
@@ -75,7 +74,8 @@ public class GamePopUpMenus {
         DROP_UNITS,
         DROP_BUILDING,
         SET_TEXTURE,
-        UNIT_STATE
+        UNIT_STATE,
+        ATTACKING,
 
     }
 }

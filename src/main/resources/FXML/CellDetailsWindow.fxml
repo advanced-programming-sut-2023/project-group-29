@@ -18,7 +18,7 @@
     <Label layoutX="20" layoutY="20" styleClass="headerLabel" fx:id="headerLabel" text="Cell Details">
     </Label>
 
-    <Label layoutX="20" layoutY="60" styleClass="textLabel" fx:id="textLabel">
+    <Label alignment="TOP_LEFT" layoutX="20" layoutY="60" styleClass="textLabel" fx:id="textLabel" wrapText="true" minWidth="300" minHeight="600" maxWidth="300" maxHeight="600">
     </Label>
 
 
