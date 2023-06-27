@@ -48,6 +48,13 @@ public enum CellType {
         this.name = name;
     }
 
+    public static CellType getCellTypeByName(String typeName) {
+        for (CellType cellType : CellType.values()) {
+            if (cellType.name.equals(typeName)) return cellType;
+        }
+        return null;
+    }
+
     public ConsoleColors getShowingColor() {
         return showingColor;
     }

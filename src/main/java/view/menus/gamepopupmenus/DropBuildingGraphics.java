@@ -37,12 +37,12 @@ public class DropBuildingGraphics {
             String imageAddress = "/images/buildings/" + buildingType.category().name() + "/" +
                     buildingType.name() + ".png";
             Image image = new Image(MapMenu.class.getResource(imageAddress).toString());
-            setupUnitImage(image, index, buildingType.name());
+            setupBuildingImage(image, index, buildingType.name());
             index++;
         }
     }
 
-    public void setupUnitImage(Image image, int index, String buildingName) {
+    public void setupBuildingImage(Image image, int index, String buildingName) {
         ImageView imageView = new ImageView(image);
         ImagePracticalFunctions.fitWidthHeight(imageView, 60, 60);
         imageView.setLayoutX(65 * (index % numberOfPicturesInRow) + 50);
@@ -66,11 +66,15 @@ public class DropBuildingGraphics {
             return;
         }
         MapMenuMessages result = MapFunctions.dropBuildingAsAdmin(x, y, buildingName, playerNumber);
+        handleResult(gameGraphicFunctions, result);
+    }
+
+    private static void handleResult(GameGraphicFunctions gameGraphicFunctions, MapMenuMessages result) {
         switch (result) {
             case FULL_CELL -> gameGraphicFunctions.alertMessage
                     (Color.RED, "full cell", "Another building has been already built here");
             case IMPROPER_CELL_TYPE -> gameGraphicFunctions.alertMessage
-                    (Color.RED, "improper cell type", "Another building has been already built here");
+                    (Color.RED, "improper cell type", "This cell is not good for building this building!");
             case TWO_MAIN_KEEP -> gameGraphicFunctions.alertMessage
                     (Color.RED, "two main keep", "having two main keeps is illegal");
             case UNCONNECTED_STOREROOMS -> gameGraphicFunctions.alertMessage

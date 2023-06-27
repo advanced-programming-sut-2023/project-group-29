@@ -8,5 +8,4 @@ public enum SelectBuildingMenuMessages {
     LACK_OF_WEAPON,
     LACK_OF_HUMAN,
     UNRELATED,
-    INVALID_TYPE,
 }

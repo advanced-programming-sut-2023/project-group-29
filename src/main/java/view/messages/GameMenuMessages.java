@@ -4,7 +4,6 @@ public enum GameMenuMessages {
     SUCCESS,
     RATE_OUT_OF_RANGE,
     INVALID_POSITION,
-    INVALID_TYPE,
     FULL_CELL,
     EMPTY_CELL,
     IMPROPER_CELL_TYPE,

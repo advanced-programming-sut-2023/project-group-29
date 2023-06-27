@@ -133,7 +133,6 @@ public class SelectBuildingMenu {
         int count = Integer.parseInt(countMatcher.group(1));
         SelectBuildingMenuMessages result = BuildingFunctions.createUnit(unitType, count);
         switch (result) {
-            case INVALID_TYPE -> System.out.println("We have no unit with this name!");
             case LACK_OF_COINS -> System.out.println("You don't have enough coin to create this unit!");
             case LACK_OF_WEAPON -> System.out.println("You don't have proper weapon to equip this unit!");
             case LACK_OF_HUMAN -> System.out.println("There is no person to become your unit!");

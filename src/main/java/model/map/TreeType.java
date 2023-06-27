@@ -9,10 +9,16 @@ public enum TreeType {
     ;
     private final ConsoleColors showingColor;
     private final String name;
+    private String showingImagePath;
 
     TreeType(ConsoleColors showingColor, String name) {
         this.name = name;
         this.showingColor = showingColor;
+        this.showingImagePath = "/images/trees/" + name + ".png";
+    }
+
+    public String getShowingImagePath() {
+        return showingImagePath;
     }
 
     public static TreeType getTreeTypeByName(String name) {

@@ -240,9 +240,11 @@ public class GameGraphicFunctions {
         popUpMenu.showAndWait();
     }
 
-    public void setTexture() {
-        //todo handle this for texture and trees and rocks
-    }
+    public void setTexture() throws IOException {
+        Pane equipmentPane = FXMLLoader.load(MapMenu.class.getResource("/FXML/TextureAndTree.fxml"));
+        popUpMenu = new GamePopUpMenus(mainPane, equipmentPane, GamePopUpMenus.PopUpType.DROP_BUILDING);
+        popUpMenu.makePaneCenter(750, 500);
+        popUpMenu.showAndWait();    }
 
     public MenuNames run(Scanner scanner) {
         while (true) {
@@ -295,7 +297,6 @@ public class GameGraphicFunctions {
 //        MapMenuMessages result = MapMenuController.dropTree(x, y, type);
 //        switch (result) {
 //            case SUCCESSFUL -> System.out.println("The tree was successfully added!");
-//            case INVALID_TYPE -> System.out.println("Invalid type of tree!");
 //            case INVALID_INDEX -> System.out.println("Invalid Index!");
 //        }
     }
@@ -443,8 +444,8 @@ public class GameGraphicFunctions {
             System.setErr(new PrintStream("error.log"));
             Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
             String buildingName = c.getData(DataFlavor.stringFlavor).toString();
-            int x = gameData.getSelectedCellX();
-            int y = gameData.getSelectedCellY();
+            int x = gameData.getStartSelectedCellsPosition().first;
+            int y = gameData.getStartSelectedCellsPosition().second;
             if (Building.isBuildingNameValid(buildingName)) {
                 callBuildBuilding(x, y, buildingName);
             } else {

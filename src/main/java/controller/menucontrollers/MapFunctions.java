@@ -257,12 +257,6 @@ public class MapFunctions {
     public static MapMenuMessages dropTree(int xPosition, int yPosition, String name) {
         GameData gameData = GameController.getGameData();
         TreeType treeType = TreeType.getTreeTypeByName(name);
-        if (treeType == null) {
-            return MapMenuMessages.INVALID_TYPE;
-        }
-        else if (!gameData.getMap().isIndexValid(xPosition, yPosition)) {
-            return MapMenuMessages.INVALID_INDEX;
-        }
         Cell cell = gameData.getMap().getCells()[xPosition][yPosition];
         cell.setTree(treeType);
         return MapMenuMessages.SUCCESSFUL;
@@ -327,7 +321,6 @@ public class MapFunctions {
         GameData gameData = GameController.getGameData();
         Cell chosenCell = gameData.getMap().getCells()[x][y];
         PlayerNumber ownerPlayerNumber = PlayerNumber.getPlayerByIndex(ownerNumber - 1);
-
         MapMenuMessages result = buildErrorCheck(x, y, buildingName, ownerPlayerNumber);
         if (result.equals(MapMenuMessages.SUCCESSFUL)) {
             chosenCell.makeBuilding(buildingName, ownerPlayerNumber);
@@ -340,17 +333,11 @@ public class MapFunctions {
     private static MapMenuMessages buildErrorCheck(int x, int y, String buildingName, PlayerNumber ownerPlayerNumber) {
         GameData gameData = GameController.getGameData();
         Empire empire = gameData.getEmpireByPlayerNumber(ownerPlayerNumber);
-        if (!gameData.getMap().isIndexValid(x, y)) {
-            return MapMenuMessages.INVALID_INDEX;
-        }
         Cell chosenCell = gameData.getMap().getCells()[x][y];
         String mainKeepName = AccommodationType.MAIN_KEEP.getBuildingType().name();
         if (buildingName.equals(mainKeepName)
                 && empire.getNumberOfBuildingType(mainKeepName) > 0) {
             return MapMenuMessages.TWO_MAIN_KEEP;
-        }
-        else if (!Building.isBuildingNameValid(buildingName)) {
-            return MapMenuMessages.INVALID_TYPE;
         }
         else if (!chosenCell.getCellType().isAbleToBuildOn(buildingName)) {
             return MapMenuMessages.IMPROPER_CELL_TYPE;

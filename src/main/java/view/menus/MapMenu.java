@@ -430,10 +430,10 @@ public class MapMenu extends Application {
     }
 
     private Rectangle makeNextTurnButton() {
-        Rectangle button = new Rectangle(90, 30);
+        Rectangle button = new Rectangle(30, 30);
         button.setArcHeight(30.0);
         button.setArcWidth(30.0);
-        Image image = new Image(MapMenu.class.getResource("/images/menus/XButton.png").toString());
+        Image image = new Image(MapMenu.class.getResource("/images/nextTurn.png").toString());
         button.setFill(new ImagePattern(image));
         button.setOnMouseClicked(mouseEvent -> {
             if (!GameController.nextTurn()) {
