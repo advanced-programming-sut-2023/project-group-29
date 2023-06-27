@@ -58,9 +58,12 @@ public class OtherBuildings extends Building {
     public void changeState() {
         if (showingSignInMap.charAt(4) == 'D') {
             showingSignInMap = showingSignInMap.substring(0, 4) + "U" + showingSignInMap.charAt(5);
+            showingImageFilePath = "/images/buildings/CASTLE/drawBridge2.png";
         }
         else if (showingSignInMap.charAt(4) == 'U') {
             showingSignInMap = showingSignInMap.substring(0, 4) + "D" + showingSignInMap.charAt(5);
+            showingImageFilePath = "/images/buildings/CASTLE/drawBridge.png";
         }
+        //todo abbasfar: refresh map
     }
 }

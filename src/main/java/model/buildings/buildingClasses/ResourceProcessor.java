@@ -37,4 +37,9 @@ public class ResourceProcessor extends Building {
         ownerEmpire.changeTradableAmount(resource, -changeAmount);
         ownerEmpire.changeTradableAmount(product, changeAmount);
     }
+
+
+    public int getRate() {
+        return rate;
+    }
 }

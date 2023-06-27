@@ -4,6 +4,8 @@ module project {
     requires javafx.media;
     requires com.google.common;
     requires com.google.gson;
+    requires java.datatransfer;
+    requires java.desktop;
 
 
     exports view;

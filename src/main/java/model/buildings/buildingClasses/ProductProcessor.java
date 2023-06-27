@@ -52,4 +52,8 @@ public class ProductProcessor extends Building {
             ownerEmpire.changeWealth(changeAmount * BEER_PRICE);
         }
     }
+
+    public int getRate() {
+        return rate;
+    }
 }

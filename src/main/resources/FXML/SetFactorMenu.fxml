@@ -3,7 +3,7 @@
 <?import javafx.scene.layout.StackPane?>
 <StackPane xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
-           fx:controller="view.menus.SetFactorsMenu"
+           fx:controller="view.menus.gamepopupmenus.SetFactorsMenu"
            styleClass="background"
            stylesheets="@../CSS/GamePopUpMenus.css"
            prefHeight="360.0" prefWidth="540.0">

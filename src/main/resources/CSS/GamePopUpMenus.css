@@ -12,3 +12,11 @@
     -fx-font-family: "Times New Roman";
     -fx-font-size: 30px;
 }
+
+.butn{
+    -fx-effect: dropshadow(gaussian, red, 10, 0, 0, 0);
+    -fx-background-insets: 50;
+    -fx-text-fill: black;
+    -fx-font-family: "Brush Script MT";
+    -fx-font-size: 30px;
+}

@@ -33,4 +33,5 @@ public class GameKeyConstants {
     public static final KeyCode cancelKey=KeyCode.ESCAPE;
     public static final KeyCode addRemoveUnit=KeyCode.R;
     public static final KeyCode selectBuilding = KeyCode.C;
+    public static final KeyCode pasteBuilding = KeyCode.E;
 }

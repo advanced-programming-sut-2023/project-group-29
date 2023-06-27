@@ -25,7 +25,7 @@ import model.buildings.Category;
 import model.buildings.buildingTypes.BuildType;
 import model.gamestates.GameState;
 import model.map.Cell;
-import view.messages.MapMenuMessages;
+import view.menus.gamepopupmenus.SetFactorsMenu;
 import view.shape.BuildingIcon;
 import view.shape.CircleImage;
 
@@ -37,7 +37,7 @@ public class MapMenu extends Application {
     private Pane mainPane = null;
     private GameData gameData = null;
     private Pane[][] tiles = null;
-    private final Group tilesGroupInMainPainChildren =new Group();
+    private final Group tilesGroupInMainPainChildren = new Group();
     private GameGraphicFunctions gameGraphicFunctions;
     private Stage stage;
     private Pane popularityPopupPane;
@@ -70,7 +70,7 @@ public class MapMenu extends Application {
         });
 
         setUpAndShowMap();
-        buildPopularity();
+        makeMainPopularity(gameData.getPlayingEmpire());
         makeBuildingBar();
 
         GamePopUpMenus buildingPopUp = new GamePopUpMenus(mainPane, buildingPopupPane, GamePopUpMenus.PopUpType.BUILDING_ICONS_COLUMN);
@@ -102,7 +102,7 @@ public class MapMenu extends Application {
 
 
                 tiles[i][j].setOnDragDetected(mouseEvent -> {
-                    Dragboard dragboard=tiles[i_dup][j_dup].startDragAndDrop(TransferMode.ANY);
+                    Dragboard dragboard = tiles[i_dup][j_dup].startDragAndDrop(TransferMode.ANY);
                     ClipboardContent content = new ClipboardContent();
                     content.putImage(new Image(EnterMenu.class.getResource("/images/drag.png").toExternalForm()));
                     dragboard.setContent(content);
@@ -112,7 +112,7 @@ public class MapMenu extends Application {
                 tiles[i][j].setOnMouseEntered(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
-                        if(gameData.getGameState().equals(GameState.VIEW_MAP))
+                        if (gameData.getGameState().equals(GameState.VIEW_MAP))
                             gameGraphicFunctions.showDetails(i_dup + gameData.getCornerCellIndex().first, j_dup + gameData.getCornerCellIndex().second);
                     }
                 });
@@ -127,7 +127,9 @@ public class MapMenu extends Application {
                     mouseDragEndHandle(i_dup, j_dup);
 
                     if (dragEvent.getDragboard().hasImage()) {
-                        callBuildBuilding(i_dup, j_dup);
+                        int x = i_dup + gameData.getCornerCellIndex().first;
+                        int y = j_dup + gameData.getCornerCellIndex().second;
+                        gameGraphicFunctions.callBuildBuilding(x, y, BuildingIcon.getDraggingBuildingName());
                         dragEvent.setDropCompleted(true);
                     }
 
@@ -136,13 +138,13 @@ public class MapMenu extends Application {
 
                 tiles[i][j].setOnDragExited(dragEvent -> {
                     if (dragEvent.getDragboard().hasImage()) {
-                        effectTile(tiles[i_dup][j_dup],0,0);
+                        effectTile(tiles[i_dup][j_dup], 0, 0);
                     }
                     dragEvent.consume();
                 });
                 tiles[i][j].setOnDragEntered(dragEvent -> {
                     if (dragEvent.getDragboard().hasImage()) {
-                        effectTile(tiles[i_dup][j_dup],0.2,0.2);
+                        effectTile(tiles[i_dup][j_dup], 0.2, 0.2);
                     }
                     dragEvent.consume();
                 });
@@ -155,14 +157,6 @@ public class MapMenu extends Application {
             }
     }
 
-    private void callBuildBuilding(int i_dup, int j_dup) {
-        int x = i_dup + gameData.getCornerCellIndex().first;
-        int y = j_dup + gameData.getCornerCellIndex().second;
-        MapMenuMessages result = MapFunctions.buildBuilding(x, y, BuildingIcon.getDraggingBuildingName());
-        //todo abbasfar show building in map
-        //todo jasbi result
-    }
-
     private void keyHandle(KeyEvent keyEvent) throws IOException {
         switch (gameData.getGameState()) {
             case CELL_SELECTED -> {
@@ -171,40 +165,31 @@ public class MapMenu extends Application {
                     gameData.setStartSelectedCellsPosition(null);
                     gameData.setEndSelectedCellsPosition(null);
                     resetAllSelectedColors();
-                }
-                else if (keyEvent.getCode().equals(GameKeyConstants.attackKey)) {
+                } else if (keyEvent.getCode().equals(GameKeyConstants.attackKey)) {
                     gameData.setGameState(GameState.ATTACKING);
-                }
-                else if (keyEvent.getCode().equals(GameKeyConstants.moveKey)) {
+                } else if (keyEvent.getCode().equals(GameKeyConstants.moveKey)) {
                     gameData.setGameState(GameState.MOVING);
-                }
-                else if (keyEvent.getCode().equals(GameKeyConstants.pourOilKey)) {
+                } else if (keyEvent.getCode().equals(GameKeyConstants.pourOilKey)) {
                     gameData.setGameState(GameState.POURING_OIL);
-                }
-                else if (keyEvent.getCode().equals(GameKeyConstants.dropLadderKey)) {
+                } else if (keyEvent.getCode().equals(GameKeyConstants.dropLadderKey)) {
                     gameGraphicFunctions.dropLadders();
-                }
-                else if (keyEvent.getCode().equals(GameKeyConstants.disbandUnitKey)) {
+                } else if (keyEvent.getCode().equals(GameKeyConstants.disbandUnitKey)) {
                     gameGraphicFunctions.disbandUnits();
-                }
-                else if (keyEvent.getCode().equals(GameKeyConstants.buildEquipmentKey)) {
+                } else if (keyEvent.getCode().equals(GameKeyConstants.buildEquipmentKey)) {
                     gameGraphicFunctions.buildEquipments();
-                }
-                else if (keyEvent.getCode().equals(GameKeyConstants.addRemoveUnit)) {
+                } else if (keyEvent.getCode().equals(GameKeyConstants.addRemoveUnit)) {
                     gameGraphicFunctions.addOrRemoveSelectedUnits();
-                }else if (keyEvent.getCode().equals(GameKeyConstants.selectBuilding)) {
+                } else if (keyEvent.getCode().equals(GameKeyConstants.selectBuilding)) {
                     gameGraphicFunctions.selectBuilding();
-                }
-                else if (keyEvent.getCode().equals(GameKeyConstants.dropUnit)) {
+                } else if (keyEvent.getCode().equals(GameKeyConstants.pasteBuilding)) {
+                    gameGraphicFunctions.pasteBuilding();
+                } else if (keyEvent.getCode().equals(GameKeyConstants.dropUnit)) {
                     gameGraphicFunctions.dropUnit();
-                }
-                else if (keyEvent.getCode().equals(GameKeyConstants.dropBuilding)) {
+                } else if (keyEvent.getCode().equals(GameKeyConstants.dropBuilding)) {
                     gameGraphicFunctions.dropBuilding();
-                }
-                else if (keyEvent.getCode().equals(GameKeyConstants.setTexture)) {
+                } else if (keyEvent.getCode().equals(GameKeyConstants.setTexture)) {
                     gameGraphicFunctions.setTexture();
-                }
-                else if (keyEvent.getCode().equals(GameKeyConstants.setStateOfUnit)) {
+                } else if (keyEvent.getCode().equals(GameKeyConstants.setStateOfUnit)) {
                     gameGraphicFunctions.setStateOfUnits();
                 }
             }
@@ -253,8 +238,8 @@ public class MapMenu extends Application {
                 gameData.setStartSelectedCellsPosition(new Pair<>(tileX, tileY));
                 gameData.setEndSelectedCellsPosition(new Pair<>(tileX, tileY));
 
-                Cell cell= gameData.getMap().getCells()
-                        [tileX+gameData.getCornerCellIndex().first][tileY+gameData.getCornerCellIndex().second];
+                Cell cell = gameData.getMap().getCells()
+                        [tileX + gameData.getCornerCellIndex().first][tileY + gameData.getCornerCellIndex().second];
 
                 gameData.getSelectedUnits().clear();
                 gameData.getAllUnitsInSelectedCells().clear();
@@ -264,16 +249,17 @@ public class MapMenu extends Application {
 
                 resetAllSelectedColors();
 
-                effectTile(tiles[tileX][tileY],0.6,0.2);
+                effectTile(tiles[tileX][tileY], 0.6, 0.2);
             }
-            case ATTACKING, POURING_OIL ,MOVING -> {
+            case ATTACKING, POURING_OIL, MOVING -> {
                 resetAllSelectedColors();
-                effectTile(tiles[tileX][tileY],-0.2,0.2);
-                gameData.setDestinationCellPosition(new Pair<>(tileX,tileY));
+                effectTile(tiles[tileX][tileY], -0.2, 0.2);
+                gameData.setDestinationCellPosition(new Pair<>(tileX, tileY));
             }
         }
     }
-    public void effectTile(Pane tile,double hue,double saturation){
+
+    public void effectTile(Pane tile, double hue, double saturation) {
         ColorAdjust colorAdjust = new ColorAdjust();
         colorAdjust.setHue(hue);
         colorAdjust.setSaturation(saturation);
@@ -283,7 +269,7 @@ public class MapMenu extends Application {
     public void resetAllSelectedColors() {
         for (Pane[] panes : tiles)
             for (Pane pane : panes)
-                effectTile(pane,0,0);
+                effectTile(pane, 0, 0);
     }
 
     private void mouseDragStartHandle(int tileX, int tileY) {
@@ -302,23 +288,22 @@ public class MapMenu extends Application {
         switch (gameData.getGameState()) {
             case VIEW_MAP, CELL_SELECTED -> {
 
-                if(tileX<gameData.getStartSelectedCellsPosition().first ||
-                    tileY<gameData.getStartSelectedCellsPosition().second) {
+                if (tileX < gameData.getStartSelectedCellsPosition().first ||
+                        tileY < gameData.getStartSelectedCellsPosition().second) {
                     gameData.setEndSelectedCellsPosition(
                             new Pair<>(gameData.getStartSelectedCellsPosition().first, gameData.getStartSelectedCellsPosition().second)
                     );
-                }
-                else gameData.setEndSelectedCellsPosition(new Pair<>(tileX, tileY));
+                } else gameData.setEndSelectedCellsPosition(new Pair<>(tileX, tileY));
 
                 gameData.getSelectedUnits().clear();
                 gameData.getAllUnitsInSelectedCells().clear();
 
                 for (int i = gameData.getStartSelectedCellsPosition().first; i <= gameData.getEndSelectedCellsPosition().first; i++)
                     for (int j = gameData.getStartSelectedCellsPosition().second; j <= gameData.getEndSelectedCellsPosition().second; j++) {
-                        effectTile(tiles[i][j],0.6,0.2);
+                        effectTile(tiles[i][j], 0.6, 0.2);
 
-                        Cell cell= gameData.getMap().getCells()
-                                [i+gameData.getCornerCellIndex().first][j+gameData.getCornerCellIndex().second];
+                        Cell cell = gameData.getMap().getCells()
+                                [i + gameData.getCornerCellIndex().first][j + gameData.getCornerCellIndex().second];
                         gameData.getAllUnitsInSelectedCells().addAll(cell.getMovingObjectsOfPlayer(gameData.getPlayerOfTurn()));
                         gameData.getSelectedUnits().addAll(cell.getMovingObjectsOfPlayer(gameData.getPlayerOfTurn()));
                     }
@@ -349,8 +334,7 @@ public class MapMenu extends Application {
                 boolean againClick = scrollPane.getContent().equals(subMenus.get(category));
                 buildingPopupPane.getChildren().clear();
                 if (!againClick) addToPopup(category);
-            }
-            else {
+            } else {
 
                 addToPopup(category);
             }
@@ -396,12 +380,6 @@ public class MapMenu extends Application {
         return buildingIcon;
     }
 
-    private void buildPopularity() {
-        Empire empire = gameData.getPlayingEmpire();
-        //todo maybe faratin beautify
-        makeMainPopularity(empire);
-    }
-
     private void makeFactorsTable() {
         VBox outerBox = makeOuterBox();
         Text text1 = new Text("Popularity factors:");
@@ -436,18 +414,38 @@ public class MapMenu extends Application {
 
     private void makeMainPopularity(Empire empire) {
         Text text = new Text("Popularity : " + empire.getPopularity());
+        System.out.println(empire.getPopularity());
+        System.out.println(gameData.getPlayerOfTurn().getNumber());
+
         text.setStyle("-fx-font: 18 arial;");
         text.setOnMouseClicked(mouseEvent -> {
             if (popularityPopupPane == null) {
                 newPopularityPopup();
-            } else{
+            } else {
                 popularityPopup.hide();
                 popularityPopupPane = null;
             }
         });
         CircleImage circleImage = chooseFaceColor(empire.getPopularity());
-        Rectangle button = makeButton();
-        makeHBox(text, circleImage, button);
+        Rectangle button = makeChangeFactorButton();
+        Rectangle nextTurnButton = makeNextTurnButton();
+        makeHBox(text, circleImage, button, nextTurnButton);
+    }
+
+    private Rectangle makeNextTurnButton() {
+        Rectangle button = new Rectangle(90, 30);
+        button.setArcHeight(30.0);
+        button.setArcWidth(30.0);
+        Image image = new Image(MapMenu.class.getResource("/images/menus/XButton.png").toString());
+        button.setFill(new ImagePattern(image));
+        button.setOnMouseClicked(mouseEvent -> {
+            if (!GameController.nextTurn()) {
+                GameController.showWinner();
+                //todo back to main menu
+            }
+            makeMainPopularity(gameData.getPlayingEmpire());
+        });
+        return button;
     }
 
     private void newPopularityPopup() {
@@ -461,7 +459,6 @@ public class MapMenu extends Application {
     }
 
     private static CircleImage chooseFaceColor(int popularity) {
-        //todo jasbi correct image
         if (popularity > 60) {
             return new CircleImage("/images/empirefactors/green.png", 20);
         } else if (popularity > 30) {
@@ -471,8 +468,8 @@ public class MapMenu extends Application {
         }
     }
 
-    private void makeHBox(Text text, Node circleImage, Rectangle button) {
-        HBox hBox = new HBox(text, circleImage, button);
+    private void makeHBox(Text text, Node circleImage, Rectangle button, Rectangle button2) {
+        HBox hBox = new HBox(text, circleImage, button, button2);
         hBox.setAlignment(Pos.CENTER);
         hBox.setTranslateX(340);
         hBox.setTranslateY(670);
@@ -482,7 +479,7 @@ public class MapMenu extends Application {
         mainPane.getChildren().add(hBox);
     }
 
-    private static Rectangle makeButton() {
+    private static Rectangle makeChangeFactorButton() {
         Rectangle button = new Rectangle(90, 30);
         button.setArcHeight(30.0);
         button.setArcWidth(30.0);
@@ -527,7 +524,7 @@ public class MapMenu extends Application {
 
     private static CircleImage chooseEachFactorFaceColor(Empire empire, Empire.PopularityFactors factor) {
         int factorAffect = empire.getMeasureOfFactor(factor);
-        if (factorAffect>0) {
+        if (factorAffect > 0) {
             return new CircleImage("/images/empirefactors/green.png", 8);
         } else if (factorAffect < 0) {
             return new CircleImage("/images/empirefactors/red.png", 8);

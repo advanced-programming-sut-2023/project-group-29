@@ -3,9 +3,6 @@ set map 0_base
 
 monday:
 jasbi:
-    copy and paste for buildings
-    create unit
-    bugs and todos
 faratin:
     login
     simple menus

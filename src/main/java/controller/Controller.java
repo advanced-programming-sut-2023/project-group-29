@@ -1,14 +1,11 @@
 package controller;
 
 import model.AppData;
-import model.SaveAndLoad;
-import model.User;
 import model.buildings.buildingTypes.*;
 import view.Main;
 import view.menus.*;
+import view.menus.gamepopupmenus.SelectBuildingMenu;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Controller {

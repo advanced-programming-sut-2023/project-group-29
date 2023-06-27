@@ -26,6 +26,7 @@ public class Cell {
     private CellType cellType;
     private boolean hasTunnel = false;
     private boolean sick = false;
+    //todo abbasfar show, maybe with transparency
 
     public Cell(CellType cellType, int xPosition, int yPosition) {
         this.cellType = cellType;

@@ -22,14 +22,12 @@ public class BuildingFunctions {
         BuildingFunctions.selectedBuilding = selectedBuilding;
     }
 
+    public static Building getSelectedBuilding() {
+        return selectedBuilding;
+    }
 
     public static SelectBuildingMenuMessages changeBridgeState() {
-        if (!(selectedBuilding instanceof OtherBuildings building)) {
-            return SelectBuildingMenuMessages.UNRELATED;
-        }
-        if (!building.getOtherBuildingsType().equals(OtherBuildingsType.DRAW_BRIDGE)) {
-            return SelectBuildingMenuMessages.UNRELATED;
-        }
+        OtherBuildings building = (OtherBuildings) selectedBuilding;
         building.changeState();
         return SelectBuildingMenuMessages.SUCCESS;
     }
@@ -37,15 +35,6 @@ public class BuildingFunctions {
     public static SelectBuildingMenuMessages createUnit(String unitType, int count) {
         Empire ownerEmpire = selectedBuilding.getOwnerEmpire();
         SoldierType soldierType = SoldierType.getSoldierTypeByName(unitType);
-        if (soldierType == SoldierType.ENGINEER_WITH_OIL) soldierType = null;
-
-        if (soldierType == null) {
-            return SelectBuildingMenuMessages.INVALID_TYPE;
-        }
-        else if (!(selectedBuilding instanceof UnitCreator
-                && buildingAndTroopMatch((UnitCreator) selectedBuilding, soldierType))) {
-            return SelectBuildingMenuMessages.UNRELATED;
-        }
         UnitCreator building = (UnitCreator) selectedBuilding;
         if (building.getUnitCost() * count > ownerEmpire.getWealth()) {
             return SelectBuildingMenuMessages.LACK_OF_COINS;
@@ -74,7 +63,7 @@ public class BuildingFunctions {
         ownerEmpire.changeWorklessPopulation(-count);
     }
 
-    private static boolean buildingAndTroopMatch(UnitCreator building, SoldierType soldierType) {
+    public static boolean buildingAndTroopMatch(UnitCreator building, SoldierType soldierType) {
         return switch (soldierType) {
             case ARABIAN_SWORDSMAN, ARCHER_BOW, SLINGER, ASSASSIN, HORSE_ARCHER, FIRE_THROWER ->
                     (building.getUnitCreatorType().equals(UnitCreatorType.MERCENARY_POST));

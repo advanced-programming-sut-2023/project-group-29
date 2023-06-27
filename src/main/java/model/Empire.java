@@ -510,7 +510,9 @@ public class Empire {
                 if (cell.hasBuilding()) {
                     Empire empire = cell.getBuilding().getOwnerEmpire();
                     if (empire.equals(gameData.getPlayingEmpire())){
-                        if (cell.isSick()) sickRate++;
+                        if (cell.isSick()){
+                            sickRate++;
+                        }
                     }
                 }
             }

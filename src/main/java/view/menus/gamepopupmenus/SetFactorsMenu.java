@@ -1,4 +1,4 @@
-package view.menus;
+package view.menus.gamepopupmenus;
 
 import controller.menucontrollers.GameController;
 import controller.menucontrollers.MapFunctions;

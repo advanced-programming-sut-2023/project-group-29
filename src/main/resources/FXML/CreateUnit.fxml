@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<Pane xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="view.menus.gamepopupmenus.CreateUnitGraphic"
+      styleClass="background"
+      stylesheets="@../CSS/addRemove.css"
+      prefHeight="500.0" prefWidth="750.0" fx:id="createUnitPane">
+
+    <ImageView layoutX="690" layoutY="20" onMouseClicked="#exitPopUp">
+        <Image url="@../images/menus/XButton.png" requestedWidth="40" requestedHeight="40"/>
+    </ImageView>
+
+    <Label styleClass="headerLabel" text="create unit" layoutX="20" layoutY="20"/>
+</Pane>
