@@ -278,10 +278,6 @@ public class UnitFunctions {
         return attacker.getDamage();
     }
 
-
-    //todo attack complete
-
-
     public static int pourOil(ArrayList<Offensive> engineersWithOil) {
 
         GameData gameData = GameController.getGameData();
@@ -358,7 +354,8 @@ public class UnitFunctions {
         GameData gameData = GameController.getGameData();
         Map map = gameData.getMap();
 
-        Cell currentCell = map.getCells()[gameData.getStartSelectedCellsPosition().first][gameData.getStartSelectedCellsPosition().first];
+        Asset tunnelerAsset=(Asset)tunneler;
+        Cell currentCell = map.getCells()[tunnelerAsset.getPositionX()][tunnelerAsset.getPositionY()];
 
         Offensive.AttackingResult attackingResult = tunneler.canAttack(map, targetX, targetY, true);
         if (attackingResult.equals(Offensive.AttackingResult.TOO_FAR))

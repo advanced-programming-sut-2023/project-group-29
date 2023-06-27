@@ -10,7 +10,7 @@ public class Asset {
     protected String showingSignInMap;
     private int positionX;
     private int positionY;
-    protected String showingImageFilePath;    //todo set for all values
+    protected String showingImageFilePath;
 
     public Asset(PlayerNumber ownerNumber, int positionX, int positionY) {
         this.ownerNumber = ownerNumber;

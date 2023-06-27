@@ -337,80 +337,6 @@ public class GameGraphicFunctions {
         popUpMenu.makePaneCenter(750, 500);
         popUpMenu.showAndWait();    }
 
-    public MenuNames run(Scanner scanner) {
-        while (true) {
-            Matcher matcher;
-            String input = scanner.nextLine();
-
-
-            if ((matcher = Command.getMatcher(input, Command.SET_BLOCK_TEXTURE)) != null) {
-                setBlockTexture(matcher);
-            }
-            else if ((matcher = Command.getMatcher(input, Command.SET_PART_OF_BLOCK_TEXTURE)) != null) {
-                setPartOfBlockTexture(matcher);
-            }
-            else if ((matcher = Command.getMatcher(input, Command.CLEAR)) != null) {
-                clear(matcher);
-            }
-            else if ((matcher = Command.getMatcher(input, Command.DROP_ROCK)) != null) {
-                dropRock(matcher);
-            }
-            else if ((matcher = Command.getMatcher(input, Command.DROP_TREE)) != null) {
-                dropTree(matcher);
-            }
-            else if ((matcher = Command.getMatcher(input, Command.DROP_BUILDING)) != null) {
-                dropBuilding(matcher);
-            }
-            else if ((matcher = Command.getMatcher(input, Command.DROP_UNIT)) != null) {
-                dropUnit(matcher);
-            }
-        }
-    }
-
-    private void createBuilding(Matcher matcher) {
-
-        //MapMenuMessages result = MapMenuController.buildBuilding(x, y, buildingName);
-    }
-
-    private void setBlockTexture(Matcher matcher) {
-        //MapMenuController.setBlockTexture(cellType, x, y);
-    }
-
-    private void setPartOfBlockTexture(Matcher matcher) {
-        //MapMenuController.setPartOfBlockTexture(cellType, x1, y1, x2, y2);
-    }
-
-    private void clear(Matcher matcher) {
-        //MapMenuController.clear(x, y);
-    }
-
-    private void dropRock(Matcher matcher) {
-
-        //System.out.println(MapMenuController.dropRock(x, y, direction));
-    }
-
-    private void dropTree(Matcher matcher) {
-
-//        MapMenuMessages result = MapMenuController.dropTree(x, y, type);
-//        switch (result) {
-//            case SUCCESSFUL -> System.out.println("The tree was successfully added!");
-//            case INVALID_INDEX -> System.out.println("Invalid Index!");
-//        }
-    }
-
-    private void dropUnit(Matcher matcher) {
-//        MapMenuMessages mapMenuMessages = MapMenuController.dropUnit(x, y, type, count, playerNumberInt);
-//        switch (mapMenuMessages) {
-//            case INVALID_UNIT_NAME -> System.out.println("Invalid unit name!");
-//            case INVALID_INDEX -> System.out.println("Invalid index!");
-//            case IMPROPER_CELL_TYPE -> System.out.println("You can not drop this type of unit here!");
-//            case SUCCESSFUL -> System.out.println("You dropped your unit successfully!");
-//        }
-    }
-
-    private void dropBuilding(Matcher matcher) {
-//        MapMenuController.dropBuildingAsAdmin(x, y, buildingName, n);
-    }
 
     public void exitPopUp() {
         popUpMenu.hide();
@@ -545,8 +471,8 @@ public class GameGraphicFunctions {
             System.setErr(new PrintStream("error.log"));
             Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
             String buildingName = c.getData(DataFlavor.stringFlavor).toString();
-            int x = gameData.getStartSelectedCellsPosition().first;
-            int y = gameData.getStartSelectedCellsPosition().second;
+            int x = gameData.getStartSelectedCellsPosition().first + gameData.getCornerCellIndex().first;
+            int y = gameData.getStartSelectedCellsPosition().second + gameData.getCornerCellIndex().second;
             if (Building.isBuildingNameValid(buildingName)) {
                 callBuildBuilding(x, y, buildingName);
             }

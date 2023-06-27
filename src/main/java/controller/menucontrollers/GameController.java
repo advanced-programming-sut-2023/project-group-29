@@ -1,5 +1,6 @@
 package controller.menucontrollers;
 
+import javafx.scene.paint.Color;
 import model.*;
 import model.buildings.Building;
 import model.buildings.buildingTypes.OtherBuildingsType;
@@ -14,7 +15,6 @@ import model.unitfeatures.Movable;
 import model.unitfeatures.Offensive;
 import model.unitfeatures.UnitState;
 import model.weapons.weaponClasses.Trap;
-import view.menus.GameMenu;
 import view.messages.GameMenuMessages;
 import view.messages.SelectUnitMenuMessages;
 
@@ -313,7 +313,7 @@ public class GameController {
     }
 
     public static void notify(String message) {
-        GameMenu.print(message);
+        gameData.getGameGraphicFunctions().alertMessage(Color.YELLOW,"warning",message);
     }
 
     public static int showWealth() {

@@ -91,7 +91,6 @@ public class MapInitializer {
         MapFunctions.dropUnit(103, 100, SoldierType.ARCHER.getName(), 2, 2);
         MapFunctions.dropUnit(188, 190, SoldierType.ARCHER.getName(), 2, 3);
 
-
         return secondMap;
     }
 

@@ -16,7 +16,6 @@ public class EnterMenuGraphic {
     public void cheat(MouseEvent mouseEvent) throws Exception {
         LoginMenuController.login("alii","Aa@100");
         new MainMenu().start(AppData.getStage());
-
         //todo delete after use
     }
 }

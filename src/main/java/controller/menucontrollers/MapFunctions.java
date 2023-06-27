@@ -25,18 +25,6 @@ import view.messages.MapMenuMessages;
 
 public class MapFunctions {
     private static final int tileCapacityForShowingUnits=10;//todo should update with zoom level
-    public static MapMenuMessages setShowingMapIndexes(int indexX, int indexY) {
-//        Map map = GameController.getGameData().getMap();
-//        if (!map.isIndexValid(indexX, indexY))
-//            return MapMenuMessages.INVALID_INDEX;
-//
-//        showingMapIndexX = indexX;
-//        showingMapIndexY = indexY;
-        //todo for mini map
-
-        return MapMenuMessages.SUCCESSFUL;
-    }
-
     public static Pane[][] showMap(int indexX, int indexY, Group rootPane) {
         GameData gameData=GameController.getGameData();
         int tileWidth=gameData.getTileWidth();

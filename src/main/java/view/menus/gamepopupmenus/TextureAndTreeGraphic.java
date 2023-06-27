@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import model.GameData;
 import model.ImagePracticalFunctions;
 import model.map.CellType;
 import model.map.TreeType;
@@ -53,10 +54,10 @@ public class TextureAndTreeGraphic {
     }
 
     private void clickOnCellTypeFunction(String typeName) {
-        int x = GameController.getGameData().getStartSelectedCellsPosition().first;
-        int y = GameController.getGameData().getStartSelectedCellsPosition().second;
-        //this function was not good in 0 base or 1 base
-        //todo
+        GameData gameData=GameController.getGameData();
+        int x = gameData.getStartSelectedCellsPosition().first + gameData.getCornerCellIndex().first;
+        int y = gameData.getStartSelectedCellsPosition().second + gameData.getCornerCellIndex().second;
+
         CellType cellType = CellType.getCellTypeByName(typeName);
         String result = MapFunctions.setBlockTexture(cellType, x, y);
         GameGraphicFunctions gameGraphicFunctions = GameController.getGameData().getGameGraphicFunctions();
@@ -70,8 +71,10 @@ public class TextureAndTreeGraphic {
     }
 
     private void clickOnTreeFunction(String treeName) {
-        int x = GameController.getGameData().getStartSelectedCellsPosition().first;
-        int y = GameController.getGameData().getStartSelectedCellsPosition().second;
+        GameData gameData=GameController.getGameData();
+        int x = gameData.getStartSelectedCellsPosition().first + gameData.getCornerCellIndex().first;
+        int y = gameData.getStartSelectedCellsPosition().second + gameData.getCornerCellIndex().second;
+
         MapMenuMessages result = MapFunctions.dropTree(x, y, treeName);
         if (result == MapMenuMessages.SUCCESSFUL) {
             GameGraphicFunctions gameGraphicFunctions = GameController.getGameData().getGameGraphicFunctions();

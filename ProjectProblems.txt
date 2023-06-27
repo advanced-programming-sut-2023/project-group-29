@@ -1,10 +1,7 @@
-static menus
-set map 0_base
 
-monday:
 jasbi:
-
-no sysout
+    drop tree start to end for loop
+    give fire
 
 
 faratin:
@@ -13,10 +10,16 @@ faratin:
 
 
 abbasfar:
+    show trees
+    three to1do i have
 
+
+    thinking for rock
+    kasif kari
+    sout
+    error for print
     delete cheat and default ...
     delete runs
 
-    change texture,trees pictures, pictures logic rock and trees
 
 

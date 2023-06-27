@@ -1,6 +1,5 @@
 package view.menus;
 
-import controller.Controller;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -14,13 +13,10 @@ import model.AppData;
 import model.SaveAndLoad;
 import model.User;
 import view.Command;
-import view.Main;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import static controller.Controller.buildEnums;
 
 public class EnterMenu extends Application {
 
@@ -43,9 +39,6 @@ public class EnterMenu extends Application {
         stage.setScene(scene);
         pane.getChildren().get(0).requestFocus();
         stage.show();
-
-        Controller.buildEnums();    //todo should definitely be removed but wait and see
-
     }
     private void changeBackground(Pane pane) {
         pane.getChildren().get(0).setOnKeyPressed(new EventHandler<KeyEvent>() {

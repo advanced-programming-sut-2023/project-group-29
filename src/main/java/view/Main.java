@@ -1,10 +1,8 @@
 package view;
 
-import controller.Controller;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import view.menus.LoginMenu;
@@ -27,7 +25,5 @@ public class Main extends Application {
         Scene scene=new Scene(pane);
         stage.setScene(scene);
         stage.show();
-
-        //Controller.run();
     }
 }
