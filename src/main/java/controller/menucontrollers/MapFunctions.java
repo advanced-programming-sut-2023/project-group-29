@@ -3,7 +3,9 @@ package controller.menucontrollers;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.PixelWriter;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import model.*;
 import model.buildings.Building;
 import model.buildings.buildingClasses.OtherBuildings;
@@ -18,6 +20,7 @@ import model.weapons.Weapon;
 import model.weapons.weaponClasses.Equipments;
 import model.weapons.weaponClasses.OffensiveWeapons;
 import model.weapons.weaponClasses.StaticOffensiveWeapons;
+import view.menus.MapMenu;
 import view.messages.MapMenuMessages;
 
 public class MapFunctions {
@@ -397,5 +400,12 @@ public class MapFunctions {
         empire.setFearRate(fearRate);
         empire.setTaxRate(taxRate);
         empire.setFoodRate(foodRate);
+    }
+
+    public static void refreshMiniMap(Cell cell) {
+        PixelWriter writer =  GameController.getGameData().getMapMenu().getMiniMapWriter();
+        Image image1 = new Image(MapMenu.class.getResource(cell.getCellType().getImageAddress()).toString());
+        Color color = image1.getPixelReader().getColor(0, 0);
+        writer.setColor(cell.getXPosition(), cell.getYPosition(), color);
     }
 }

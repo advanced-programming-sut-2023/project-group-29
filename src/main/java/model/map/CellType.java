@@ -91,4 +91,8 @@ public enum CellType {
     public Image getImage(){
         return new Image(LoginMenu.class.getResource("/images/tiles/"+showingImageFileName).toExternalForm());
     }
+
+    public String getImageAddress(){
+        return "/images/tiles/" + showingImageFileName;
+    }
 }

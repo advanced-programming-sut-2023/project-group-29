@@ -1,5 +1,6 @@
 package model.map;
 
+import controller.menucontrollers.MapFunctions;
 import model.*;
 import model.buildings.Building;
 import model.buildings.buildingClasses.*;
@@ -173,6 +174,7 @@ public class Cell {
 
     public void setCellType(CellType cellType) {
         this.cellType = cellType;
+        MapFunctions.refreshMiniMap(this);
     }
 
     public boolean isAbleToMoveOn() {

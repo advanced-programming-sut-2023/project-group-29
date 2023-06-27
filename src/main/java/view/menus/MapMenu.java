@@ -12,6 +12,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -34,6 +36,7 @@ import java.net.URL;
 import java.util.HashMap;
 
 public class MapMenu extends Application {
+    private PixelWriter miniMapWriter;
     private Pane mainPane = null;
     private GameData gameData = null;
     private Pane[][] tiles = null;
@@ -46,6 +49,9 @@ public class MapMenu extends Application {
     private final HashMap<Category, VBox> subMenus = new HashMap<>();
     private GamePopUpMenus currentCellDetailsPopup;
 
+    public PixelWriter getMiniMapWriter() {
+        return miniMapWriter;
+    }
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -72,12 +78,41 @@ public class MapMenu extends Application {
         setUpAndShowMap();
         makeMainPopularity(gameData.getPlayingEmpire());
         makeBuildingBar();
-
-        GamePopUpMenus buildingPopUp = new GamePopUpMenus(mainPane, buildingPopupPane, GamePopUpMenus.PopUpType.BUILDING_ICONS_COLUMN);
+        makeMiniMap();
+        GamePopUpMenus buildingPopUp = new GamePopUpMenus
+                (mainPane, buildingPopupPane, GamePopUpMenus.PopUpType.BUILDING_ICONS_COLUMN);
         buildingPopUp.showAndWait();
-
         stage.setScene(scene);
         stage.show();
+    }
+
+    private void makeMiniMap() {
+        Rectangle miniMap = new Rectangle(100, 100);
+        miniMap.setTranslateX(10);
+        miniMap.setTranslateY(10);
+        int y = gameData.getMap().getHeight();
+        int x = gameData.getMap().getWidth();
+        WritableImage image = new WritableImage(x, y);
+        miniMapWriter = image.getPixelWriter();
+        for (int i = 0; i < x; i++) {
+            for (int j = 0; j < y; j++) {
+                Cell cell = gameData.getMap().getCells()[i][j];
+                Image image1 = new Image(MapMenu.class.getResource(cell.getCellType().getImageAddress()).toString());
+                Color color = image1.getPixelReader().getColor(0, 0);
+                miniMapWriter.setColor(i, j, color);
+            }
+        }
+        miniMap.setFill(new ImagePattern(image));
+        mainPane.getChildren().add(miniMap);
+        miniMap.setOnMouseClicked(this::moveMap);
+    }
+
+    private void moveMap(MouseEvent mouseEvent) {
+        if (!gameData.getGameState().equals(GameState.VIEW_MAP)) return;
+        int x1 = (int) Math.floor(mouseEvent.getX());
+        int y1 = (int) Math.floor(mouseEvent.getY());
+        gameData.setCornerCellIndex(new Pair<>(x1, y1));
+        setUpAndShowMap();
     }
 
     public void setUpAndShowMap() {
