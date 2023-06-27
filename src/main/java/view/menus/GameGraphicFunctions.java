@@ -234,12 +234,9 @@ public class GameGraphicFunctions {
     }
 
     public void dropBuilding() throws IOException {
-        //todo complete
-        Pane equipmentPane = FXMLLoader.load(MapMenu.class.getResource("/FXML/AddOrRemoveSelectedUnits.fxml"));
-
-        popUpMenu = new GamePopUpMenus(mainPane, equipmentPane, GamePopUpMenus.PopUpType.EDIT_SELECTED_UNITS);
+        Pane equipmentPane = FXMLLoader.load(MapMenu.class.getResource("/FXML/DropBuilding.fxml"));
+        popUpMenu = new GamePopUpMenus(mainPane, equipmentPane, GamePopUpMenus.PopUpType.DROP_BUILDING);
         popUpMenu.makePaneCenter(750, 500);
-
         popUpMenu.showAndWait();
     }
 

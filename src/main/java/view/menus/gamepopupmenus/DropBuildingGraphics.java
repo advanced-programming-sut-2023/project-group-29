@@ -1,65 +1,82 @@
 package view.menus.gamepopupmenus;
 
 import controller.menucontrollers.GameController;
-import controller.menucontrollers.UnitFunctions;
-import javafx.event.EventHandler;
+import controller.menucontrollers.MapFunctions;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import model.GameData;
 import model.ImagePracticalFunctions;
-import model.weapons.weaponTypes.EquipmentsType;
-import model.weapons.weaponTypes.OffensiveWeaponsType;
-import model.weapons.weaponTypes.StaticOffensiveWeaponsType;
-import model.weapons.weaponTypes.TrapType;
-import view.menus.EnterMenu;
+import model.buildings.Building;
+import model.buildings.BuildingType;
+import model.buildings.buildingTypes.BuildType;
+import view.menus.GameGraphicFunctions;
+import view.menus.MapMenu;
+import view.messages.MapMenuMessages;
 
 public class DropBuildingGraphics {
     @FXML
-    private HBox equipmentHBox;
+    private TextField ownerNumber;
+    @FXML
+    private Pane dropBuildingPane;
 
-    public void exitPopUp(MouseEvent mouseEvent) {
+    private final int numberOfPicturesInRow = 10;
+
+    public void exitPopUp() {
         GameController.getGameData().getGameGraphicFunctions().exitPopUp();
     }
 
     @FXML
-    public void initialize(){
-        int index=0;
-        for(EquipmentsType type : EquipmentsType.values()){
-            Image image=new Image(EnterMenu.class.getResource(type.getWeaponTypes().showingImageFilePath()).toExternalForm());
-            setupImage(image,index,type.getName());
-            index++;
-        }
-        for(OffensiveWeaponsType type : OffensiveWeaponsType.values()){
-            Image image=new Image(EnterMenu.class.getResource(type.getWeaponTypes().showingImageFilePath()).toExternalForm());
-            setupImage(image,index,type.getName());
-            index++;
-        }
-        for(TrapType type : TrapType.values()){
-            Image image=new Image(EnterMenu.class.getResource(type.getWeaponTypes().showingImageFilePath()).toExternalForm());
-            setupImage(image,index,type.getName());
-            index++;
-        }
-        for(StaticOffensiveWeaponsType type : StaticOffensiveWeaponsType.values()){
-            Image image=new Image(EnterMenu.class.getResource(type.getWeaponTypes().showingImageFilePath()).toExternalForm());
-            setupImage(image,index,type.getName());
+    public void initialize() {
+        int index = 0;
+        for (BuildType type : Building.getBuildingTypesAndTheirGroup().keySet()) {
+            BuildingType buildingType = type.getBuildingType();
+            String imageAddress = "/images/buildings/" + buildingType.category().name() + "/" +
+                    buildingType.name() + ".png";
+            Image image = new Image(MapMenu.class.getResource(imageAddress).toString());
+            setupUnitImage(image, index, buildingType.name());
             index++;
         }
     }
-    public void setupImage(Image image,int index,String typeName){
-        ImageView imageView=new ImageView(image);
-        ImagePracticalFunctions.fitWidthHeight(imageView,70,70);
-        imageView.setLayoutX(50*index+5);
 
-        imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                UnitFunctions.buildEquipment(typeName);
-                GameController.getGameData().getMapMenu().setUpAndShowMap();
-            }
-        });
+    public void setupUnitImage(Image image, int index, String buildingName) {
+        ImageView imageView = new ImageView(image);
+        ImagePracticalFunctions.fitWidthHeight(imageView, 60, 60);
+        imageView.setLayoutX(65 * (index % numberOfPicturesInRow) + 50);
+        imageView.setLayoutY(70 * (index / numberOfPicturesInRow) + 120);
+        imageView.setOnMouseClicked(mouseEvent -> functionOnBuildingClick(buildingName));
+        dropBuildingPane.getChildren().add(imageView);
+    }
 
-        equipmentHBox.getChildren().add(imageView);
+    private void functionOnBuildingClick(String buildingName) {
+        GameData gameData = GameController.getGameData();
+        GameGraphicFunctions gameGraphicFunctions = gameData.getGameGraphicFunctions();
+        int x = gameData.getStartSelectedCellsPosition().first + gameData.getCornerCellIndex().first;
+        int y = gameData.getStartSelectedCellsPosition().second + gameData.getCornerCellIndex().second;
+        int playerNumber = 0;
+        if (!ownerNumber.getText().matches("\\d")) {
+            gameGraphicFunctions.alertMessage(Color.RED, "drop failed", "please enter a valid player number");
+            return;
+        } else playerNumber = Integer.parseInt(ownerNumber.getText());
+        if (playerNumber <= 0 || playerNumber > gameData.getNumberOfPlayers()) {
+            gameGraphicFunctions.alertMessage(Color.RED, "drop failed", "please enter a valid player number");
+            return;
+        }
+        MapMenuMessages result = MapFunctions.dropBuildingAsAdmin(x, y, buildingName, playerNumber);
+        switch (result) {
+            case FULL_CELL -> gameGraphicFunctions.alertMessage
+                    (Color.RED, "full cell", "Another building has been already built here");
+            case IMPROPER_CELL_TYPE -> gameGraphicFunctions.alertMessage
+                    (Color.RED, "improper cell type", "Another building has been already built here");
+            case TWO_MAIN_KEEP -> gameGraphicFunctions.alertMessage
+                    (Color.RED, "two main keep", "having two main keeps is illegal");
+            case UNCONNECTED_STOREROOMS -> gameGraphicFunctions.alertMessage
+                    (Color.RED, "unconnected storerooms", "Your storerooms should be connected to each other");
+            case SUCCESSFUL -> gameGraphicFunctions.alertMessage
+                    (Color.GREEN, "success", "The building was successfully droped");
+        }
     }
 }

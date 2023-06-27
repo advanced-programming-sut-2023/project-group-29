@@ -414,9 +414,6 @@ public class MapMenu extends Application {
 
     private void makeMainPopularity(Empire empire) {
         Text text = new Text("Popularity : " + empire.getPopularity());
-        System.out.println(empire.getPopularity());
-        System.out.println(gameData.getPlayerOfTurn().getNumber());
-
         text.setStyle("-fx-font: 18 arial;");
         text.setOnMouseClicked(mouseEvent -> {
             if (popularityPopupPane == null) {

@@ -19,7 +19,8 @@
         <Image url="@../images/menus/XButton.png" requestedWidth="40" requestedHeight="40"/>
     </ImageView>
 
-    <Label styleClass="headerLabel" text="drop units" layoutX="20" layoutY="20"/>
-    <Label layoutX="40" layoutY="40" text="number of player"/>
-    <TextField layoutX="60" layoutY="40" promptText="owner number" maxWidth="20" fx:id="ownerNumber"/>
+    <Label styleClass="headerLabel" text="drop building" layoutX="20" layoutY="20"/>
+    <Label layoutX="40" layoutY="80" text="number of player" styleClass="textLabel"/>
+    <TextField layoutX="300" layoutY="80" promptText="owner number"
+               minWidth="40" maxWidth="40" maxHeight="30" fx:id="ownerNumber"/>
 </Pane>

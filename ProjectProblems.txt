@@ -3,6 +3,9 @@ set map 0_base
 
 monday:
 jasbi:
+
+JavaMessage:Cannot read field "first" because there turn value of "model.GameData.getStartSelectedCellsPosition()" is null
+
 faratin:
     login
     simple menus
