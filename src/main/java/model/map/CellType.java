@@ -8,10 +8,10 @@ import model.buildings.buildingTypes.ResourceExtractorType;
 import view.menus.LoginMenu;
 
 public enum CellType {
-    UP_ROCK(ConsoleColors.RED_BACKGROUND,"rock1.png", false, "upRock"),
-    DOWN_ROCK(ConsoleColors.RED_BACKGROUND,"rock2.png", false, "downRock"),
-    RIGHT_ROCK(ConsoleColors.RED_BACKGROUND,"rock3.png", false, "rightRock"),
-    LEFT_ROCK(ConsoleColors.RED_BACKGROUND,"rock4.png", false, "leftRock"),
+    UP_ROCK(ConsoleColors.RED_BACKGROUND,"rock1.jpeg", false, "upRock"),
+    DOWN_ROCK(ConsoleColors.RED_BACKGROUND,"rock2.jpeg", false, "downRock"),
+    RIGHT_ROCK(ConsoleColors.RED_BACKGROUND,"rock3.jpeg", false, "rightRock"),
+    LEFT_ROCK(ConsoleColors.RED_BACKGROUND,"rock4.jpeg", false, "leftRock"),
     //زمین عادی
     PLAIN_GROUND(ConsoleColors.YELLOW_BACKGROUND,"Plain1.jpg", true, "plainGround"),
     //زمین با خرده‌سنگ

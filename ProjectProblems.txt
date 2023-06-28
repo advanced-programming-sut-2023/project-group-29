@@ -10,11 +10,6 @@ faratin:
 
 
 abbasfar:
-    show trees
-    three to1do i have
-
-
-    thinking for rock
     kasif kari
     sout
     error for print
