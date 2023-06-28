@@ -325,10 +325,17 @@ public class GameGraphicFunctions {
     }
 
     public void dropBuilding() throws IOException {
-        Pane equipmentPane = FXMLLoader.load(MapMenu.class.getResource("/FXML/DropBuilding.fxml"));
-        popUpMenu = new GamePopUpMenus(mainPane, equipmentPane, GamePopUpMenus.PopUpType.DROP_BUILDING);
-        popUpMenu.makePaneCenter(750, 500);
-        popUpMenu.showAndWait();
+        GameData gameData = GameController.getGameData();
+        if (gameData.getStartSelectedCellsPosition().isEqualTo(gameData.getEndSelectedCellsPosition())) {
+            Pane equipmentPane = FXMLLoader.load(MapMenu.class.getResource("/FXML/DropBuilding.fxml"));
+            popUpMenu = new GamePopUpMenus(mainPane, equipmentPane, GamePopUpMenus.PopUpType.DROP_BUILDING);
+            popUpMenu.makePaneCenter(750, 500);
+            popUpMenu.showAndWait();        }
+        else {
+            gameData.getGameGraphicFunctions().alertMessage
+                    (Color.RED, "building error", "for dropping building you must choose one cell!");
+        }
+
     }
 
     public void setTexture() throws IOException {

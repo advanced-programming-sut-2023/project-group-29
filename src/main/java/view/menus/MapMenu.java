@@ -27,6 +27,7 @@ import model.buildings.Category;
 import model.buildings.buildingTypes.BuildType;
 import model.gamestates.GameState;
 import model.map.Cell;
+import model.map.Map;
 import view.menus.gamepopupmenus.SetFactorsMenu;
 import view.shape.BuildingIcon;
 import view.shape.CircleImage;
@@ -48,6 +49,11 @@ public class MapMenu extends Application {
     private Pane buildingPopupPane;
     private final HashMap<Category, VBox> subMenus = new HashMap<>();
     private GamePopUpMenus currentCellDetailsPopup;
+
+    public static void refreshBottomMenu() {
+        MapMenu mapMenu = GameController.getGameData().getMapMenu();
+        mapMenu.makeMainPopularity(GameController.getGameData().getPlayingEmpire());
+    }
 
     public PixelWriter getMiniMapWriter() {
         return miniMapWriter;
@@ -120,12 +126,12 @@ public class MapMenu extends Application {
         tiles = MapFunctions.showMap(gameData.getCornerCellIndex().first, gameData.getCornerCellIndex().second, tilesGroupInMainPainChildren);
         setTilesListeners();
 
-        if(Pair.notNull(gameData.getStartSelectedCellsPosition()) && Pair.notNull(gameData.getEndSelectedCellsPosition()))
-            for(int i=gameData.getStartSelectedCellsPosition().first;i<=gameData.getEndSelectedCellsPosition().first;i++)
-                for(int j=gameData.getStartSelectedCellsPosition().second;j<=gameData.getEndSelectedCellsPosition().second;j++)
-                    effectTile(tiles[i][j],0.6,0.2);
+        if (Pair.notNull(gameData.getStartSelectedCellsPosition()) && Pair.notNull(gameData.getEndSelectedCellsPosition()))
+            for (int i = gameData.getStartSelectedCellsPosition().first; i <= gameData.getEndSelectedCellsPosition().first; i++)
+                for (int j = gameData.getStartSelectedCellsPosition().second; j <= gameData.getEndSelectedCellsPosition().second; j++)
+                    effectTile(tiles[i][j], 0.6, 0.2);
 
-        if(Pair.notNull(gameData.getDestinationCellPosition()))
+        if (Pair.notNull(gameData.getDestinationCellPosition()))
             effectTile(tiles[gameData.getDestinationCellPosition().first][gameData.getDestinationCellPosition().second], -0.2, 0.2);
     }
 
@@ -167,7 +173,7 @@ public class MapMenu extends Application {
                 });
 
                 tiles[i][j].setOnDragDropped(dragEvent -> {
-                    if(dragEvent.getDragboard().hasString())
+                    if (dragEvent.getDragboard().hasString())
                         mouseDragEndHandle(i_dup, j_dup);
                     else if (dragEvent.getDragboard().hasImage()) {
                         int x = i_dup + gameData.getCornerCellIndex().first;
@@ -494,6 +500,10 @@ public class MapMenu extends Application {
     private void makeMainPopularity(Empire empire) {
         Text text = new Text("Popularity : " + empire.getPopularity());
         text.setStyle("-fx-font: 18 arial;");
+        Text text1 = new Text("wealth : " + empire.getWealth());
+        text1.setStyle("-fx-font: 18 arial;");
+        Text text2 = new Text("Population : " + empire.getPopulation());
+        text2.setStyle("-fx-font: 18 arial;");
         text.setOnMouseClicked(mouseEvent -> {
             if (popularityPopupPane == null) {
                 newPopularityPopup();
@@ -505,7 +515,7 @@ public class MapMenu extends Application {
         CircleImage circleImage = chooseFaceColor(empire.getPopularity());
         Rectangle button = makeChangeFactorButton();
         Rectangle nextTurnButton = makeNextTurnButton();
-        makeHBox(text, circleImage, button, nextTurnButton);
+        makeHBox(text2, text1, text, circleImage, button, nextTurnButton);
     }
 
     private Rectangle makeNextTurnButton() {
@@ -544,13 +554,13 @@ public class MapMenu extends Application {
         }
     }
 
-    private void makeHBox(Text text, Node circleImage, Rectangle button, Rectangle button2) {
-        HBox hBox = new HBox(text, circleImage, button, button2);
+    private void makeHBox(Text text, Text text1, Text text2, Node circleImage, Rectangle button, Rectangle button2) {
+        HBox hBox = new HBox(text, text1, text2, circleImage, button, button2);
         hBox.setAlignment(Pos.CENTER);
-        hBox.setTranslateX(340);
+        hBox.setTranslateX(270);
         hBox.setTranslateY(670);
-        hBox.setPrefWidth(400);
-        hBox.setSpacing(40);
+        hBox.setPrefWidth(600);
+        hBox.setSpacing(10);
         hBox.setBackground(new Background(new BackgroundFill(Color.GOLD, null, null)));
         mainPane.getChildren().add(hBox);
     }

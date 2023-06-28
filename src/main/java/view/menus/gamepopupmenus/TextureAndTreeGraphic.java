@@ -13,7 +13,6 @@ import model.map.CellType;
 import model.map.TreeType;
 import view.menus.GameGraphicFunctions;
 import view.menus.MapMenu;
-import view.messages.MapMenuMessages;
 
 public class TextureAndTreeGraphic {
     @FXML
@@ -45,41 +44,52 @@ public class TextureAndTreeGraphic {
         ImagePracticalFunctions.fitWidthHeight(imageView, 70, 70);
         imageView.setLayoutX(75 * (index % numberOfPicturesInRow) + 50);
         imageView.setLayoutY(80 * (index / numberOfPicturesInRow) + 120);
+        GameData gameData = GameController.getGameData();
+        int x1 = gameData.getStartSelectedCellsPosition().first + gameData.getCornerCellIndex().first;
+        int y1 = gameData.getStartSelectedCellsPosition().second + gameData.getCornerCellIndex().second;
+        int x2 = gameData.getEndSelectedCellsPosition().first + gameData.getCornerCellIndex().first;
+        int y2 = gameData.getEndSelectedCellsPosition().second + gameData.getCornerCellIndex().second;
         if (myClass == TreeType.class) {
-            imageView.setOnMouseClicked(mouseEvent -> clickOnTreeFunction(typeName));
+            imageView.setOnMouseClicked(mouseEvent -> {
+                clickOnTreeFunction(typeName, x1, y1, x2, y2);
+            });
         } else if (myClass == CellType.class) {
-            imageView.setOnMouseClicked(mouseEvent -> clickOnCellTypeFunction(typeName));
+            imageView.setOnMouseClicked(mouseEvent -> {
+                clickOnCellTypeFunction(typeName, x1, y1, x2, y2);
+            });
         }
         textureAndTreePane.getChildren().add(imageView);
     }
 
-    private void clickOnCellTypeFunction(String typeName) {
-        GameData gameData=GameController.getGameData();
-        int x = gameData.getStartSelectedCellsPosition().first + gameData.getCornerCellIndex().first;
-        int y = gameData.getStartSelectedCellsPosition().second + gameData.getCornerCellIndex().second;
-
+    private void clickOnCellTypeFunction(String typeName, int x1, int y1, int x2, int y2) {
         CellType cellType = CellType.getCellTypeByName(typeName);
-        String result = MapFunctions.setBlockTexture(cellType, x, y);
+        String result, finalResult = "Type of the cell was successfully changed";
+        for (int i = x1; i <= x2; i++) {
+            for (int j = y1; j <= y2; j++) {
+                result = MapFunctions.setBlockTexture(cellType, i, j);
+                if (result.equals("You can't change texture of this cell!")) {
+                    finalResult = "You can't change texture of this cell!";
+                }
+            }
+        }
         GameGraphicFunctions gameGraphicFunctions = GameController.getGameData().getGameGraphicFunctions();
-        switch (result) {
+        switch (finalResult) {
             case "You can't change texture of this cell!" -> gameGraphicFunctions.alertMessage
-                    (Color.RED, "unchangeable", result);
+                    (Color.RED, "unchangeable", finalResult);
             case "Type of the cell was successfully changed" -> gameGraphicFunctions.alertMessage
-                    (Color.GREEN, "success", result);
+                    (Color.GREEN, "success", finalResult);
         }
 
     }
 
-    private void clickOnTreeFunction(String treeName) {
-        GameData gameData=GameController.getGameData();
-        int x = gameData.getStartSelectedCellsPosition().first + gameData.getCornerCellIndex().first;
-        int y = gameData.getStartSelectedCellsPosition().second + gameData.getCornerCellIndex().second;
-
-        MapMenuMessages result = MapFunctions.dropTree(x, y, treeName);
-        if (result == MapMenuMessages.SUCCESSFUL) {
-            GameGraphicFunctions gameGraphicFunctions = GameController.getGameData().getGameGraphicFunctions();
-            gameGraphicFunctions.alertMessage(Color.GREEN, "success", "The tree was successfully dropped");
+    private void clickOnTreeFunction(String treeName, int x1, int y1, int x2, int y2) {
+        for (int i = x1; i <= x2; i++) {
+            for (int j = y1; j <= y2; j++) {
+                MapFunctions.dropTree(i, j, treeName);
+            }
         }
+        GameGraphicFunctions gameGraphicFunctions = GameController.getGameData().getGameGraphicFunctions();
+        gameGraphicFunctions.alertMessage(Color.GREEN, "success", "The tree was successfully dropped");
     }
 }
 

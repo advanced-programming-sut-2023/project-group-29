@@ -32,9 +32,14 @@ public class OtherBuildings extends Building {
     public void update() {
         Cell currentCell = GameController.getGameData().getMap().getCells()[getPositionX()][getPositionY()];
         if (otherBuildingsType.equals(OtherBuildingsType.OIL_SMELTER)) {
-            Soldier engineer = findEngineer(currentCell);
-            if (engineer != null) {
-                convertEngineerToEngineerWithOil(engineer, currentCell);
+            Soldier soldier = findSoldier(currentCell);
+            if (soldier != null) {
+                if (soldier.getSoldierType().equals(SoldierType.ENGINEER)) {
+                    convertEngineerToEngineerWithOil(soldier, currentCell);
+                } else if (soldier.getSoldierType().equals(SoldierType.ENGINEER_WITH_OIL)) {
+                } else {
+                    soldier.setHasFire(true);
+                }
             }
         }
     }
@@ -46,10 +51,11 @@ public class OtherBuildings extends Building {
                 "engineerWithOil", 1, playerNumber.getNumber() + 1);
     }
 
-    private Soldier findEngineer(Cell currentCell) {
+    private Soldier findSoldier(Cell currentCell) {
         for (Asset asset : currentCell.getMovingObjects()) {
             if (asset instanceof Soldier soldier) {
-                if (soldier.getSoldierType().equals(SoldierType.ENGINEER)) return soldier;
+                if (soldier.getOwnerEmpire().equals(currentCell.getBuilding().getOwnerEmpire())
+                && !soldier.hasFire()) return soldier;
             }
         }
         return null;
@@ -59,8 +65,7 @@ public class OtherBuildings extends Building {
         if (showingSignInMap.charAt(4) == 'D') {
             showingSignInMap = showingSignInMap.substring(0, 4) + "U" + showingSignInMap.charAt(5);
             showingImageFilePath = "/images/buildings/CASTLE/drawBridge2.png";
-        }
-        else if (showingSignInMap.charAt(4) == 'U') {
+        } else if (showingSignInMap.charAt(4) == 'U') {
             showingSignInMap = showingSignInMap.substring(0, 4) + "D" + showingSignInMap.charAt(5);
             showingImageFilePath = "/images/buildings/CASTLE/drawBridge.png";
         }

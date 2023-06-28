@@ -39,6 +39,7 @@ public class EnterMenu extends Application {
         stage.setScene(scene);
         pane.getChildren().get(0).requestFocus();
         stage.show();
+        EnterMenuGraphic.buildEnums();
     }
     private void changeBackground(Pane pane) {
         pane.getChildren().get(0).setOnKeyPressed(new EventHandler<KeyEvent>() {

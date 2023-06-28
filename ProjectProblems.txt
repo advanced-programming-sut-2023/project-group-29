@@ -1,7 +1,11 @@
+static menus
+set map 0_base
 
+monday:
 jasbi:
-    drop tree start to end for loop
-    give fire
+
+show wealth
+show population
 
 
 faratin:
@@ -10,16 +14,15 @@ faratin:
 
 
 abbasfar:
-    show trees
-    three to1do i have
 
+    not build when multiple selecting and other debuggings
 
-    thinking for rock
-    kasif kari
-    sout
-    error for print
-    delete cheat and default ...
-    delete runs
+    new logics
+    drop building change texture drop unit error
 
-
+    some of functions like pour oil not use selected in gamedata
+    mini map//?????
+    trees pictures
+    pictures logic rock and trees
+    wrap cell details
 

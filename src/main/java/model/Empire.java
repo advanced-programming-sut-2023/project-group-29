@@ -7,6 +7,7 @@ import model.buildings.buildingTypes.ProductProcessorType;
 import model.dealing.*;
 import model.map.Cell;
 import model.map.Map;
+import view.menus.MapMenu;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -113,6 +114,7 @@ public class Empire {
 
     public void changeWealth(int amount) {
         wealth += amount;
+        MapMenu.refreshBottomMenu();
     }
 
     private void InitializeTradables() {
@@ -504,6 +506,7 @@ public class Empire {
     public void computeSicknessAffect() {
         GameData gameData = GameController.getGameData();
         Map map = gameData.getMap();
+        sickRate = 0;
         for (int i = 0; i < map.getWidth(); i++) {
             for (int j = 0; j < map.getWidth(); j++) {
                 Cell cell = map.getCells()[i][j];

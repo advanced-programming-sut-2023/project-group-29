@@ -54,8 +54,8 @@ public enum PlayerNumber {
                 "You have lost your main keep and you can't play any more!");
         Map map = GameController.getGameData().getMap();
         Empire deadEmpire = GameController.getGameData().getEmpireByPlayerNumber(this);
-        for (int i = 1; i <= map.getWidth(); i++) {
-            for (int j = 1; j <= map.getWidth(); j++) {
+        for (int i = 0; i < map.getWidth(); i++) {
+            for (int j = 0; j < map.getWidth(); j++) {
                 Cell cell = map.getCells()[i][j];
                 if (cell.hasBuilding() && cell.getBuilding().getOwnerEmpire().equals(deadEmpire)) {
                     cell.setBuilding(null);

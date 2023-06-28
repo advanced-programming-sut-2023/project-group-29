@@ -117,7 +117,7 @@ public class GameController {
         Map map = gameData.getMap();
         if (gameIsFinished()) return false;
         gameData.changePlayingPlayer();
-        randomSickness(0.01);
+        randomSickness(0.001);
         setNumberOfUnits(map, gameData.getPlayerOfTurn());
         updateEmpire(gameData.getPlayerOfTurn());
         //patrol apply
@@ -198,10 +198,12 @@ public class GameController {
     private static void randomSickness(double sickNessPossibility) {
         int r = (int)(1/sickNessPossibility);
         Map map = GameController.gameData.getMap();
-        for (int i = 1; i <= map.getWidth(); i++) {
-            for (int j = 1; j <= map.getWidth(); j++) {
+        for (int i = 0; i < map.getWidth(); i++) {
+            for (int j = 0; j < map.getWidth(); j++) {
                 Cell cell = map.getCells()[i][j];
-                if ((int)(Math.random() * r) % r == 0) cell.setSick(true);
+                if ((int)(Math.random() * r) % r == 0) {
+                    cell.setSick(true);
+                }
             }
         }
     }
@@ -229,8 +231,8 @@ public class GameController {
     private static void setNumberOfUnits(Map map, PlayerNumber playerOfTurn) {
         Empire empire = gameData.getEmpireByPlayerNumber(playerOfTurn);
         int counter = 0;
-        for (int i = 1; i <= map.getWidth(); i++) {
-            for (int j = 1; j <= map.getWidth(); j++) {
+        for (int i = 0; i < map.getWidth(); i++) {
+            for (int j = 0; j < map.getWidth(); j++) {
                 for (Asset movingUnit : map.getCells()[i][j].getMovingObjects()) {
                     if (movingUnit instanceof Soldier soldier && soldier.getOwnerNumber().equals(playerOfTurn)) {
                         counter++;
@@ -302,8 +304,8 @@ public class GameController {
 
     private static void resetActsOfUnits() {
         Map map = gameData.getMap();
-        for (int i = 1; i <= map.getWidth(); i++)
-            for (int j = 1; j <= map.getWidth(); j++)
+        for (int i = 0; i < map.getWidth(); i++)
+            for (int j = 0; j < map.getWidth(); j++)
                 for (Asset movingUnit : map.getCells()[i][j].getMovingObjects()) {
                     if (movingUnit instanceof Movable movable)
                         movable.setMovedThisTurn(false);
@@ -313,7 +315,7 @@ public class GameController {
     }
 
     public static void notify(String message) {
-        gameData.getGameGraphicFunctions().alertMessage(Color.YELLOW,"warning",message);
+        gameData.getGameGraphicFunctions().alertMessage(Color.YELLOW,"inform",message);
     }
 
     public static int showWealth() {
