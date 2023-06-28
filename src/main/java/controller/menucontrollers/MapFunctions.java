@@ -24,7 +24,7 @@ import view.menus.MapMenu;
 import view.messages.MapMenuMessages;
 
 public class MapFunctions {
-    private static final int tileCapacityForShowingUnits=15;
+    private static final int tileCapacityForShowingUnits=10;//todo should update with zoom level
     public static Pane[][] showMap(int indexX, int indexY, Group rootPane) {
         GameData gameData=GameController.getGameData();
         int tileWidth=gameData.getTileWidth();
@@ -65,12 +65,7 @@ public class MapFunctions {
 
         BackgroundSize backgroundSize=new BackgroundSize(tileWidth,tileHeight,false,false,false,false);
         tile.setBackground(new Background(new BackgroundImage(cell.getCellType().getImage(), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize)));
-
-        if(cell.getTreeTypes()!=null) {
-            ImageView tree = new ImageView(new Image(MapMenu.class.getResource(cell.getTreeTypes().getShowingImagePath()).toExternalForm()));
-            ImagePracticalFunctions.fitWidthHeight(tree,tileWidth,tileHeight);
-            tile.getChildren().add(tree);
-        }
+        //todo handle trees
 
         //building or trap
         if (cell.hasBuilding())

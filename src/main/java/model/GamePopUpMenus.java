@@ -30,6 +30,7 @@ public class GamePopUpMenus {
         fadeTransition.setToValue(1);
 
         fadeTransition.play();
+        //todo debug fade transition
         GameController.getGameData().setPauseMainPane(true);
         isShowing = true;
 

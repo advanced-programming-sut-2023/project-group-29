@@ -85,7 +85,7 @@ public class GameGraphicFunctions {
         SelectUnitMenuMessages result = UnitFunctions.unitsAttackingCheckError(attackers, destination);
         if (result.equals(SelectUnitMenuMessages.SUCCESSFUL)) {
             int failures = UnitFunctions.makeUnitsAttacking(attackers, destination);
-            alertMessage(Color.YELLOW, "Attacking results:", failures+" attack failed");
+            alertMessage(Color.YELLOW, "Attacking results:", "attack failed");
         }
         else {
             AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, Color.RED);
