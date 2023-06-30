@@ -75,7 +75,99 @@ public class TradeMenu extends Application {
     }
 
     private void  initializeDialogOfHistory() {
-        Button giveTrade = new Button();
+        String buttonStyle = "-fx-effect: dropshadow(gaussian, blue, 10, 0, 0, 0);" +
+                "    -fx-background-insets: 50;" +
+                "    -fx-text-fill: white;" +
+                "    -fx-font-family: \"Brush Script MT\";" +
+                "    -fx-font-size: 40px;";
+        Dialog dialog = new Dialog<>();
+        ButtonType buttonType = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().add(buttonType);
+        Pane pane1 = new Pane();
+        pane1.setPrefHeight(300);
+        pane1.setPrefWidth(600);
+        Button receiveTrade = new Button();
+        receiveTrade.setLayoutY(150);
+        receiveTrade.setLayoutX(50);
+        receiveTrade.setText("Receive Trades");
+        Button myTrade = new Button();
+        myTrade.setLayoutY(150);
+        myTrade.setLayoutX(370);
+        myTrade.setText("My Trades");
+        myTrade.setStyle(buttonStyle);
+        receiveTrade.setStyle(buttonStyle);
+        pane1.getChildren().add(receiveTrade);
+        pane1.getChildren().add(myTrade);
+        dialog.getDialogPane().setContent(pane1);
+        receiveTrade.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                Dialog dialog1 = new Dialog<>();
+                ButtonType buttonType1 = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
+                Pane pane2 = new Pane();
+                pane2.prefHeight(400);
+                pane2.setPrefWidth(600);
+                Text text = new Text(showTradeList());
+                text.setLayoutX(200);
+                text.setLayoutY(200);
+                TextField idOfTrade = new TextField();
+                idOfTrade.setPromptText("Id Of Trade");
+                idOfTrade.setLayoutY(300);
+                idOfTrade.setLayoutX(200);
+                Button acceptTrade = new Button();
+                acceptTrade.setText("Accept");
+                acceptTrade.setLayoutX(400);
+                acceptTrade.setLayoutY(300);
+                pane2.getChildren().add(acceptTrade);
+                pane2.getChildren().add(idOfTrade);
+                acceptTrade.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        String output = TradeMenuController.acceptTrade(Integer.parseInt(idOfTrade.getText()));
+                        if(output.equals("Wrong id!")) {
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setContentText(output);
+                            alert.showAndWait();
+                        } else if (output.equals("Your wealth is less than the price of your dealing!")) {
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setContentText(output);
+                            alert.showAndWait();
+                        } else if (output.equals("The sender doesn't have enough commodity now!")) {
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setContentText(output);
+                            alert.showAndWait();
+                        }
+                        else {
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setContentText(output);
+                            alert.showAndWait();
+                        }
+                    }
+                });
+                dialog1.getDialogPane().setContent(pane2);
+                dialog1.getDialogPane().getButtonTypes().add(buttonType1);
+                dialog1.showAndWait();
+            }
+        });
+
+        myTrade.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                Dialog dialog1 = new Dialog<>();
+                ButtonType buttonType1 = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
+                Pane pane2 = new Pane();
+                pane2.prefHeight(400);
+                pane2.setPrefWidth(600);
+                Text text = new Text(TradeMenuController.showTradeHistory());
+                text.setLayoutX(200);
+                text.setLayoutY(200);
+                pane2.getChildren().add(text);
+                dialog1.getDialogPane().setContent(pane2);
+                dialog1.getDialogPane().getButtonTypes().add(buttonType1);
+                dialog1.showAndWait();
+            }
+        });
+        dialog.showAndWait();
     }
 
     private void initializeDialogOfNewTrade() {
@@ -338,8 +430,8 @@ public class TradeMenu extends Application {
                 Integer.parseInt(matcherExistNumberOfAnotherPlayer.group(1))));
     }
 
-    private static void showTradeList() {
-        System.out.println(TradeMenuController.showTradeList());
+    private static String showTradeList() {
+        return TradeMenuController.showTradeList();
     }
 
     private static void tradeAccept(Matcher matcher) {

@@ -548,6 +548,8 @@ public class ProfileMenu extends Application {
 
     private void initializeScrollBoard(){
         Dialog dialog = new Dialog<>();
+        ButtonType buttonType = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().add(buttonType);
         Text text = new Text("heb");
         Pane pane1 = new Pane();
         pane1.setPrefWidth(1080);
