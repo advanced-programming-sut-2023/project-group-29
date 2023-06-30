@@ -44,7 +44,7 @@ public class TradeMenuController {
             return "You don't have enough commodity!\n";
         }
         Trade trade = new Trade(GameController.getGameData().getPlayerOfTurn(),
-                PlayerNumber.getPlayerByIndex(numberOfAnotherPlayer - 1),
+                PlayerNumber.getPlayerByIndex(numberOfAnotherPlayer),
                 Integer.parseInt(price),
                 tradable,
                 Integer.parseInt(amount),
@@ -52,9 +52,10 @@ public class TradeMenuController {
         GameController.getGameData().getEmpireByPlayerNumber
                 (GameController.getGameData().getPlayerOfTurn()).addTradeHistory(trade);
         GameController.getGameData().getEmpireByPlayerNumber
-                (PlayerNumber.getPlayerByIndex(numberOfAnotherPlayer - 1)).addTrade(trade);
+                (PlayerNumber.getPlayerByIndex(numberOfAnotherPlayer)).addTrade(trade);
+        System.out.println(numberOfAnotherPlayer - 1);
         GameController.getGameData().getEmpireByPlayerNumber
-                (PlayerNumber.getPlayerByIndex(numberOfAnotherPlayer - 1)).addNewTrade(trade);
+                (PlayerNumber.getPlayerByIndex(numberOfAnotherPlayer)).addNewTrade(trade);
         return "Your trade was recorded\n";
     }
 

@@ -125,6 +125,7 @@ public class TradeMenu extends Application {
                 acceptTrade.setLayoutX(400);
                 acceptTrade.setLayoutY(300);
                 pane2.getChildren().add(acceptTrade);
+                pane2.getChildren().add(text);
                 pane2.getChildren().add(idOfTrade);
                 acceptTrade.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
@@ -360,7 +361,7 @@ public class TradeMenu extends Application {
                         donate.setOnMouseClicked(new EventHandler<MouseEvent>() {
                             @Override
                             public void handle(MouseEvent mouseEvent) {
-                                String output = TradeMenuController.trade(text2.getText(), text1.getText(), textField.getText(), message.getText(), numberOfPlayer);
+                                String output = TradeMenuController.trade(text2.getText(), text1.getText(), "0", message.getText(), numberOfPlayer);
                                 if (output.equals("You don't have enough commodity!")) {
                                     Alert alert = new Alert(Alert.AlertType.ERROR);
                                     alert.setContentText(output);

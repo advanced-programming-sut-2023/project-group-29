@@ -39,6 +39,10 @@ public class RegisterMenu extends Application {
     private static Timeline timelineUsername;
     private static Timeline timelinePassword;
 
+    private Button slogan1;
+    private Button slogan2;
+    private Button slogan3;
+
     public static Pane getPane() {
         return pane;
     }
@@ -266,6 +270,50 @@ public class RegisterMenu extends Application {
         randomSlogan.setText("Random");
         randomSlogan.setVisible(false);
         RegisterMenu.randomSlogan = randomSlogan;
+        Button slogan1 = new Button();
+        Button slogan2 = new Button();
+        Button slogan3 = new Button();
+        slogan1.setText("This day, is a very bad day for our enemies!");
+        slogan2.setText("Our empire destroys its enemies!");
+        slogan3.setText("You are just a looser!");
+        slogan1.setLayoutX(300);
+        slogan2.setLayoutX(300);
+        slogan3.setLayoutX(300);
+        slogan1.setLayoutY(480);
+        slogan2.setLayoutY(530);
+        slogan3.setLayoutY(580);
+        slogan1.setVisible(false);
+        slogan2.setVisible(false);
+        slogan3.setVisible(false);
+        this.slogan1 = slogan1;
+        this.slogan2 = slogan2;
+        this.slogan3 = slogan3;
+
+        slogan1.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                sloganTextField.setText(slogan1.getText());
+            }
+        });
+
+        slogan2.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                sloganTextField.setText(slogan2.getText());
+            }
+        });
+
+        slogan3.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                sloganTextField.setText(slogan3.getText());
+            }
+        });
+
+
+        pane.getChildren().add(slogan1);
+        pane.getChildren().add(slogan2);
+        pane.getChildren().add(slogan3);
         pane.getChildren().add(usernameTextField);
         pane.getChildren().add(userText);
         pane.getChildren().add(passwordTextField);
@@ -298,10 +346,16 @@ public class RegisterMenu extends Application {
         if (checkBox.isSelected()) {
             sloganTextField.setVisible(true);
             randomSlogan.setVisible(true);
+            slogan1.setVisible(true);
+            slogan2.setVisible(true);
+            slogan3.setVisible(true);
         }
         else {
             sloganTextField.setVisible(false);
             randomSlogan.setVisible(false);
+            slogan1.setVisible(false);
+            slogan2.setVisible(false);
+            slogan3.setVisible(false);
             sloganText.setText("");
             sloganTextField.setText("");
         }
