@@ -1,6 +1,7 @@
 package model;
 
 import controller.menucontrollers.GameController;
+import view.Command;
 
 public class User {
 
@@ -11,6 +12,7 @@ public class User {
     public String email;
     //recovery question
     public String slogan;
+    public String avatar = Command.class.getResource("/images/Avatar/1.png").toString();
     public int highScore = 0;
     public int stayLoggedIn = 0;
 
@@ -102,4 +104,13 @@ public class User {
     public void setSecurityQuestion(String securityQuestion) {
         this.securityQuestion = securityQuestion;
     }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
 }

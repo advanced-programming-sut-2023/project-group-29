@@ -1,14 +1,299 @@
 package view.menus;
 
+import com.google.common.collect.BoundType;
+import com.google.common.collect.Streams;
 import controller.MenuNames;
+import controller.menucontrollers.GameController;
 import controller.menucontrollers.TradeMenuController;
+import javafx.application.Application;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import view.Command;
 
+import java.awt.*;
+import java.net.URL;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class TradeMenu {
+public class TradeMenu extends Application {
+    private Pane pane;
+    @Override
+    public void start(Stage stage) throws Exception {
+        URL url = Command.class.getResource("/FXML/TradeMenu.fxml");
+        Pane pane = FXMLLoader.load(url);
+        this.pane = pane;
+        initializeFirstButtons();
+        Scene scene = new Scene(pane);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private void initializeFirstButtons(){
+        String typeOfButton = "-fx-effect: dropshadow(gaussian, red, 10, 0, 0, 0);" +
+        "    -fx-background-insets: 50;" +
+                "    -fx-text-fill: black;" +
+                "    -fx-font-family: \"Brush Script MT\";" +
+                "    -fx-font-size: 50px";
+        Button newTrade = new Button();
+        newTrade.setLayoutX(420);
+        newTrade.setLayoutY(220);
+        newTrade.setText("New Trade");
+        newTrade.setStyle(typeOfButton);
+        Button historyOfTrade = new Button();
+        historyOfTrade.setLayoutX(370);
+        historyOfTrade.setLayoutY(320);
+        historyOfTrade.setText("History Of Trade");
+        historyOfTrade.setStyle(typeOfButton);
+        this.pane.getChildren().add(newTrade);
+        this.pane.getChildren().add(historyOfTrade);
+
+        newTrade.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                initializeDialogOfNewTrade();
+            }
+        });
+
+        historyOfTrade.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                initializeDialogOfHistory();
+            }
+        });
+    }
+
+    private void  initializeDialogOfHistory() {
+        Button giveTrade = new Button();
+    }
+
+    private void initializeDialogOfNewTrade() {
+        ButtonType buttonType = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
+        Dialog dialog = new Dialog<>();
+        Pane pane1 = new Pane();
+        String players = "";
+        //for(int i = 0; i < GameController.getGameData().getEmpires().size(); i++) {
+            //players += GameController.getGameData().getEmpires().get(0).getUser().username + "\n";
+        //}
+        Text text = new Text(players);
+        text.setLayoutY(100);
+        text.setLayoutX(400);
+        TextField userTextField = new TextField();
+        userTextField.setPromptText("Player Name");
+        userTextField.setLayoutY(200);
+        userTextField.setLayoutX(100);
+        userTextField.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0, 0, 0);" +
+                "-fx-background-insets: 50;" + "-fx-border-color: linear-gradient(#ffffff, #000000);" + "-fx-text-fill: white;" +
+                "-fx-prompt-text-fill: white");
+        Button button = new Button();
+        button.setText("Confirm");
+        button.setStyle("-fx-effect: dropshadow(gaussian, blue, 10, 0, 0, 0);" +
+                "    -fx-background-insets: 50;" +
+                "    -fx-text-fill: white;" +
+                "    -fx-font-family: \"Brush Script MT\";" +
+                "    -fx-font-size: 30px;");
+        button.setLayoutX(250);
+        button.setLayoutY(180);
+        pane1.getChildren().add(button);
+        button.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                for(int i = 0; i < GameController.getGameData().getEmpires().size(); i++) {
+                    if(GameController.getGameData().getEmpires().get(i).getUser().getUsername().equals(userTextField.getText())) {
+                        int numberOfPlayer = i;
+                        ButtonType buttonType = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
+                        Dialog dialog = new Dialog<>();
+                        Pane pane1 = new Pane();
+                        pane1.setPrefHeight(400);
+                        pane1.setPrefWidth(800);
+                        Button apple = new Button();
+                        apple.setLayoutY(100);
+                        apple.setLayoutX(100);
+                        apple.setText("APPLE");
+                        pane1.getChildren().add(apple);
+                Button meat = new Button();
+                meat.setLayoutY(100);
+                meat.setLayoutX(200);
+                meat.setText("MEAT");
+                pane1.getChildren().add(meat);
+                Button bread = new Button();
+                bread.setLayoutY(100);
+                bread.setLayoutX(300);
+                bread.setText("BREAD");
+                pane1.getChildren().add(bread);
+                Button cheese = new Button();
+                cheese.setLayoutY(100);
+                cheese.setLayoutX(400);
+                cheese.setText("CHEESE");
+                pane1.getChildren().add(cheese);
+                Button bow = new Button();
+                bow.setLayoutY(200);
+                bow.setLayoutX(100);
+                bow.setText("BOW");
+                pane1.getChildren().add(bow);
+                Button sword = new Button();
+                sword.setLayoutY(200);
+                sword.setLayoutX(200);
+                sword.setText("SWORD");
+                pane1.getChildren().add(sword);
+                Button armour = new Button();
+                armour.setLayoutY(200);
+                armour.setLayoutX(300);
+                armour.setText("ARMOUR");
+                pane1.getChildren().add(armour);
+                Button wood = new Button();
+                wood.setLayoutY(200);
+                wood.setLayoutX(400);
+                wood.setText("WOOD");
+                pane1.getChildren().add(wood);
+                Button iron = new Button();
+                iron.setLayoutY(300);
+                iron.setLayoutX(100);
+                iron.setText("IRON");
+                pane1.getChildren().add(iron);
+                Button stone = new Button();
+                stone.setLayoutY(300);
+                stone.setLayoutX(200);
+                stone.setText("STONE");
+                pane1.getChildren().add(stone);
+                Button pitch = new Button();
+                pitch.setLayoutY(300);
+                pitch.setLayoutX(300);
+                pitch.setText("PITCH");
+                pane1.getChildren().add(pitch);
+                Button horse = new Button();
+                horse.setLayoutY(300);
+                horse.setLayoutX(400);
+                horse.setText("HORSE");
+                pane1.getChildren().add(horse);
+                TextField message = new TextField();
+                message.setPromptText("Message");
+                Button plus = new Button();
+                plus.setLayoutY(200);
+                plus.setLayoutX(550);
+                plus.setText("+");
+                pane1.getChildren().add(plus);
+                Button minus = new Button();
+                minus.setLayoutY(200);
+                minus.setLayoutX(500);
+                minus.setText("-");
+                Text text1 = new Text("0");
+                text1.setLayoutX(530);
+                text1.setLayoutY(220);
+                Text text2 = new Text();
+                text2.setLayoutY(220);
+                text2.setLayoutX(600);
+                message.setLayoutX(650);
+                message.setLayoutY(200);
+                text2.setText("Recourse");
+                Button[] buttons = {apple, bread, meat, cheese, bow, armour, horse, sword, wood, iron, stone, pitch};
+                for(int j = 0; j < buttons.length; j++) {
+                    int finalI = j;
+                    buttons[j].setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent mouseEvent) {
+                            text2.setText(buttons[finalI].getText());
+                        }
+                    });
+                }
+                pane1.getChildren().add(text2);
+                pane1.getChildren().add(message);
+                plus.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        String output = text1.getText();
+                        int output1 = Integer.parseInt(output) + 1;
+                        text1.setText(String.valueOf(output1));
+                    }
+                });
+
+                minus.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        String output = text1.getText();
+                        int output1 = Integer.parseInt(output) - 1;
+                        text1.setText(String.valueOf(output1));
+                    }
+                });
+
+                Button trade = new Button();
+                trade.setText("Trade");
+                trade.setLayoutX(660);
+                trade.setLayoutY(250);
+
+                Button donate = new Button();
+                donate.setText("Donate");
+                donate.setLayoutX(540);
+                donate.setLayoutY(250);
+                TextField textField = new TextField();
+                textField.setPromptText("Price");
+                textField.setLayoutX(540);
+                textField.setLayoutY(300);
+                trade.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        String output = TradeMenuController.trade(text2.getText(), text1.getText(), textField.getText(), message.getText(), numberOfPlayer);
+                        if(output.equals("You don't have enough commodity!")) {
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setContentText(output);
+                            alert.showAndWait();
+                        }
+                        else {
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setContentText(output);
+                            alert.showAndWait();
+                        }
+                    }
+                });
+
+                donate.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        String output = TradeMenuController.trade(text2.getText(), text1.getText(), textField.getText(), message.getText(), numberOfPlayer);
+                        if(output.equals("You don't have enough commodity!")) {
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setContentText(output);
+                            alert.showAndWait();
+                        }
+                        else {
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setContentText(output);
+                            alert.showAndWait();
+                        }
+                    }
+                });
+                pane1.getChildren().add(textField);
+                pane1.getChildren().add(donate);
+                pane1.getChildren().add(trade);
+                pane1.getChildren().add(text1);
+                pane1.getChildren().add(minus);
+                        dialog.getDialogPane().getButtonTypes().add(buttonType);
+                        dialog.getDialogPane().setContent(pane1);
+                        dialog.showAndWait();
+                    }
+                }
+            }
+        });
+        pane1.getChildren().add(userTextField);
+        pane1.getChildren().add(text);
+        pane1.setPrefHeight(400);
+        pane1.setPrefWidth(600);
+        dialog.getDialogPane().setContent(pane1);
+        dialog.getDialogPane().getButtonTypes().add(buttonType);
+        dialog.showAndWait();
+    }
+
     public static MenuNames run(Scanner scanner) {
         Matcher matcher;
         String input = scanner.nextLine();

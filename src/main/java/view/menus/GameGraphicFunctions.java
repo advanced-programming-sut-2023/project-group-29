@@ -506,4 +506,12 @@ public class GameGraphicFunctions {
         pane.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
         popUpMenu.showAndWait();
     }
+
+    public GamePopUpMenus getPopUpMenu() {
+        return popUpMenu;
+    }
+
+    public Pane getMainPane() {
+        return mainPane;
+    }
 }

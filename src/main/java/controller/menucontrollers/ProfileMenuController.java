@@ -3,12 +3,12 @@ package controller.menucontrollers;
 import model.AppData;
 import model.SaveAndLoad;
 
+import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ProfileMenuController {
-    public static String changeUsername(Matcher matcher) {
-        String username = matcher.group(1);
+    public static String changeUsername(String username) {
         Pattern patternCheckUsername = Pattern.compile("\\w+");
         Matcher matcherCheckUsername = patternCheckUsername.matcher(username);
         if (!matcherCheckUsername.matches()) {
@@ -22,17 +22,7 @@ public class ProfileMenuController {
         return "Username changed";
     }
 
-    public static String changePassword(Matcher matcher) {
-        String input = matcher.group(0);
-        Pattern oldPassPattern = Pattern.compile("-o\\s+(\\S+)");
-        Pattern newPassPattern = Pattern.compile("-n\\s+(\\S+)");
-        Matcher oldPassMatcher = oldPassPattern.matcher(input);
-        Matcher newPassMatcher = newPassPattern.matcher(input);
-        if (!(oldPassMatcher.find() && newPassMatcher.find())) {
-            return "Invalid command!";
-        }
-        String oldPass = oldPassMatcher.group(1);
-        String newPass = newPassMatcher.group(1);
+    public static String changePassword(String oldPass, String newPass) {
 
         if (!AppData.getCurrentUser().getPassword().equals(SaveAndLoad.hashString(oldPass))) {
             return "Enter your old password correctly!";
@@ -49,15 +39,13 @@ public class ProfileMenuController {
         return "Password changed";
     }
 
-    public static String changeNickname(Matcher matcher) {
-        String nickname = matcher.group(1);
+    public static String changeNickname(String nickname) {
         AppData.getCurrentUser().setNickname(nickname);
         SaveAndLoad.saveData(AppData.getUsers(), AppData.getUsersDataBaseFilePath());
         return "Nickname changed";
     }
 
-    public static String changeEmail(Matcher matcher) {
-        String email = matcher.group(1);
+    public static String changeEmail(String email) {
         if (LoginMenuController.checkEmailFormat(email) == 0) {
             return "Check format of your email";
         }
@@ -66,8 +54,7 @@ public class ProfileMenuController {
         return "Email changed";
     }
 
-    public static String changeSlogan(Matcher matcher) {
-        String slogan = matcher.group(1);
+    public static String changeSlogan(String slogan) {
         AppData.getCurrentUser().setSlogan(slogan);
         SaveAndLoad.saveData(AppData.getUsers(), AppData.getUsersDataBaseFilePath());
         return "Slogan changed";
@@ -103,6 +90,11 @@ public class ProfileMenuController {
         output = output + "Rank: " + AppData.rankOfUser(AppData.sortUserByHighScore(),
                 AppData.getCurrentUser().getUsername());
         return output;
+    }
+
+    public static void setMyAvatar(File file) {;
+        AppData.getCurrentUser().setAvatar(file.getAbsolutePath());
+        SaveAndLoad.saveData(AppData.getUsers(), AppData.getUsersDataBaseFilePath());
     }
 
 }

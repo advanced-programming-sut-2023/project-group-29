@@ -8,7 +8,7 @@ import view.messages.ShopMenuMessages;
 public class ShopMenuController {
 
     public static String showPriceList() {
-        Empire empire = AppData.getCurrentUser().getEmpire();
+        Empire empire = GameController.getGameData().getPlayingEmpire();
         String output = "Resources:";
         for (Resource resource : Resource.values()) {
             output += "\n";
@@ -21,7 +21,7 @@ public class ShopMenuController {
     }
 
     public static ShopMenuMessages buy(String resourceName, int amount) {
-        Empire empire = AppData.getCurrentUser().getEmpire();
+        Empire empire = GameController.getGameData().getPlayingEmpire();
         Resource resource = Resource.getResourceByName(resourceName);
         if (empire.getWealth() < resource.getBuyingPrice() * amount) {
             return ShopMenuMessages.FEW_CASH;
@@ -35,7 +35,7 @@ public class ShopMenuController {
     }
 
     public static ShopMenuMessages sell(String resourceName, int amount) {
-        Empire empire = AppData.getCurrentUser().getEmpire();
+        Empire empire = GameController.getGameData().getPlayingEmpire();
         Resource resource = Resource.getResourceByName(resourceName);
         if (empire.getTradableAmount(resource) < amount) {
             return ShopMenuMessages.FEW_AMOUNT;

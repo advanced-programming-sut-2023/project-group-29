@@ -1,0 +1,21 @@
+.background{
+    -fx-background-image: url("../images/menus/PreGameMenuBack.PNG");
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
+    -fx-background-size: 1080 720;
+}
+.label{
+    -fx-font-size: 150px;
+    -fx-font-family: "Palace Script MT";
+}
+.btn{
+    -fx-effect: dropshadow(gaussian, red, 10, 0, 0, 0);
+    -fx-background-insets: 50;
+    -fx-text-fill: black;
+    -fx-font-family: "Brush Script MT";
+    -fx-font-size: 30px;
+}
+.txt1{
+    -fx-font-family: "Brush Script MT";
+    -fx-font-size: 20px;
+}

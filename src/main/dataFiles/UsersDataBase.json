@@ -2,30 +2,11 @@
   {
     "securityQuestion": "2 ali",
     "username": "ali",
-    "password": "211f9b6cda6c74d5b13ebe9df41c489893101331d20af3ee485503b7e89bb941",
-    "nickname": "a",
+    "password": "67039df8f9e765f0fe5386c27636e0e16e4d5029478f43175637108b48d9cd13",
+    "nickname": "ali",
     "email": "a@a.a",
     "slogan": "",
-    "highScore": 0,
-    "stayLoggedIn": 0
-  },
-  {
-    "securityQuestion": "2 ali",
-    "username": "alii",
-    "password": "67039df8f9e765f0fe5386c27636e0e16e4d5029478f43175637108b48d9cd13",
-    "nickname": "a",
-    "email": "a@a.aaa",
-    "slogan": "",
-    "highScore": 0,
-    "stayLoggedIn": 0
-  },
-  {
-    "securityQuestion": "2 ali",
-    "username": "mamad",
-    "password": "1a3339623f8d300fbee3fd27f3838f9e3bfeec33c25944f6eca38902725b9bbc",
-    "nickname": "a",
-    "email": "m@m.m",
-    "slogan": "",
+    "avatar": "E:\\soratgir_lambert10_Height.png",
     "highScore": 0,
     "stayLoggedIn": 0
   }
