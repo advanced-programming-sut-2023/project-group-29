@@ -70,15 +70,12 @@ public class RegisterMenu extends Application {
         timeline.play();
     }
     private void checkingPasswordBox(){
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1000), actionEvent -> {
-            initializedPassword();
-        }));
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1000), actionEvent -> initializedPassword()));
         timelinePassword = timeline;
         timeline.setCycleCount(-1);
         timeline.play();
     }
     public void initializedUsername(){
-
         if(LoginMenuController.checkFormatOfUsername(usernameTextField.getText())==0)
 
         {

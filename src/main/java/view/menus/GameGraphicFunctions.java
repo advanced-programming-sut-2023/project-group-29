@@ -327,8 +327,8 @@ public class GameGraphicFunctions {
     public void dropBuilding() throws IOException {
         GameData gameData = GameController.getGameData();
         if (gameData.getStartSelectedCellsPosition().isEqualTo(gameData.getEndSelectedCellsPosition())) {
-            Pane equipmentPane = FXMLLoader.load(MapMenu.class.getResource("/FXML/DropBuilding.fxml"));
-            popUpMenu = new GamePopUpMenus(mainPane, equipmentPane, GamePopUpMenus.PopUpType.DROP_BUILDING);
+            Pane pane = FXMLLoader.load(MapMenu.class.getResource("/FXML/DropBuilding.fxml"));
+            popUpMenu = new GamePopUpMenus(mainPane, pane, GamePopUpMenus.PopUpType.DROP_BUILDING);
             popUpMenu.makePaneCenter(750, 500);
             popUpMenu.showAndWait();        }
         else {
@@ -339,8 +339,8 @@ public class GameGraphicFunctions {
     }
 
     public void setTexture() throws IOException {
-        Pane equipmentPane = FXMLLoader.load(MapMenu.class.getResource("/FXML/TextureAndTree.fxml"));
-        popUpMenu = new GamePopUpMenus(mainPane, equipmentPane, GamePopUpMenus.PopUpType.DROP_BUILDING);
+        Pane pane = FXMLLoader.load(MapMenu.class.getResource("/FXML/TextureAndTree.fxml"));
+        popUpMenu = new GamePopUpMenus(mainPane, pane, GamePopUpMenus.PopUpType.DROP_BUILDING);
         popUpMenu.makePaneCenter(750, 500);
         popUpMenu.showAndWait();    }
 
@@ -513,5 +513,12 @@ public class GameGraphicFunctions {
 
     public Pane getMainPane() {
         return mainPane;
+    }
+
+    public void openShopMenu() throws IOException {
+        Pane shopMenuPane = FXMLLoader.load(MapMenu.class.getResource("/FXML/ShopMenu.fxml"));
+        popUpMenu = new GamePopUpMenus(mainPane, shopMenuPane, null);
+        popUpMenu.makePaneCenter(750, 500);
+        popUpMenu.showAndWait();
     }
 }

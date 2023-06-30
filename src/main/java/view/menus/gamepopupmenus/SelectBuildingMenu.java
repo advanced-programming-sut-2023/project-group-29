@@ -1,11 +1,9 @@
 package view.menus.gamepopupmenus;
 
-import controller.MenuNames;
 import controller.menucontrollers.BuildingFunctions;
 import controller.menucontrollers.GameController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
 import model.buildings.Building;
 import model.buildings.buildingClasses.OtherBuildings;
 import model.buildings.buildingTypes.OtherBuildingsType;
@@ -17,11 +15,10 @@ import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.io.IOException;
-import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class SelectBuildingMenu {
+    @FXML
+    private Button enterShopButton;
     @FXML
     private Button changeBridgeStateButton;
     @FXML
@@ -44,6 +41,18 @@ public class SelectBuildingMenu {
         prepareCreateUnitButton();
         prepareCopyButton();
         prepareChangeBridgeStateButton();
+        prepareEnterShopButton();
+    }
+
+    private void prepareEnterShopButton() {
+        enterShopButton.setOnMouseClicked(mouseEvent -> {
+            exitPopUp();
+            try {
+                GameController.getGameData().getGameGraphicFunctions().openShopMenu();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private void prepareChangeBridgeStateButton() {
@@ -71,6 +80,7 @@ public class SelectBuildingMenu {
             try {
                 GameController.getGameData().getGameGraphicFunctions().openCreateUnitMenu();
             } catch (IOException e) {
+                e.printStackTrace();
             }
         });
     }
@@ -105,6 +115,13 @@ public class SelectBuildingMenu {
             OtherBuildings otherBuildings = (OtherBuildings) building;
             if (otherBuildings.getOtherBuildingsType().equals(OtherBuildingsType.DRAW_BRIDGE)) {
                 changeBridgeStateButton.setVisible(true);
+            }
+        }
+        enterShopButton.setVisible(false);
+        if (Building.getGroupNumberByBuildingName(name) == 3) {
+            OtherBuildings otherBuildings = (OtherBuildings) building;
+            if (otherBuildings.getOtherBuildingsType().equals(OtherBuildingsType.MARKET)) {
+                enterShopButton.setVisible(true);
             }
         }
     }

@@ -4,21 +4,18 @@ import controller.menucontrollers.LoginMenuController;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.AppData;
 import model.SaveAndLoad;
-import model.User;
 import view.Command;
 
 import java.net.URL;
@@ -29,8 +26,10 @@ public class SecurityQuestionMenu extends Application {
     CheckBox checkBox2;
     CheckBox checkBox3;
     TextField answerTextField;
-    Text captcha;
+    Captcha captcha;
     Button confirm;
+    TextField captchaText;
+
     @Override
     public void start(Stage stage) throws Exception {
         URL url = Command.class.getResource("/FXML/SecurityQuestionMenu.fxml");
@@ -95,20 +94,12 @@ public class SecurityQuestionMenu extends Application {
                 "    -fx-font-family: \"Brush Script MT\";" +
                 "    -fx-font-size: 40px;");
         this.confirm = confirm;
-        Text captcha = new Text();
-        captcha.setText(LoginMenuController.captcha());
-        captcha.setLayoutY(500);
-        captcha.setLayoutX(30);
-        captcha.setStyle("-fx-text-fill: white;" + "-fx-font-size: 10px");
-        captcha.setFill(Color.WHITE);
-        captcha.setVisible(false);
-        this.captcha = captcha;
+        makeCaptcha();
         pane.getChildren().add(textField);
         pane.getChildren().add(checkBox1);
         pane.getChildren().add(checkBox2);
         pane.getChildren().add(checkBox3);
         pane.getChildren().add(confirm);
-        pane.getChildren().add(captcha);
         checkBox1.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -154,7 +145,14 @@ public class SecurityQuestionMenu extends Application {
                     alert.showAndWait();
                     return;
                 }
-                captcha.setVisible(true);
+                String correctNumber = String.valueOf(captcha.getNumber());
+                if (!captchaText.getText().equals(correctNumber)) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("False captcha");
+                    alert.setContentText("Please enter correct captcha");
+                    alert.showAndWait();
+                    return;
+                }
                 //TODO captcha
                 if(checkBox1.isSelected()) {
                     LoginMenuController.getCurrentUser().setSecurityQuestion("1 " + answerTextField.getText());
@@ -175,5 +173,27 @@ public class SecurityQuestionMenu extends Application {
             }
 
         });
+    }
+
+    private void makeCaptcha() {
+        captcha = makeCaptchaImage();
+        captchaText = makeCaptchaText();
+    }
+
+    private TextField makeCaptchaText() {
+        TextField captchaText = new TextField();
+        captchaText.setPromptText("captcha");
+        captchaText.setTranslateX(300);
+        pane.getChildren().add(captchaText);
+        return captchaText;
+    }
+
+    private Captcha makeCaptchaImage() {
+        int imageNumber = (int) (Math.random() * 50);
+        Captcha captcha = Captcha.getCaptchaByNumber(imageNumber);
+        Image image = new Image(SecurityQuestionMenu.class.getResource(captcha.getImageAddress()).toString());
+        ImageView imageView = new ImageView(image);
+        pane.getChildren().add(imageView);
+        return captcha;
     }
 }
