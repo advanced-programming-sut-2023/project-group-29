@@ -466,7 +466,7 @@ public class GameGraphicFunctions {
         if (building == null) {
             alertMessage(Color.YELLOW, "No building", "There is no building in the cell chosen!");
         }
-        else if (building.getOwnerEmpire().equals(gameData.getPlayingEmpire())){
+        else if (!building.getOwnerEmpire().equals(gameData.getPlayingEmpire())){
             alertMessage(Color.YELLOW, "Other building", "The building is not yours");
         }
         else {
