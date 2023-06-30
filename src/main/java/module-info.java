@@ -20,7 +20,9 @@ module project {
     exports view.shape;
     exports view.menus.gamepopupmenus;
     exports model.weapons.weaponTypes;
+    exports model.map;
 
+    opens model.map;
     opens view.menus.gamepopupmenus;
     opens model.weapons.weaponTypes;
 

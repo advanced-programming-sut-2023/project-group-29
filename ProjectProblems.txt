@@ -15,11 +15,6 @@ faratin:
 
 abbasfar:
 
-    not build when multiple selecting and other debuggings
-
-    new logics
-    drop building change texture drop unit error
-
     some of functions like pour oil not use selected in gamedata
     mini map//?????
     trees pictures
