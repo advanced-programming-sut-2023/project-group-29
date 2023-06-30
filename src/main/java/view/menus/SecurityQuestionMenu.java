@@ -84,8 +84,8 @@ public class SecurityQuestionMenu extends Application {
         this.answerTextField = textField;
         Button confirm = new Button();
         confirm.setText("Confirm");
-        confirm.setLayoutY(370);
-        confirm.setLayoutX(460);
+        confirm.setLayoutY(500);
+        confirm.setLayoutX(445);
         confirm.prefHeight(61);
         confirm.prefWidth(149);
         confirm.setStyle("-fx-effect: dropshadow(gaussian, red, 10, 0, 0, 0);" +
@@ -176,24 +176,30 @@ public class SecurityQuestionMenu extends Application {
     }
 
     private void makeCaptcha() {
-        captcha = makeCaptchaImage();
-        captchaText = makeCaptchaText();
+        makeCaptchaImage();
+        makeCaptchaText();
     }
 
-    private TextField makeCaptchaText() {
-        TextField captchaText = new TextField();
+    private void makeCaptchaText() {
+        captchaText = new TextField();
         captchaText.setPromptText("captcha");
-        captchaText.setTranslateX(300);
+        captchaText.setTranslateX(465);
+        captchaText.setTranslateY(370);
+        captchaText.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0, 0, 0);" +
+                "-fx-background-insets: 50;" +
+                "-fx-border-color: linear-gradient(#ffffff, #000000);" +
+                "-fx-text-fill: white;" +
+                "-fx-prompt-text-fill: white");
         pane.getChildren().add(captchaText);
-        return captchaText;
     }
 
-    private Captcha makeCaptchaImage() {
+    private void makeCaptchaImage() {
         int imageNumber = (int) (Math.random() * 50);
-        Captcha captcha = Captcha.getCaptchaByNumber(imageNumber);
+        captcha = Captcha.getCaptchaByNumber(imageNumber);
         Image image = new Image(SecurityQuestionMenu.class.getResource(captcha.getImageAddress()).toString());
         ImageView imageView = new ImageView(image);
+        imageView.setX(460);
+        imageView.setY(430);
         pane.getChildren().add(imageView);
-        return captcha;
     }
 }
