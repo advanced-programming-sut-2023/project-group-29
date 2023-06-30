@@ -27,7 +27,6 @@ import model.buildings.Category;
 import model.buildings.buildingTypes.BuildType;
 import model.gamestates.GameState;
 import model.map.Cell;
-import model.map.Map;
 import view.menus.gamepopupmenus.SetFactorsMenu;
 import view.shape.BuildingIcon;
 import view.shape.CircleImage;
@@ -37,22 +36,70 @@ import java.net.URL;
 import java.util.HashMap;
 
 public class MapMenu extends Application {
+    private final Group tilesGroupInMainPainChildren = new Group();
+    private final HashMap<Category, VBox> subMenus = new HashMap<>();
     private PixelWriter miniMapWriter;
     private Pane mainPane = null;
     private GameData gameData = null;
     private Pane[][] tiles = null;
-    private final Group tilesGroupInMainPainChildren = new Group();
     private GameGraphicFunctions gameGraphicFunctions;
     private Stage stage;
     private Pane popularityPopupPane;
     private GamePopUpMenus popularityPopup;
     private Pane buildingPopupPane;
-    private final HashMap<Category, VBox> subMenus = new HashMap<>();
     private GamePopUpMenus currentCellDetailsPopup;
 
     public static void refreshBottomMenu() {
         MapMenu mapMenu = GameController.getGameData().getMapMenu();
         mapMenu.makeMainPopularity(GameController.getGameData().getPlayingEmpire());
+    }
+
+    private static Text makeTextForSumOfChanges(Empire empire) {
+        int popularityChange = 0;
+        for (Empire.PopularityFactors factor : Empire.PopularityFactors.values())
+            popularityChange += empire.getPopularityChange(factor);
+        return new Text("change for next turn: " + popularityChange);
+    }
+
+    private static CircleImage chooseFaceColor(int popularity) {
+        if (popularity > 60) {
+            return new CircleImage("/images/empirefactors/green.png", 20);
+        }
+        else if (popularity > 30) {
+            return new CircleImage("/images/empirefactors/yellow.png", 20);
+        }
+        else {
+            return new CircleImage("/images/empirefactors/red.png", 20);
+        }
+    }
+
+    private static Rectangle makeChangeFactorButton() {
+        Rectangle button = new Rectangle(90, 30);
+        button.setArcHeight(30.0);
+        button.setArcWidth(30.0);
+        Image image = new Image(MapMenu.class.getResource("/images/menus/changeFactors.png").toString());
+        button.setFill(new ImagePattern(image));
+        button.setOnMouseClicked(mouseEvent -> {
+            try {
+                new SetFactorsMenu().start(new Stage());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        return button;
+    }
+
+    private static CircleImage chooseEachFactorFaceColor(Empire empire, Empire.PopularityFactors factor) {
+        int factorAffect = empire.getMeasureOfFactor(factor);
+        if (factorAffect > 0) {
+            return new CircleImage("/images/empirefactors/green.png", 8);
+        }
+        else if (factorAffect < 0) {
+            return new CircleImage("/images/empirefactors/red.png", 8);
+        }
+        else {
+            return new CircleImage("/images/empirefactors/yellow.png", 8);
+        }
     }
 
     public PixelWriter getMiniMapWriter() {
@@ -84,7 +131,7 @@ public class MapMenu extends Application {
         setUpAndShowMap();
         makeMainPopularity(gameData.getPlayingEmpire());
         makeBuildingBar();
-        makeMiniMap();
+        //makeMiniMap();
         GamePopUpMenus buildingPopUp = new GamePopUpMenus
                 (mainPane, buildingPopupPane, GamePopUpMenus.PopUpType.BUILDING_ICONS_COLUMN);
         buildingPopUp.showAndWait();
@@ -134,7 +181,6 @@ public class MapMenu extends Application {
         if (Pair.notNull(gameData.getDestinationCellPosition()))
             effectTile(tiles[gameData.getDestinationCellPosition().first][gameData.getDestinationCellPosition().second], -0.2, 0.2);
     }
-
 
     private void setTilesListeners() {
         for (int i = 0; i < gameData.getNumberOfTilesShowingInRow(); i++)
@@ -214,36 +260,51 @@ public class MapMenu extends Application {
                     gameData.setStartSelectedCellsPosition(null);
                     gameData.setEndSelectedCellsPosition(null);
                     resetAllSelectedColors();
-                } else if (keyEvent.getCode().equals(GameKeyConstants.attackKey)) {
+                }
+                else if (keyEvent.getCode().equals(GameKeyConstants.attackKey)) {
                     gameGraphicFunctions.showAttackPopUp();
                     gameData.setGameState(GameState.ATTACKING);
-                } else if (keyEvent.getCode().equals(GameKeyConstants.moveKey)) {
+                }
+                else if (keyEvent.getCode().equals(GameKeyConstants.moveKey)) {
                     gameData.setGameState(GameState.MOVING);
-                } else if (keyEvent.getCode().equals(GameKeyConstants.patrolUnit)) {
+                }
+                else if (keyEvent.getCode().equals(GameKeyConstants.patrolUnit)) {
                     gameData.setGameState(GameState.PATROLLING);
-                } else if (keyEvent.getCode().equals(GameKeyConstants.digTunnel)) {
+                }
+                else if (keyEvent.getCode().equals(GameKeyConstants.digTunnel)) {
                     gameData.setGameState(GameState.TUNNELLING);
-                } else if (keyEvent.getCode().equals(GameKeyConstants.pourOilKey)) {
+                }
+                else if (keyEvent.getCode().equals(GameKeyConstants.pourOilKey)) {
                     gameData.setGameState(GameState.POURING_OIL);
-                } else if (keyEvent.getCode().equals(GameKeyConstants.dropLadderKey)) {
+                }
+                else if (keyEvent.getCode().equals(GameKeyConstants.dropLadderKey)) {
                     gameGraphicFunctions.dropLadders();
-                } else if (keyEvent.getCode().equals(GameKeyConstants.disbandUnitKey)) {
+                }
+                else if (keyEvent.getCode().equals(GameKeyConstants.disbandUnitKey)) {
                     gameGraphicFunctions.disbandUnits();
-                } else if (keyEvent.getCode().equals(GameKeyConstants.buildEquipmentKey)) {
+                }
+                else if (keyEvent.getCode().equals(GameKeyConstants.buildEquipmentKey)) {
                     gameGraphicFunctions.buildEquipments();
-                } else if (keyEvent.getCode().equals(GameKeyConstants.addRemoveUnit)) {
+                }
+                else if (keyEvent.getCode().equals(GameKeyConstants.addRemoveUnit)) {
                     gameGraphicFunctions.addOrRemoveSelectedUnits();
-                } else if (keyEvent.getCode().equals(GameKeyConstants.selectBuilding)) {
+                }
+                else if (keyEvent.getCode().equals(GameKeyConstants.selectBuilding)) {
                     gameGraphicFunctions.selectBuilding();
-                } else if (keyEvent.getCode().equals(GameKeyConstants.pasteBuilding)) {
+                }
+                else if (keyEvent.getCode().equals(GameKeyConstants.pasteBuilding)) {
                     gameGraphicFunctions.pasteBuilding();
-                } else if (keyEvent.getCode().equals(GameKeyConstants.dropUnit)) {
+                }
+                else if (keyEvent.getCode().equals(GameKeyConstants.dropUnit)) {
                     gameGraphicFunctions.dropUnit();
-                } else if (keyEvent.getCode().equals(GameKeyConstants.dropBuilding)) {
+                }
+                else if (keyEvent.getCode().equals(GameKeyConstants.dropBuilding)) {
                     gameGraphicFunctions.dropBuilding();
-                } else if (keyEvent.getCode().equals(GameKeyConstants.setTexture)) {
+                }
+                else if (keyEvent.getCode().equals(GameKeyConstants.setTexture)) {
                     gameGraphicFunctions.setTexture();
-                } else if (keyEvent.getCode().equals(GameKeyConstants.setStateOfUnit)) {
+                }
+                else if (keyEvent.getCode().equals(GameKeyConstants.setStateOfUnit)) {
                     gameGraphicFunctions.setStateOfUnits();
                 }
             }
@@ -379,7 +440,8 @@ public class MapMenu extends Application {
                     gameData.setEndSelectedCellsPosition(
                             new Pair<>(gameData.getStartSelectedCellsPosition().first, gameData.getStartSelectedCellsPosition().second)
                     );
-                } else gameData.setEndSelectedCellsPosition(new Pair<>(tileX, tileY));
+                }
+                else gameData.setEndSelectedCellsPosition(new Pair<>(tileX, tileY));
 
                 gameData.getSelectedUnits().clear();
                 gameData.getAllUnitsInSelectedCells().clear();
@@ -419,7 +481,8 @@ public class MapMenu extends Application {
                 boolean againClick = scrollPane.getContent().equals(subMenus.get(category));
                 buildingPopupPane.getChildren().clear();
                 if (!againClick) addToPopup(category);
-            } else {
+            }
+            else {
 
                 addToPopup(category);
             }
@@ -481,13 +544,6 @@ public class MapMenu extends Application {
         popularityPopupPane.getChildren().add(outerBox);
     }
 
-    private static Text makeTextForSumOfChanges(Empire empire) {
-        int popularityChange = 0;
-        for (Empire.PopularityFactors factor : Empire.PopularityFactors.values())
-            popularityChange += empire.getPopularityChange(factor);
-        return new Text("change for next turn: " + popularityChange);
-    }
-
     private VBox makeOuterBox() {
         VBox outerBox = new VBox();
         outerBox.setAlignment(Pos.CENTER);
@@ -507,7 +563,8 @@ public class MapMenu extends Application {
         text.setOnMouseClicked(mouseEvent -> {
             if (popularityPopupPane == null) {
                 newPopularityPopup();
-            } else {
+            }
+            else {
                 popularityPopup.hide();
                 popularityPopupPane = null;
             }
@@ -527,7 +584,11 @@ public class MapMenu extends Application {
         button.setOnMouseClicked(mouseEvent -> {
             if (!GameController.nextTurn()) {
                 GameController.showWinner();
-                //todo back to main menu
+                try {
+                    new MainMenu().start(AppData.getStage());
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
             makeMainPopularity(gameData.getPlayingEmpire());
         });
@@ -544,16 +605,6 @@ public class MapMenu extends Application {
         popularityPopup.showAndWait();
     }
 
-    private static CircleImage chooseFaceColor(int popularity) {
-        if (popularity > 60) {
-            return new CircleImage("/images/empirefactors/green.png", 20);
-        } else if (popularity > 30) {
-            return new CircleImage("/images/empirefactors/yellow.png", 20);
-        } else {
-            return new CircleImage("/images/empirefactors/red.png", 20);
-        }
-    }
-
     private void makeHBox(Text text, Text text1, Text text2, Node circleImage, Rectangle button, Rectangle button2) {
         HBox hBox = new HBox(text, text1, text2, circleImage, button, button2);
         hBox.setAlignment(Pos.CENTER);
@@ -563,22 +614,6 @@ public class MapMenu extends Application {
         hBox.setSpacing(10);
         hBox.setBackground(new Background(new BackgroundFill(Color.GOLD, null, null)));
         mainPane.getChildren().add(hBox);
-    }
-
-    private static Rectangle makeChangeFactorButton() {
-        Rectangle button = new Rectangle(90, 30);
-        button.setArcHeight(30.0);
-        button.setArcWidth(30.0);
-        Image image = new Image(MapMenu.class.getResource("/images/menus/changeFactors.png").toString());
-        button.setFill(new ImagePattern(image));
-        button.setOnMouseClicked(mouseEvent -> {
-            try {
-                new SetFactorsMenu().start(new Stage());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-        return button;
     }
 
     private void addPopularityPopUpVbox(HBox factorsHBox, int switcher, Empire empire) {
@@ -606,20 +641,5 @@ public class MapMenu extends Application {
                 }
             }
         }
-    }
-
-    private static CircleImage chooseEachFactorFaceColor(Empire empire, Empire.PopularityFactors factor) {
-        int factorAffect = empire.getMeasureOfFactor(factor);
-        if (factorAffect > 0) {
-            return new CircleImage("/images/empirefactors/green.png", 8);
-        } else if (factorAffect < 0) {
-            return new CircleImage("/images/empirefactors/red.png", 8);
-        } else {
-            return new CircleImage("/images/empirefactors/yellow.png", 8);
-        }
-    }
-
-    public Pane getMainPane() {
-        return mainPane;
     }
 }

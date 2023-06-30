@@ -18,12 +18,26 @@ import view.menus.MapMenu;
 import view.messages.MapMenuMessages;
 
 public class DropBuildingGraphics {
+    private final int numberOfPicturesInRow = 10;
     @FXML
     private TextField ownerNumber;
     @FXML
     private Pane dropBuildingPane;
 
-    private final int numberOfPicturesInRow = 10;
+    private static void handleResult(GameGraphicFunctions gameGraphicFunctions, MapMenuMessages result) {
+        switch (result) {
+            case FULL_CELL -> gameGraphicFunctions.alertMessage
+                    (Color.RED, "full cell", "Another building has been already built here");
+            case IMPROPER_CELL_TYPE -> gameGraphicFunctions.alertMessage
+                    (Color.RED, "improper cell type", "This cell is not good for building this building!");
+            case TWO_MAIN_KEEP -> gameGraphicFunctions.alertMessage
+                    (Color.RED, "two main keep", "having two main keeps is illegal");
+            case UNCONNECTED_STOREROOMS -> gameGraphicFunctions.alertMessage
+                    (Color.RED, "unconnected storerooms", "Your storerooms should be connected to each other");
+            case SUCCESSFUL -> gameGraphicFunctions.alertMessage
+                    (Color.GREEN, "success", "The building was successfully droped");
+        }
+    }
 
     public void exitPopUp() {
         GameController.getGameData().getGameGraphicFunctions().exitPopUp();
@@ -60,27 +74,13 @@ public class DropBuildingGraphics {
         if (!ownerNumber.getText().matches("\\d")) {
             gameGraphicFunctions.alertMessage(Color.RED, "drop failed", "please enter a valid player number");
             return;
-        } else playerNumber = Integer.parseInt(ownerNumber.getText());
+        }
+        else playerNumber = Integer.parseInt(ownerNumber.getText());
         if (playerNumber <= 0 || playerNumber > gameData.getNumberOfPlayers()) {
             gameGraphicFunctions.alertMessage(Color.RED, "drop failed", "please enter a valid player number");
             return;
         }
         MapMenuMessages result = MapFunctions.dropBuildingAsAdmin(x, y, buildingName, playerNumber);
         handleResult(gameGraphicFunctions, result);
-    }
-
-    private static void handleResult(GameGraphicFunctions gameGraphicFunctions, MapMenuMessages result) {
-        switch (result) {
-            case FULL_CELL -> gameGraphicFunctions.alertMessage
-                    (Color.RED, "full cell", "Another building has been already built here");
-            case IMPROPER_CELL_TYPE -> gameGraphicFunctions.alertMessage
-                    (Color.RED, "improper cell type", "This cell is not good for building this building!");
-            case TWO_MAIN_KEEP -> gameGraphicFunctions.alertMessage
-                    (Color.RED, "two main keep", "having two main keeps is illegal");
-            case UNCONNECTED_STOREROOMS -> gameGraphicFunctions.alertMessage
-                    (Color.RED, "unconnected storerooms", "Your storerooms should be connected to each other");
-            case SUCCESSFUL -> gameGraphicFunctions.alertMessage
-                    (Color.GREEN, "success", "The building was successfully droped");
-        }
     }
 }

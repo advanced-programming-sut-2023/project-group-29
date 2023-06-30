@@ -1,8 +1,5 @@
 package view.menus;
 
-import controller.MenuNames;
-import controller.menucontrollers.MainMenuController;
-import controller.menucontrollers.PreGameMenuController;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -13,11 +10,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import model.AppData;
-import model.SaveAndLoad;
 import view.Command;
 
 import java.net.URL;
-import java.util.Scanner;
 
 public class MainMenu extends Application {
     BackgroundSize backgroundSize = new BackgroundSize(1080, 720, false, false, false, false);
@@ -26,6 +21,7 @@ public class MainMenu extends Application {
     Background background3 = new Background(new BackgroundImage(new Image(EnterMenu.class.getResource("/images/menus/MainMenuBack3.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize));
 
     private int numberOfBack = 1;
+
     @Override
     public void start(Stage stage) throws Exception {
         URL url = Command.class.getResource("/FXML/MainMenu.fxml");
@@ -45,34 +41,28 @@ public class MainMenu extends Application {
             @Override
             public void handle(KeyEvent keyEvent) {
                 String keyName = keyEvent.getCode().getName();
-                if(keyName.equals("Up") && numberOfBack != 1){
+                if (keyName.equals("Up") && numberOfBack != 1) {
                     numberOfBack--;
                 }
-                else if(keyName.equals("Down") && numberOfBack != 3){
+                else if (keyName.equals("Down") && numberOfBack != 3) {
                     numberOfBack++;
                 }
-                else if(keyName.equals("Enter")) {
-                    if(pane.getBackground().equals(background1)) {
+                else if (keyName.equals("Enter")) {
+                    if (pane.getBackground().equals(background1)) {
                         try {
-                            MainMenuController.createGameData();
-                            PreGameMenuController.addUserToGame("ali");
-                            PreGameMenuController.addUserToGame("mamad");
-                            PreGameMenuController.chooseMap(2);
-                            PreGameMenuController.setPlayerNumbersAlive();
-                            //TODO heb
                             new PreGameMenu().start(AppData.getStage());
                         } catch (Exception e) {
                             throw new RuntimeException(e);
                         }
                     }
-                    else if(pane.getBackground().equals(background2)) {
+                    else if (pane.getBackground().equals(background2)) {
                         try {
                             new ProfileMenu().start(AppData.getStage());
                         } catch (Exception e) {
                             throw new RuntimeException(e);
                         }
                     }
-                    else if(pane.getBackground().equals(background3)) {
+                    else if (pane.getBackground().equals(background3)) {
                         AppData.setCurrentUser(null);
                         try {
                             new EnterMenu().start(AppData.getStage());
@@ -81,38 +71,16 @@ public class MainMenu extends Application {
                         }
                     }
                 }
-                if(numberOfBack == 1) {
+                if (numberOfBack == 1) {
                     pane.setBackground(background1);
-                } else if (numberOfBack == 2) {
+                }
+                else if (numberOfBack == 2) {
                     pane.setBackground(background2);
-                } else {
+                }
+                else {
                     pane.setBackground(background3);
                 }
             }
         });
     }
-
-    public static MenuNames run(Scanner scanner) {
-        System.out.println("You have entered main menu");
-        while (true) {
-            String input = scanner.nextLine();
-            if (Command.getMatcher(input, Command.LOGOUT) != null) {
-                System.out.println("User logged out");
-                AppData.getCurrentUser().setStayLoggedIn(0);
-                SaveAndLoad.saveData(AppData.getUsers(), AppData.getUsersDataBaseFilePath());
-                return MenuNames.LOGIN_MENU;
-            }
-            else if (Command.getMatcher(input, Command.ENTER_PROFILE_MENU) != null) {
-                return MenuNames.PROFILE_MENU;
-            }
-            else if (Command.getMatcher(input, Command.START_GAME) != null) {
-                MainMenuController.createGameData();
-                return MenuNames.PRE_GAME_MENU;
-            }
-            else {
-                System.out.println("Invalid command!");
-            }
-        }
-    }
-
 }

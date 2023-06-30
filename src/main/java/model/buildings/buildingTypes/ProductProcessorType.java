@@ -14,7 +14,7 @@ public enum ProductProcessorType implements BuildType {
     ),
     BAKERY( //نانوایی
             new BuildingType(40, 1, new int[]{0, 0, 10, 0}, "bakery",
-                            "Bkery", Category.FOOD_PROCESSING), 10, Product.FLOUR, Food.BREAD
+                    "Bkery", Category.FOOD_PROCESSING), 10, Product.FLOUR, Food.BREAD
     ),
     BEER_BREWING(// آبجوسازی
             new BuildingType(40, 1, new int[]{0, 0, 10, 0}, "beerBrewing",

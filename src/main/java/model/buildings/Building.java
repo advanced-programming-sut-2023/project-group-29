@@ -10,11 +10,11 @@ import java.util.HashMap;
 public abstract class Building extends Asset {
 
     private static final HashMap<BuildType, Integer> buildingTypesAndTheirGroup = new HashMap<>();
-    private Category category;
     protected int numberOfWorkers;
     protected int[] neededResources;
     protected int maxHp;
     protected String name;
+    private final Category category;
 
     protected Building(BuildingType buildingType, PlayerNumber playerNumber, int positionX, int positionY) {
         super(playerNumber, positionX, positionY);
@@ -27,9 +27,10 @@ public abstract class Building extends Asset {
         this.showingImageFilePath = "/images/buildings/" + category.name() + "/" + name + ".png";
     }
 
-    public static HashMap<BuildType, Integer> getBuildingTypesAndTheirGroup(){
+    public static HashMap<BuildType, Integer> getBuildingTypesAndTheirGroup() {
         return buildingTypesAndTheirGroup;
     }
+
     public static BuildType getBuildTypeByName(String buildingName) {
         for (BuildType buildType : buildingTypesAndTheirGroup.keySet()) {
             if (buildType.getBuildingType().name().equals(buildingName)) return buildType;

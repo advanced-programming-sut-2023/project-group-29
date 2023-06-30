@@ -7,14 +7,13 @@ import java.util.Collections;
 
 public class AppData {
     private static final String usersDataBaseFilePath = "./src/main/dataFiles/UsersDataBase.json";
+    private static final int screenWidth = 1080;
+    private static final int screenHeight = 720;
+    private static final ArrayList<MapTemplate> mapTemplates = new ArrayList<>();
     private static ArrayList<User> users = new ArrayList<>();
     private static User currentUser;
     private static int delayInLogin = 0;
-
-    private static final int screenWidth=1080;
-    private static final int screenHeight=720;
     private static Stage stage;
-
 
     public static User getUserByUsername(String username) {
         for (int i = 0; i < users.size(); i++) {
@@ -114,5 +113,9 @@ public class AppData {
 
     public static void setStage(Stage stage) {
         AppData.stage = stage;
+    }
+
+    public static ArrayList<MapTemplate> getMapTemplates() {
+        return mapTemplates;
     }
 }

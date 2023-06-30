@@ -15,10 +15,9 @@ import view.menus.MapMenu;
 import view.messages.SelectBuildingMenuMessages;
 
 public class CreateUnitGraphic {
+    private final int numberOfPicturesInRow = 9;
     @FXML
     private Pane createUnitPane;
-
-    private final int numberOfPicturesInRow = 9;
 
     public void exitPopUp() {
         GameController.getGameData().getGameGraphicFunctions().exitPopUp();

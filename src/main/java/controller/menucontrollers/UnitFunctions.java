@@ -51,12 +51,10 @@ public class UnitFunctions {
         Movable.MovingResult movingResult = movableUnit.move(map, destinationCellPosition.first, destinationCellPosition.second);
         switch (movingResult) {
             case TOO_FAR, HAS_MOVED -> {
-                return;
             }
             case SUCCESSFUL -> {
                 currentCell.getMovingObjects().remove(movingUnit);
                 GameController.getGameData().getGameGraphicFunctions().moveAnimate(movingUnit, path, destinationCellPosition.first, destinationCellPosition.second);
-                return;
             }
         }
     }
@@ -75,10 +73,6 @@ public class UnitFunctions {
             return SelectUnitMenuMessages.BAD_PLACE_TO_MOVE_ON;
 
         return SelectUnitMenuMessages.SUCCESSFUL;
-    }
-
-    public static SelectUnitMenuMessages patrolUnitsCheckError() {
-        return null;
     }
 
     public static void setUnitsPatrolling(ArrayList<Movable> movables, int destinationX, int destinaitonY) {
@@ -354,7 +348,7 @@ public class UnitFunctions {
         GameData gameData = GameController.getGameData();
         Map map = gameData.getMap();
 
-        Asset tunnelerAsset=(Asset)tunneler;
+        Asset tunnelerAsset = (Asset) tunneler;
         Cell currentCell = map.getCells()[tunnelerAsset.getPositionX()][tunnelerAsset.getPositionY()];
 
         Offensive.AttackingResult attackingResult = tunneler.canAttack(map, targetX, targetY, true);

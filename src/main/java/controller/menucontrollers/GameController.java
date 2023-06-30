@@ -2,10 +2,6 @@ package controller.menucontrollers;
 
 import javafx.scene.paint.Color;
 import model.*;
-import model.buildings.Building;
-import model.buildings.buildingTypes.OtherBuildingsType;
-import model.dealing.Food;
-import model.dealing.Tradable;
 import model.map.Cell;
 import model.map.CellType;
 import model.map.Map;
@@ -15,7 +11,6 @@ import model.unitfeatures.Movable;
 import model.unitfeatures.Offensive;
 import model.unitfeatures.UnitState;
 import model.weapons.weaponClasses.Trap;
-import view.messages.GameMenuMessages;
 import view.messages.SelectUnitMenuMessages;
 
 import java.util.ArrayList;
@@ -31,79 +26,6 @@ public class GameController {
 
     public static void setGameData(GameData gameData) {
         GameController.gameData = gameData;
-    }
-
-    public static String showPopularityFactors() {
-        Empire empire = gameData.getPlayingEmpire();
-        String output = "popularity factors:\n";
-        output += "factor 1: religion -> " + empire.getPopularityChange(Empire.PopularityFactors.RELIGION) + "\n";
-        output += "factor 2: tax rate -> " + empire.getPopularityChange(Empire.PopularityFactors.TAX) + "\n";
-        output += "factor 3: fear rate -> " + empire.getPopularityChange(Empire.PopularityFactors.FEAR) + "\n";
-        output += "factor 4: food rate -> " + empire.getPopularityChange(Empire.PopularityFactors.FOOD);
-        return output;
-    }
-
-    public static String showPopularity() {
-        Empire empire = gameData.getPlayingEmpire();
-        return "Your popularity: " + empire.getPopularity();
-    }
-
-    public static String showFoodList() {
-        Empire empire = gameData.getPlayingEmpire();
-        String output = "food list:\n";
-        for (Food food : Food.values()) {
-            output += food.getName() + " -> count: " + empire.getFoodsCount(food) + "\n";
-        }
-        return output.trim();
-    }
-
-    public static GameMenuMessages determinationOfFoodRate(int foodRate) {
-        if (foodRate < -2 || foodRate > 2) return GameMenuMessages.RATE_OUT_OF_RANGE;
-        Empire empire = gameData.getPlayingEmpire();
-        empire.setFoodRate(foodRate);
-        return GameMenuMessages.SUCCESS;
-    }
-
-    public static String showFoodRate() {
-        Empire empire = gameData.getPlayingEmpire();
-        return "Your food rate: " + empire.getFoodRate();
-    }
-
-    public static GameMenuMessages determinationOfTaxRate(int taxRate) {
-        if (taxRate < -3 || taxRate > 8) return GameMenuMessages.RATE_OUT_OF_RANGE;
-        Empire empire = gameData.getPlayingEmpire();
-        empire.setTaxRate(taxRate);
-        return GameMenuMessages.SUCCESS;
-    }
-
-    public static String showTaxRate() {
-        Empire empire = gameData.getPlayingEmpire();
-        return "Your tax rate: " + empire.getTaxRate();
-    }
-
-    public static GameMenuMessages determinationOfFearRate(int fearRate) {
-        if (fearRate < -5 || fearRate > 5) return GameMenuMessages.RATE_OUT_OF_RANGE;
-        Empire empire = gameData.getPlayingEmpire();
-        empire.setFearRate(fearRate);
-        return GameMenuMessages.SUCCESS;
-    }
-
-    public static GameMenuMessages selectBuilding(int xPosition, int yPosition) {
-        Building building;
-        Empire currentPlayerEmpire = gameData.getPlayingEmpire();
-        if (positionIsInvalid(xPosition, yPosition)) {
-            return GameMenuMessages.INVALID_POSITION;
-        }
-        Cell chosenCell = gameData.getMap().getCells()[xPosition][yPosition];
-        if ((building = chosenCell.getBuilding()) == null) {
-            return GameMenuMessages.EMPTY_CELL;
-        } else if (!building.getOwnerEmpire().equals(currentPlayerEmpire)) {
-            return GameMenuMessages.OTHERS_BUILDINGS;
-        }
-
-        gameData.setStartSelectedCellsPosition(new Pair<>(xPosition, yPosition));
-        BuildingFunctions.setSelectedBuilding(building);
-        return GameMenuMessages.SUCCESS;
     }
 
     private static boolean positionIsInvalid(int x, int y) {
@@ -170,18 +92,18 @@ public class GameController {
             }
 
 
-        int fireDamage=15;
+        int fireDamage = 15;
         //apply firings
         for (int i = 0; i < map.getWidth(); i++)
             for (int j = 0; j < map.getWidth(); j++) {
-                Cell currentCell=gameData.getMap().getCells()[i][j];
+                Cell currentCell = gameData.getMap().getCells()[i][j];
                 if (currentCell.getFireRemainingTurns() > 0) {
                     currentCell.decrementFireRemainingTurns();
-                    for (Asset asset: currentCell.getMovingObjects())
+                    for (Asset asset : currentCell.getMovingObjects())
                         asset.decreaseHp(fireDamage);
-                    if(currentCell.hasTrap())
+                    if (currentCell.hasTrap())
                         currentCell.getTrap().decreaseHp(fireDamage);
-                    if(currentCell.hasBuilding())
+                    if (currentCell.hasBuilding())
                         currentCell.getBuilding().decreaseHp(fireDamage);
 
                     currentCell.removeDeadUnitsAndBuilding();
@@ -196,12 +118,12 @@ public class GameController {
     }
 
     private static void randomSickness(double sickNessPossibility) {
-        int r = (int)(1/sickNessPossibility);
+        int r = (int) (1 / sickNessPossibility);
         Map map = GameController.gameData.getMap();
         for (int i = 0; i < map.getWidth(); i++) {
             for (int j = 0; j < map.getWidth(); j++) {
                 Cell cell = map.getCells()[i][j];
-                if ((int)(Math.random() * r) % r == 0) {
+                if ((int) (Math.random() * r) % r == 0) {
                     cell.setSick(true);
                 }
             }
@@ -315,26 +237,7 @@ public class GameController {
     }
 
     public static void notify(String message) {
-        gameData.getGameGraphicFunctions().alertMessage(Color.YELLOW,"inform",message);
-    }
-
-    public static int showWealth() {
-        return GameController.getGameData().getPlayingEmpire().getWealth();
-    }
-
-    public static String showCommodity() {
-        String output = "Your recourse: \n";
-        Empire empire = gameData.getPlayingEmpire();
-        for (Tradable tradable : empire.getTradableAmounts().keySet()) {
-            int amount = empire.getTradableAmount(tradable);
-            output += tradable.getName() + ": " + amount + "\n";
-        }
-        return output;
-    }
-
-    public static boolean isAnyMarket() {
-        Empire empire = gameData.getPlayingEmpire();
-        return empire.getNumberOfBuildingType(OtherBuildingsType.MARKET.getBuildingType().name()) > 0;
+        gameData.getGameGraphicFunctions().alertMessage(Color.YELLOW, "inform", message);
     }
 
     public static void showWinner() {

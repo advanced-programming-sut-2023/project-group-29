@@ -36,8 +36,10 @@ public class OtherBuildings extends Building {
             if (soldier != null) {
                 if (soldier.getSoldierType().equals(SoldierType.ENGINEER)) {
                     convertEngineerToEngineerWithOil(soldier, currentCell);
-                } else if (soldier.getSoldierType().equals(SoldierType.ENGINEER_WITH_OIL)) {
-                } else {
+                }
+                else if (soldier.getSoldierType().equals(SoldierType.ENGINEER_WITH_OIL)) {
+                }
+                else {
                     soldier.setHasFire(true);
                 }
             }
@@ -55,7 +57,7 @@ public class OtherBuildings extends Building {
         for (Asset asset : currentCell.getMovingObjects()) {
             if (asset instanceof Soldier soldier) {
                 if (soldier.getOwnerEmpire().equals(currentCell.getBuilding().getOwnerEmpire())
-                && !soldier.hasFire()) return soldier;
+                        && !soldier.hasFire()) return soldier;
             }
         }
         return null;
@@ -65,7 +67,8 @@ public class OtherBuildings extends Building {
         if (showingSignInMap.charAt(4) == 'D') {
             showingSignInMap = showingSignInMap.substring(0, 4) + "U" + showingSignInMap.charAt(5);
             showingImageFilePath = "/images/buildings/CASTLE/drawBridge2.png";
-        } else if (showingSignInMap.charAt(4) == 'U') {
+        }
+        else if (showingSignInMap.charAt(4) == 'U') {
             showingSignInMap = showingSignInMap.substring(0, 4) + "D" + showingSignInMap.charAt(5);
             showingImageFilePath = "/images/buildings/CASTLE/drawBridge.png";
         }

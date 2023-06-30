@@ -1,13 +1,9 @@
 package controller.menucontrollers;
 
-import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
-import javafx.scene.control.MultipleSelectionModel;
-import javafx.scene.control.RadioButton;
 import model.AppData;
 import model.SaveAndLoad;
 import model.User;
-import view.menus.EnterMenu;
 import view.menus.LoginMenu;
 import view.menus.RegisterMenu;
 import view.menus.SecurityQuestionMenu;
@@ -23,7 +19,7 @@ public class LoginMenuController {
         Matcher matcherCapital = Pattern.compile("[A-Z]").matcher(password);
         Matcher matcherSmall = Pattern.compile("[a-z]").matcher(password);
         Matcher matcherNumber = Pattern.compile("\\d").matcher(password);
-        Matcher matcherOdd = Pattern.compile("[*\'!@#&%_\\-=~+()^{}\"?]").matcher(password);
+        Matcher matcherOdd = Pattern.compile("[*'!@#&%_\\-=~+()^{}\"?]").matcher(password);
         if (password.length() < 6) {
             return 0;
         }
@@ -125,7 +121,7 @@ public class LoginMenuController {
 
     public static int checkFormatOfUsername(String username) {
         Matcher matcherCheckUsername = Pattern.compile("\\w+").matcher(username);
-        if (matcherCheckUsername.matches()){
+        if (matcherCheckUsername.matches()) {
             return 1;
         }
         return 0;
@@ -133,54 +129,53 @@ public class LoginMenuController {
 
     public static void createUser(String username, String password, String email, String nickname, String slogan, boolean checkSlogan) throws Exception {
         int stopCreate = 0;
-        if(username.length() == 0) {
+        if (username.length() == 0) {
             RegisterMenu.getUsernameText().setText("Username field was empty!");
             stopCreate = 1;
         }
-        if(password.length() == 0) {
+        if (password.length() == 0) {
             RegisterMenu.getPasswordText().setText("Password field was empty!");
             stopCreate = 1;
         }
-        if(email.length() == 0) {
+        if (email.length() == 0) {
             RegisterMenu.getEmailText().setText("Email field was empty!");
             stopCreate = 1;
         }
-        if(nickname.length() == 0) {
+        if (nickname.length() == 0) {
             RegisterMenu.getNicknameText().setText("Nickname field was empty!");
             stopCreate = 1;
         }
-        if(slogan.length() == 0 && checkSlogan) {
+        if (slogan.length() == 0 && checkSlogan) {
             RegisterMenu.getSloganText().setText("Slogan field was empty!");
             stopCreate = 1;
         }
-        if(checkFormatOfUsername(username) == 0 && username.length() != 0){
+        if (checkFormatOfUsername(username) == 0 && username.length() != 0) {
             RegisterMenu.getUsernameText().setText("Format of your username was incorrect!");
             stopCreate = 1;
         }
-        if(checkWeakPassword(password) == 0  && password.length() != 0){
+        if (checkWeakPassword(password) == 0 && password.length() != 0) {
             RegisterMenu.getPasswordText().setText("Your password was short!");
             stopCreate = 1;
         }
-        else if(checkWeakPassword(password) == 1  && password.length() != 0){
+        else if (checkWeakPassword(password) == 1 && password.length() != 0) {
             RegisterMenu.getPasswordText().setText("Your password was week!");
             stopCreate = 1;
         }
-        if(checkEmailFormat(email) == 0  && email.length() != 0) {
+        if (checkEmailFormat(email) == 0 && email.length() != 0) {
             RegisterMenu.getEmailText().setText("Your email hadn't true format!");
             stopCreate = 1;
         }
-        if(AppData.getUserByUsername(username) != null) {
+        if (AppData.getUserByUsername(username) != null) {
             RegisterMenu.getUsernameText().setText("This username was already exist!");
             stopCreate = 1;
         }
-        if(AppData.getUserByEmail(email) != null) {
+        if (AppData.getUserByEmail(email) != null) {
             RegisterMenu.getEmailText().setText("This email was already exist!");
             stopCreate = 1;
         }
-        if(stopCreate == 1) {
+        if (stopCreate == 1) {
             return;
         }
-        //TODO show important slogan
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Successful Operation");
         alert.setContentText("User was successfully created");
@@ -199,7 +194,6 @@ public class LoginMenuController {
         else if (!AppData.getUserByUsername(username).getPassword().equals(SaveAndLoad.hashString(password))) {
             return "Username and password didn't match!";
         }
-        //TODO captcha
         AppData.setCurrentUser(AppData.getUserByUsername(username));
         SaveAndLoad.saveData(AppData.getUsers(), AppData.getUsersDataBaseFilePath());
         AppData.setDelayInLogin(0);

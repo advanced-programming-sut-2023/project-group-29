@@ -18,7 +18,7 @@ public enum Resource implements Tradable {
 
     public static Resource getResourceByName(String name) {
         for (Resource resource : Resource.values()) {
-            if (resource.name.equals(name)) return resource;
+            if (resource.getName().equals(name)) return resource;
         }
         return null;
     }

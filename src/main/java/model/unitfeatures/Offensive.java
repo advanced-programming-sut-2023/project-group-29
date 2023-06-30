@@ -43,6 +43,15 @@ public interface Offensive {
         return AttackingResult.SUCCESSFUL;
     }
 
+    static ArrayList<Offensive> getOffensivesOfUnits(ArrayList<Asset> units) {
+        ArrayList<Offensive> attackers = new ArrayList<>();
+        for (Asset asset : units)
+            if (asset instanceof Offensive attacker)
+                attackers.add(attacker);
+
+        return attackers;
+    }
+
     AttackingResult canAttack(Map map, int targetX, int targetY, boolean setHasAttacked);
 
     boolean hasAttackedThisTurn();
@@ -59,14 +68,6 @@ public interface Offensive {
 
     int getAimRange();
 
-    public static ArrayList<Offensive> getOffensivesOfUnits(ArrayList<Asset> units){
-        ArrayList<Offensive> attackers=new ArrayList<>();
-        for(Asset asset:units)
-            if(asset instanceof Offensive attacker)
-                attackers.add(attacker);
-
-        return attackers;
-    }
     enum AttackingResult {
         SUCCESSFUL,
         INVALID_INDEX,

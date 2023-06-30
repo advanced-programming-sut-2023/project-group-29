@@ -8,9 +8,9 @@ public class Asset {
     private final PlayerNumber ownerNumber;
     protected int hp;
     protected String showingSignInMap;
+    protected String showingImageFilePath;
     private int positionX;
     private int positionY;
-    protected String showingImageFilePath;
 
     public Asset(PlayerNumber ownerNumber, int positionX, int positionY) {
         this.ownerNumber = ownerNumber;
@@ -66,11 +66,11 @@ public class Asset {
         return showingImageFilePath;
     }
 
-    public Image getShowingImage(){
-        return new Image(LoginMenu.class.getResource(showingImageFilePath).toExternalForm());
-    }
-
     public void setShowingImageFilePath(String showingImageFilePath) {
         this.showingImageFilePath = showingImageFilePath;
+    }
+
+    public Image getShowingImage() {
+        return new Image(LoginMenu.class.getResource(showingImageFilePath).toExternalForm());
     }
 }

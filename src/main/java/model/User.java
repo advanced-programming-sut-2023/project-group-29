@@ -69,6 +69,10 @@ public class User {
         return securityQuestion;
     }
 
+    public void setSecurityQuestion(String securityQuestion) {
+        this.securityQuestion = securityQuestion;
+    }
+
     public int getHighScore() {
         return highScore;
     }
@@ -99,10 +103,6 @@ public class User {
 
     public void setStayLoggedIn(int stayLoggedIn) {
         this.stayLoggedIn = stayLoggedIn;
-    }
-
-    public void setSecurityQuestion(String securityQuestion) {
-        this.securityQuestion = securityQuestion;
     }
 
     public String getAvatar() {

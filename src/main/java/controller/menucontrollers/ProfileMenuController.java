@@ -66,33 +66,7 @@ public class ProfileMenuController {
         return "Your slogan removed";
     }
 
-    public static int displayHighScore() {
-        return AppData.getCurrentUser().getHighScore();
-    }
-
-    public static int displayRank() {
-        return AppData.rankOfUser(AppData.sortUserByHighScore(), AppData.getCurrentUser().getUsername());
-    }
-
-    public static String displaySlogan() {
-        if (AppData.getCurrentUser().getSlogan().length() == 0) {
-            return "Slogan is empty!";
-        }
-        return AppData.getCurrentUser().getSlogan();
-    }
-
-    public static String displayProfile() {
-        String output = "Username: " + AppData.getCurrentUser().getUsername() + "\n";
-        output = output + "Nickname: " + AppData.getCurrentUser().getNickname() + "\n";
-        output = output + "Email: " + AppData.getCurrentUser().getEmail() + "\n";
-        output = output + "Slogan: " + AppData.getCurrentUser().getSlogan() + "\n";
-        output = output + "Highscore: " + AppData.getCurrentUser().getHighScore() + "\n";
-        output = output + "Rank: " + AppData.rankOfUser(AppData.sortUserByHighScore(),
-                AppData.getCurrentUser().getUsername());
-        return output;
-    }
-
-    public static void setMyAvatar(File file) {;
+    public static void setMyAvatar(File file) {
         AppData.getCurrentUser().setAvatar(file.getAbsolutePath());
         SaveAndLoad.saveData(AppData.getUsers(), AppData.getUsersDataBaseFilePath());
     }

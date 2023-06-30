@@ -10,5 +10,5 @@ public record HumanType(
         SpeedEnum speed,
         String showingSignInMap,
         String showingImageFilePath
-        ) {
+) {
 }

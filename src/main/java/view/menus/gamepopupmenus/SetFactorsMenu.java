@@ -20,11 +20,8 @@ import java.net.URL;
 import java.util.HashMap;
 
 public class SetFactorsMenu extends Application {
-    private Stage stage;
-    private StackPane stackPane;
     private static final HashMap<Empire.PopularityFactors, Integer> rates = new HashMap<>();
-
-    private static HashMap<Empire.PopularityFactors, Slider> sliders = new HashMap<>();
+    private static final HashMap<Empire.PopularityFactors, Slider> sliders = new HashMap<>();
 
     static {
         rates.put(Empire.PopularityFactors.TAX, 0);
@@ -32,8 +29,17 @@ public class SetFactorsMenu extends Application {
         rates.put(Empire.PopularityFactors.FOOD, 0);
     }
 
+    private Stage stage;
+    private StackPane stackPane;
+
     public static Slider getSlider(Empire.PopularityFactors factor) {
         return sliders.get(factor);
+    }
+
+    private static void addTitle(VBox vBox, String title) {
+        Text text2 = new Text(title);
+        text2.setStyle("-fx-font: 18 arial;");
+        vBox.getChildren().add(text2);
     }
 
     @Override
@@ -85,12 +91,6 @@ public class SetFactorsMenu extends Application {
         addSlider(-3, 8, Empire.PopularityFactors.TAX, vBox);
         addTitle(vBox, "fear rate");
         addSlider(-5, 5, Empire.PopularityFactors.FEAR, vBox);
-    }
-
-    private static void addTitle(VBox vBox, String title) {
-        Text text2 = new Text(title);
-        text2.setStyle("-fx-font: 18 arial;");
-        vBox.getChildren().add(text2);
     }
 
     private void addSlider(int start, int end, Empire.PopularityFactors factor, VBox vBox) {

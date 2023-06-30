@@ -1,6 +1,9 @@
 package model.map;
 
-import model.*;
+import model.Asset;
+import model.Direction;
+import model.Pair;
+import model.PlayerNumber;
 import model.buildings.buildingClasses.AttackingBuilding;
 import model.buildings.buildingClasses.OtherBuildings;
 import model.buildings.buildingTypes.AttackingBuildingType;
@@ -20,7 +23,7 @@ public class Map {
 
     public Map(int width, int usersCount) {
         this.width = width;
-        this.height=width;
+        this.height = width;
         this.cells = new Cell[width][width];
         this.usersCount = usersCount;
     }
@@ -33,7 +36,7 @@ public class Map {
         return cells;
     }
 
-    public ArrayList<Pair<Integer,Integer>> pathOfTwoCellsForMoving(Movable movingUnit, int firstX, int firstY, int secondX, int secondY) {
+    public ArrayList<Pair<Integer, Integer>> pathOfTwoCellsForMoving(Movable movingUnit, int firstX, int firstY, int secondX, int secondY) {
         return BFSForMoving(movingUnit, firstX, firstY, secondX, secondY);
     }
 
@@ -42,11 +45,11 @@ public class Map {
         return BFSForAttacking(firstX, firstY, secondX, secondY, overTheWallAllowed);
     }
 
-    private ArrayList<Pair<Integer,Integer>> BFSForMoving(Movable movableUnit, int firstX, int firstY, int secondX, int secondY) {
-        Queue<Pair<Integer,Integer>> queue = new LinkedList<>();
+    private ArrayList<Pair<Integer, Integer>> BFSForMoving(Movable movableUnit, int firstX, int firstY, int secondX, int secondY) {
+        Queue<Pair<Integer, Integer>> queue = new LinkedList<>();
 
         int[][] distances = new int[width][width];
-        Pair<Integer,Integer>[][] parents = new Pair[width][width];
+        Pair<Integer, Integer>[][] parents = new Pair[width][width];
 
         for (int[] array : distances)
             Arrays.fill(array, -1);
@@ -55,14 +58,14 @@ public class Map {
         distances[firstX][firstY] = 0;
 
         while (!queue.isEmpty()) {
-            Pair<Integer,Integer> thisCellCoordination = queue.poll();
+            Pair<Integer, Integer> thisCellCoordination = queue.poll();
             if (thisCellCoordination.first == secondX && thisCellCoordination.second == secondY)
                 break;
 
             Cell thisCell = cells[thisCellCoordination.first][thisCellCoordination.second];
 
             for (Direction direction : Direction.values()) {
-                Pair<Integer,Integer> addingCellCoordination;
+                Pair<Integer, Integer> addingCellCoordination;
 
                 if (direction.equals(Direction.RIGHT) && thisCellCoordination.first < width)
                     addingCellCoordination = new Pair(thisCellCoordination.first + 1, thisCellCoordination.second);
@@ -136,21 +139,21 @@ public class Map {
                 distances[addingCellCoordination.first][addingCellCoordination.second] =
                         distances[thisCellCoordination.first][thisCellCoordination.second] + 1;
                 parents[addingCellCoordination.first][addingCellCoordination.second] =
-                        new Pair<>(thisCellCoordination.first,thisCellCoordination.second);
+                        new Pair<>(thisCellCoordination.first, thisCellCoordination.second);
             }
         }
 
-        if(distances[secondX][secondY]==-1)
+        if (distances[secondX][secondY] == -1)
             return null;
 
-        ArrayList<Pair<Integer,Integer>> path=new ArrayList<>();
-        path.add(new Pair<>(secondX,secondY));
+        ArrayList<Pair<Integer, Integer>> path = new ArrayList<>();
+        path.add(new Pair<>(secondX, secondY));
 
-        Pair<Integer,Integer> nextParent=parents[secondX][secondY];
+        Pair<Integer, Integer> nextParent = parents[secondX][secondY];
 
-        while(nextParent.first!=firstX || nextParent.second!=firstY){
+        while (nextParent.first != firstX || nextParent.second != firstY) {
             path.add(nextParent);
-            nextParent=parents[nextParent.first][nextParent.second];
+            nextParent = parents[nextParent.first][nextParent.second];
         }
 
         Collections.reverse(path);
@@ -169,12 +172,12 @@ public class Map {
         distances[firstX][firstY] = 0;
 
         while (!queue.isEmpty()) {
-            Pair<Integer,Integer> thisCellCoordination = queue.poll();
+            Pair<Integer, Integer> thisCellCoordination = queue.poll();
             if (thisCellCoordination.first == secondX && thisCellCoordination.second == secondY)
                 break;
 
             for (Direction direction : Direction.values()) {
-                Pair<Integer,Integer> addingCellCoordination;
+                Pair<Integer, Integer> addingCellCoordination;
 
                 if (direction.equals(Direction.RIGHT) && thisCellCoordination.first < width)
                     addingCellCoordination = new Pair(thisCellCoordination.first + 1, thisCellCoordination.second);

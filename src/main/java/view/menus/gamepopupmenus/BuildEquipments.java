@@ -8,7 +8,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import model.GameData;
 import model.ImagePracticalFunctions;
 import model.weapons.weaponTypes.EquipmentsType;
 import model.weapons.weaponTypes.OffensiveWeaponsType;
@@ -25,33 +24,34 @@ public class BuildEquipments {
     }
 
     @FXML
-    public void initialize(){
-        int index=0;
-        for(EquipmentsType type : EquipmentsType.values()){
-            Image image=new Image(EnterMenu.class.getResource(type.getWeaponTypes().showingImageFilePath()).toExternalForm());
-            setupImage(image,index,type.getName());
+    public void initialize() {
+        int index = 0;
+        for (EquipmentsType type : EquipmentsType.values()) {
+            Image image = new Image(EnterMenu.class.getResource(type.getWeaponTypes().showingImageFilePath()).toExternalForm());
+            setupImage(image, index, type.getName());
             index++;
         }
-        for(OffensiveWeaponsType type : OffensiveWeaponsType.values()){
-            Image image=new Image(EnterMenu.class.getResource(type.getWeaponTypes().showingImageFilePath()).toExternalForm());
-            setupImage(image,index,type.getName());
+        for (OffensiveWeaponsType type : OffensiveWeaponsType.values()) {
+            Image image = new Image(EnterMenu.class.getResource(type.getWeaponTypes().showingImageFilePath()).toExternalForm());
+            setupImage(image, index, type.getName());
             index++;
         }
-        for(TrapType type : TrapType.values()){
-            Image image=new Image(EnterMenu.class.getResource(type.getWeaponTypes().showingImageFilePath()).toExternalForm());
-            setupImage(image,index,type.getName());
+        for (TrapType type : TrapType.values()) {
+            Image image = new Image(EnterMenu.class.getResource(type.getWeaponTypes().showingImageFilePath()).toExternalForm());
+            setupImage(image, index, type.getName());
             index++;
         }
-        for(StaticOffensiveWeaponsType type : StaticOffensiveWeaponsType.values()){
-            Image image=new Image(EnterMenu.class.getResource(type.getWeaponTypes().showingImageFilePath()).toExternalForm());
-            setupImage(image,index,type.getName());
+        for (StaticOffensiveWeaponsType type : StaticOffensiveWeaponsType.values()) {
+            Image image = new Image(EnterMenu.class.getResource(type.getWeaponTypes().showingImageFilePath()).toExternalForm());
+            setupImage(image, index, type.getName());
             index++;
         }
     }
-    public void setupImage(Image image,int index,String typeName){
-        ImageView imageView=new ImageView(image);
-        ImagePracticalFunctions.fitWidthHeight(imageView,70,70);
-        imageView.setLayoutX(50*index+5);
+
+    public void setupImage(Image image, int index, String typeName) {
+        ImageView imageView = new ImageView(image);
+        ImagePracticalFunctions.fitWidthHeight(imageView, 70, 70);
+        imageView.setLayoutX(50 * index + 5);
 
         imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override

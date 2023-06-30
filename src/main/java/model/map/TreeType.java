@@ -9,7 +9,7 @@ public enum TreeType {
     ;
     private final ConsoleColors showingColor;
     private final String name;
-    private String showingImagePath;
+    private final String showingImagePath;
 
     TreeType(ConsoleColors showingColor, String name) {
         this.name = name;
@@ -17,15 +17,15 @@ public enum TreeType {
         this.showingImagePath = "/images/trees/" + name + ".png";
     }
 
-    public String getShowingImagePath() {
-        return showingImagePath;
-    }
-
     public static TreeType getTreeTypeByName(String name) {
         for (TreeType treeType : TreeType.values()) {
             if (treeType.name.equals(name)) return treeType;
         }
         return null;
+    }
+
+    public String getShowingImagePath() {
+        return showingImagePath;
     }
 
     public ConsoleColors getShowingColor() {

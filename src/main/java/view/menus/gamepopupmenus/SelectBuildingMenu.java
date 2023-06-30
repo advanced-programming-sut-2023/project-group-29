@@ -4,12 +4,12 @@ import controller.menucontrollers.BuildingFunctions;
 import controller.menucontrollers.GameController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
 import model.buildings.Building;
 import model.buildings.buildingClasses.OtherBuildings;
 import model.buildings.buildingTypes.OtherBuildingsType;
 import view.menus.GameGraphicFunctions;
 import view.messages.SelectBuildingMenuMessages;
-import javafx.scene.paint.Color;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -91,15 +91,15 @@ public class SelectBuildingMenu {
             GameGraphicFunctions gameGraphicFunctions = GameController.getGameData().getGameGraphicFunctions();
             switch (result) {
                 case LACK_OF_STONE -> {
-                    gameGraphicFunctions.alertMessage(Color.RED,"No stone", "You don't have enough stone!");
+                    gameGraphicFunctions.alertMessage(Color.RED, "No stone", "You don't have enough stone!");
                 }
                 case ENEMY_IS_NEAR -> {
                     gameGraphicFunctions.alertMessage
-                            (Color.RED,"Enemy", "You can't repair while enemy is near!");
+                            (Color.RED, "Enemy", "You can't repair while enemy is near!");
                 }
                 case SUCCESS -> {
                     gameGraphicFunctions.alertMessage
-                            (Color.GREEN,"success", "Building was successfully repaired");
+                            (Color.GREEN, "success", "Building was successfully repaired");
                 }
             }
         });

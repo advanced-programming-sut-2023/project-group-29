@@ -1,12 +1,12 @@
 package model.weapons.weaponClasses;
 
 import controller.menucontrollers.GameController;
-import model.unitfeatures.Offensive;
 import model.PlayerNumber;
-import model.unitfeatures.UnitState;
 import model.buildings.buildingClasses.AttackingBuilding;
 import model.map.Cell;
 import model.map.Map;
+import model.unitfeatures.Offensive;
+import model.unitfeatures.UnitState;
 import model.weapons.Weapon;
 import model.weapons.weaponTypes.StaticOffensiveWeaponsType;
 

@@ -4,7 +4,7 @@ import model.Pair;
 import model.map.Map;
 
 public class Patrol {
-    private final Pair<Integer,Integer>[] patrolEndCells = new Pair[2];
+    private final Pair<Integer, Integer>[] patrolEndCells = new Pair[2];
     private boolean patrolling = false;
     private CellEnds currentCell = CellEnds.SECOND_CELL;
 

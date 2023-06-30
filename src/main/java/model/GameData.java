@@ -4,12 +4,9 @@ import controller.menucontrollers.GameController;
 import model.gamestates.GameState;
 import model.map.Map;
 import model.people.humanClasses.Soldier;
-import model.people.humanTypes.SoldierType;
-import model.weapons.Weapon;
 import model.weapons.weaponClasses.Equipments;
 import model.weapons.weaponClasses.OffensiveWeapons;
 import model.weapons.weaponClasses.StaticOffensiveWeapons;
-import model.weapons.weaponTypes.EquipmentsType;
 import view.menus.GameGraphicFunctions;
 import view.menus.MapMenu;
 
@@ -22,8 +19,8 @@ public class GameData {
     private Pair<Integer, Integer> startSelectedCellsPosition = null;
     private Pair<Integer, Integer> endSelectedCellsPosition = null;
     private Pair<Integer, Integer> destinationCellPosition = null;
-    private ArrayList<Asset> allUnitsInSelectedCells = new ArrayList<>();
-    private ArrayList<Asset> selectedUnits = new ArrayList<>();
+    private final ArrayList<Asset> allUnitsInSelectedCells = new ArrayList<>();
+    private final ArrayList<Asset> selectedUnits = new ArrayList<>();
     private GameState gameState = GameState.VIEW_MAP;
     private int tileWidth = 50;
     private int tileHeight = 50;
@@ -118,12 +115,12 @@ public class GameData {
         return endSelectedCellsPosition;
     }
 
-    public Pair<Integer, Integer> getStartSelectedCellsPosition() {
-        return startSelectedCellsPosition;
-    }
-
     public void setEndSelectedCellsPosition(Pair<Integer, Integer> endSelectedCellsPosition) {
         this.endSelectedCellsPosition = endSelectedCellsPosition;
+    }
+
+    public Pair<Integer, Integer> getStartSelectedCellsPosition() {
+        return startSelectedCellsPosition;
     }
 
     public void setStartSelectedCellsPosition(Pair<Integer, Integer> startSelectedCellsPosition) {
@@ -193,12 +190,12 @@ public class GameData {
         this.gameGraphicFunctions = gameGraphicFunctions;
     }
 
-    public void setPauseMainPane(boolean b) {
-        pauseMainPane = b;
-    }
-
     public boolean isPauseMainPane() {
         return pauseMainPane;
+    }
+
+    public void setPauseMainPane(boolean b) {
+        pauseMainPane = b;
     }
 
     public ArrayList<Asset> getAllUnitsInSelectedCells() {
@@ -206,15 +203,15 @@ public class GameData {
     }
 
     public int getCountOfUnitTypeOnArrayList(ArrayList<Asset> units, String typeName) {
-        int count=0;
-        for(Asset asset:units) {
+        int count = 0;
+        for (Asset asset : units) {
             if (asset instanceof Soldier soldier && soldier.getSoldierType().getName().equals(typeName))
                 count++;
-            else if(asset instanceof OffensiveWeapons offensiveWeapons && offensiveWeapons.getOffensiveWeaponsType().getName().equals(typeName))
+            else if (asset instanceof OffensiveWeapons offensiveWeapons && offensiveWeapons.getOffensiveWeaponsType().getName().equals(typeName))
                 count++;
-            else if(asset instanceof StaticOffensiveWeapons staticOffensiveWeapons && staticOffensiveWeapons.getStaticOffensiveWeaponsType().getName().equals(typeName))
+            else if (asset instanceof StaticOffensiveWeapons staticOffensiveWeapons && staticOffensiveWeapons.getStaticOffensiveWeaponsType().getName().equals(typeName))
                 count++;
-            else if(asset instanceof Equipments equipments && equipments.getEquipmentsType().getName().equals(typeName))
+            else if (asset instanceof Equipments equipments && equipments.getEquipmentsType().getName().equals(typeName))
                 count++;
         }
 

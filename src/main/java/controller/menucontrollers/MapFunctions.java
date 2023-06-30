@@ -12,7 +12,10 @@ import model.buildings.buildingClasses.OtherBuildings;
 import model.buildings.buildingTypes.AccommodationType;
 import model.buildings.buildingTypes.OtherBuildingsType;
 import model.buildings.buildingTypes.StoreType;
-import model.map.*;
+import model.map.Cell;
+import model.map.CellType;
+import model.map.Map;
+import model.map.TreeType;
 import model.people.Human;
 import model.people.humanClasses.Soldier;
 import model.people.humanTypes.SoldierType;
@@ -24,17 +27,18 @@ import view.menus.MapMenu;
 import view.messages.MapMenuMessages;
 
 public class MapFunctions {
-    private static final int tileCapacityForShowingUnits=15;
+    private static final int tileCapacityForShowingUnits = 15;
+
     public static Pane[][] showMap(int indexX, int indexY, Group rootPane) {
-        GameData gameData=GameController.getGameData();
-        int tileWidth=gameData.getTileWidth();
-        int tileHeight=gameData.getTileHeight();
+        GameData gameData = GameController.getGameData();
+        int tileWidth = gameData.getTileWidth();
+        int tileHeight = gameData.getTileHeight();
 
         int numberOfTilesShowingInRow = AppData.getScreenWidth() / tileWidth;
         int numberOfTilesShowingInColumn = AppData.getScreenHeight() / tileHeight;
 
         Map map = GameController.getGameData().getMap();
-        Pane[][] tiles=new Pane[numberOfTilesShowingInRow][numberOfTilesShowingInColumn];
+        Pane[][] tiles = new Pane[numberOfTilesShowingInRow][numberOfTilesShowingInColumn];
 
         for (int i = 0; i < numberOfTilesShowingInRow; i++) {
             for (int j = 0; j < numberOfTilesShowingInColumn; j++) {
@@ -50,12 +54,13 @@ public class MapFunctions {
 
         return tiles;
     }
+
     public static Pane createTile(int indexX, int indexY) {
 
         GameData gameData = GameController.getGameData();
         Cell cell = gameData.getMap().getCells()[indexX][indexY];
-        int tileWidth=gameData.getTileWidth();
-        int tileHeight=gameData.getTileHeight();
+        int tileWidth = gameData.getTileWidth();
+        int tileHeight = gameData.getTileHeight();
 
         Pane tile = new Pane();
         tile.setMaxWidth(tileWidth);
@@ -63,20 +68,20 @@ public class MapFunctions {
         tile.setMaxHeight(tileHeight);
         tile.setMinHeight(tileHeight);
 
-        BackgroundSize backgroundSize=new BackgroundSize(tileWidth,tileHeight,false,false,false,false);
+        BackgroundSize backgroundSize = new BackgroundSize(tileWidth, tileHeight, false, false, false, false);
         tile.setBackground(new Background(new BackgroundImage(cell.getCellType().getImage(), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize)));
 
-        if(cell.getTreeTypes()!=null) {
+        if (cell.getTreeTypes() != null) {
             ImageView tree = new ImageView(new Image(MapMenu.class.getResource(cell.getTreeTypes().getShowingImagePath()).toExternalForm()));
-            ImagePracticalFunctions.fitWidthHeight(tree,tileWidth,tileHeight);
+            ImagePracticalFunctions.fitWidthHeight(tree, tileWidth, tileHeight);
             tile.getChildren().add(tree);
         }
 
         //building or trap
         if (cell.hasBuilding())
-            fitImageInTile(cell.getBuilding().getShowingImage(), tile,tileWidth,tileHeight);
+            fitImageInTile(cell.getBuilding().getShowingImage(), tile, tileWidth, tileHeight);
         else if (cell.hasTrap() && cell.getTrap().getOwnerNumber().equals(GameController.getGameData().getPlayerOfTurn()))
-            fitImageInTile(cell.getTrap().getShowingImage(), tile,tileWidth,tileHeight);
+            fitImageInTile(cell.getTrap().getShowingImage(), tile, tileWidth, tileHeight);
 
         //other units
         int index = 0;
@@ -90,25 +95,25 @@ public class MapFunctions {
                                 (cell.getXPosition(), cell.getYPosition(), gameData.getPlayerOfTurn()))
                     index++;
                 else {
-                    addUnitInTile(cell.getMovingObjects().get(index).getShowingImage(),tile,i);
+                    addUnitInTile(cell.getMovingObjects().get(index).getShowingImage(), tile, i);
                     break;
                 }
             }
             index++;
         }
 
-        ImageView sickness=new ImageView(new Image(MapMenu.class.getResource("/images/disease.png").toExternalForm()));
-        ImagePracticalFunctions.fitWidthHeight(sickness,tileWidth/2,tileHeight/2);
+        ImageView sickness = new ImageView(new Image(MapMenu.class.getResource("/images/disease.png").toExternalForm()));
+        ImagePracticalFunctions.fitWidthHeight(sickness, tileWidth / 2, tileHeight / 2);
         sickness.setLayoutX(0);
         sickness.setLayoutY(0);
-        if(cell.isSick())
+        if (cell.isSick())
             tile.getChildren().add(sickness);
 
-        ImageView fire=new ImageView(new Image(MapMenu.class.getResource("/images/fire.png").toExternalForm()));
-        ImagePracticalFunctions.fitWidthHeight(fire,tileWidth/2,tileHeight/2);
+        ImageView fire = new ImageView(new Image(MapMenu.class.getResource("/images/fire.png").toExternalForm()));
+        ImagePracticalFunctions.fitWidthHeight(fire, tileWidth / 2, tileHeight / 2);
         fire.setLayoutX(0);
         fire.setLayoutY(0);
-        if(cell.getFireRemainingTurns()>0)
+        if (cell.getFireRemainingTurns() > 0)
             tile.getChildren().add(fire);
 
         return tile;
@@ -116,31 +121,31 @@ public class MapFunctions {
 
     private static void addUnitInTile(Image image, Pane tile, int indexOfUnitInTile) {
         GameData gameData = GameController.getGameData();
-        int unitWidth=30;
-        int unitHeight=30;
+        int unitWidth = 30;
+        int unitHeight = 30;
 
-        ImageView unitImage=new ImageView(image);
-        ImagePracticalFunctions.fitWidthHeight(unitImage,unitWidth,unitHeight);
+        ImageView unitImage = new ImageView(image);
+        ImagePracticalFunctions.fitWidthHeight(unitImage, unitWidth, unitHeight);
 
-        int numberOfUnitsInRow=(gameData.getTileWidth()-unitWidth)/5+1;
-        numberOfUnitsInRow=Math.max(numberOfUnitsInRow,1);
+        int numberOfUnitsInRow = (gameData.getTileWidth() - unitWidth) / 5 + 1;
+        numberOfUnitsInRow = Math.max(numberOfUnitsInRow, 1);
 
-        int unitIndexInRow=indexOfUnitInTile%numberOfUnitsInRow;
-        unitImage.setLayoutX(unitIndexInRow*5);
+        int unitIndexInRow = indexOfUnitInTile % numberOfUnitsInRow;
+        unitImage.setLayoutX(unitIndexInRow * 5);
 
 
-        int numberOfUnitsInColumn=(gameData.getTileHeight()/2-unitHeight)/5+1;
-        numberOfUnitsInColumn=Math.max(numberOfUnitsInColumn,1);
+        int numberOfUnitsInColumn = (gameData.getTileHeight() / 2 - unitHeight) / 5 + 1;
+        numberOfUnitsInColumn = Math.max(numberOfUnitsInColumn, 1);
 
-        int unitIndexInColumn=(indexOfUnitInTile/numberOfUnitsInRow)%numberOfUnitsInColumn;
-        unitImage.setLayoutY(unitIndexInColumn*5+gameData.getTileHeight()/2);
+        int unitIndexInColumn = (indexOfUnitInTile / numberOfUnitsInRow) % numberOfUnitsInColumn;
+        unitImage.setLayoutY(unitIndexInColumn * 5 + gameData.getTileHeight() / 2);
 
         tile.getChildren().add(unitImage);
     }
 
-    private static void fitImageInTile(Image image, Pane tile,int tileWidth,int tileHeight) {
-        ImageView imageView=new ImageView(image);
-        ImagePracticalFunctions.fitWidthHeight(imageView,tileWidth,tileHeight);
+    private static void fitImageInTile(Image image, Pane tile, int tileWidth, int tileHeight) {
+        ImageView imageView = new ImageView(image);
+        ImagePracticalFunctions.fitWidthHeight(imageView, tileWidth, tileHeight);
         tile.getChildren().add(imageView);
     }
 
@@ -209,20 +214,16 @@ public class MapFunctions {
         return output;
     }
 
-    private static String colorString(String string, ConsoleColors color) {
-        return color.getStringCode() + string + ConsoleColors.RESET_COLOR.getStringCode();
-    }
-
     public static void moveMap(int upMovements, int rightMovements, int downMovements, int leftMovements) {
-        GameData gameData=GameController.getGameData();
+        GameData gameData = GameController.getGameData();
         Map map = gameData.getMap();
-        Pair<Integer,Integer> mapCornerPosition=gameData.getCornerCellIndex();
+        Pair<Integer, Integer> mapCornerPosition = gameData.getCornerCellIndex();
 
         int newShowingMapIndexX = mapCornerPosition.first + rightMovements - leftMovements;
         int newShowingMapIndexY = mapCornerPosition.second + downMovements - upMovements;
 
         if (map.isIndexValid(newShowingMapIndexX, newShowingMapIndexY)) {
-            gameData.setCornerCellIndex(new Pair<>(newShowingMapIndexX,newShowingMapIndexY));
+            gameData.setCornerCellIndex(new Pair<>(newShowingMapIndexX, newShowingMapIndexY));
         }
     }
 
@@ -232,36 +233,6 @@ public class MapFunctions {
         }
         GameController.getGameData().getMap().getCells()[x][y].setCellType(cellType);
         return "Type of the cell was successfully changed";
-    }
-
-    public static String setPartOfBlockTexture(CellType cellType, int x1, int y1, int x2, int y2) {
-        for (int i = x1; i <= x2; i++) {
-            for (int j = y1; j <= y2; j++) {
-                if (GameController.getGameData().getMap().getCells()[i][j].hasBuilding()) {
-                    continue;
-                }
-                GameController.getGameData().getMap().getCells()[i][j].setCellType(cellType);
-            }
-        }
-        return "Type of the cells were successfully changed";
-    }
-
-    public static String clear(int xPosition, int yPosition) {
-        if (GameController.getGameData().getMap().getCells()[xPosition][yPosition].hasBuilding()) {
-            return "You can't change texture of this cell!";
-        }
-        GameController.getGameData().getMap().getCells()[xPosition][yPosition].setCellType(CellType.PLAIN_GROUND);
-        return "Type of the cell was successfully cleared";
-    }
-
-    public static String dropRock(int xPosition, int yPosition, String direction) {
-        return switch (direction) {
-            case "n" -> setBlockTexture(CellType.UP_ROCK, xPosition, yPosition);
-            case "e" -> setBlockTexture(CellType.RIGHT_ROCK, xPosition, yPosition);
-            case "s" -> setBlockTexture(CellType.DOWN_ROCK, xPosition, yPosition);
-            case "w" -> setBlockTexture(CellType.LEFT_ROCK, xPosition, yPosition);
-            default -> null;
-        };
     }
 
     public static MapMenuMessages dropTree(int xPosition, int yPosition, String name) {
@@ -413,7 +384,7 @@ public class MapFunctions {
     }
 
     public static void refreshMiniMap(Cell cell) {
-        PixelWriter writer =  GameController.getGameData().getMapMenu().getMiniMapWriter();
+        PixelWriter writer = GameController.getGameData().getMapMenu().getMiniMapWriter();
         Image image1 = new Image(MapMenu.class.getResource(cell.getCellType().getImageAddress()).toString());
         Color color = image1.getPixelReader().getColor(0, 0);
         writer.setColor(cell.getXPosition(), cell.getYPosition(), color);

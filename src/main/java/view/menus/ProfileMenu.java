@@ -1,8 +1,6 @@
 package view.menus;
 
-import controller.MenuNames;
 import controller.menucontrollers.LoginMenuController;
-import controller.menucontrollers.PreGameMenuController;
 import controller.menucontrollers.ProfileMenuController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -11,10 +9,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
@@ -22,25 +16,18 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.AppData;
-import javafx.scene.text.Text;
 import model.Avatar;
+import model.LeaderBoard;
 import model.SaveAndLoad;
 import view.Command;
 
-import java.awt.*;
 import java.io.File;
-import java.io.FileInputStream;
 import java.net.URL;
-import java.util.Scanner;
-import java.util.regex.Matcher;
-
 
 
 public class ProfileMenu extends Application {
@@ -58,6 +45,7 @@ public class ProfileMenu extends Application {
     private TextField newPasswordTextField;
     private TextField oldPasswordTextField;
     private Avatar avatar;
+
     @Override
     public void start(Stage stage) throws Exception {
         URL url = Command.class.getResource("/FXML/ProfileMenu.fxml");
@@ -71,59 +59,15 @@ public class ProfileMenu extends Application {
         stage.show();
     }
 
-    public static MenuNames run(Scanner scanner) {
-        System.out.println("You have entered profile menu");
-        while (true) {
-            Matcher matcher;
-            String input = scanner.nextLine();
-            if (Command.getMatcher(input, Command.REMOVE_SLOGAN) != null) {
-                System.out.println(ProfileMenuController.removeSlogan());
-            }
-            else if (Command.getMatcher(input, Command.BACK_MAIN_MENU) != null) {
-                return MenuNames.MAIN_MENU;
-            }
-            else if ((matcher = Command.getMatcher(input, Command.CHANGE_USERNAME)) != null) {
-                //System.out.println(ProfileMenuController.changeUsername(matcher));
-            }
-            else if ((matcher = Command.getMatcher(input, Command.CHANGE_PASSWORD)) != null) {
-                //System.out.println(ProfileMenuController.changePassword(matcher));
-            }
-            else if ((matcher = Command.getMatcher(input, Command.CHANGE_NICKNAME)) != null) {
-                //System.out.println(ProfileMenuController.changeNickname(matcher));
-            }
-            else if ((matcher = Command.getMatcher(input, Command.CHANGE_EMAIL)) != null) {
-                //System.out.println(ProfileMenuController.changeEmail(matcher));
-            }
-            else if ((matcher = Command.getMatcher(input, Command.CHANGE_SLOGAN)) != null) {
-                //System.out.println(ProfileMenuController.changeSlogan(matcher));
-            }
-            else if (Command.getMatcher(input, Command.DISPLAY_HIGH_SCORE) != null) {
-                System.out.println(ProfileMenuController.displayHighScore());
-            }
-            else if (Command.getMatcher(input, Command.DISPLAY_RANK) != null) {
-                System.out.println(ProfileMenuController.displayRank());
-            }
-            else if (Command.getMatcher(input, Command.DISPLAY_SLOGAN) != null) {
-                System.out.println(ProfileMenuController.displaySlogan());
-            }
-            else if (Command.getMatcher(input, Command.DISPLAY_PROFILE) != null) {
-                System.out.println(ProfileMenuController.displayProfile());
-            }
-            else {
-                System.out.println("Invalid command!");
-            }
-        }
-    }
-
     private void initializeButton() {
         String styleOfButton = "-fx-effect: dropshadow(gaussian, red, 10, 0, 0, 0);" +
-        "    -fx-background-insets: 50;" +
+                "    -fx-background-insets: 50;" +
                 "    -fx-text-fill: black;" +
                 "    -fx-font-family: \"Brush Script MT\";" +
                 "    -fx-font-size: 30px;";
         Text descriptionText = new Text();
         String slogan = AppData.getCurrentUser().getSlogan();
-        if(slogan.length() < 1) {
+        if (slogan.length() < 1) {
             slogan = "Slogan is empty";
         }
         String textOfDescription = AppData.getCurrentUser().username + "\n" + AppData.getCurrentUser().password + "\n" +
@@ -234,7 +178,7 @@ public class ProfileMenu extends Application {
             public void handle(MouseEvent mouseEvent) {
                 ProfileMenuController.removeSlogan();
                 String slogan = AppData.getCurrentUser().getSlogan();
-                if(slogan.length() < 1) {
+                if (slogan.length() < 1) {
                     slogan = "Slogan is empty";
                 }
                 descriptionText.setText(AppData.getCurrentUser().username + "\n" + AppData.getCurrentUser().password + "\n" +
@@ -252,7 +196,7 @@ public class ProfileMenu extends Application {
             public void handle(MouseEvent mouseEvent) {
                 ProfileMenuController.changeSlogan(sloganTextField.getText());
                 String slogan = AppData.getCurrentUser().getSlogan();
-                if(slogan.length() < 1) {
+                if (slogan.length() < 1) {
                     slogan = "Slogan is empty";
                 }
                 System.out.println(slogan + "\n" + AppData.getCurrentUser().getSlogan());
@@ -271,7 +215,7 @@ public class ProfileMenu extends Application {
             public void handle(MouseEvent mouseEvent) {
                 ProfileMenuController.changeNickname(nicknameTextField.getText());
                 String slogan = AppData.getCurrentUser().getSlogan();
-                if(slogan.length() < 1) {
+                if (slogan.length() < 1) {
                     slogan = "Slogan is empty";
                 }
                 System.out.println(AppData.getCurrentUser().getNickname());
@@ -289,12 +233,13 @@ public class ProfileMenu extends Application {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 String output = ProfileMenuController.changeUsername(usernameTextfield.getText());
-                if(output.equals("Check format of your username")) {
+                if (output.equals("Check format of your username")) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Bad Format");
                     alert.setContentText(output);
                     alert.showAndWait();
-                } else if (output.equals("This username is already exist!")) {
+                }
+                else if (output.equals("This username is already exist!")) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Bad Username");
                     alert.setContentText(output);
@@ -302,7 +247,7 @@ public class ProfileMenu extends Application {
                 }
                 else {
                     String slogan = AppData.getCurrentUser().getSlogan();
-                    if(slogan.length() < 1) {
+                    if (slogan.length() < 1) {
                         slogan = "Slogan is empty";
                     }
                     descriptionText.setText(AppData.getCurrentUser().username + "\n" + AppData.getCurrentUser().password + "\n" +
@@ -320,7 +265,7 @@ public class ProfileMenu extends Application {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 String output = ProfileMenuController.changeEmail(emailTextField.getText());
-                if(output.equals("Check format of your email")) {
+                if (output.equals("Check format of your email")) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Wrong Format");
                     alert.setContentText(output);
@@ -332,7 +277,7 @@ public class ProfileMenu extends Application {
                     alert.setContentText(output);
                     alert.showAndWait();
                     String slogan = AppData.getCurrentUser().getSlogan();
-                    if(slogan.length() < 1) {
+                    if (slogan.length() < 1) {
                         slogan = "Slogan is empty";
                     }
                     descriptionText.setText(AppData.getCurrentUser().username + "\n" + AppData.getCurrentUser().password + "\n" +
@@ -352,10 +297,10 @@ public class ProfileMenu extends Application {
         changeAvatarButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                    FileChooser fileChooser = new FileChooser();
-                    File selectedFile = fileChooser.showOpenDialog(AppData.getStage());
-                    ProfileMenuController.setMyAvatar(selectedFile);
-                    loadImage();
+                FileChooser fileChooser = new FileChooser();
+                File selectedFile = fileChooser.showOpenDialog(AppData.getStage());
+                ProfileMenuController.setMyAvatar(selectedFile);
+                loadImage();
             }
         });
     }
@@ -365,9 +310,9 @@ public class ProfileMenu extends Application {
     }
 
 
-    private void initializeTextField(){
+    private void initializeTextField() {
         String styleOfTextField = "-fx-effect: dropshadow(gaussian, black, 10, 0, 0, 0);" +
-        "-fx-background-insets: 50;" + "-fx-border-color: linear-gradient(#ffffff, #000000);" + "-fx-text-fill: white;" +
+                "-fx-background-insets: 50;" + "-fx-border-color: linear-gradient(#ffffff, #000000);" + "-fx-text-fill: white;" +
                 "-fx-prompt-text-fill: white";
         TextField usernameTextField = new TextField();
         usernameTextField.setLayoutX(370);
@@ -405,7 +350,7 @@ public class ProfileMenu extends Application {
         this.pane.getChildren().add(usernameText);
     }
 
-    private void checkingUserNameBox(){
+    private void checkingUserNameBox() {
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1000), actionEvent -> {
             initializedUsername();
         }));
@@ -413,22 +358,19 @@ public class ProfileMenu extends Application {
         timeline.setCycleCount(-1);
         timeline.play();
     }
-    public void initializedUsername(){
 
-        if(LoginMenuController.checkFormatOfUsername(usernameTextfield.getText())==0)
+    public void initializedUsername() {
 
-        {
+        if (LoginMenuController.checkFormatOfUsername(usernameTextfield.getText()) == 0) {
             usernameText.setText("Invalid Format");
         }
-        else
-
-        {
+        else {
             usernameText.setText("");
         }
 
     }
 
-    private void initializeDialogOfPassword(){
+    private void initializeDialogOfPassword() {
         ButtonType buttonType = new ButtonType("ok", ButtonBar.ButtonData.OK_DONE);
         Dialog<String> dialog = new Dialog<String>();
         checkingPasswordBox();
@@ -456,7 +398,7 @@ public class ProfileMenu extends Application {
         changePasswordButton.setLayoutX(500);
         changePasswordButton.setLayoutY(80);
         changePasswordButton.setStyle("-fx-effect: dropshadow(gaussian, red, 10, 0, 0, 0);" +
-        "    -fx-background-insets: 50;" +
+                "    -fx-background-insets: 50;" +
                 "    -fx-text-fill: black;" +
                 "    -fx-font-family: \"Brush Script MT\";" +
                 "    -fx-font-size: 30px;");
@@ -481,17 +423,20 @@ public class ProfileMenu extends Application {
                     alert.setTitle("Wrong Old Pass");
                     alert.setContentText(output);
                     alert.showAndWait();
-                } else if (output.equals("Choose different new password!")) {
+                }
+                else if (output.equals("Choose different new password!")) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Wrong New Pass");
                     alert.setContentText(output);
                     alert.showAndWait();
-                } else if (output.equals("Your new password is weak!")) {
+                }
+                else if (output.equals("Your new password is weak!")) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Weak New Pass");
                     alert.setContentText(output);
                     alert.showAndWait();
-                } else {
+                }
+                else {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Successful Operation");
                     alert.setContentText(output);
@@ -499,7 +444,7 @@ public class ProfileMenu extends Application {
                     timelinePassword.stop();
                     dialog.close();
                     String slogan = AppData.getCurrentUser().getSlogan();
-                    if(slogan.length() < 1) {
+                    if (slogan.length() < 1) {
                         slogan = "Slogan is empty";
                     }
                     descriptionText.setText(AppData.getCurrentUser().username + "\n" + AppData.getCurrentUser().password + "\n" +
@@ -513,7 +458,7 @@ public class ProfileMenu extends Application {
         timelinePassword.stop();
     }
 
-    private void checkingPasswordBox(){
+    private void checkingPasswordBox() {
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1000), actionEvent -> {
             initializedPassword();
         }));
@@ -522,43 +467,41 @@ public class ProfileMenu extends Application {
         timeline.play();
     }
 
-    public void initializedPassword(){
+    public void initializedPassword() {
 
-        if(LoginMenuController.checkWeakPassword(newPasswordTextField.getText()) == 0 && newPasswordTextField.isVisible())
-
-        {
+        if (LoginMenuController.checkWeakPassword(newPasswordTextField.getText()) == 0 && newPasswordTextField.isVisible()) {
             passwordText.setText("Your password was short!");
         }
 
 
-        else if(LoginMenuController.checkWeakPassword(newPasswordTextField.getText()) == 1 && newPasswordTextField.isVisible())
-
-        {
+        else if (LoginMenuController.checkWeakPassword(newPasswordTextField.getText()) == 1 && newPasswordTextField.isVisible()) {
             passwordText.setText("Your password was week!");
         }
 
 
-        else
-
-        {
+        else {
             passwordText.setText("");
         }
 
     }
 
-    private void initializeScrollBoard(){
+    private void initializeScrollBoard() {
         Dialog dialog = new Dialog<>();
-        ButtonType buttonType = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().add(buttonType);
-        Text text = new Text("heb");
         Pane pane1 = new Pane();
         pane1.setPrefWidth(1080);
         pane1.setPrefHeight(720);
 
-        ScrollBar scrollBar = new ScrollBar();
-        scrollBar.adjustValue(2);
-        scrollBar.setValue(2);
-        pane1.getChildren().add(scrollBar);
+        ButtonType buttonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().add(buttonType);
+
+        LeaderBoard leaderBoard = new LeaderBoard();
+        leaderBoard.setup();
+        leaderBoard.setPrefWidth(300);
+        leaderBoard.setPrefHeight(275);
+        leaderBoard.setLayoutX(390);
+        leaderBoard.setLayoutY(200);
+        pane1.getChildren().add(leaderBoard);
+
         dialog.getDialogPane().setContent(pane1);
         dialog.showAndWait();
     }

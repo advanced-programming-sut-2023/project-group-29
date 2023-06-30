@@ -21,12 +21,11 @@ import view.menus.MapMenu;
 import view.messages.MapMenuMessages;
 
 public class DropUnitsGraphics {
+    private final int numberOfPicturesInRow = 9;
     @FXML
     private TextField ownerNumber;
     @FXML
     private Pane dropUnitPane;
-
-    private final int numberOfPicturesInRow = 9;
 
     public void exitPopUp(MouseEvent mouseEvent) {
         GameController.getGameData().getGameGraphicFunctions().exitPopUp();
@@ -91,8 +90,10 @@ public class DropUnitsGraphics {
 
                 MapMenuMessages messages = MapFunctions.dropUnit(x, y, typeName, 1, playerNumber);
                 switch (messages) {
-                    case IMPROPER_CELL_TYPE ->gameData.getGameGraphicFunctions().alertMessage(Color.RED,"drop failed","improper cell type");
-                    case SUCCESSFUL ->gameData.getGameGraphicFunctions().alertMessage(Color.GREEN,"drop successful","unit was successfully dropped");
+                    case IMPROPER_CELL_TYPE ->
+                            gameData.getGameGraphicFunctions().alertMessage(Color.RED, "drop failed", "improper cell type");
+                    case SUCCESSFUL ->
+                            gameData.getGameGraphicFunctions().alertMessage(Color.GREEN, "drop successful", "unit was successfully dropped");
                 }
             }
         });

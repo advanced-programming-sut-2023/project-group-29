@@ -12,7 +12,7 @@ public enum AccommodationType implements BuildType {
     ),
     SMALL_STONE_GATEHOUSE( //دروازه سنگی کوچک
             new BuildingType(150, 0, new int[]{0, 15, 0, 0},
-                    "smallStoneGatehouse","SSGat", Category.CASTLE), 8
+                    "smallStoneGatehouse", "SSGat", Category.CASTLE), 8
     ),
     HOVEL( // خانه
             new BuildingType(100, 0, new int[]{0, 0, 6, 0},

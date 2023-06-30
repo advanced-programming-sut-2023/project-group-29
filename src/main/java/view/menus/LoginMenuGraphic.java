@@ -9,7 +9,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import model.AlertWindowPane;
 import model.AppData;
 import model.SaveAndLoad;
 
@@ -32,16 +31,16 @@ public class LoginMenuGraphic {
         String[] securityQuestion = AppData.getUserByUsername(username.getText()).getSecurityQuestion().split(" ");
         int numberOfQuestion = Integer.parseInt(securityQuestion[0]);
         String answer = securityQuestion[1];
-        for(int i = 0; i < LoginMenu.getPane().getChildren().size(); i++) {
-            if(LoginMenu.getPane().getChildren().get(i).getClass().getSimpleName().equals("Text")) {
+        for (int i = 0; i < LoginMenu.getPane().getChildren().size(); i++) {
+            if (LoginMenu.getPane().getChildren().get(i).getClass().getSimpleName().equals("Text")) {
                 return;
             }
         }
         Text text = new Text();
-        if(numberOfQuestion == 1) {
+        if (numberOfQuestion == 1) {
             text.setText("What is your father’s name?");
         }
-        else if(numberOfQuestion == 2) {
+        else if (numberOfQuestion == 2) {
             text.setText("What was your first pet’s name?");
         }
         else {
@@ -51,13 +50,13 @@ public class LoginMenuGraphic {
         text.setLayoutX(650);
         text.setFill(Color.WHITE);
         text.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0, 0, 0);" +
-        "-fx-background-insets: 50;" + "-fx-border-color: linear-gradient(#ffffff, #000000);" + "-fx-text-fill: white;" +
+                "-fx-background-insets: 50;" + "-fx-border-color: linear-gradient(#ffffff, #000000);" + "-fx-text-fill: white;" +
                 "-fx-font-size: 15px");
         LoginMenu.getPane().getChildren().add(text);
         TextField textField = new TextField();
         textField.setPromptText("Answer");
         textField.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0, 0, 0);" +
-        "-fx-background-insets: 50;" + "-fx-border-color: linear-gradient(#ffffff, #000000);" + "-fx-text-fill: white;" +
+                "-fx-background-insets: 50;" + "-fx-border-color: linear-gradient(#ffffff, #000000);" + "-fx-text-fill: white;" +
                 "-fx-prompt-text-fill: white");
         textField.setLayoutY(485);
         textField.setLayoutX(900);
@@ -75,7 +74,7 @@ public class LoginMenuGraphic {
         button.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if(textField.getText().equals(answer)) {
+                if (textField.getText().equals(answer)) {
                     button.setVisible(false);
                     PasswordField textField1 = new PasswordField();
                     textField1.setPromptText("New Password");
@@ -106,7 +105,7 @@ public class LoginMenuGraphic {
                     changePass.setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent mouseEvent) {
-                            if(textField1.getText().equals(textField2.getText())) {
+                            if (textField1.getText().equals(textField2.getText())) {
                                 if (LoginMenuController.checkWeakPassword(textField1.getText()) != 2) {
                                     Alert alert = new Alert(Alert.AlertType.ERROR);
                                     alert.setTitle("Week Password");
@@ -144,15 +143,16 @@ public class LoginMenuGraphic {
             }
         });
     }
+
     public void login() throws Exception {
         String output = LoginMenuController.login(username.getText(), password.getText());
-        if(output.equals("User with this username doesn't exist!")) {
+        if (output.equals("User with this username doesn't exist!")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Wrong Username");
             alert.setContentText("User with this username doesn't exist!");
             alert.showAndWait();
         }
-        else if(output.equals("Username and password didn't match!")) {
+        else if (output.equals("Username and password didn't match!")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Wrong Password");
             alert.setContentText("Username and password didn't match!");

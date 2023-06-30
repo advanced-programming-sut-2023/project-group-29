@@ -17,7 +17,7 @@ public class GamePopUpMenus {
         this.popUpType = popUpType;
     }
 
-    public void makePaneCenter(float width,float height) {
+    public void makePaneCenter(float width, float height) {
         popUpPane.setLayoutX(mainPain.getWidth() / 2 - width / 2);
         popUpPane.setLayoutY(mainPain.getHeight() / 2 - height / 2);
     }

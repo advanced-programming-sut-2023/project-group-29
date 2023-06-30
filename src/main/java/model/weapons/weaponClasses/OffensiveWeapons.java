@@ -1,7 +1,7 @@
 package model.weapons.weaponClasses;
 
 import controller.menucontrollers.GameController;
-import model.*;
+import model.PlayerNumber;
 import model.buildings.buildingClasses.AttackingBuilding;
 import model.map.Cell;
 import model.map.Map;

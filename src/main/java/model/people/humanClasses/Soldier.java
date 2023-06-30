@@ -1,14 +1,14 @@
 package model.people.humanClasses;
 
 import controller.menucontrollers.GameController;
-import model.unitfeatures.Offensive;
 import model.PlayerNumber;
-import model.unitfeatures.UnitState;
 import model.buildings.buildingClasses.AttackingBuilding;
 import model.map.Cell;
 import model.map.Map;
 import model.people.Human;
 import model.people.humanTypes.SoldierType;
+import model.unitfeatures.Offensive;
+import model.unitfeatures.UnitState;
 
 public class Soldier extends Human implements Offensive {
     private final SoldierType soldierType;

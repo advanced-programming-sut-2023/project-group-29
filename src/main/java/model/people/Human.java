@@ -1,14 +1,14 @@
 package model.people;
 
 import model.Asset;
-import model.unitfeatures.Movable;
-import model.unitfeatures.Patrol;
 import model.PlayerNumber;
 import model.map.Map;
 import model.people.humanClasses.Soldier;
 import model.people.humanClasses.Worker;
 import model.people.humanTypes.SoldierType;
 import model.people.humanTypes.WorkerType;
+import model.unitfeatures.Movable;
+import model.unitfeatures.Patrol;
 
 public class Human extends Asset implements Movable {
     private final String name;
@@ -17,7 +17,7 @@ public class Human extends Asset implements Movable {
     protected boolean ableToClimbStairs;
     protected int speed;
     private boolean movedThisTurn = false;
-    private boolean hasFire=false;
+    private boolean hasFire = false;
 
     protected Human(HumanType humanType, PlayerNumber playerNumber, int positionX, int positionY) {
         super(playerNumber, positionX, positionY);
@@ -27,7 +27,7 @@ public class Human extends Asset implements Movable {
         this.showingSignInMap = humanType.showingSignInMap() + "__" + (playerNumber.getNumber() + 1);
         this.name = humanType.name();
         this.ableToClimbStairs = humanType.ableToClimbStairs();
-        this.showingImageFilePath= humanType.showingImageFilePath();
+        this.showingImageFilePath = humanType.showingImageFilePath();
     }
 
     public static Human createUnitByName(String unitName, PlayerNumber ownerNumber, int positionX, int positionY) {

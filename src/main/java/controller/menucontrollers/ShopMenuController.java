@@ -1,27 +1,13 @@
 package controller.menucontrollers;
 
-import model.AppData;
 import model.Empire;
 import model.dealing.Resource;
 import view.messages.ShopMenuMessages;
 
 public class ShopMenuController {
-
-    public static String showPriceList() {
-        Empire empire = GameController.getGameData().getPlayingEmpire();
-        String output = "Resources:";
-        for (Resource resource : Resource.values()) {
-            output += "\n";
-            output += resource.getName() + ":";
-            output += " buying price: " + resource.getBuyingPrice();
-            output += " selling price: " + resource.getBuyingPrice();
-            output += " owned amount: " + empire.getTradableAmount(resource);
-        }
-        return output;
-    }
-
     public static ShopMenuMessages buy(String resourceName, int amount) {
         Empire empire = GameController.getGameData().getPlayingEmpire();
+
         Resource resource = Resource.getResourceByName(resourceName);
         if (empire.getWealth() < resource.getBuyingPrice() * amount) {
             return ShopMenuMessages.FEW_CASH;

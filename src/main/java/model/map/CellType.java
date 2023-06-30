@@ -8,31 +8,31 @@ import model.buildings.buildingTypes.ResourceExtractorType;
 import view.menus.LoginMenu;
 
 public enum CellType {
-    UP_ROCK(ConsoleColors.RED_BACKGROUND,"rock1.jpeg", false, "upRock"),
-    DOWN_ROCK(ConsoleColors.RED_BACKGROUND,"rock2.jpeg", false, "downRock"),
-    RIGHT_ROCK(ConsoleColors.RED_BACKGROUND,"rock3.jpeg", false, "rightRock"),
-    LEFT_ROCK(ConsoleColors.RED_BACKGROUND,"rock4.jpeg", false, "leftRock"),
+    UP_ROCK(ConsoleColors.RED_BACKGROUND, "rock1.jpeg", false, "upRock"),
+    DOWN_ROCK(ConsoleColors.RED_BACKGROUND, "rock2.jpeg", false, "downRock"),
+    RIGHT_ROCK(ConsoleColors.RED_BACKGROUND, "rock3.jpeg", false, "rightRock"),
+    LEFT_ROCK(ConsoleColors.RED_BACKGROUND, "rock4.jpeg", false, "leftRock"),
     //زمین عادی
-    PLAIN_GROUND(ConsoleColors.YELLOW_BACKGROUND,"Plain1.jpg", true, "plainGround"),
+    PLAIN_GROUND(ConsoleColors.YELLOW_BACKGROUND, "Plain1.jpg", true, "plainGround"),
     //زمین با خرده‌سنگ
-    GROUND_WITH_PEBBLES(ConsoleColors.CYAN_BACKGROUND,"groundWithPebble.jpeg", true, "groundWithPebbles"),
+    GROUND_WITH_PEBBLES(ConsoleColors.CYAN_BACKGROUND, "groundWithPebble.jpeg", true, "groundWithPebbles"),
     //تخته سنگ
-    BOULDER(ConsoleColors.BLACK_BACKGROUND,"boulder.jpeg", true, "boulder"),
-    STONE(ConsoleColors.BLACK_BACKGROUND,"stone.jpeg", false, "stone"),
-    IRON(ConsoleColors.RED_BACKGROUND,"iron.jpeg", true, "iron"),
-    GRASS(ConsoleColors.GREEN_BACKGROUND,"grass.jpeg", true, "grass"),
+    BOULDER(ConsoleColors.BLACK_BACKGROUND, "boulder.jpeg", true, "boulder"),
+    STONE(ConsoleColors.BLACK_BACKGROUND, "stone.jpeg", false, "stone"),
+    IRON(ConsoleColors.RED_BACKGROUND, "iron.jpeg", true, "iron"),
+    GRASS(ConsoleColors.GREEN_BACKGROUND, "grass.jpeg", true, "grass"),
     //علفزار
-    MEADOW(ConsoleColors.PURPLE_BACKGROUND,"meadow.jpeg", true, "meadow"),
-    DENSE_MEADOW(ConsoleColors.PURPLE_BACKGROUND,"denseMeadow.jpeg", true, "denseMeadow"),
-    OIL(ConsoleColors.BLACK_BACKGROUND,"oil.jpeg", false, "oil"),
+    MEADOW(ConsoleColors.PURPLE_BACKGROUND, "meadow.jpeg", true, "meadow"),
+    DENSE_MEADOW(ConsoleColors.PURPLE_BACKGROUND, "denseMeadow.jpeg", true, "denseMeadow"),
+    OIL(ConsoleColors.BLACK_BACKGROUND, "oil.jpeg", false, "oil"),
     //جلگه
-    PLAIN(ConsoleColors.BLACK_BACKGROUND,"Plain1.jpg", true, "plain"),
-    SHALLOW_WATER(ConsoleColors.YELLOW_BACKGROUND,"shallowWater.jpeg", true, "shallowWater"),
-    RIVER(ConsoleColors.BLUE_BACKGROUND,"river.jpeg", false, "river"),
-    SMALL_POND(ConsoleColors.WHITE_BACKGROUND,"smallPond.jpeg", false, "smallPond"),
-    BIG_POND(ConsoleColors.WHITE_BACKGROUND,"bigPond.jpeg", false, "bigPond"),
-    BEACH(ConsoleColors.YELLOW_BACKGROUND,"beach.jpg", false, "beach"),
-    SEA(ConsoleColors.BLUE_BACKGROUND,"sea.jpg", false, "sea"),
+    PLAIN(ConsoleColors.BLACK_BACKGROUND, "Plain1.jpg", true, "plain"),
+    SHALLOW_WATER(ConsoleColors.YELLOW_BACKGROUND, "shallowWater.jpeg", true, "shallowWater"),
+    RIVER(ConsoleColors.BLUE_BACKGROUND, "river.jpeg", false, "river"),
+    SMALL_POND(ConsoleColors.WHITE_BACKGROUND, "smallPond.jpeg", false, "smallPond"),
+    BIG_POND(ConsoleColors.WHITE_BACKGROUND, "bigPond.jpeg", false, "bigPond"),
+    BEACH(ConsoleColors.YELLOW_BACKGROUND, "beach.jpg", false, "beach"),
+    SEA(ConsoleColors.BLUE_BACKGROUND, "sea.jpg", false, "sea"),
 
     ;
 
@@ -88,11 +88,11 @@ public enum CellType {
                 || this.equals(CellType.GROUND_WITH_PEBBLES);
     }
 
-    public Image getImage(){
-        return new Image(LoginMenu.class.getResource("/images/tiles/"+showingImageFileName).toExternalForm());
+    public Image getImage() {
+        return new Image(LoginMenu.class.getResource("/images/tiles/" + showingImageFileName).toExternalForm());
     }
 
-    public String getImageAddress(){
+    public String getImageAddress() {
         return "/images/tiles/" + showingImageFileName;
     }
 }

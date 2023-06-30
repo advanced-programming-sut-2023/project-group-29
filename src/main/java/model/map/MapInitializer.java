@@ -2,8 +2,6 @@ package model.map;
 
 import controller.menucontrollers.MapFunctions;
 import model.GameData;
-import model.buildings.buildingTypes.AccommodationType;
-import model.buildings.buildingTypes.StoreType;
 import model.people.humanTypes.SoldierType;
 
 public class MapInitializer {

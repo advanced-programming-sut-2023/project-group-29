@@ -230,7 +230,8 @@ public class Empire {
         if (numberOfFoodEaten > storage[0][0]) {
             foodRate = -2;
             GameController.notify("Your food rate was automatically set on -2 because of lack of food!");
-        } else {
+        }
+        else {
             getRidOfFood(numberOfFoodEaten);
         }
     }
@@ -456,9 +457,11 @@ public class Empire {
         float changeByPerson;
         if (rate < 0) {
             changeByPerson = (float) (rate * 0.2 - 0.4);
-        } else if (rate == 0) {
+        }
+        else if (rate == 0) {
             changeByPerson = 0;
-        } else {
+        }
+        else {
             changeByPerson = (float) (rate * 0.2 + 0.4);
         }
         return (int) Math.floor(changeByPerson * getPopulation());
@@ -472,7 +475,8 @@ public class Empire {
         int growAccordingToFood, growAccordingToSpace;
         if (storage[0][0] * 2 >= getPopulation()) {
             growAccordingToFood = storage[0][0] * 2 - getPopulation();
-        } else {
+        }
+        else {
             growAccordingToFood = 0;
         }
         growAccordingToSpace = possiblePopulation - worklessPopulation;
@@ -512,8 +516,8 @@ public class Empire {
                 Cell cell = map.getCells()[i][j];
                 if (cell.hasBuilding()) {
                     Empire empire = cell.getBuilding().getOwnerEmpire();
-                    if (empire.equals(gameData.getPlayingEmpire())){
-                        if (cell.isSick()){
+                    if (empire.equals(gameData.getPlayingEmpire())) {
+                        if (cell.isSick()) {
                             sickRate++;
                         }
                     }
@@ -522,11 +526,11 @@ public class Empire {
         }
     }
 
-public enum PopularityFactors {
-    RELIGION,
-    TAX,
-    FEAR,
-    FOOD,
-    SICK
-}
+    public enum PopularityFactors {
+        RELIGION,
+        TAX,
+        FEAR,
+        FOOD,
+        SICK
+    }
 }

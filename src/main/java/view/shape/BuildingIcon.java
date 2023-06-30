@@ -1,15 +1,17 @@
 package view.shape;
 
 import javafx.scene.image.Image;
-import javafx.scene.input.*;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
-import model.buildings.buildingTypes.BuildType;
 import view.menus.MapMenu;
 
 public class BuildingIcon extends Rectangle {
     private static String draggingBuildingName = null;
-    private Image image;
+    private final Image image;
+
     public BuildingIcon(int width, String address) {
         this.setWidth(width);
         this.setHeight(width);

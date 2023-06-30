@@ -1,12 +1,7 @@
 package view.menus;
 
 import controller.menucontrollers.LoginMenuController;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Text;
 import model.AppData;
 
 public class RegisterMenuGraphic {
@@ -18,11 +13,6 @@ public class RegisterMenuGraphic {
         new EnterMenu().start(AppData.getStage());
     }
 
-
-
-
-
-
     public void register(MouseEvent mouseEvent) throws Exception {
         RegisterMenu.getUsernameText().setText("");
         RegisterMenu.getPasswordText().setText("");
@@ -30,7 +20,7 @@ public class RegisterMenuGraphic {
         RegisterMenu.getNicknameText().setText("");
         RegisterMenu.getSloganText().setText("");
         boolean checkSlogan = RegisterMenu.getSloganCheckBox().isSelected();
-        if(RegisterMenu.getPasswordTextField().isVisible()){
+        if (RegisterMenu.getPasswordTextField().isVisible()) {
             LoginMenuController.createUser(RegisterMenu.getUsernameTextField().getText(), RegisterMenu.getPasswordTextField().getText(), RegisterMenu.getEmailTextField().getText(), RegisterMenu.getNicknameTextField().getText(), RegisterMenu.getSloganTextField().getText(), checkSlogan);
         }
         else {
@@ -39,7 +29,7 @@ public class RegisterMenuGraphic {
     }
 
     public void visiblePass(MouseEvent mouseEvent) {
-        if(RegisterMenu.getPasswordField().isVisible()) {
+        if (RegisterMenu.getPasswordField().isVisible()) {
             RegisterMenu.getPasswordField().setVisible(false);
             RegisterMenu.getPasswordTextField().setText(RegisterMenu.getPasswordField().getText());
             RegisterMenu.getPasswordTextField().setVisible(true);
@@ -56,9 +46,5 @@ public class RegisterMenuGraphic {
         RegisterMenu.getPasswordTextField().setText(randomPass);
         RegisterMenu.getPasswordField().setText(randomPass);
     }
-
-
-
-
 
 }

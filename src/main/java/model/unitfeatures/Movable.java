@@ -47,7 +47,8 @@ public interface Movable {
 
         return MovingResult.SUCCESSFUL;
     }
-    static ArrayList<Pair<Integer,Integer>> pathToDestination(Map map, Asset asset, int destinationX, int destinationY){
+
+    static ArrayList<Pair<Integer, Integer>> pathToDestination(Map map, Asset asset, int destinationX, int destinationY) {
         int currentX = asset.getPositionX();
         int currentY = asset.getPositionY();
 
@@ -63,6 +64,15 @@ public interface Movable {
         ((Movable) asset).setMovedThisTurn(true);
     }
 
+    static ArrayList<Movable> getMovablesOfUnits(ArrayList<Asset> units) {
+        ArrayList<Movable> movables = new ArrayList<>();
+        for (Asset asset : units)
+            if (asset instanceof Movable movable)
+                movables.add(movable);
+
+        return movables;
+    }
+
     MovingResult move(Map map, int destinationX, int destinationY);
 
     MovingResult checkForMoveErrors(Map map, int destinationX, int destinationY);
@@ -72,17 +82,10 @@ public interface Movable {
     boolean hasMovedThisTurn();
 
     Patrol getPatrol();
+
     boolean isAbleToClimbStairs();
 
     boolean isAbleToClimbLadder();
-    public static ArrayList<Movable> getMovablesOfUnits(ArrayList<Asset> units){
-        ArrayList<Movable> movables=new ArrayList<>();
-        for(Asset asset:units)
-            if(asset instanceof Movable movable)
-                movables.add(movable);
-
-        return movables;
-    }
 
     int getSpeed();
 

@@ -5,7 +5,6 @@ import model.PlayerNumber;
 import model.buildings.Building;
 import model.buildings.buildingClasses.OtherBuildings;
 import model.buildings.buildingClasses.UnitCreator;
-import model.buildings.buildingTypes.OtherBuildingsType;
 import model.buildings.buildingTypes.UnitCreatorType;
 import model.dealing.Resource;
 import model.dealing.Tradable;
@@ -18,12 +17,12 @@ import view.messages.SelectBuildingMenuMessages;
 public class BuildingFunctions {
     private static Building selectedBuilding;
 
-    public static void setSelectedBuilding(Building selectedBuilding) {
-        BuildingFunctions.selectedBuilding = selectedBuilding;
-    }
-
     public static Building getSelectedBuilding() {
         return selectedBuilding;
+    }
+
+    public static void setSelectedBuilding(Building selectedBuilding) {
+        BuildingFunctions.selectedBuilding = selectedBuilding;
     }
 
     public static SelectBuildingMenuMessages changeBridgeState() {
@@ -118,8 +117,5 @@ public class BuildingFunctions {
         return valid >= needed;
     }
 
-    public static String getBuildingHp() {
-        return "Your building hp: " + selectedBuilding.getHp() + " / " + selectedBuilding.getMaxHp();
-    }
 
 }

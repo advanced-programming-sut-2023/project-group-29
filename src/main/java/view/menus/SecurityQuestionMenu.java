@@ -40,6 +40,7 @@ public class SecurityQuestionMenu extends Application {
         stage.setScene(scene);
         stage.show();
     }
+
     private void mapping() {
         CheckBox checkBox1 = new CheckBox();
         CheckBox checkBox2 = new CheckBox();
@@ -104,7 +105,7 @@ public class SecurityQuestionMenu extends Application {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 CheckBox checkBox = (CheckBox) mouseEvent.getSource();
-                if(checkBox.isSelected()) {
+                if (checkBox.isSelected()) {
                     textField.setVisible(true);
                     checkBox2.setSelected(false);
                     checkBox3.setSelected(false);
@@ -116,7 +117,7 @@ public class SecurityQuestionMenu extends Application {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 CheckBox checkBox = (CheckBox) mouseEvent.getSource();
-                if(checkBox.isSelected()) {
+                if (checkBox.isSelected()) {
                     textField.setVisible(true);
                     checkBox1.setSelected(false);
                     checkBox3.setSelected(false);
@@ -128,7 +129,7 @@ public class SecurityQuestionMenu extends Application {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 CheckBox checkBox = (CheckBox) mouseEvent.getSource();
-                if(checkBox.isSelected()) {
+                if (checkBox.isSelected()) {
                     textField.setVisible(true);
                     checkBox1.setSelected(false);
                     checkBox2.setSelected(false);
@@ -138,7 +139,7 @@ public class SecurityQuestionMenu extends Application {
         confirm.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if(!(checkBox1.isSelected() || checkBox2.isSelected() || checkBox3.isSelected())) {
+                if (!(checkBox1.isSelected() || checkBox2.isSelected() || checkBox3.isSelected())) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Empty Choice");
                     alert.setContentText("Please check one of boxes!");
@@ -153,14 +154,13 @@ public class SecurityQuestionMenu extends Application {
                     alert.showAndWait();
                     return;
                 }
-                //TODO captcha
-                if(checkBox1.isSelected()) {
+                if (checkBox1.isSelected()) {
                     LoginMenuController.getCurrentUser().setSecurityQuestion("1 " + answerTextField.getText());
                 }
-                else if(checkBox2.isSelected()) {
+                else if (checkBox2.isSelected()) {
                     LoginMenuController.getCurrentUser().setSecurityQuestion("2 " + answerTextField.getText());
                 }
-                else if(checkBox3.isSelected()) {
+                else if (checkBox3.isSelected()) {
                     LoginMenuController.getCurrentUser().setSecurityQuestion("3 " + answerTextField.getText());
                 }
                 SaveAndLoad.saveData(AppData.getUsers(), AppData.getUsersDataBaseFilePath());

@@ -1,7 +1,8 @@
 package model.map;
 
 import controller.menucontrollers.MapFunctions;
-import model.*;
+import model.Asset;
+import model.PlayerNumber;
 import model.buildings.Building;
 import model.buildings.buildingClasses.*;
 import model.buildings.buildingTypes.*;
@@ -27,7 +28,7 @@ public class Cell {
     private CellType cellType;
     private boolean hasTunnel = false;
     private boolean sick = false;
-    private int fireRemainingTurns=0;
+    private int fireRemainingTurns = 0;
 
     public Cell(CellType cellType, int xPosition, int yPosition) {
         this.cellType = cellType;
@@ -87,7 +88,7 @@ public class Cell {
         return LevelChanger.NON;
     }
 
-    public ArrayList<Asset> getMovingObjectsOfPlayer(PlayerNumber playerNumber){
+    public ArrayList<Asset> getMovingObjectsOfPlayer(PlayerNumber playerNumber) {
         ArrayList<Asset> assets = new ArrayList<>();
         for (Asset movingObject : movingObjects) {
             if (movingObject.getOwnerNumber().equals(playerNumber))
@@ -266,13 +267,14 @@ public class Cell {
     public int getFireRemainingTurns() {
         return fireRemainingTurns;
     }
-    public void decrementFireRemainingTurns(){
-        if(fireRemainingTurns>0)
-            fireRemainingTurns--;
-    }
 
     public void setFireRemainingTurns(int fireRemainingTurns) {
         this.fireRemainingTurns = fireRemainingTurns;
+    }
+
+    public void decrementFireRemainingTurns() {
+        if (fireRemainingTurns > 0)
+            fireRemainingTurns--;
     }
 
     public enum LevelChanger {

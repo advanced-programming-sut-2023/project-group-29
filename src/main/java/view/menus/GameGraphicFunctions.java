@@ -1,6 +1,5 @@
 package view.menus;
 
-import controller.MenuNames;
 import controller.menucontrollers.BuildingFunctions;
 import controller.menucontrollers.GameController;
 import controller.menucontrollers.MapFunctions;
@@ -20,19 +19,19 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import model.*;
 import model.buildings.Building;
-import model.buildings.buildingClasses.*;
-import model.buildings.buildingTypes.OtherBuildingsType;
+import model.buildings.buildingClasses.ProductExtractor;
+import model.buildings.buildingClasses.ProductProcessor;
+import model.buildings.buildingClasses.ResourceExtractor;
+import model.buildings.buildingClasses.ResourceProcessor;
 import model.map.Cell;
 import model.people.Human;
 import model.people.humanClasses.Soldier;
 import model.people.humanTypes.SoldierType;
 import model.unitfeatures.Movable;
 import model.unitfeatures.Offensive;
-import view.Command;
 import view.menus.gamepopupmenus.CellDetailsWindowGraphics;
 import view.menus.gamepopupmenus.SelectBuildingMenu;
 import view.messages.MapMenuMessages;
@@ -43,10 +42,8 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
-import java.util.regex.Matcher;
 
 public class GameGraphicFunctions {
 
@@ -85,13 +82,13 @@ public class GameGraphicFunctions {
         SelectUnitMenuMessages result = UnitFunctions.unitsAttackingCheckError(attackers, destination);
         if (result.equals(SelectUnitMenuMessages.SUCCESSFUL)) {
             int failures = UnitFunctions.makeUnitsAttacking(attackers, destination);
-            alertMessage(Color.YELLOW, "Attacking results:", failures+" attack failed");
+            alertMessage(Color.YELLOW, "Attacking results:", failures + " attack failed");
         }
         else {
             AlertWindowPane alertWindowPane = new AlertWindowPane(mainPane, Color.RED);
             alertWindowPane.addTitle("Attacking failed");
-            switch (result) {
-                case NO_ENEMY_THERE -> alertWindowPane.addText("There is no enemy in target cell");
+            if (result == SelectUnitMenuMessages.NO_ENEMY_THERE) {
+                alertWindowPane.addText("There is no enemy in target cell");
             }
             alertWindowPane.show();
         }
@@ -126,15 +123,15 @@ public class GameGraphicFunctions {
 
     }
 
-    public void moveAnimate(Asset asset, ArrayList<Pair<Integer, Integer>> path,int targetX,int targetY) {
+    public void moveAnimate(Asset asset, ArrayList<Pair<Integer, Integer>> path, int targetX, int targetY) {
 
         Path pathForTransition = new Path();
         if (path.size() == 0)
             return;
 
-        float first=(path.get(0).first - gameData.getCornerCellIndex().first) * gameData.getTileWidth() + gameData.getTileWidth() / 2;
-        float second=(path.get(0).second - gameData.getCornerCellIndex().second) * gameData.getTileHeight() + gameData.getTileHeight() / 2;
-        pathForTransition.getElements().add(new MoveTo(first,second));
+        float first = (path.get(0).first - gameData.getCornerCellIndex().first) * gameData.getTileWidth() + gameData.getTileWidth() / 2;
+        float second = (path.get(0).second - gameData.getCornerCellIndex().second) * gameData.getTileHeight() + gameData.getTileHeight() / 2;
+        pathForTransition.getElements().add(new MoveTo(first, second));
 
         for (Pair<Integer, Integer> pair : path) {
             float firstElement = (pair.first - gameData.getCornerCellIndex().first) * gameData.getTileWidth() + gameData.getTileWidth() / 2;
@@ -200,11 +197,12 @@ public class GameGraphicFunctions {
             return;
         }
 
-        SelectUnitMenuMessages messages=UnitFunctions.digTunnel(tunneler,gameData.getDestinationCellPosition().first,gameData.getDestinationCellPosition().second);
-        switch (messages){
-            case HAS_ATTACKED -> alertMessage(Color.RED,"digging failed","please specify a not-attacked tunneler");
-            case INVALID_PLACE_FOR_DIGGING_TUNNEL -> alertMessage(Color.RED,"digging failed","you can not dig tunnel there");
-            case SUCCESSFUL -> alertMessage(Color.GREEN,"digging successful","tunnel was successfully digged");
+        SelectUnitMenuMessages messages = UnitFunctions.digTunnel(tunneler, gameData.getDestinationCellPosition().first, gameData.getDestinationCellPosition().second);
+        switch (messages) {
+            case HAS_ATTACKED -> alertMessage(Color.RED, "digging failed", "please specify a not-attacked tunneler");
+            case INVALID_PLACE_FOR_DIGGING_TUNNEL ->
+                    alertMessage(Color.RED, "digging failed", "you can not dig tunnel there");
+            case SUCCESSFUL -> alertMessage(Color.GREEN, "digging successful", "tunnel was successfully digged");
         }
     }
 
@@ -330,7 +328,8 @@ public class GameGraphicFunctions {
             Pane pane = FXMLLoader.load(MapMenu.class.getResource("/FXML/DropBuilding.fxml"));
             popUpMenu = new GamePopUpMenus(mainPane, pane, GamePopUpMenus.PopUpType.DROP_BUILDING);
             popUpMenu.makePaneCenter(750, 500);
-            popUpMenu.showAndWait();        }
+            popUpMenu.showAndWait();
+        }
         else {
             gameData.getGameGraphicFunctions().alertMessage
                     (Color.RED, "building error", "for dropping building you must choose one cell!");
@@ -339,10 +338,14 @@ public class GameGraphicFunctions {
     }
 
     public void setTexture() throws IOException {
-        Pane pane = FXMLLoader.load(MapMenu.class.getResource("/FXML/TextureAndTree.fxml"));
+
+        URL url=new URL(MapMenu.class.getResource("/FXML/TextureAndTree.fxml").toExternalForm());
+        Pane pane = FXMLLoader.load(url);
+
         popUpMenu = new GamePopUpMenus(mainPane, pane, GamePopUpMenus.PopUpType.DROP_BUILDING);
         popUpMenu.makePaneCenter(750, 500);
-        popUpMenu.showAndWait();    }
+        popUpMenu.showAndWait();
+    }
 
 
     public void exitPopUp() {
@@ -516,9 +519,16 @@ public class GameGraphicFunctions {
     }
 
     public void openShopMenu() throws IOException {
-        Pane shopMenuPane = FXMLLoader.load(MapMenu.class.getResource("/FXML/ShopMenu.fxml"));
+
+        URL url=new URL(MapMenu.class.getResource("/FXML/ShopMenu.fxml").toExternalForm());
+        Pane shopMenuPane = FXMLLoader.load(url);
+
         popUpMenu = new GamePopUpMenus(mainPane, shopMenuPane, null);
-        popUpMenu.makePaneCenter(750, 500);
+        popUpMenu.makePaneCenter(1080, 720);
         popUpMenu.showAndWait();
+    }
+
+    public void setPopUpMenu(GamePopUpMenus gamePopUpMenus){
+        this.popUpMenu=gamePopUpMenus;
     }
 }

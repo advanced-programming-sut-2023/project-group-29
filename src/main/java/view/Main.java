@@ -11,18 +11,19 @@ import java.net.URL;
 
 public class Main extends Application {
     public static Stage stage;
+
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
     public void start(Stage stage) throws Exception {
-        Main.stage=stage;
+        Main.stage = stage;
 
         URL url = LoginMenu.class.getResource("/FXML/MainMenu.fxml");
         Pane pane = FXMLLoader.load(url);
 
-        Scene scene=new Scene(pane);
+        Scene scene = new Scene(pane);
         stage.setScene(scene);
         stage.show();
     }

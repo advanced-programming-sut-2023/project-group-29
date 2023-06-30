@@ -15,10 +15,9 @@ import view.menus.GameGraphicFunctions;
 import view.menus.MapMenu;
 
 public class TextureAndTreeGraphic {
+    private final int numberOfPicturesInRow = 9;
     @FXML
     private Pane textureAndTreePane;
-
-    private final int numberOfPicturesInRow = 9;
 
     public void exitPopUp() {
         GameController.getGameData().getGameGraphicFunctions().exitPopUp();
@@ -53,7 +52,8 @@ public class TextureAndTreeGraphic {
             imageView.setOnMouseClicked(mouseEvent -> {
                 clickOnTreeFunction(typeName, x1, y1, x2, y2);
             });
-        } else if (myClass == CellType.class) {
+        }
+        else if (myClass == CellType.class) {
             imageView.setOnMouseClicked(mouseEvent -> {
                 clickOnCellTypeFunction(typeName, x1, y1, x2, y2);
             });
