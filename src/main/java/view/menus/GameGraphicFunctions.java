@@ -462,8 +462,12 @@ public class GameGraphicFunctions {
         int x = gameData.getStartSelectedCellsPosition().first + gameData.getCornerCellIndex().first;
         int y = gameData.getStartSelectedCellsPosition().second + gameData.getCornerCellIndex().second;
         Cell selectedCell = gameData.getMap().getCells()[x][y];
-        if (selectedCell.getBuilding() == null) {
+        Building building = selectedCell.getBuilding();
+        if (building == null) {
             alertMessage(Color.YELLOW, "No building", "There is no building in the cell chosen!");
+        }
+        else if (building.getOwnerEmpire().equals(gameData.getPlayingEmpire())){
+            alertMessage(Color.YELLOW, "Other building", "The building is not yours");
         }
         else {
             BuildingFunctions.setSelectedBuilding(selectedCell.getBuilding());
