@@ -2,14 +2,19 @@ package model.network;
 
 import com.google.gson.Gson;
 import controller.menucontrollers.GameController;
+import javafx.scene.control.Alert;
+import javafx.scene.paint.Color;
+import model.AppData;
 import model.GameData;
+import view.menus.GameGraphicFunctions;
+import view.menus.LobbiesMenu;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Client {
     private final int portNumber = 8080;
@@ -121,5 +126,89 @@ public class Client {
         GET_PUBLIC_MAPS,
         START_GAME,
         NEXT_TURN
+    }
+
+    public void newLobby(int numberOfPlayers) throws IOException {
+        dataOutputStream.writeUTF("new lobby " + numberOfPlayers);
+        AppData.setLobbyName(dataInputStream.readUTF());
+    }
+
+    public ArrayList<String> getUsernames() throws IOException {
+        ArrayList<String> usernames = new ArrayList<>();
+        dataOutputStream.writeUTF("get usernames " + AppData.getLobbyName());
+        int number = dataInputStream.readInt();
+        for (int i = 0; i < number; i++) {
+            String username = dataInputStream.readUTF();
+            usernames.add(username);
+        }
+        return usernames;
+    }
+
+    public HashMap<String, String> getLobbiesNames() throws IOException {
+        HashMap<String, String> lobbies = new HashMap<>();
+        dataOutputStream.writeUTF("get lobbies");
+        int number = dataInputStream.readInt();
+        for (int i = 0; i < number; i++) {
+            String lobbyName = dataInputStream.readUTF();
+            int capacity = dataInputStream.readInt();
+            String users = dataInputStream.readUTF();
+            lobbies.put(lobbyName, capacity + " : " + users);
+        }
+        return lobbies;
+    }
+
+    public boolean joinLobby(String name) throws IOException {
+        dataOutputStream.writeUTF("join " + name);
+        AppData.setLobbyName(dataInputStream.readUTF());
+        if (AppData.getLobbyName().equals("null")) return false;
+        return true;
+    }
+
+    public void leftLobby() {
+        try {
+            dataOutputStream.writeUTF("left lobby");
+            new LobbiesMenu().start(AppData.getStage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean isAdmin() throws IOException {
+        dataOutputStream.writeUTF("is admin");
+        return dataInputStream.readBoolean();
+    }
+
+    public void changeLobbyAccess() {
+        try {
+            dataOutputStream.writeUTF("change lobby access");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void startGame() throws IOException {
+        if (getNumberOfPlayers() == 1){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("One Player");
+            alert.setContentText("Playing with yourself will not be interesting!");
+            alert.showAndWait();
+        } else {
+            dataOutputStream.writeUTF("start game");
+        }
+    }
+
+    private int getNumberOfPlayers() throws IOException {
+        dataOutputStream.writeUTF("get number of players");
+        return dataInputStream.readInt();
+    }
+
+    public boolean isLobbyValid() {
+        try {
+            dataOutputStream.writeUTF("is lobby valid");
+            return dataInputStream.readBoolean();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

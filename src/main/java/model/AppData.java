@@ -20,6 +20,8 @@ public class AppData {
     private static Stage stage;
     private static final Client client=new Client();
 
+    private static String lobbyName;
+
     public static User getUserByUsername(String username){
         String resultString;
         try {
@@ -33,6 +35,14 @@ public class AppData {
         } catch (Exception e){
             return null;
         }
+    }
+
+    public static String getLobbyName() {
+        return lobbyName;
+    }
+
+    public static void setLobbyName(String lobbyName) {
+        AppData.lobbyName = lobbyName;
     }
 
     public static User getUserByEmail(String email){
