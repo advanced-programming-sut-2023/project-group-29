@@ -195,7 +195,7 @@ public class SecurityQuestionMenu extends Application {
     }
 
     private void makeCaptchaImage() {
-        int imageNumber = (int) (Math.random() * 50);
+        int imageNumber = (int) (Math.random() * 50) + 1;
         captcha = Captcha.getCaptchaByNumber(imageNumber);
         Image image = new Image(SecurityQuestionMenu.class.getResource(captcha.getImageAddress()).toString());
         ImageView imageView = new ImageView(image);

@@ -5,6 +5,7 @@ import model.map.Cell;
 import model.map.Map;
 import model.map.MapTemplate;
 import model.network.Client;
+import model.people.humanTypes.SoldierType;
 import view.messages.PreGameMenuMessages;
 
 import java.io.IOException;
@@ -39,12 +40,17 @@ public class PreGameMenuController {
 
     private static Map newMapFromTemplate(MapTemplate mapTemplate) {
         Map map = new Map(mapTemplate.getWidth(), mapTemplate.getUsersCount());
-        if (GameController.getGameData().getNumberOfPlayers() != mapTemplate.getUsersCount()) {
-            return null;
-        }
         Cell[][] cells = map.getCells();
+        int empireNumber = 1;
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells.length; j++) {
+                if (mapTemplate.getHasEmpire()[i][j]){
+                    MapFunctions.dropBuildingAsAdmin(i, j, "mainKeep", empireNumber);
+                    MapFunctions.dropBuildingAsAdmin(i, j, "stockPile", empireNumber);
+                    MapFunctions.dropUnit(i, j, SoldierType.ENGINEER.getName(), 2, empireNumber);
+                    MapFunctions.dropUnit(i, j, SoldierType.ARCHER.getName(), 2, empireNumber);
+                    empireNumber++;
+                }
                 cells[i][j] = new Cell(mapTemplate.getCellTypes()[i][j], i, j);
                 cells[i][j].setTree(mapTemplate.getTreeTypes()[i][j]);
             }

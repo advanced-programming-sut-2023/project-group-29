@@ -1,5 +1,6 @@
 package view.menus;
 
+import controller.menucontrollers.GameController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,6 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.AppData;
+import model.GameData;
 
 import java.io.IOException;
 import java.net.URL;
@@ -146,8 +148,14 @@ public class LobbiesMenu extends Application {
         }
         else {
             int number = Integer.parseInt(numberOfPlayer.getText());
+            GameData gameData = GameController.getGameData();
             if (number > 8 || number < 2) {
                 showInvalidNumberAlert();
+            } else if (number != gameData.getMap().getUsersCount()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("improper number");
+                alert.setContentText("choose a number which matches with the map chosen");
+                alert.showAndWait();
             }
             try {
                 AppData.getClient().newLobby(Integer.parseInt(numberOfPlayer.getText()));
