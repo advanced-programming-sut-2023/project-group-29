@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Label?>
 <Pane xmlns:fx="http://javafx.com/fxml"
       xmlns="http://javafx.com/javafx"
       fx:controller="view.menus.MainMenu"
       prefHeight="720.0" prefWidth="1080.0">
-
+    <Label text="edit map menu" layoutX="50" layoutY="50" onMouseClicked="#editMapMenu">
 </Pane>

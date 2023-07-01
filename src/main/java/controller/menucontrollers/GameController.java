@@ -1,10 +1,12 @@
 package controller.menucontrollers;
 
+import com.google.gson.Gson;
 import javafx.scene.paint.Color;
 import model.*;
 import model.map.Cell;
 import model.map.CellType;
 import model.map.Map;
+import model.network.Client;
 import model.people.humanClasses.Soldier;
 import model.people.humanTypes.SoldierType;
 import model.unitfeatures.Movable;
@@ -13,6 +15,7 @@ import model.unitfeatures.UnitState;
 import model.weapons.weaponClasses.Trap;
 import view.messages.SelectUnitMenuMessages;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static controller.menucontrollers.UnitFunctions.applyAttackDamage;
@@ -120,6 +123,12 @@ public class GameController {
 
         //reset hasAttacked and hasMoved
         resetActsOfUnits();
+
+        try {
+            AppData.getClient().sendToServer(AppData.getClient().requestStringGenerator(Client.RequestType.NEXT_TURN,new String[]{gameData.getId(),new Gson().toJson(gameData)}));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         return true;
     }

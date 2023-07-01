@@ -1,6 +1,8 @@
 package model.network;
 
 import com.google.gson.Gson;
+import controller.menucontrollers.GameController;
+import model.GameData;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -30,20 +32,37 @@ public class Client {
     }
 
     public String requestStringGenerator(RequestType requestType, String[] args) {
-        return null;
+        String request="";
+        request+=requestType.name()+" ";
+        for(String argument:args)
+            request+=argument+" ";
+
+        return request.trim();
     }
 
 
-    public <T> Object getObjectFromJson(Class<T> objectClass, String json) {
+    public <T> T getObjectFromJson(Class<T> objectClass, String json) {
         Gson gson = new Gson();
 
-        return gson.fromJson(json, objectClass);
+        T object;
+        try {
+            object = (T)gson.fromJson(json, objectClass);
+        } catch (Exception e){
+            return null;
+        }
+        return object;
     }
 
     public <T> T[] getArrayOfObjectsFromJson(Class<T[]> listClass, String json) {
         Gson gson = new Gson();
 
-        return gson.fromJson(json, listClass);
+        T[] object;
+        try {
+            object = (T[])gson.fromJson(json, listClass);
+        } catch (Exception e){
+            return null;
+        }
+        return object;
     }
 
     public String requestFormServer(String request) throws IOException {
@@ -56,7 +75,11 @@ public class Client {
         dataOutputStream.writeUTF(message);
     }
 
-    public void startListeningForInput(Method method, Object object) {
+    public enum ListenType{
+        LOBBY,
+        GAME
+    }
+    public void startListeningForInput(ListenType listenType) {
         if (listeningForInputThread != null && listeningForInputThread.isAlive())
             listeningForInputThread.interrupt();
 
@@ -70,13 +93,9 @@ public class Client {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-
-                    try {
-                        method.invoke(object, input);
-                    } catch (IllegalAccessException e) {
-                        throw new RuntimeException(e);
-                    } catch (InvocationTargetException e) {
-                        throw new RuntimeException(e);
+                    if(listenType.equals(ListenType.GAME)){
+                        GameData gameData=(GameData) getObjectFromJson(GameData.class,input);
+                        GameController.updateGameData(gameData);
                     }
                 }
             }
@@ -98,5 +117,9 @@ public class Client {
         GET_USERS,
         ADD_USER,
         CHANGE_USER_DATA,
+        GET_PUBLIC_MAP_BY_NAME,
+        GET_PUBLIC_MAPS,
+        START_GAME,
+        NEXT_TURN
     }
 }

@@ -1,5 +1,6 @@
 package view.menus;
 
+import controller.menucontrollers.GameController;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,6 +8,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -14,6 +16,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import model.AlertWindowPane;
 import model.AppData;
 import model.MapTemplate;
 import view.Command;
@@ -21,6 +24,8 @@ import view.Command;
 import java.net.URL;
 
 public class EditMapMenuGraphics extends Application {
+    @FXML
+    private Pane pane;
     @FXML
     private TextField mapNameField;
     @FXML
@@ -92,13 +97,47 @@ public class EditMapMenuGraphics extends Application {
     }
 
     public void createMap(MouseEvent mouseEvent) {
-        //todo abbasfar handle exceptions and errors
+        if(AppData.getLocalMapByMapName(mapNameField.getText())!=null
+                || AppData.getPublicMapByMapName(mapNameField.getText())!=null){
+            makeErrorAlert("invalid name");
+            return;
+        }
+        if(!width.getText().matches("\\d+") || !height.getText().matches("\\d+")){
+            makeErrorAlert("invalid dimensions");
+            return;
+        }
+
+        int widthValue=Integer.parseInt(width.getText());
+        int heightValue=Integer.parseInt(height.getText());
+        if(widthValue>1000 || heightValue>1000){
+            makeErrorAlert("too large dimensions");
+            return;
+        }
+
+        if(!playersCount.getText().matches("\\d+")){
+            makeErrorAlert("invalid player counts");
+            return;
+        }
+
+        int playerCountValue=Integer.parseInt(playersCount.getText());
+        if(playerCountValue<2 || playerCountValue>8){
+            makeErrorAlert("improper number of players");
+            return;
+        }
+
         try {
-            EditMapGraphics editMapGraphics = new EditMapGraphics(new MapTemplate("sa", "sa", 20, 20, 3));
-            //editMapGraphics.start(stage);
+            EditMapGraphics editMapGraphics = new EditMapGraphics(new MapTemplate(AppData.getCurrentUser().getUsername(), mapNameField.getText(), widthValue, heightValue, playerCountValue));
+            editMapGraphics.start(AppData.getStage());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void makeErrorAlert(String text){
+        AlertWindowPane alertWindowPane=new AlertWindowPane(pane,Color.RED);
+        alertWindowPane.addTitle("failed");
+        alertWindowPane.addText(text);
+        alertWindowPane.show();
     }
 
     public void back(MouseEvent mouseEvent) {

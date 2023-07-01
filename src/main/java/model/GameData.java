@@ -22,6 +22,7 @@ public class GameData {
     private final ArrayList<Asset> allUnitsInSelectedCells = new ArrayList<>();
     private final ArrayList<Asset> selectedUnits = new ArrayList<>();
     private GameState gameState = GameState.VIEW_MAP;
+    private String id;
     private int tileWidth = 50;
     private int tileHeight = 50;
     private Pair<Integer, Integer> cornerCellIndex = new Pair<>(1, 1);
@@ -229,5 +230,13 @@ public class GameData {
 
     public Empire getPlayingEmpire() {
         return getEmpireByPlayerNumber(playerOfTurn);
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
     }
 }

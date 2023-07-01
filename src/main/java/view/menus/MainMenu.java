@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import model.AppData;
@@ -82,5 +83,10 @@ public class MainMenu extends Application {
                 }
             }
         });
+    }
+
+    public void editMapMenu(MouseEvent mouseEvent) throws Exception {
+        EditMapMenuGraphics editMapMenuGraphics=new EditMapMenuGraphics();
+        editMapMenuGraphics.start(AppData.getStage());
     }
 }
