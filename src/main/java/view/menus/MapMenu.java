@@ -43,7 +43,6 @@ public class MapMenu extends Application {
     private GameData gameData = null;
     private Pane[][] tiles = null;
     private GameGraphicFunctions gameGraphicFunctions;
-    private Stage stage;
     private Pane popularityPopupPane;
     private GamePopUpMenus popularityPopup;
     private Pane buildingPopupPane;
@@ -80,6 +79,11 @@ public class MapMenu extends Application {
         Image image = new Image(MapMenu.class.getResource("/images/menus/changeFactors.png").toString());
         button.setFill(new ImagePattern(image));
         button.setOnMouseClicked(mouseEvent -> {
+
+            if(GameController.getGameData().getPlayerOfTurn()!=GameController.getGameData().getCurrentUserPlayerNumber()) {
+                GameController.getGameData().getGameGraphicFunctions().alertMessage(Color.RED, "", "its not your turn");
+                return;
+            }
             try {
                 new SetFactorsMenu().start(new Stage());
             } catch (Exception e) {
@@ -111,7 +115,6 @@ public class MapMenu extends Application {
         URL url = LoginMenu.class.getResource("/FXML/MapMenu.fxml");
         mainPane = FXMLLoader.load(url);
         Scene scene = new Scene(mainPane);
-        this.stage = stage;
 
         this.gameData = GameController.getGameData();
         gameData.setMapMenu(this);
@@ -253,6 +256,11 @@ public class MapMenu extends Application {
     }
 
     private void keyHandle(KeyEvent keyEvent) throws IOException {
+        if(gameData.getPlayerOfTurn()!=gameData.getCurrentUserPlayerNumber()) {
+            gameGraphicFunctions.alertMessage(Color.RED, "", "its not your turn");
+            return;
+        }
+
         switch (gameData.getGameState()) {
             case CELL_SELECTED -> {
                 if (keyEvent.getCode().equals(GameKeyConstants.cancelKey)) {
@@ -379,6 +387,12 @@ public class MapMenu extends Application {
     }
 
     private void mouseClickHandle(MouseEvent mouseEvent, int tileX, int tileY) {
+
+        if(gameData.getPlayerOfTurn()!=gameData.getCurrentUserPlayerNumber()) {
+            gameGraphicFunctions.alertMessage(Color.RED, "", "its not your turn");
+            return;
+        }
+
         switch (gameData.getGameState()) {
             case VIEW_MAP, CELL_SELECTED -> {
                 gameData.setGameState(GameState.CELL_SELECTED);
@@ -420,6 +434,12 @@ public class MapMenu extends Application {
     }
 
     private void mouseDragStartHandle(int tileX, int tileY) {
+
+        if(gameData.getPlayerOfTurn()!=gameData.getCurrentUserPlayerNumber()) {
+            gameGraphicFunctions.alertMessage(Color.RED, "", "its not your turn");
+            return;
+        }
+
         switch (gameData.getGameState()) {
             case VIEW_MAP, CELL_SELECTED -> {
                 gameData.setGameState(GameState.CELL_SELECTED);
@@ -432,6 +452,11 @@ public class MapMenu extends Application {
     }
 
     private void mouseDragEndHandle(int tileX, int tileY) {
+        if(gameData.getPlayerOfTurn()!=gameData.getCurrentUserPlayerNumber()) {
+            gameGraphicFunctions.alertMessage(Color.RED, "", "its not your turn");
+            return;
+        }
+
         switch (gameData.getGameState()) {
             case VIEW_MAP, CELL_SELECTED -> {
 
@@ -582,6 +607,11 @@ public class MapMenu extends Application {
         Image image = new Image(MapMenu.class.getResource("/images/nextTurn.png").toString());
         button.setFill(new ImagePattern(image));
         button.setOnMouseClicked(mouseEvent -> {
+            if(gameData.getPlayerOfTurn()!=gameData.getCurrentUserPlayerNumber()) {
+                gameGraphicFunctions.alertMessage(Color.RED, "", "its not your turn");
+                return;
+            }
+
             if (!GameController.nextTurn()) {
                 GameController.showWinner();
                 try {

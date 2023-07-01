@@ -10,6 +10,8 @@ import java.lang.reflect.Method;
 import java.net.Socket;
 
 public class Client {
+    private final int portNumber = 8080;
+    private final String host = "localhost"; // for network "192.168.0.100";
     private final Socket socket;
     private final DataOutputStream dataOutputStream;
     private final DataInputStream dataInputStream;
@@ -18,7 +20,7 @@ public class Client {
     public Client() {
         System.out.println("client created");
         try {
-            socket = new Socket("localhost", 8080);
+            socket = new Socket(host,portNumber);
             dataInputStream = new DataInputStream(socket.getInputStream());
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
         } catch (IOException e) {

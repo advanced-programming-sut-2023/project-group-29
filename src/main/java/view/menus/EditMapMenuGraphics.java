@@ -54,7 +54,7 @@ public class EditMapMenuGraphics extends Application {
     @FXML
     private void initialize() {
         int index = 1;
-        for (MapTemplate mapTemplate : AppData.getMapTemplates()) {
+        for (MapTemplate mapTemplate : AppData.getLocalMapTemplates()) {
             HBox dataRow = new HBox();
             dataRow.setLayoutY(index * 50);
             dataRow.setMaxHeight(50);

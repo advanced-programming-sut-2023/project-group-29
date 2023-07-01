@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -51,7 +52,23 @@ public class EditMapGraphics extends Application {
 
         Scene scene = new Scene(mainPane);
         stage.setScene(scene);
+
         mainPane.requestFocus();
+        mainPane.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if(keyEvent.getCode().equals(GameKeyConstants.mapMoveRight))
+                    cornerIndex.first = Math.min(cornerIndex.first+1,mapTemplate.getWidth()-1);
+                else if(keyEvent.getCode().equals(GameKeyConstants.mapMoveLeft))
+                    cornerIndex.first = Math.max(cornerIndex.first-1,0);
+                else if(keyEvent.getCode().equals(GameKeyConstants.mapMoveUp))
+                    cornerIndex.first = Math.max(cornerIndex.second-1,0);
+                else if(keyEvent.getCode().equals(GameKeyConstants.mapMoveDown))
+                    cornerIndex.first = Math.min(cornerIndex.second+1,mapTemplate.getHeight()-1);
+
+                showMap(mapTemplate);
+            }
+        });
         stage.show();
     }
 
@@ -86,7 +103,7 @@ public class EditMapGraphics extends Application {
             return;
         }
 
-        AppData.getMapTemplates().add(mapTemplate);
+        AppData.getLocalMapTemplates().add(mapTemplate);
 
         try {
             new MainMenu().start(AppData.getStage());

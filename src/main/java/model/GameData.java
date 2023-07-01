@@ -45,6 +45,7 @@ public class GameData {
         tileHeight -= 10;
     }
 
+
     public void addEmpire(Empire empire) {
         empires.add(empire);
     }
@@ -109,6 +110,14 @@ public class GameData {
             return;
         }
         GameController.notify("player number " + (index + 1) + " is playing");
+    }
+
+    public PlayerNumber getCurrentUserPlayerNumber(){
+        for(int i=0;i<empires.size();i++)
+            if(empires.get(i).getUser().getUsername().equals(AppData.getCurrentUser().getUsername()))
+                return PlayerNumber.getPlayerByIndex(i);
+
+        return null;
     }
 
     public Pair<Integer, Integer> getEndSelectedCellsPosition() {
