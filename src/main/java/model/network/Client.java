@@ -2,12 +2,6 @@ package model.network;
 
 import com.google.gson.Gson;
 import controller.menucontrollers.GameController;
-import javafx.scene.control.Alert;
-import javafx.scene.paint.Color;
-import model.AppData;
-import view.menus.GameGraphicFunctions;
-import view.menus.LobbiesMenu;
-import controller.menucontrollers.GameController;
 import model.GameData;
 
 import java.io.DataInputStream;
@@ -18,6 +12,8 @@ import java.lang.reflect.Method;
 import java.net.Socket;
 
 public class Client {
+    private final int portNumber = 8080;
+    private final String host = "localhost"; // for network "192.168.0.100";
     private final Socket socket;
     private final DataOutputStream dataOutputStream;
     private final DataInputStream dataInputStream;
@@ -26,7 +22,7 @@ public class Client {
     public Client() {
         System.out.println("client created");
         try {
-            socket = new Socket("localhost", 8080);
+            socket = new Socket(host,portNumber);
             dataInputStream = new DataInputStream(socket.getInputStream());
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
         } catch (IOException e) {
@@ -36,33 +32,57 @@ public class Client {
     }
 
     public String requestStringGenerator(RequestType requestType, String[] args) {
-        return null;
+        String request="";
+        request+=requestType.name()+" ";
+        for(String argument:args)
+            request+=argument+" ";
+
+        return request.trim();
     }
 
 
-    public <T> Object getObjectFromJson(Class<T> objectClass, String json) {
+    public <T> T getObjectFromJson(Class<T> objectClass, String json) {
         Gson gson = new Gson();
 
-        return gson.fromJson(json, objectClass);
+        T object;
+        try {
+            object = (T)gson.fromJson(json, objectClass);
+        } catch (Exception e){
+            return null;
+        }
+        return object;
     }
 
     public <T> T[] getArrayOfObjectsFromJson(Class<T[]> listClass, String json) {
         Gson gson = new Gson();
 
-        return gson.fromJson(json, listClass);
+        T[] object;
+        try {
+            object = (T[])gson.fromJson(json, listClass);
+        } catch (Exception e){
+            return null;
+        }
+        return object;
     }
 
     public String requestFormServer(String request) throws IOException {
+        System.out.println(request);
         dataOutputStream.writeUTF(request);
+        System.out.println("sal");
+        String s=waitAndReadInput(50);
 
-        return dataInputStream.readUTF();
+        return s;
     }
 
     public void sendToServer(String message) throws IOException {
         dataOutputStream.writeUTF(message);
     }
 
-    public void startListeningForInput(Method method, Object object) {
+    public enum ListenType{
+        LOBBY,
+        GAME
+    }
+    public void startListeningForInput(ListenType listenType) {
         if (listeningForInputThread != null && listeningForInputThread.isAlive())
             listeningForInputThread.interrupt();
 
@@ -76,13 +96,9 @@ public class Client {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-
-                    try {
-                        method.invoke(object, input);
-                    } catch (IllegalAccessException e) {
-                        throw new RuntimeException(e);
-                    } catch (InvocationTargetException e) {
-                        throw new RuntimeException(e);
+                    if(listenType.equals(ListenType.GAME)){
+                        GameData gameData=(GameData) getObjectFromJson(GameData.class,input);
+                        GameController.updateGameData(gameData);
                     }
                 }
             }
@@ -97,6 +113,7 @@ public class Client {
     }
 
     public enum RequestType {
+        LOGIN,
         GET_USER_BY_USERNAME,
         GET_USER_BY_EMAIL,
         SORT_USERS_BY_HIGH_SCORE,
@@ -104,5 +121,22 @@ public class Client {
         GET_USERS,
         ADD_USER,
         CHANGE_USER_DATA,
+        GET_PUBLIC_MAP_BY_NAME,
+        GET_PUBLIC_MAPS,
+        START_GAME,
+        NEXT_TURN
+    }
+
+    public String waitAndReadInput(int pausesMilliSeconds) throws IOException {
+
+        while (true){
+            if(dataInputStream.available()!=0)
+                return dataInputStream.readUTF();
+            try {
+                Thread.sleep(pausesMilliSeconds);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

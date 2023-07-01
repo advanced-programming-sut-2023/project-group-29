@@ -41,7 +41,7 @@ public class EditMapGraphics extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        URL url = Command.class.getResource("/FXML/simpleMenu.fxml");
+        URL url = Command.class.getResource("/FXML/EditMap.fxml");
         FXMLLoader loader = new FXMLLoader(url);
         Pane mainPane = loader.load();
 
@@ -189,8 +189,7 @@ public class EditMapGraphics extends Application {
     private void showMap(MapTemplate mapTemplate) {
         for (int i = 0; i < 19; i++)
             for (int j = 0; j < 14; j++) {
-                TreeType treeType = mapTemplate.getTreeTypes()[i + cornerIndex.first][j + cornerIndex.second];
-                CellType cellType = mapTemplate.getCellTypes()[i + cornerIndex.first][j + cornerIndex.second];
+                Cell cell = mapTemplate.getCells()[i + cornerIndex.first][j + cornerIndex.second];
 
                 Pane tile = new Pane();
                 tile.setMaxWidth(50);
@@ -199,12 +198,12 @@ public class EditMapGraphics extends Application {
                 tile.setMinHeight(50);
 
                 BackgroundSize backgroundSize = new BackgroundSize(50, 50, false, false, false, false);
-                tile.setBackground(new Background(new BackgroundImage(cellType.getImage(), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize)));
+                tile.setBackground(new Background(new BackgroundImage(cell.getCellType().getImage(), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize)));
 
                 pane.getChildren().add(tile);
 
-                if (treeType != null) {
-                    ImageView tree = new ImageView(new Image(MapMenu.class.getResource(treeType.getShowingImagePath()).toExternalForm()));
+                if (cell.getTreeTypes() != null) {
+                    ImageView tree = new ImageView(new Image(MapMenu.class.getResource(cell.getTreeTypes().getShowingImagePath()).toExternalForm()));
 
                     ImagePracticalFunctions.fitWidthHeight(tree, 50, 50);
                     tree.setLayoutX(i * 50 + 70);
@@ -265,7 +264,7 @@ public class EditMapGraphics extends Application {
         int realY = y + cornerIndex.second;
 
         if (changeTypeAllowed(mapTemplate, realX, realY))
-            mapTemplate.getCellTypes()[realX][realY] = selectedCellType;
+            mapTemplate.getCells()[realX][realY].setCellType(selectedCellType);
     }
 
     private void handleTreeTypeClick(MapTemplate mapTemplate, int x, int y) {
@@ -273,7 +272,7 @@ public class EditMapGraphics extends Application {
         int realY = y + cornerIndex.second;
 
         if (changeTypeAllowed(mapTemplate, realX, realY))
-            mapTemplate.getTreeTypes()[realX][realY] = selectedTreeType;
+            mapTemplate.getCells()[realX][realY].setTree(selectedTreeType);
     }
 
     private boolean changeTypeAllowed(MapTemplate mapTemplate, int realX, int realY) {
