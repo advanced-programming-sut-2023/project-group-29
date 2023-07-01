@@ -163,7 +163,7 @@ public class SecurityQuestionMenu extends Application {
                 else if (checkBox3.isSelected()) {
                     LoginMenuController.getCurrentUser().setSecurityQuestion("3 " + answerTextField.getText());
                 }
-                AppData.updateUserData(AppData.getCurrentUser());
+                AppData.updateUserData(LoginMenuController.getCurrentUser());
 
                 LoginMenuController.setCurrentUser(null);
                 try {

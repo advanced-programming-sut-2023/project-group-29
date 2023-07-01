@@ -20,7 +20,6 @@ public class Client {
     private Thread listeningForInputThread;
 
     public Client() {
-        System.out.println("client created");
         try {
             socket = new Socket(host,portNumber);
             dataInputStream = new DataInputStream(socket.getInputStream());
@@ -66,12 +65,9 @@ public class Client {
     }
 
     public String requestFormServer(String request) throws IOException {
-        System.out.println(request);
         dataOutputStream.writeUTF(request);
-        System.out.println("sal");
-        String s=waitAndReadInput(50);
 
-        return s;
+        return dataInputStream.readUTF();
     }
 
     public void sendToServer(String message) throws IOException {
@@ -125,18 +121,5 @@ public class Client {
         GET_PUBLIC_MAPS,
         START_GAME,
         NEXT_TURN
-    }
-
-    public String waitAndReadInput(int pausesMilliSeconds) throws IOException {
-
-        while (true){
-            if(dataInputStream.available()!=0)
-                return dataInputStream.readUTF();
-            try {
-                Thread.sleep(pausesMilliSeconds);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
     }
 }

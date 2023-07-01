@@ -8,5 +8,5 @@
       xmlns="http://javafx.com/javafx"
       fx:controller="view.menus.MainMenu"
       prefHeight="720.0" prefWidth="1080.0">
-    <Label text="edit map menu" layoutX="50" layoutY="50" onMouseClicked="#editMapMenu">
+    <Label text="edit map menu" layoutX="50" layoutY="50" onMouseClicked="#editMapMenu"/>
 </Pane>
