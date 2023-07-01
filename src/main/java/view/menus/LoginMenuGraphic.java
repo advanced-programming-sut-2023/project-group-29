@@ -11,6 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import model.AppData;
 import model.SaveAndLoad;
+import model.User;
 
 public class LoginMenuGraphic {
     public TextField username;
@@ -113,8 +114,14 @@ public class LoginMenuGraphic {
                                     alert.showAndWait();
                                     return;
                                 }
-                                AppData.getUserByUsername(username.getText()).setPassword(SaveAndLoad.hashString(textField1.getText()));
-                                SaveAndLoad.saveData(AppData.getUsers(), AppData.getUsersDataBaseFilePath());
+                                User user=AppData.getUserByUsername(username.getText());
+                                try {
+                                    user.setPassword(SaveAndLoad.hashString(textField1.getText()));
+                                } catch (NullPointerException e){
+                                    e.printStackTrace();
+                                }
+                                AppData.updateUserData(user);
+
                                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                                 alert.setTitle("Successful change");
                                 alert.setContentText("Your password change successfully");

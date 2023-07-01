@@ -26,9 +26,7 @@ public class EnterMenu extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        User[] users = SaveAndLoad.loadArrayData(AppData.getUsersDataBaseFilePath(), User[].class);
-        if (users != null)
-            AppData.setUsers(new ArrayList<>(Arrays.asList(users)));
+
         AppData.setStage(stage);
         URL url = Command.class.getResource("/FXML/EnterMenu.fxml");
         Pane pane = FXMLLoader.load(url);

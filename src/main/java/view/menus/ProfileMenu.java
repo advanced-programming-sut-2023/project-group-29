@@ -152,7 +152,11 @@ public class ProfileMenu extends Application {
                 String newPath = event.getDragboard().getFiles().get(0).getAbsolutePath();
                 AppData.getCurrentUser().setAvatar(newPath);
                 loadImage();
-                SaveAndLoad.saveData(AppData.getUsers(), AppData.getUsersDataBaseFilePath());
+
+                //todo handle images upload and information below
+                //SaveAndLoad.saveData(AppData.getUsers(), AppData.getUsersDataBaseFilePath());
+
+
                 event.consume();
             }
         });

@@ -25,5 +25,6 @@ module project {
     opens model.map;
     opens view.menus.gamepopupmenus;
     opens model.weapons.weaponTypes;
+    exports model.network;
 
 }

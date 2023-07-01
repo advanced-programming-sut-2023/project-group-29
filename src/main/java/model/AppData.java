@@ -1,40 +1,52 @@
 package model;
 
+import com.google.gson.Gson;
 import javafx.stage.Stage;
+import model.network.Client;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 
 public class AppData {
-    private static final String usersDataBaseFilePath = "./src/main/dataFiles/UsersDataBase.json";
+    //private static final String usersDataBaseFilePath = "./src/main/dataFiles/UsersDataBase.json";
     private static final int screenWidth = 1080;
     private static final int screenHeight = 720;
     private static final ArrayList<MapTemplate> mapTemplates = new ArrayList<>();
-    private static ArrayList<User> users = new ArrayList<>();
+    //private static ArrayList<User> users = new ArrayList<>();
     private static User currentUser;
     private static int delayInLogin = 0;
     private static Stage stage;
+    private static Client client;//todo set
 
-    public static User getUserByUsername(String username) {
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getUsername().equals(username)) {
-                return users.get(i);
-            }
+    public static User getUserByUsername(String username){
+        String resultString;
+        try {
+            resultString=client.requestFormServer(client.requestStringGenerator(Client.RequestType.GET_USER_BY_USERNAME,new String[]{username}));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        return null;
+
+        try {
+            return (User) client.getObjectFromJson(User.class, resultString);
+        } catch (Exception e){
+            return null;
+        }
     }
 
-    public static User getUserByEmail(String email) {
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getEmail().equalsIgnoreCase(email)) {
-                return users.get(i);
-            }
+    public static User getUserByEmail(String email){
+        String resultString;
+        try {
+            resultString=client.requestFormServer(client.requestStringGenerator(Client.RequestType.GET_USER_BY_EMAIL,new String[]{email}));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        return null;
-    }
 
-    public static void addUser(User user) {
-        users.add(user);
+        try {
+            return (User) client.getObjectFromJson(User.class, resultString);
+        } catch (Exception e){
+            return null;
+        }
     }
 
     public static int getDelayInLogin() {
@@ -54,50 +66,83 @@ public class AppData {
     }
 
     public static ArrayList<User> sortUserByHighScore() {
-        ArrayList<User> sortedUsers = new ArrayList<>();
-        for (int i = 0; i < users.size(); i++) {
-            sortedUsers.add(users.get(i));
+        String resultString;
+        try {
+            resultString=client.requestFormServer(client.requestStringGenerator(Client.RequestType.SORT_USERS_BY_HIGH_SCORE,new String[]{}));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        for (int i = 0; i < users.size(); i++) {
-            for (int j = i + 1; j < users.size(); j++) {
-                if (sortedUsers.get(i).getHighScore() < sortedUsers.get(j).getHighScore()) {
-                    Collections.swap(sortedUsers, i, j);
-                }
-            }
+
+        try {
+            return new ArrayList<User>(Arrays.asList(client.getArrayOfObjectsFromJson(User[].class, resultString)));
+        } catch (Exception e){
+            return null;
         }
-        return sortedUsers;
     }
 
-    public static int rankOfUser(ArrayList<User> sortedUsers, String username) {
-        for (int i = 0; i < sortedUsers.size(); i++) {
-            if (sortedUsers.get(i).getUsername().equals(username)) {
-                return i + 1;
-            }
-        }
-        return 0;
-    }
+//    public static int rankOfUser(ArrayList<User> sortedUsers, String username) {
+//        for (int i = 0; i < sortedUsers.size(); i++) {
+//            if (sortedUsers.get(i).getUsername().equals(username)) {
+//                return i + 1;
+//            }
+//        }
+//        return 0;
+//    }
 
     public static ArrayList<User> getUsers() {
-        return users;
-    }
-
-    public static void setUsers(ArrayList<User> users) {
-        AppData.users = users;
-    }
-
-    public static String getUsersDataBaseFilePath() {
-        return usersDataBaseFilePath;
-    }
-
-    public static boolean checkStayLoggedIn() {
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getStayLoggedIn() == 1) {
-                AppData.setCurrentUser(users.get(i));
-                return true;
-            }
+        String resultString;
+        try {
+            resultString=client.requestFormServer(client.requestStringGenerator(Client.RequestType.GET_USERS,new String[]{}));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        return false;
+
+        try {
+            return new ArrayList<User>(Arrays.asList(client.getArrayOfObjectsFromJson(User[].class, resultString)));
+        } catch (Exception e){
+            return null;
+        }
     }
+
+    public static void addUser(User user){
+
+        Gson gson=new Gson();
+        String userString=gson.toJson(user);
+
+        try {
+            client.sendToServer(client.requestStringGenerator(Client.RequestType.ADD_USER,new String[]{userString}));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void updateUserData(User user){
+
+        Gson gson=new Gson();
+        String userString=gson.toJson(user);
+
+        try {
+            client.sendToServer(client.requestStringGenerator(Client.RequestType.CHANGE_USER_DATA,new String[]{userString}));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+//
+//    public static String getUsersDataBaseFilePath() {
+//        return usersDataBaseFilePath;
+//    }
+//
+
+//    public static boolean checkStayLoggedIn() {   //todo
+//        for (int i = 0; i < users.size(); i++) {
+//            if (users.get(i).getStayLoggedIn() == 1) {
+//                AppData.setCurrentUser(users.get(i));
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
     public static int getScreenWidth() {
         return screenWidth;
