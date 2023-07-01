@@ -2,8 +2,7 @@ package model;
 
 import com.google.gson.Gson;
 import javafx.stage.Stage;
-import model.map.Cell;
-import model.map.Map;
+import model.map.MapTemplate;
 import model.network.Client;
 
 import java.io.IOException;

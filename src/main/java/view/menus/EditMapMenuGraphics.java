@@ -1,6 +1,5 @@
 package view.menus;
 
-import controller.menucontrollers.GameController;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,7 +7,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -18,7 +16,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import model.AlertWindowPane;
 import model.AppData;
-import model.MapTemplate;
+import model.map.MapTemplate;
 import view.Command;
 
 import java.net.URL;

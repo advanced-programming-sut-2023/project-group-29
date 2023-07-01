@@ -23,7 +23,7 @@ import java.net.URL;
 public class PreGameMenu extends Application {
     private Pane pane;
     private TextField usernameTextField;
-    private TextField numberOfMapTextField;
+    private TextField nameOfMapTextField;
     private Button addPlayer;
     private Button setMap;
 
@@ -57,8 +57,8 @@ public class PreGameMenu extends Application {
         }
     }
 
-    private static void chooseMap(int index) {
-        PreGameMenuMessages result = PreGameMenuController.chooseMap(index);
+    private static void chooseMap(String name) {
+        PreGameMenuMessages result = PreGameMenuController.chooseMap(name);
         switch (result) {
             case FEW_PLAYER -> {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -66,7 +66,7 @@ public class PreGameMenu extends Application {
                 alert.setContentText("Number of players is not proper for this map!");
                 alert.showAndWait();
             }
-            case OUT_OF_RANGE -> {
+            case INVALID_MAP -> {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Wrong Number Of Map");
                 alert.setContentText("No map exists with this index!");
@@ -142,15 +142,14 @@ public class PreGameMenu extends Application {
                 "-fx-background-insets: 50;" + "-fx-border-color: linear-gradient(#ffffff, #000000);" + "-fx-text-fill: white;" +
                 "-fx-prompt-text-fill: white");
         this.usernameTextField = usernameTextField;
-        TextField numberOfMapTextField = new TextField();
-        numberOfMapTextField.setPromptText("Map Number");
-        numberOfMapTextField.setLayoutX(450);
-        numberOfMapTextField.setLayoutY(321);
-        numberOfMapTextField.setMaxWidth(200);
-        numberOfMapTextField.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0, 0, 0);" +
+        nameOfMapTextField = new TextField();
+        nameOfMapTextField.setPromptText("Map Name");
+        nameOfMapTextField.setLayoutX(450);
+        nameOfMapTextField.setLayoutY(321);
+        nameOfMapTextField.setMaxWidth(200);
+        nameOfMapTextField.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0, 0, 0);" +
                 "-fx-background-insets: 50;" + "-fx-border-color: linear-gradient(#ffffff, #000000);" + "-fx-text-fill: white;" +
                 "-fx-prompt-text-fill: white");
-        this.numberOfMapTextField = numberOfMapTextField;
         Button setMap = new Button();
         setMap.setStyle("-fx-effect: dropshadow(gaussian, red, 10, 0, 0, 0);" +
                 "    -fx-background-insets: 50;" +
@@ -163,7 +162,7 @@ public class PreGameMenu extends Application {
         this.setMap = setMap;
         this.pane.getChildren().add(usernameTextField);
         this.pane.getChildren().add(addPlayer);
-        this.pane.getChildren().add(numberOfMapTextField);
+        this.pane.getChildren().add(nameOfMapTextField);
         this.pane.getChildren().add(setMap);
 
         addPlayer.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -176,7 +175,7 @@ public class PreGameMenu extends Application {
         setMap.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                chooseMap(Integer.parseInt(numberOfMapTextField.getText()));
+                chooseMap(nameOfMapTextField.getText());
             }
         });
     }

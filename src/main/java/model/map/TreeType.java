@@ -1,19 +1,17 @@
 package model.map;
 
 public enum TreeType {
-    THISTLE(ConsoleColors.YELLOW_BACKGROUND, "thistle"),
-    CHERRY(ConsoleColors.RED_BACKGROUND, "cherry"),
-    OLIVE(ConsoleColors.GREEN_BACKGROUND, "olive"),
-    COCONUT(ConsoleColors.WHITE_BACKGROUND, "coconut"),
-    DATES(ConsoleColors.BLACK_BACKGROUND, "dates"),
+    THISTLE("thistle"),
+    CHERRY("cherry"),
+    OLIVE("olive"),
+    COCONUT("coconut"),
+    DATES("dates"),
     ;
-    private final ConsoleColors showingColor;
     private final String name;
     private final String showingImagePath;
 
-    TreeType(ConsoleColors showingColor, String name) {
+    TreeType(String name) {
         this.name = name;
-        this.showingColor = showingColor;
         this.showingImagePath = "/images/trees/" + name + ".png";
     }
 
@@ -26,10 +24,6 @@ public enum TreeType {
 
     public String getShowingImagePath() {
         return showingImagePath;
-    }
-
-    public ConsoleColors getShowingColor() {
-        return showingColor;
     }
 
     public String getName() {
