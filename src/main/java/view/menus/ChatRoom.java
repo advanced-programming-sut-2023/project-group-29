@@ -118,7 +118,7 @@ public class ChatRoom extends Application {
                 text.setLayoutX(10);
                 text.setLayoutY(650);
                 pane.getChildren().add(text);
-                Text name = new Text(GameController.getGameData().getPlayerOfTurn().name());
+                Text name = new Text(AppData.getCurrentUser().getUsername());
                 name.setStyle("-fx-font-family: 'Arial Rounded MT Bold';" + "-fx-font-size: 10px");
                 name.setLayoutX(10);
                 name.setLayoutY(670);
@@ -130,11 +130,11 @@ public class ChatRoom extends Application {
                 time.setLayoutX(70);
                 time.setLayoutY(670);
                 pane.getChildren().add(time);
-                Image image1 = new Image(Command.class.getResource(GameController.getGameData().getPlayingEmpire().getUser().getAvatar()).toString());
+                Image image1 = new Image(AppData.getCurrentUser().getAvatar());
                 Rectangle avatar1 = new Rectangle(110, 660, 15, 15);
                 avatar1.setFill(new ImagePattern(image1));
                 pane.getChildren().add(avatar1);
-                Message message = new Message(text.getText(), time.getText(), name.getText(), Command.class.getResource(GameController.getGameData().getPlayingEmpire().getUser().getAvatar()).toString());
+                Message message = new Message(text.getText(), time.getText(), name.getText(), AppData.getCurrentUser().getAvatar());
                 AppData.addMessageOfPublicChat(message);
                 Image image2 = new Image(Command.class.getResource("/images/ChatSymbols/tick.png").toString());
                 Rectangle avatar2 = new Rectangle(130, 660, 15, 15);
