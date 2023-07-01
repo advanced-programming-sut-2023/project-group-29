@@ -2,8 +2,6 @@ package model;
 
 import com.google.gson.Gson;
 import javafx.stage.Stage;
-import model.map.Cell;
-import model.map.Map;
 import model.network.Client;
 
 import java.io.IOException;
@@ -14,11 +12,25 @@ public class AppData {
     //private static final String usersDataBaseFilePath = "./src/main/dataFiles/UsersDataBase.json";
     private static final int screenWidth = 1080;
     private static final int screenHeight = 720;
-    private static final ArrayList<MapTemplate> localMapTemplates = new ArrayList<>();
+    private static final ArrayList<MapTemplate> mapTemplates = new ArrayList<>();
     //private static ArrayList<User> users = new ArrayList<>();
     private static User currentUser;
     private static int delayInLogin = 0;
     private static Stage stage;
+    private static Client client;//todo set
+    private static String lobbyName;
+
+    public static String getLobbyName() {
+        return lobbyName;
+    }
+
+    public static void setLobbyName(String lobbyName) {
+        AppData.lobbyName = lobbyName;
+    }
+
+    public static Client getClient() {
+        return client;
+    }
     private static final Client client=new Client();
 
     public static User getUserByUsername(String username){
@@ -130,44 +142,6 @@ public class AppData {
         }
     }
 
-    public static MapTemplate getLocalMapByMapName(String name){
-        for(MapTemplate mapTemplate:localMapTemplates)
-            if(mapTemplate.getName().equals(name))
-                return mapTemplate;
-
-        return null;
-    }
-
-    public static MapTemplate getPublicMapByMapName(String name){
-        String resultString;
-        try {
-            resultString=client.requestFormServer(client.requestStringGenerator(Client.RequestType.GET_PUBLIC_MAP_BY_NAME,new String[]{name}));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
-            return (MapTemplate) client.getObjectFromJson(MapTemplate.class, resultString);
-        } catch (Exception e){
-            return null;
-        }
-    }
-
-    public static ArrayList<MapTemplate> getPublicMapTemplates(){
-        String resultString;
-        try {
-            resultString=client.requestFormServer(client.requestStringGenerator(Client.RequestType.GET_PUBLIC_MAPS,new String[]{}));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
-            return new ArrayList<MapTemplate>(Arrays.asList(client.getArrayOfObjectsFromJson(MapTemplate[].class, resultString)));
-        } catch (Exception e){
-            return null;
-        }
-    }
-
 //
 //    public static String getUsersDataBaseFilePath() {
 //        return usersDataBaseFilePath;
@@ -200,11 +174,7 @@ public class AppData {
         AppData.stage = stage;
     }
 
-    public static ArrayList<MapTemplate> getLocalMapTemplates() {
-        return localMapTemplates;
-    }
-
-    public static Client getClient() {
-        return client;
+    public static ArrayList<MapTemplate> getMapTemplates() {
+        return mapTemplates;
     }
 }

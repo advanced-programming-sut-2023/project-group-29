@@ -41,7 +41,7 @@ public class EditMapGraphics extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        URL url = Command.class.getResource("/FXML/EditMap.fxml");
+        URL url = Command.class.getResource("/FXML/simpleMenu.fxml");
         FXMLLoader loader = new FXMLLoader(url);
         Pane mainPane = loader.load();
 

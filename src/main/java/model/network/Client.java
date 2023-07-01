@@ -2,6 +2,12 @@ package model.network;
 
 import com.google.gson.Gson;
 import controller.menucontrollers.GameController;
+import javafx.scene.control.Alert;
+import javafx.scene.paint.Color;
+import model.AppData;
+import view.menus.GameGraphicFunctions;
+import view.menus.LobbiesMenu;
+import controller.menucontrollers.GameController;
 import model.GameData;
 
 import java.io.DataInputStream;
@@ -12,8 +18,6 @@ import java.lang.reflect.Method;
 import java.net.Socket;
 
 public class Client {
-    private final int portNumber = 8080;
-    private final String host = "localhost"; // for network "192.168.0.100";
     private final Socket socket;
     private final DataOutputStream dataOutputStream;
     private final DataInputStream dataInputStream;
@@ -22,7 +26,7 @@ public class Client {
     public Client() {
         System.out.println("client created");
         try {
-            socket = new Socket(host,portNumber);
+            socket = new Socket("localhost", 8080);
             dataInputStream = new DataInputStream(socket.getInputStream());
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
         } catch (IOException e) {
@@ -32,37 +36,20 @@ public class Client {
     }
 
     public String requestStringGenerator(RequestType requestType, String[] args) {
-        String request="";
-        request+=requestType.name()+" ";
-        for(String argument:args)
-            request+=argument+" ";
-
-        return request.trim();
+        return null;
     }
 
 
-    public <T> T getObjectFromJson(Class<T> objectClass, String json) {
+    public <T> Object getObjectFromJson(Class<T> objectClass, String json) {
         Gson gson = new Gson();
 
-        T object;
-        try {
-            object = (T)gson.fromJson(json, objectClass);
-        } catch (Exception e){
-            return null;
-        }
-        return object;
+        return gson.fromJson(json, objectClass);
     }
 
     public <T> T[] getArrayOfObjectsFromJson(Class<T[]> listClass, String json) {
         Gson gson = new Gson();
 
-        T[] object;
-        try {
-            object = (T[])gson.fromJson(json, listClass);
-        } catch (Exception e){
-            return null;
-        }
-        return object;
+        return gson.fromJson(json, listClass);
     }
 
     public String requestFormServer(String request) throws IOException {
@@ -75,11 +62,7 @@ public class Client {
         dataOutputStream.writeUTF(message);
     }
 
-    public enum ListenType{
-        LOBBY,
-        GAME
-    }
-    public void startListeningForInput(ListenType listenType) {
+    public void startListeningForInput(Method method, Object object) {
         if (listeningForInputThread != null && listeningForInputThread.isAlive())
             listeningForInputThread.interrupt();
 
@@ -93,9 +76,13 @@ public class Client {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-                    if(listenType.equals(ListenType.GAME)){
-                        GameData gameData=(GameData) getObjectFromJson(GameData.class,input);
-                        GameController.updateGameData(gameData);
+
+                    try {
+                        method.invoke(object, input);
+                    } catch (IllegalAccessException e) {
+                        throw new RuntimeException(e);
+                    } catch (InvocationTargetException e) {
+                        throw new RuntimeException(e);
                     }
                 }
             }
@@ -117,9 +104,5 @@ public class Client {
         GET_USERS,
         ADD_USER,
         CHANGE_USER_DATA,
-        GET_PUBLIC_MAP_BY_NAME,
-        GET_PUBLIC_MAPS,
-        START_GAME,
-        NEXT_TURN
     }
 }
