@@ -2,9 +2,11 @@ package model;
 
 import model.map.Cell;
 import model.map.CellType;
+import model.map.TreeType;
 
 public class MapTemplate {
-    private final Cell[][] cells;
+    private CellType[][] cellTypes;
+    private TreeType[][] treeTypes;
     private final boolean[][] hasEmpire;
     private final int width;
     private final int height;
@@ -19,16 +21,24 @@ public class MapTemplate {
         this.usersCount = usersCount;
         this.name = name;
 
-        cells = new Cell[width][height];
-        for (int i = 0; i < width; i++)
-            for (int j = 0; j < height; j++)
-                cells[i][j] = new Cell(CellType.PLAIN_GROUND, i, j);
+        treeTypes = new TreeType[width][height];
+        cellTypes = new CellType[width][height];
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                cellTypes[i][j] = CellType.PLAIN;
+                treeTypes[i][j] = null;
+            }
+        }
 
         hasEmpire = new boolean[width][height];
     }
 
-    public Cell[][] getCells() {
-        return cells;
+    public CellType[][] getCellTypes() {
+        return cellTypes;
+    }
+
+    public TreeType[][] getTreeTypes() {
+        return treeTypes;
     }
 
     public int getWidth() {
