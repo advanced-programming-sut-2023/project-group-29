@@ -35,6 +35,30 @@ public class LobbiesMenu extends Application {
         makeRefreshButton();
         makeLobbiesList();
         makeJoinButton();
+        makeBackButton();
+    }
+
+    private void makeBackButton() {
+        Button back = new Button("join");
+        back.setTranslateX(100);
+        back.setTranslateY(500);
+        back.setOnMouseClicked(mouseEvent -> {
+            try {
+                new PreGameMenu().start(AppData.getStage());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        setStyle(back);
+        pane.getChildren().add(back);
+    }
+
+    private void setStyle(Button button) {
+        button.setStyle("-fx-effect: dropshadow(gaussian, red, 10, 0, 0, 0);" +
+                "    -fx-background-insets: 50;" +
+                "    -fx-text-fill: black;" +
+                "    -fx-font-family: \"Brush Script MT\";" +
+                "    -fx-font-size: 16px;");
     }
 
     private void makeJoinButton() {
@@ -48,6 +72,7 @@ public class LobbiesMenu extends Application {
         joinButton.setOnMouseClicked(mouseEvent -> joinFunction(lobbyName.getText()));
         pane.getChildren().add(joinButton);
         pane.getChildren().add(lobbyName);
+        setStyle(joinButton);
     }
 
     private void makeLobbiesList() throws IOException {
@@ -85,6 +110,9 @@ public class LobbiesMenu extends Application {
             if (AppData.getClient().joinLobby(lobbyName)) new LobbyMenu(AppData.getClient()).start(AppData.getStage());
             else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("join failed");
+                alert.setContentText("join process failed");
+                alert.showAndWait();
             }
         } catch (Exception e) {
             e.printStackTrace();

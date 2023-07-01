@@ -22,9 +22,7 @@ import java.net.URL;
 
 public class PreGameMenu extends Application {
     private Pane pane;
-    private TextField usernameTextField;
     private TextField nameOfMapTextField;
-    private Button addPlayer;
     private Button setMap;
 
     private static void addPlayerToGame(String username) {
@@ -123,25 +121,6 @@ public class PreGameMenu extends Application {
     }
 
     private void initialize() {
-        Button addPlayer = new Button();
-        addPlayer.setStyle("-fx-effect: dropshadow(gaussian, red, 10, 0, 0, 0);" +
-                "    -fx-background-insets: 50;" +
-                "    -fx-text-fill: black;" +
-                "    -fx-font-family: \"Brush Script MT\";" +
-                "    -fx-font-size: 16px;");
-        addPlayer.setLayoutX(630);
-        addPlayer.setLayoutY(221);
-        addPlayer.setText("Add Player");
-        this.addPlayer = addPlayer;
-        TextField usernameTextField = new TextField();
-        usernameTextField.setPromptText("New Player");
-        usernameTextField.setLayoutX(450);
-        usernameTextField.setLayoutY(221);
-        usernameTextField.setMaxWidth(200);
-        usernameTextField.setStyle("-fx-effect: dropshadow(gaussian, black, 10, 0, 0, 0);" +
-                "-fx-background-insets: 50;" + "-fx-border-color: linear-gradient(#ffffff, #000000);" + "-fx-text-fill: white;" +
-                "-fx-prompt-text-fill: white");
-        this.usernameTextField = usernameTextField;
         nameOfMapTextField = new TextField();
         nameOfMapTextField.setPromptText("Map Name");
         nameOfMapTextField.setLayoutX(450);
@@ -160,18 +139,8 @@ public class PreGameMenu extends Application {
         setMap.setLayoutY(321);
         setMap.setText("Set Map");
         this.setMap = setMap;
-        this.pane.getChildren().add(usernameTextField);
-        this.pane.getChildren().add(addPlayer);
         this.pane.getChildren().add(nameOfMapTextField);
         this.pane.getChildren().add(setMap);
-
-        addPlayer.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                addPlayerToGame(usernameTextField.getText());
-            }
-        });
-
         setMap.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -186,7 +155,7 @@ public class PreGameMenu extends Application {
 
     public void play(MouseEvent mouseEvent) throws Exception {
         if (!notReady()) {
-            new MapMenu().start(AppData.getStage());
+            new LobbiesMenu().start(AppData.getStage());
         }
     }
 }

@@ -45,6 +45,7 @@ public class LobbyMenu extends Application {
 
             }
         };
+        //todo why changed???
     }
 
     @Override
@@ -73,6 +74,7 @@ public class LobbyMenu extends Application {
         button.setTranslateY(300);
         button.setOnMouseClicked(mouseEvent -> client.changeLobbyAccess());
         pane.getChildren().add(button);
+        setStyle(button);
     }
 
     private void makePlayButton() throws IOException {
@@ -81,6 +83,7 @@ public class LobbyMenu extends Application {
         button.setTranslateY(300);
         pane.getChildren().add(button);
         client.startGame();
+        setStyle(button);
     }
 
     private void makeLeftButton() {
@@ -89,6 +92,7 @@ public class LobbyMenu extends Application {
         button.setTranslateY(300);
         button.setOnMouseClicked(mouseEvent -> client.leftLobby());
         pane.getChildren().add(button);
+        setStyle(button);
     }
 
     private void updateUsers() {
@@ -107,4 +111,12 @@ public class LobbyMenu extends Application {
     private void beautify(Text text) {
         text.setStyle("-fx-text-fill: black;" + "-fx-font-size: 18px");
     }
+    private void setStyle(Button button) {
+        button.setStyle("-fx-effect: dropshadow(gaussian, red, 10, 0, 0, 0);" +
+                "    -fx-background-insets: 50;" +
+                "    -fx-text-fill: black;" +
+                "    -fx-font-family: \"Brush Script MT\";" +
+                "    -fx-font-size: 16px;");
+    }
+
 }

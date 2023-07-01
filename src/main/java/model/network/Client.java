@@ -194,6 +194,7 @@ public class Client {
             alert.showAndWait();
         } else {
             dataOutputStream.writeUTF("start game");
+            //todo correct start
         }
     }
 
