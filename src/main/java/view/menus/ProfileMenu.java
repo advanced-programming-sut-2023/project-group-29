@@ -80,7 +80,7 @@ public class ProfileMenu extends Application {
         this.avatar = avatar;
         Button chatMenu = new Button("Chat Menu");
         chatMenu.setLayoutY(600);
-        chatMenu.setLayoutX(1000);
+        chatMenu.setLayoutX(900);
         chatMenu.setStyle(styleOfButton);
         pane.getChildren().add(chatMenu);
         chatMenu.setOnMouseClicked(new EventHandler<MouseEvent>() {
