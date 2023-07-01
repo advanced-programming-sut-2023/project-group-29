@@ -21,6 +21,15 @@ public class AppData {
     private static final Client client=new Client();
 
     private static String lobbyName;
+    private static ArrayList<Message> messagesOfPublicChat = new ArrayList<>();
+
+    public static ArrayList<Message> getMessagesOfPublicChat() {
+        return messagesOfPublicChat;
+    }
+
+    public static void addMessageOfPublicChat(Message message) {
+        messagesOfPublicChat.add(message);
+    }
 
     public static User getUserByUsername(String username){
         String resultString;

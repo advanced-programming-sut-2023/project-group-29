@@ -78,6 +78,21 @@ public class ProfileMenu extends Application {
         descriptionText.setStyle("-fx-effect: dropshadow(gaussian, white, 10, 0, 0, 0);");
         Avatar avatar = new Avatar();
         this.avatar = avatar;
+        Button chatMenu = new Button("Chat Menu");
+        chatMenu.setLayoutY(600);
+        chatMenu.setLayoutX(1000);
+        chatMenu.setStyle(styleOfButton);
+        pane.getChildren().add(chatMenu);
+        chatMenu.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                try {
+                    new ChatMenu().start(AppData.getStage());
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
         Button changePassButton = new Button();
         changePassButton.setLayoutX(430);
         changePassButton.setLayoutY(250);
