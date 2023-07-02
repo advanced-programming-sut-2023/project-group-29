@@ -51,7 +51,7 @@ public class MainMenu extends Application {
                 else if (keyName.equals("Enter")) {
                     if (pane.getBackground().equals(background1)) {
                         try {
-                            new PreGameMenu().start(AppData.getStage());
+                            new LobbiesMenu().start(AppData.getStage());
                         } catch (Exception e) {
                             throw new RuntimeException(e);
                         }

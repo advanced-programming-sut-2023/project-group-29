@@ -29,28 +29,27 @@ public class LobbyMenu extends Application {
         this.usernames = client.getUsernames();
         this.lobbyName = AppData.getLobbyName();
         this.client = client;
-        Timer refreshTimer = new Timer();
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                try {
-                    if (client.isLobbyValid()) {
-                        new LobbyMenu(client).start(stage);
-                    } else {
-                        new LobbiesMenu().start(stage);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-        };
-        //todo why changed???
+//        Timer refreshTimer = new Timer();
+//        TimerTask task = new TimerTask() {
+//            @Override
+//            public void run() {
+//                try {
+//                    if (client.isLobbyValid()) {
+//                        new LobbyMenu(client).start(stage);
+//                    } else {
+//                        new LobbiesMenu().start(stage);
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//        };
     }
 
     @Override
     public void start(Stage stage) throws Exception {
-        pane = FXMLLoader.load(new URL(LobbyMenu.class.getResource("/simpleMenu.fxml").toString()));
+        pane = FXMLLoader.load(new URL(LobbyMenu.class.getResource("/FXML/simpleMenu.fxml").toString()));
         stage.setScene(new Scene(pane));
         stage.show();
         this.stage = stage;
@@ -70,8 +69,8 @@ public class LobbyMenu extends Application {
 
     private void makeAccessButton() {
         Button button = new Button("private/public");
-        button.setTranslateX(600);
-        button.setTranslateY(300);
+        button.setTranslateX(700);
+        button.setTranslateY(400);
         button.setOnMouseClicked(mouseEvent -> client.changeLobbyAccess());
         pane.getChildren().add(button);
         setStyle(button);
@@ -80,15 +79,21 @@ public class LobbyMenu extends Application {
     private void makePlayButton() throws IOException {
         Button button = new Button("start play");
         button.setTranslateX(700);
-        button.setTranslateY(300);
+        button.setTranslateY(500);
         pane.getChildren().add(button);
-        client.startGame();
+        button.setOnMouseClicked(mouseEvent -> {
+            try {
+                client.startGame();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         setStyle(button);
     }
 
     private void makeLeftButton() {
         Button button = new Button("left");
-        button.setTranslateX(800);
+        button.setTranslateX(700);
         button.setTranslateY(300);
         button.setOnMouseClicked(mouseEvent -> client.leftLobby());
         pane.getChildren().add(button);

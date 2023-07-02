@@ -25,36 +25,6 @@ public class PreGameMenu extends Application {
     private TextField nameOfMapTextField;
     private Button setMap;
 
-    private static void addPlayerToGame(String username) {
-        PreGameMenuMessages result = PreGameMenuController.addUserToGame(username);
-        switch (result) {
-            case INVALID_USER -> {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Wrong Username");
-                alert.setContentText("User with this username doesn't exist!");
-                alert.showAndWait();
-            }
-            case USER_EXIST -> {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Wrong Username");
-                alert.setContentText("You have already added this user!");
-                alert.showAndWait();
-            }
-            case FILLED_TO_CAPACITY -> {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Wrong Action");
-                alert.setContentText("The maximum number of player is 8!");
-                alert.showAndWait();
-            }
-            case SUCCESS -> {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Successful Operation");
-                alert.setContentText("The player was added successfully!");
-                alert.showAndWait();
-            }
-        }
-    }
-
     private static void chooseMap(String name) {
         PreGameMenuMessages result = PreGameMenuController.chooseMap(name);
         switch (result) {
@@ -148,7 +118,7 @@ public class PreGameMenu extends Application {
 
     public void play(MouseEvent mouseEvent) throws Exception {
         if (!notReady()) {
-            new LobbiesMenu().start(AppData.getStage());
+            new LobbyMenu(AppData.getClient()).start(AppData.getStage());
         }
     }
 }

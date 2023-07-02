@@ -41,12 +41,12 @@ public class LobbiesMenu extends Application {
     }
 
     private void makeBackButton() {
-        Button back = new Button("join");
+        Button back = new Button("back");
         back.setTranslateX(100);
         back.setTranslateY(500);
         back.setOnMouseClicked(mouseEvent -> {
             try {
-                new PreGameMenu().start(AppData.getStage());
+                new MainMenu().start(AppData.getStage());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -109,8 +109,11 @@ public class LobbiesMenu extends Application {
 
     private void joinFunction(String lobbyName) {
         try {
-            if (AppData.getClient().joinLobby(lobbyName)) new LobbyMenu(AppData.getClient()).start(AppData.getStage());
+            if (AppData.getClient().joinLobby(lobbyName)) {
+                new LobbyMenu(AppData.getClient()).start(AppData.getStage());
+            }
             else {
+                System.out.println("mflsj");
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("join failed");
                 alert.setContentText("join process failed");
@@ -131,21 +134,35 @@ public class LobbiesMenu extends Application {
     }
 
     private void makeNewButton() {
+        TextField numberOfPlayer = new TextField();
+        numberOfPlayer.setPromptText("number of players");
+        numberOfPlayer.setTranslateX(200);
+        numberOfPlayer.setTranslateY(200);
         Button button = new Button("new");
         button.setTranslateX(100);
         button.setTranslateY(200);
-        button.setOnMouseClicked(mouseEvent -> makeNewLobby());
+        button.setOnMouseClicked(mouseEvent -> makeNewLobby(numberOfPlayer));
+        pane.getChildren().add(numberOfPlayer);
         pane.getChildren().add(button);
         setStyle(button);
     }
 
-    private void makeNewLobby() {
-        int number = GameController.getGameData().getMap().getUsersCount();
-        try {
-            AppData.getClient().newLobby(number);
-            new LobbyMenu(AppData.getClient()).start(AppData.getStage());
-        } catch (Exception e) {
-            e.printStackTrace();
+    private void makeNewLobby(TextField numberOfPlayer) {
+        if (!numberOfPlayer.getText().matches("\\d+")){
+            showInvalidNumberAlert();
+        }
+        else {
+            int number = Integer.parseInt(numberOfPlayer.getText());
+            if (number > 8 || number < 2) {
+                showInvalidNumberAlert();
+            } else {
+                try {
+                    AppData.getClient().newLobby(number);
+                    new PreGameMenu().start(AppData.getStage());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
