@@ -131,40 +131,21 @@ public class LobbiesMenu extends Application {
     }
 
     private void makeNewButton() {
-        TextField numberOfPlayer = new TextField();
-        numberOfPlayer.setPromptText("number of players");
-        numberOfPlayer.setTranslateX(200);
-        numberOfPlayer.setTranslateY(200);
         Button button = new Button("new");
         button.setTranslateX(100);
         button.setTranslateY(200);
-        button.setOnMouseClicked(mouseEvent -> makeNewLobby(numberOfPlayer));
-        pane.getChildren().add(numberOfPlayer);
+        button.setOnMouseClicked(mouseEvent -> makeNewLobby());
         pane.getChildren().add(button);
         setStyle(button);
     }
 
-    private void makeNewLobby(TextField numberOfPlayer) {
-        if (!numberOfPlayer.getText().matches("\\d+")){
-            showInvalidNumberAlert();
-        }
-        else {
-            int number = Integer.parseInt(numberOfPlayer.getText());
-            GameData gameData = GameController.getGameData();
-            if (number > 8 || number < 2) {
-                showInvalidNumberAlert();
-            } else if (number != gameData.getMap().getUsersCount()) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("improper number");
-                alert.setContentText("choose a number which matches with the map chosen");
-                alert.showAndWait();
-            }
-            try {
-                AppData.getClient().newLobby(Integer.parseInt(numberOfPlayer.getText()));
-                new LobbyMenu(AppData.getClient()).start(AppData.getStage());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+    private void makeNewLobby() {
+        int number = GameController.getGameData().getMap().getUsersCount();
+        try {
+            AppData.getClient().newLobby(number);
+            new LobbyMenu(AppData.getClient()).start(AppData.getStage());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
