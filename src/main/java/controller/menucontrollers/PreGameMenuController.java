@@ -64,19 +64,6 @@ public class PreGameMenuController {
         if (gameData.getMap() == null) {
             return PreGameMenuMessages.NOT_CHOSEN_MAP;
         }
-        GameController.updateEmpire(PlayerNumber.FIRST);
-        String result;
-        try {
-            String[] playerUsernames = new String[gameData.getNumberOfPlayers()];
-            for (int i = 0; i < gameData.getNumberOfPlayers(); i++)
-                playerUsernames[i] = gameData.getEmpires().get(i).getUser().getUsername();
-            result = AppData.getClient().requestFormServer(AppData.getClient().requestStringGenerator(Client.RequestType.START_GAME, playerUsernames));
-            gameData.setId(result);
-            AppData.getClient().startListeningForInput(Client.ListenType.GAME);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
         return PreGameMenuMessages.READY;
     }
 

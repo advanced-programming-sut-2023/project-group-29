@@ -6,6 +6,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.paint.Color;
 import model.AppData;
 import model.GameData;
+import model.PlayerNumber;
 import view.menus.GameGraphicFunctions;
 import view.menus.LobbiesMenu;
 
@@ -194,7 +195,19 @@ public class Client {
             alert.showAndWait();
         } else {
             dataOutputStream.writeUTF("start game");
-            //todo correct start
+            GameData gameData = GameController.getGameData();
+            GameController.updateEmpire(PlayerNumber.FIRST);
+            String result;
+            try {
+                String[] playerUsernames = new String[gameData.getNumberOfPlayers()];
+                for (int i = 0; i < gameData.getNumberOfPlayers(); i++)
+                    playerUsernames[i] = gameData.getEmpires().get(i).getUser().getUsername();
+                result = AppData.getClient().requestFormServer(AppData.getClient().requestStringGenerator(Client.RequestType.START_GAME, playerUsernames));
+                gameData.setId(result);
+                AppData.getClient().startListeningForInput(Client.ListenType.GAME);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
