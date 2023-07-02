@@ -30,7 +30,7 @@ public class LobbiesMenu extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        pane = FXMLLoader.load(new URL(LobbyMenu.class.getResource("/simpleMenu.fxml").toString()));
+        pane = FXMLLoader.load(new URL(LobbiesMenu.class.getResource("/FXML/simpleMenu.fxml").toString()));
         stage.setScene(new Scene(pane));
         stage.show();
         makeNewButton();
@@ -127,6 +127,7 @@ public class LobbiesMenu extends Application {
         refreshButton.setTranslateY(300);
         refreshButton.setOnMouseClicked(mouseEvent -> updateLobbyNames());
         pane.getChildren().add(refreshButton);
+        setStyle(refreshButton);
     }
 
     private void makeNewButton() {
@@ -140,6 +141,7 @@ public class LobbiesMenu extends Application {
         button.setOnMouseClicked(mouseEvent -> makeNewLobby(numberOfPlayer));
         pane.getChildren().add(numberOfPlayer);
         pane.getChildren().add(button);
+        setStyle(button);
     }
 
     private void makeNewLobby(TextField numberOfPlayer) {
