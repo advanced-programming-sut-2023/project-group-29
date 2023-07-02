@@ -6,6 +6,7 @@ import model.map.MapTemplate;
 import model.network.Client;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -165,7 +166,11 @@ public class AppData {
         }
 
         try {
-            return (MapTemplate) client.getObjectFromJson(MapTemplate.class, resultString);
+            MapTemplate mapTemplate = (MapTemplate) client.getObjectFromJson(MapTemplate.class, resultString);
+            Class clazz = MapTemplate.class;
+            Method method = clazz.getMethod("initialize");
+            method.invoke(mapTemplate);
+            return mapTemplate;
         } catch (Exception e){
             return null;
         }

@@ -63,11 +63,8 @@ public class PreGameMenuController {
         GameData gameData = GameController.getGameData();
         if (gameData.getMap() == null) {
             return PreGameMenuMessages.NOT_CHOSEN_MAP;
-        } else if (gameData.getNumberOfPlayers() == 1) {
-            return PreGameMenuMessages.FEW_PLAYER;
         }
         GameController.updateEmpire(PlayerNumber.FIRST);
-
         String result;
         try {
             String[] playerUsernames = new String[gameData.getNumberOfPlayers()];

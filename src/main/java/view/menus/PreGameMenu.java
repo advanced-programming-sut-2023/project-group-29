@@ -81,13 +81,6 @@ public class PreGameMenu extends Application {
     private static boolean notReady() {
         PreGameMenuMessages result = PreGameMenuController.isGameDataReady();
         switch (result) {
-            case FEW_PLAYER -> {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Less Player");
-                alert.setContentText("Playing with yourself will not be interesting!");
-                alert.showAndWait();
-                return true;
-            }
             case NOT_CHOSEN_MAP -> {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Choose Map");

@@ -3,12 +3,12 @@ package model.map;
 public class MapTemplate {
     private TreeType[][] treeTypes;
     private CellType[][] cellTypes;
-    private final boolean[][] hasEmpire;
-    private final int width;
-    private final int height;
-    private final int usersCount;
-    private final String name;
-    private final String creatorUsername;
+    private boolean[][] hasEmpire;
+    private int width;
+    private int height;
+    private int usersCount;
+    private String name;
+    private String creatorUsername;
 
     public MapTemplate(String creatorUsername, String name, int width, int height, int usersCount) {
         this.creatorUsername = creatorUsername;
@@ -16,17 +16,7 @@ public class MapTemplate {
         this.height = height;
         this.usersCount = usersCount;
         this.name = name;
-
-        cellTypes = new CellType[width][height];
-        treeTypes = new TreeType[width][height];
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                cellTypes[i][i] = CellType.PLAIN;
-                treeTypes[i][j] = null;
-            }
-        }
-
-        hasEmpire = new boolean[width][height];
+        initialize();
     }
 
     public TreeType[][] getTreeTypes() {
@@ -59,5 +49,17 @@ public class MapTemplate {
 
     public String getCreatorUsername() {
         return creatorUsername;
+    }
+
+    public void initialize() {
+        cellTypes = new CellType[width][height];
+        treeTypes = new TreeType[width][height];
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                cellTypes[i][j] = CellType.PLAIN;
+                treeTypes[i][j] = null;
+            }
+        }
+        hasEmpire = new boolean[width][height];
     }
 }
