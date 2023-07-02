@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -53,9 +54,18 @@ public class EditMapGraphics extends Application {
 
         Scene scene = new Scene(mainPane);
         stage.setScene(scene);
+        stage.show();
+    }
 
-        mainPane.requestFocus();
-        mainPane.setOnKeyPressed(new EventHandler<KeyEvent>() {
+    public void initializePane(MapTemplate mapTemplate) {
+        initializeTextureButtons();
+
+        showMap(mapTemplate);
+
+        initializeSaveButton(mapTemplate);
+
+        pane.requestFocus();
+        pane.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
                 if(keyEvent.getCode().equals(GameKeyConstants.mapMoveRight))
@@ -70,15 +80,6 @@ public class EditMapGraphics extends Application {
                 showMap(mapTemplate);
             }
         });
-        stage.show();
-    }
-
-    public void initializePane(MapTemplate mapTemplate) {
-        initializeTextureButtons();
-
-        showMap(mapTemplate);
-
-        initializeSaveButton(mapTemplate);
     }
 
     private void initializeSaveButton(MapTemplate mapTemplate) {
@@ -93,6 +94,8 @@ public class EditMapGraphics extends Application {
                 saveMap(mapTemplate);
             }
         });
+
+        pane.getChildren().add(saveButton);
     }
 
     private void saveMap(MapTemplate mapTemplate) {
@@ -135,6 +138,7 @@ public class EditMapGraphics extends Application {
             });
         }
 
+        index=0;
         for (TreeType treeType : TreeType.values()) {
             ImageView imageView = new ImageView(new Image(MapMenu.class.getResource(treeType.getShowingImagePath()).toExternalForm()));
 
@@ -190,6 +194,9 @@ public class EditMapGraphics extends Application {
     private void showMap(MapTemplate mapTemplate) {
         for (int i = 0; i < 19; i++)
             for (int j = 0; j < 14; j++) {
+                if(i + cornerIndex.first>= mapTemplate.getWidth() || j + cornerIndex.second>= mapTemplate.getHeight())
+                    continue;
+
                 CellType cellType = mapTemplate.getCellTypes()[i + cornerIndex.first][j + cornerIndex.second];
                 TreeType treeType = mapTemplate.getTreeTypes()[i + cornerIndex.first][j + cornerIndex.second];
 
@@ -201,6 +208,9 @@ public class EditMapGraphics extends Application {
 
                 BackgroundSize backgroundSize = new BackgroundSize(50, 50, false, false, false, false);
                 tile.setBackground(new Background(new BackgroundImage(cellType.getImage(), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize)));
+
+                tile.setLayoutX(i * 50 + 70);
+                tile.setLayoutY(j * 50);
 
                 pane.getChildren().add(tile);
 

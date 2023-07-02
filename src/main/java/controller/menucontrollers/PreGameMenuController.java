@@ -42,8 +42,8 @@ public class PreGameMenuController {
         Map map = new Map(mapTemplate.getWidth(), mapTemplate.getUsersCount());
         Cell[][] cells = map.getCells();
         int empireNumber = 1;
-        for (int i = 0; i < cells.length; i++) {
-            for (int j = 0; j < cells.length; j++) {
+        for (int i = 0; i < map.getWidth(); i++) {
+            for (int j = 0; j < mapTemplate.getHeight(); j++) {
                 if (mapTemplate.getHasEmpire()[i][j]){
                     MapFunctions.dropBuildingAsAdmin(i, j, "mainKeep", empireNumber);
                     MapFunctions.dropBuildingAsAdmin(i, j, "stockPile", empireNumber);

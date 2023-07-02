@@ -178,7 +178,7 @@ public class LoginMenuGraphic {
             alert.setContentText("You entered main menu");
             alert.showAndWait();
 
-            AppData.getClient().requestStringGenerator(Client.RequestType.LOGIN,new String[]{AppData.getCurrentUser().getUsername()});
+            AppData.getClient().requestFormServer(AppData.getClient().requestStringGenerator(Client.RequestType.LOGIN,new String[]{AppData.getCurrentUser().getUsername()}));
             new MainMenu().start(AppData.getStage());
         }
     }

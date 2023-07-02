@@ -36,12 +36,6 @@ public class EditMapMenuGraphics extends Application {
     private Group publicScrollPaneContent;
     @FXML
     private Group localScrollPaneContent;
-
-    public static void main(String[] args) {
-        launch(args);
-    }
-    //tmp
-
     @Override
     public void start(Stage stage) throws Exception {
 
@@ -78,6 +72,29 @@ public class EditMapMenuGraphics extends Application {
             localScrollPaneContent.getChildren().add(dataRow);
             index++;
         }
+
+//        index=1;
+//        for (MapTemplate mapTemplate : AppData.getPublicMapTemplates()) {
+//            HBox dataRow = new HBox();
+//            dataRow.setLayoutY(index * 50);
+//            dataRow.setMaxHeight(50);
+//            dataRow.setMinHeight(50);
+//            dataRow.setMaxWidth(540);
+//            dataRow.setMinWidth(540);
+//            if (index % 2 == 0)
+//                dataRow.setBackground(new Background(new BackgroundFill(Color.color(0.50, 0.45, 0.12, 1), CornerRadii.EMPTY, Insets.EMPTY)));
+//            else
+//                dataRow.setBackground(new Background(new BackgroundFill(Color.color(0.55, 0.44, 0.4, 1), CornerRadii.EMPTY, Insets.EMPTY)));
+//
+//            dataRow.getChildren().add(createLabel("" + index, 20, 30));
+//            dataRow.getChildren().add(createLabel(mapTemplate.getName(), 50, 200));
+//            dataRow.getChildren().add(createLabel(mapTemplate.getCreatorUsername(), 250, 200));
+//            dataRow.getChildren().add(createLabel("" + mapTemplate.getWidth() + " x " + mapTemplate.getHeight(), 400, 100));
+//            dataRow.getChildren().add(createLabel("" + mapTemplate.getUsersCount(), 500, 30));
+//
+//            publicScrollPaneContent.getChildren().add(dataRow);
+//            index++;
+//        }
     }
 
 
@@ -95,6 +112,14 @@ public class EditMapMenuGraphics extends Application {
     }
 
     public void createMap(MouseEvent mouseEvent) {
+        if(mapNameField.getText()==null || width.getText()==null || height.getText()==null || playersCount.getText()==null){
+            makeErrorAlert("empty field");
+            return;
+        }
+        if(mapNameField.getText().length()==0 || width.getText().length()==0 || height.getText().length()==0 || playersCount.getText().length()==0){
+            makeErrorAlert("empty field");
+            return;
+        }
         if(AppData.getLocalMapByMapName(mapNameField.getText())!=null
                 || AppData.getPublicMapByMapName(mapNameField.getText())!=null){
             makeErrorAlert("invalid name");
