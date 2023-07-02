@@ -28,6 +28,10 @@ public class AppData {
         return messagesOfPublicChat;
     }
 
+    public static void setMessagesOfPublicChat(ArrayList<Message> messagesOfPublicChat) {
+        AppData.messagesOfPublicChat = messagesOfPublicChat;
+    }
+
     public static void addMessageOfPublicChat(Message message) {
         messagesOfPublicChat.add(message);
     }
@@ -149,6 +153,44 @@ public class AppData {
         }
     }
 
+
+    public static ArrayList<Message> getMessages() {
+        String resultString;
+        try {
+            resultString=client.requestFormServer(client.requestStringGenerator(Client.RequestType.GET_MESSAGE,new String[]{}));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            return new ArrayList<Message>(Arrays.asList(client.getArrayOfObjectsFromJson(Message[].class, resultString)));
+        } catch (Exception e){
+            return null;
+        }
+    }
+
+    public static void addMessage(Message message){
+
+        Gson gson=new Gson();
+        String messageString=gson.toJson(message);
+
+        try {
+            client.sendToServer(client.requestStringGenerator(Client.RequestType.ADD_MESSAGE,new String[]{messageString}));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void updateMessageData(Message message){
+
+        Gson gson=new Gson();
+        String messageString=gson.toJson(message);
+
+        try {
+            client.sendToServer(client.requestStringGenerator(Client.RequestType.CHANGE_MESSAGE_DATA,new String[]{messageString}));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public static MapTemplate getLocalMapByMapName(String name){
         for(MapTemplate mapTemplate:localMapTemplates)
             if(mapTemplate.getName().equals(name))
@@ -197,7 +239,6 @@ public class AppData {
 //    }
 //
 
-//    public static boolean checkStayLoggedIn() {   //todo
 //        for (int i = 0; i < users.size(); i++) {
 //            if (users.get(i).getStayLoggedIn() == 1) {
 //                AppData.setCurrentUser(users.get(i));

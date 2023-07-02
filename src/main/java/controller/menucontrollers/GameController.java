@@ -42,7 +42,6 @@ public class GameController {
         GameController.gameData=gameData;
         gameData.getMapMenu().setUpAndShowMap();
 
-        //todo check for end of game
         gameData.getGameGraphicFunctions().alertMessage(Color.YELLOW,"","it is "+gameData.getPlayerOfTurn()+"'s turn");
     }
     public static boolean nextTurn() {

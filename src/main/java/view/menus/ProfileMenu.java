@@ -168,7 +168,6 @@ public class ProfileMenu extends Application {
                 AppData.getCurrentUser().setAvatar(newPath);
                 loadImage();
 
-                //todo handle images upload and information below
                 //SaveAndLoad.saveData(AppData.getUsers(), AppData.getUsersDataBaseFilePath());
 
 

@@ -1,10 +1,10 @@
 package model;
 
 public class Message {
-    private String text;
-    private String time;
-    private String name;
-    private String avatar;
+    public String text;
+    public String time;
+    public String name;
+    public String avatar;
 
     public Message(String text, String time, String name, String avatar) {
         this.text = text;

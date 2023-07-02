@@ -1,6 +1,9 @@
 package view.menus;
 
+import com.google.gson.Gson;
 import controller.menucontrollers.GameController;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -17,6 +20,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import model.AppData;
 import model.Message;
 import view.Command;
@@ -26,10 +30,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ChatRoom extends Application {
+    Timeline timeline;
+    String style1;
+    String style2;
     @FXML
     private Pane pane;
     @Override
     public void start(Stage stage) throws Exception {
+        AppData.setMessagesOfPublicChat(AppData.getMessages());
         URL url = Command.class.getResource("/FXML/ChatRoom.fxml");
         Pane pane = FXMLLoader.load(url);
         Scene scene = new Scene(pane);
@@ -47,6 +55,8 @@ public class ChatRoom extends Application {
                 "    -fx-text-fill: black;" +
                 "    -fx-font-family: \"Brush Script MT\";" +
                 "    -fx-font-size: 25px;";
+        style1 = textFieldStyle;
+        style2 = buttonStyle;
         Image backFlash = new Image(Command.class.getResource("/images/ChatSymbols/backFlash.png").toString());
         Circle back = new Circle(1030, 50, 50);
         back.setFill(new ImagePattern(backFlash));
@@ -61,37 +71,8 @@ public class ChatRoom extends Application {
                 }
             }
         });
-        for(int i = 0; i < AppData.getMessagesOfPublicChat().size(); i++) {
-            for(int j = 0; j < pane.getChildren().size(); j++) {
-                if(pane.getChildren().get(j).getClass().getSimpleName().equals("Text") || pane.getChildren().get(j).getClass().getSimpleName().equals("Rectangle")) {
-                    pane.getChildren().get(j).setLayoutY(pane.getChildren().get(j).getLayoutY() - 60);
-                }
-            }
-            Text text = new Text(AppData.getMessagesOfPublicChat().get(i).getText());
-            text.setStyle("-fx-font-family: 'Arial Rounded MT';" + "-fx-font-size: 30px");
-            text.setLayoutX(10);
-            text.setLayoutY(650);
-            pane.getChildren().add(text);
-            Text name = new Text(AppData.getMessagesOfPublicChat().get(i).getName());
-            name.setStyle("-fx-font-family: 'Arial Rounded MT Bold';" + "-fx-font-size: 10px");
-            name.setLayoutX(10);
-            name.setLayoutY(670);
-            pane.getChildren().add(name);
-            Text time = new Text(AppData.getMessagesOfPublicChat().get(i).getTime());
-            time.setStyle("-fx-font-family: 'Arial Rounded MT Bold';" + "-fx-font-size: 10px");
-            time.setLayoutX(70);
-            time.setLayoutY(670);
-            pane.getChildren().add(time);
-            Image image1 = new Image(AppData.getMessagesOfPublicChat().get(i).getAvatar());
-            Rectangle avatar1 = new Rectangle(110, 660, 15, 15);
-            avatar1.setFill(new ImagePattern(image1));
-            pane.getChildren().add(avatar1);
-            Image image2 = new Image(Command.class.getResource("/images/ChatSymbols/tick.png").toString());
-            Rectangle avatar2 = new Rectangle(130, 660, 15, 15);
-            avatar2.setFill(new ImagePattern(image2));
-            pane.getChildren().add(avatar2);
-            extracted(text, name, time, avatar1, avatar2, buttonStyle, textFieldStyle);
-        }
+        //checkingUserNameBox();
+        extracted(textFieldStyle, buttonStyle);
         TextField chatBox = new TextField();
         chatBox.setPromptText("Type Your Message: ");
         chatBox.setLayoutX(5);
@@ -136,6 +117,7 @@ public class ChatRoom extends Application {
                 pane.getChildren().add(avatar1);
                 Message message = new Message(text.getText(), time.getText(), name.getText(), AppData.getCurrentUser().getAvatar());
                 AppData.addMessageOfPublicChat(message);
+                AppData.addMessage(message);
                 Image image2 = new Image(Command.class.getResource("/images/ChatSymbols/tick.png").toString());
                 Rectangle avatar2 = new Rectangle(130, 660, 15, 15);
                 avatar2.setFill(new ImagePattern(image2));
@@ -144,6 +126,42 @@ public class ChatRoom extends Application {
                 extracted(text, name, time, avatar1, avatar2, buttonStyle, textFieldStyle);
             }
         });
+    }
+
+
+    private void extracted(String textFieldStyle, String buttonStyle) {
+        AppData.setMessagesOfPublicChat(AppData.getMessages());
+        for(int i = 0; i < AppData.getMessagesOfPublicChat().size(); i++) {
+            for(int j = 0; j < pane.getChildren().size(); j++) {
+                if(pane.getChildren().get(j).getClass().getSimpleName().equals("Text") || pane.getChildren().get(j).getClass().getSimpleName().equals("Rectangle")) {
+                    pane.getChildren().get(j).setLayoutY(pane.getChildren().get(j).getLayoutY() - 60);
+                }
+            }
+            Text text = new Text(AppData.getMessagesOfPublicChat().get(i).getText());
+            text.setStyle("-fx-font-family: 'Arial Rounded MT';" + "-fx-font-size: 30px");
+            text.setLayoutX(10);
+            text.setLayoutY(650);
+            pane.getChildren().add(text);
+            Text name = new Text(AppData.getMessagesOfPublicChat().get(i).getName());
+            name.setStyle("-fx-font-family: 'Arial Rounded MT Bold';" + "-fx-font-size: 10px");
+            name.setLayoutX(10);
+            name.setLayoutY(670);
+            pane.getChildren().add(name);
+            Text time = new Text(AppData.getMessagesOfPublicChat().get(i).getTime());
+            time.setStyle("-fx-font-family: 'Arial Rounded MT Bold';" + "-fx-font-size: 10px");
+            time.setLayoutX(70);
+            time.setLayoutY(670);
+            pane.getChildren().add(time);
+            Image image1 = new Image(AppData.getMessagesOfPublicChat().get(i).getAvatar());
+            Rectangle avatar1 = new Rectangle(110, 660, 15, 15);
+            avatar1.setFill(new ImagePattern(image1));
+            pane.getChildren().add(avatar1);
+            Image image2 = new Image(Command.class.getResource("/images/ChatSymbols/tick.png").toString());
+            Rectangle avatar2 = new Rectangle(130, 660, 15, 15);
+            avatar2.setFill(new ImagePattern(image2));
+            pane.getChildren().add(avatar2);
+            extracted(text, name, time, avatar1, avatar2, buttonStyle, textFieldStyle);
+        }
     }
 
     private void extracted(Text text, Text name, Text time, Rectangle avatar1, Rectangle avatar2, String buttonStyle, String textFieldStyle) {
@@ -229,4 +247,21 @@ public class ChatRoom extends Application {
             }
         });
     }
+    /*private void checkingUserNameBox() {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1000), actionEvent -> {
+            if(AppData.getMessages().size() != AppData.getMessagesOfPublicChat().size()) {
+                extracted(style1, style2);
+            }
+            else {
+                for(int i = 0; i < AppData.getMessagesOfPublicChat().size(); i++) {
+                    if(!AppData.getMessagesOfPublicChat().get(i).getText().equals(AppData.getMessages().get(i).getText())) {
+                        extracted(style1, style2);
+                    }
+                }
+            }
+        }));
+        this.timeline = timeline;
+        timeline.setCycleCount(-1);
+        timeline.play();
+    }*/
 }

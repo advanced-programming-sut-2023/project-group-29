@@ -72,7 +72,6 @@ public class Client {
 
     public String requestFormServer(String request) throws IOException {
         dataOutputStream.writeUTF(request);
-
         return dataInputStream.readUTF();
     }
 
@@ -126,7 +125,10 @@ public class Client {
         GET_PUBLIC_MAP_BY_NAME,
         GET_PUBLIC_MAPS,
         START_GAME,
-        NEXT_TURN
+        NEXT_TURN,
+        GET_MESSAGE,
+        ADD_MESSAGE,
+        CHANGE_MESSAGE_DATA
     }
 
     public void newLobby(int numberOfPlayers) throws IOException {
